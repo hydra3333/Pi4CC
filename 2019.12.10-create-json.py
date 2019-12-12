@@ -60,8 +60,8 @@ if __name__ == '__main__':
     jf.write("  'categories': [{\n")
     jf.write("    'name':   'Movies',\n")
     jf.write("    'videos': [\n")
-    #for record_number, (the_folder, the_filenames) in enumerate(sorted(the_files_dict.items(),key=lambda i: i[0].casefold())):
-    for record_number, (the_folder, the_filenames) in enumerate(sorted(the_files_dict.items(),key=lambda i: i[0].lower())):
+    for record_number, (the_folder, the_filenames) in enumerate(sorted(the_files_dict.items(),key=lambda i: i[0].casefold())):
+    #for record_number, (the_folder, the_filenames) in enumerate(sorted(the_files_dict.items(),key=lambda i: i[0].lower())):
         # strip the source folder from the current folder and use that as part of the URL
         part_url = the_folder.replace(f"{args.source_folder}","",1) + "/"
         #if part_url == "" :
@@ -72,8 +72,8 @@ if __name__ == '__main__':
         #print(f"          part_url={part_url}")
         #print(f"      txt_part_url={txt_part_url}")
         jf.write(f"      // ----- START of folder({record_number}) {part_url} ... files={len(the_filenames)} \n")
-        #for c,the_filename in enumerate(the_filenames):
-        for c,the_filename in enumerate(sorted(the_filenames,key=lambda i: i[0].lower())):
+        for c,the_filename in enumerate(sorted(the_filenames,key=lambda i: i[0].casefold())):
+        #for c,the_filename in enumerate(sorted(the_filenames,key=lambda i: i[0].lower())):
             title,ignore_me = os.path.splitext(the_filename.replace("'","-"))  # root,ext = os.path.splitext(path) 
             source = requote_uri("http://10.0.0.6/mp4library" + part_url + the_filename)
             subtitle = source
