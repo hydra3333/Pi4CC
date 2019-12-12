@@ -1,0 +1,1115 @@
+# 2019.12.12 Installation and configuration notes for Pi4CC
+# ---------------------------------------------------------
+#
+# Description <TL;DR> 
+#
+#    A zero-frills LAN-only Media Server using DLNA and Apache to serve up .mp4 files
+#    from a low-cost low-power Raspberry Pi 4 server
+#
+# More Description:
+#
+# How to setup a Raspberry Pi 4 (Raspbian buster) as a HOME LAN media server (only inside a home LAN) so that :-
+# 1. via DLNA, it can be searchable and serve .mp4 files to Apps on tablets and phones and smartTVs
+# 2. via a LAN-only web page, it can it can be searchable on tablets and phones and PCs, 
+#    and be able to "cast" .mp4 files to Chromecast devices connected to TVs 
+#    (eg a Chromecast Ultra, which can play h.265).
+# Hence,
+# 3. Remember, "casting" a .mp4 files means that once a .mp4 file is cast to a Chromecast device, 
+#    the serving of the data in the large .mp4 video file is then directly between the 
+#    chromecast device and the Pi 4 (i.e. a tablet or phone or PC does not forward data packets)
+#    and the casting phone/tablet/PC (known as a Sender) then only chats with the chromecast device
+#    to control video playback.
+# 4. After setup, the monitor/mouse/keyboard can be disconnected from the Pi4. 
+# 5. It does NOT do any "non-Google-app" *external* connections outside your home LAN at runtime
+#       ... unlike Plex Media Server (search about it in the Raspberry Pi forums)
+#       ... unlike Kodi 
+#    Your list of media contents etc is NOT shared with any company or individual. 
+#    You are in control.
+# 6. If you want something better and fancier, 
+#    look for Plex Media Server and Kodi. They're good, if you are willing to be a sharing individual.
+# 5. This is based solely on the Google "CastVideos-chrome" example at 
+#       https://github.com/googlecast/CastVideos-chrome
+#    with "minimal" changes.
+
+# Assumptions:
+# 1. the local network is 10.0.0.x - 
+#    if not, then examine and change ALL of the Pi4CC files (including these instructions)
+#       looking for "10.0.0.1" and changing to your local network - eg "192.168.0.1" for your LAN
+#       looking for "10.0.0.6" and changing to your local network - eg "192.168.0.6" for your Pi4CC server
+# 2. Your library of .mp4 files are organised in sets of folders are under one root folder
+# 3. Your library of .mp4 files are h.264(avc)/aac or h.265(hevc)/aac WITHOUT interlaced video content 
+#       ... a probably out-of-date list of acceptable .mp4 formats is at
+#              https://developers.google.com/cast/docs/media
+# 4. The mount point for the USB3 disk will be /mnt/mp4library
+#    The top level folder on the USB3 disk will be mp4library, thus /mnt/mp4library/mp4library
+# 5. We are comfortable with Do It Yourself stuff, since this is all "rough and ready"
+
+# Key things installed and configured:
+# 1. A Raspberry Pi 4 server called Pi4CC
+# 2. miniDLNA server
+# 3. Apache2 web server, with a self-signed SSL/TLS cerfificate
+# 4. SAMBA file-sharing software compatible with Windows file shares
+# 5. The Pi4CC web page with companion python3 script
+
+# A few handy things to know:
+
+# ------------------------------ note for Win10 PC users --------------------------------
+# Text files (.txt) aren't compatible between linux and Windows7
+# So... after copying a Win7 .txt file to the Pi, 
+# To convert a copied file from Win7 MS-DOS format into unix format
+# which is understood by linux and editors such as nano,
+# To get rid of MSDOS line formatting, do this to this file: 
+#       sudo sed -i s/\\r//g /path/filename
+# Or, if you are editing a .php or a .html file from a Win7 PC 
+# via a file-share on the Pi, use Notepad++ on the Win7 PC. 
+# ------------------------------ note for Win10 PC users --------------------------------
+# ------------------------------------------------------------------------------------------------------------------------
+# A list of handy linux commands for newbies
+# https://www.makeuseof.com/tag/15-useful-commands-every-raspberry-pi-user-should-know/
+#cat /proc/cpuinfo     # Discover information about the Raspberry Pi's CPU
+#cat /proc/meminfo     # displays details about the Raspberry Pi’s memory.
+#cat /proc/partitions  # reveals the size and number of partitions on your SD card or HDD.
+#cat /proc/version     # shows you which version of the Pi you are using.
+#vcgencmd              # measure_temp reveals the CPU temperature (vital if you’re concerned about airflow).
+#vcgencmd get_mem arm  # will reveal the memory split between the CPU and GPU, which can be adjusted in the config screen.
+#vcgencmd get_mem gpu  # will reveal the memory split between the CPU and GPU, which can be adjusted in the config screen.
+#free -o -h            # will display the available system memory.
+#top d1                # checks the load on your CPU, displaying details for all cores.
+#htop                  # display system processes
+#free                  # show amount of free and used RAM
+#
+#history               # display the history of the commands entered in the terminal.
+#history | grep “apt”
+#CTRL + R search       # search through our command history for a specific command.
+#TAB                   # commandline completion
+#alias                 # create shortcuts / short commands from much longer ones. # alias updater=”sudo apt update && sudo apt upgrade -y”
+#
+#dmesg                 # monitor kernel events
+#df -h                 # is a great way to quickly check the free disk space on your Raspberry Pi.
+#ls -lha               # See hidden files and directories, in a long list with extra details.
+#ls /dev/sda*          # displays a list of partitions on the SD card. For a Raspberry Pi with a HDD attached, substitute sda* with hda*.
+#less                  # print contents of a file in sections and we can scroll through the file using the arrow keys, Page Up / Down and Home / End.
+#
+#lsusb                 # displays all attached USB devices.
+#lsblk                 # displays information about all attached block devices (storage that reads and writes in blocks).
+#Ctrl-Alt-Backspace    # exit the Raspberry Pi GUI (graphic user environment) and return you to the default Raspbian desktop.
+#startx                # will start 
+#sudo shutdown -h      # commence the shutdown process with immediate effect. Schedule a timed shutdown with the format: sudo shutdown -h 21:55
+#sudo reboot           # is for restarting the Raspberry Pi from the command line.
+#CTRL+ ALT + T         # open a terminal
+# ------------------------------------------------------------------------------------------------------------------------
+
+# LETS INSTALL THE Pi 4
+# ---------------------
+
+# Download an format the SD card with Raspian (Buster?) middle of the road download, not light, not full
+# Start the Pi and follow the prompts during the initial Raspbian install :-
+# Ensure your settings for locale, language, keyboard are perfect.
+# Change server name to Pi4CC
+# Enable SSH 
+# Enable VNC
+# Set the video RAM to 384Mb
+$ Disable IPv6
+# Remember to ALWAYS set the Pi to boot to GUI, EVEN IF later running it headless (see later).
+# Yes against most security recommendations, also check and set the Pi to auto-login.
+
+
+# Assuming we're starting with the Pi using WiFi rather than Wired :-
+# Give the Pi a home LAN-wide fixed IP address on the WiFi, so that no conflicting funny business occurs later.
+# Start a terminal, use IFCONFIG to find the current IP address.
+ifconfig
+# Reserve an IP in the home Router, corresponding to the Pi's WiFi mac address, then reboot the Pi.
+# Use IFCONFIG again to check the router recognised the Pi's WiFi mac address and
+# that the router gave the Pi a DHCP lease corresponding to the address reservation you made.
+
+# Then, later, remember
+# Although we were probably using WiFi to begin with, we SHOULD swap to using Wired LAN connectivity
+# so that we get LAN bandwidth/speeds when streaming.
+# Hence, disable the Pi's WiFi and connect to the wired LAN 
+# ... then we must reserve the new IP at that time, the same as before
+# Disable WiFi on the Pi
+# Plug in the ethernet cable
+# Start a terminal, use IFCONFIG to find the current IP address for the new Wired connection.
+# Reserve an IP in the home Router, corresponding to the Pi's ethernet mac address, then reboot the Pi.
+# Use IFCONFIG again to check the router recognised the Pi's ethernet mac address and
+# that the router gave the Pi a DHCP lease corresponding to the address reservation you made.
+ifconfig
+hostname
+hostname --fqdn
+hostname --all-ip-addresses
+
+# OLD OLD OLD ... disable IPv6 during initial setup
+# *** Disable ipv6 by adding a line near the top of the file /etc/sysctl.conf
+# https://www.leowkahman.com/2016/03/19/disable-ipv6-raspberry-raspbian/
+sudo cp /etc/sysctl.conf /etc/sysctl.conf.backup
+sudo nano /etc/sysctl.conf
+# disable ipv6
+net.ipv6.conf.all.disable_ipv6 = 1
+#control O
+#control X
+
+# add 15 seconds for the USB3 drive to spin up.  Add the line at the top.
+# https://www.raspberrypi.org/documentation/configuration/config-txt/boot.md
+sudo nano /boot/config.txt
+boot_delay=10
+#control O
+#control X
+
+# Always double-check some Pi configuration settings, doing "OK" on each config tab.
+# enable SSH on the Pi via the gui config on the Pi
+# enable VNC on the Pi via the gui config on the Pi
+# Set the video RAM to 384Mb
+
+# If required, 
+# exit the gui,  Ctrl-Alt-Backspace
+sudo raspi-config
+Advanced Options
+A9 Pi 4 Video Output Video output options for Pi 4 
+Enable 4Kp60 HDMI             Enable 4Kp60 resolution on HDMI0 (disables analog)
+#Then check/change other settings
+
+sudo reboot
+
+# If you need to start the gui manually, use startx
+
+
+# Now ensure the Pi software and system is up to date
+# Start a terminal, do
+sudo apt update -y
+sudo apt upgrade -y
+
+# install a remote-printing feature so we can print from the Pi via the Windows 10 PC (see below)
+sudo apt install cups -y
+# install https for distros although not strictly needed
+sudo apt install apt-transport-https -y
+
+# Setup a Windows 10 PC so that it can remotely control the Pi if we want to.
+# Need this if we choose for the Pi to go headless (no monitor/keyboard/mouse) later.
+# On a Windows 10 PC, 
+# Grab RealVNC Viewer X64 Portable .EXE from https://www.realvnc.com/en/connect/download/viewer/
+# using the drop-down to choose download the correct .EXE
+# Choosing the Portable version of RealVNC means we don't need to install anything (hooray!).
+# Then we can use the .EXE to remote-connect to the Pi, given we know the Pi's IP address.
+# Remember : ALWAYS set the Pi to boot to GIU, EVEN IF later running it headless,
+# since RealVNC needs to "attach" the Pi's gui.
+# Once the Win10 PC RealVNC is connected to the Pi, we can use the RealVNC menu 
+# which nearly invisibly hovers at the top of the RealVNC window to send/receive files !
+
+# Install something to convert Windows-EOL files to Unix-EOL files, if we need to later (we won't)
+sudo apt install -y dos2unix
+
+# ------------------------------------------------------------------------------------------------------------------------
+# MOUNT THE EXTERNALLY-POWERED USB3 HARD DRIVE
+#
+# We have an external USB3 5Tb hard drive, pre-formatted as NTFS on a Windows 10 PC
+# with SECURITY set on the root of that drive so that to EVERYONE has FULL control.
+# Then with set of folders created (so they inherit the EVERYONE permissions) and 
+# filled with pre-encoded .mp4 media files to be stored and then "cast" to
+# Chromecast-Ultra devices attached to TVs.
+# Usually .mp4 files containing h.264(avc)/aac or h.265(hevc)/aac works just fine 
+#(4K yet to be tested).
+# This as a standard should work just fine with other devices. 
+# Files in .mp4 format containing h.264(avc)/mp3 also works.
+
+# Create a mount point for the USB3 drive, which we'll use in a minute.
+# In this case I want to call it mp4library.
+sudo mkdir /mnt/mp4library
+
+# Set protections so we can so ANYTHING with it (we are inside our own home LAN)
+sudo chmod +777 /mnt/mp4library
+
+# Fix permissions to allow user pi so that it has no trouble
+# with mounting external drives.
+sudo usermod -a -G plugdev pi
+
+# Plugin a 5Tb external USB3 drive into the bottom USB3 socket in the Pi4.
+# Always use the same USB socket on the Pi.
+# Always use an externally-powered  USB3 drive, so that we have 
+# sufficient power and sufficient data transfer bandwidth.
+# The USB3 drive will auto mount with NTFS, under Raspbian Buster.
+# Now we need to find  stuff about the disk, so in a Terminal do
+df
+
+# then this one
+sudo blkid 
+# the "blkid" shows stuff a bit like this but not quite :-
+#/dev/mmcblk0p1: LABEL_FATBOOT="boot" LABEL="boot" UUID="69D5-9B27" TYPE="vfat" PARTUUID="d9b3f436-01"
+#/dev/mmcblk0p2: LABEL="rootfs" UUID="24eaa08b-10f2-49e0-8283-359f7eb1a0b6" TYPE="ext4" PARTUUID="d9b3f436-02"
+#/dev/sda2: LABEL="5TB-mp4library" UUID="F8ACDEBBACDE741A" TYPE="ntfs" PTTYPE="atari" PARTLABEL="Basic data partition" PARTUUID="6cc8d3fb-6942-4b4b-a7b1-c31d864accef"
+#/dev/mmcblk0: PTUUID="d9b3f436" PTTYPE="dos"
+#/dev/sda1: PARTLABEL="Microsoft reserved partition" PARTUUID="62ac9e1a-a82b-4df7-92b9-19ffc689d80b"
+# We're interested in the line showing the disk with the label we're interested in,
+# in this case /dev/sda2 ... take a note of the UUID.
+
+# see what filesystems are supported
+ls -al "/lib/modules/$(uname -r)/kernel/fs/"
+
+# Now use nano to edit the file /etc/fstab so that the external USB3 drive is installed the same every time
+# (remember, always be consistent and plugin the USB3 drive into the bottom USB3 socket)
+# https://wiki.debian.org/fstab
+sudo nano /etc/fstab
+# and add this line at the end of the file, using the correct newly-discovered UUID
+#UUID=F8ACDEBBACDE741A /mnt/mp4library ntfs defaults,auto,users,rw,exec,nofail,noatime,umask=000,x-systemd.device-timeout=120 0 0
+UUID=F8ACDEBBACDE741A /mnt/mp4library ntfs defaults,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,x-systemd.device-timeout=120 0 2
+# then save the file (control O) and then exit nano (control X)
+
+# We must REBOOT the Pi now.
+
+# Set permissions so we can do ANYTHING with it.
+sudo chmod +777 /mnt/mp4library
+
+# Check the exterrnal USB3 drive mounted where we told it to by doing a df
+df
+#Filesystem      1K-blocks       Used Available Use% Mounted on
+#/dev/root        15058584    4764240   9631364  34% /
+#devtmpfs          1711484          0   1711484   0% /dev
+#tmpfs             1843580          8   1843572   1% /dev/shm
+#tmpfs             1843580       8772   1834808   1% /run
+#tmpfs                5120          4      5116   1% /run/lock
+#tmpfs             1843580          0   1843580   0% /sys/fs/cgroup
+#/dev/mmcblk0p1     258095      53033    205063  21% /boot
+#/dev/sda2      4883638268 4868701876  14936392 100% /mnt/mp4library
+#tmpfs              368716          4    368712   1% /run/user/1000
+# In this case /dev/sda2 mounted to /mnt/mp4library which is what we wanted.
+# ------------------------------------------------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------------------------------------------------
+# INSTALLING APACHE & PHP
+
+#https://pimylifeup.com/raspberry-pi-apache/
+sudo apt install -y apache2 
+sudo apt install -y apache2-bin
+sudo apt install -y apache2-data
+sudo apt install -y apache2-utils
+sudo apt install -y apache2-doc
+sudo apt install -y apache2-suexec-pristine
+sudo apt install -y apache2-ssl-dev
+sudo apt install -y libxml2 libxml2-dev libxml2-utils
+sudo apt install -y libaprutil1 libaprutil1-dev
+# socache_dbm required for gnutls
+a2enmod socache_dbm
+sudo apt install -y libapache2-mod-gnutls 
+sudo apt install -y libapache2-mod-security2
+
+# Note: the version lile 7.3 will change as time passes !!!!!!!
+sudo apt install -y php7.3 php7.3-common php7.3-cli php7.3-intl php7.3-curl php7.3-xsl php7.3-gd 
+sudo apt install -y php7.3-recode php7.3-tidy php7.3-json php7.3-mbstring php7.3-dev php7.3-bz2 php7.3-zip php-pear 
+sudo apt install -y libmcrypt-dev
+sudo apt install -y libapache2-mod-php
+
+sudo nano /etc/php/7.3/apache2/php.ini
+# change
+# max_execution_time = 30
+# max_input_time = 60
+# display_errors = Off
+# log_errors_max_len = 1024
+# default_socket_timeout = 60
+# to  become
+max_execution_time = 300
+max_input_time = 300
+display_errors = On
+display_startup_errors = On
+log_errors_max_len = 8192
+default_socket_timeout = 300
+#control O
+#control X
+
+php -version
+
+sudo apt install -y python3 idle
+sudo apt install -y libapache2-mod-python
+
+# ok, finished APT installs
+sudo apt autoremove -y
+
+sudo groupadd -f www-data
+sudo usermod -a -G www-data root
+sudo usermod -a -G www-data pi
+sudo chown -R -f pi:www-data /var/www
+sudo chmod +777 -R /var/www
+
+cat /var/log/apache2/error.log
+ls -al /etc/apache2/sites-enabled
+ls -al /etc/apache2/sites-available
+
+sudo a2enmod headers
+sudo a2enmod status
+sudo a2enmod info
+sudo a2enmod autoindex
+sudo a2enmod negotiation
+sudo a2enmod speling
+sudo a2enmod socache_dbm
+sudo a2dismod ssl
+sudo a2enmod gnutls
+sudo a2enmod php7.3
+sudo a2enmod python
+sudo a2enmod xml2enc
+sudo a2enmod alias 
+sudo a2enmod cgi
+
+# check the mp4 mime type is in place
+ls -al /etc/mime.types
+sudo nano /etc/mime.types
+# and check to see that these lines exist
+video/mp4   mp4
+video/wemb  webm
+# hint, use control W which is nano's "find text"
+# if they don't exist, add them
+#control X
+
+sudo nano /etc/apache2/apache2.conf
+# just underneath the line 
+	#ServerRoot "/etc/apache2"
+# add this line to say the web server name is going to be pi3ccserver
+ServerName Pi4CC
+# And locate/change the following items to have new values
+# change timeout from 5 mins to 3 hours (60*60*3)
+#Timeout 300
+Timeout 10800
+# change keepalives to infinite
+#MaxKeepAliveRequests 100
+MaxKeepAliveRequests 0
+#
+#KeepAliveTimeout 5
+KeepAliveTimeout 10800
+MaxRanges unlimited
+MaxRangeOverlaps unlimited
+MaxRangeReversals unlimited
+Header set Accept-Ranges bytes
+CheckSpelling On
+CheckCaseOnly On
+# Then add these just after the max ranges statements  and AFTER mods_enabled are loaded
+Header set Accept-Ranges bytes
+Header set Access-Control-Allow-Origin "*" 
+Header set Access-Control-Allow-Headers "Allow-Origin, X-Requested-With, Content-Type, Accept" 
+CheckSpelling On 
+CheckCaseOnly On
+#control O
+#control X
+
+sudo nano /etc/apache2/mods-available/status.conf
+# Under the "Location /server-status" directive, 
+# Locate the "#Require IP 192.0.2.0/24" 
+# line and add a lind underneath for yout lan segment change
+# of a the tablet or equipment on the LAN 
+# which you will be using to access the web server,
+# eg
+#Require IP 192.0.2.0/24
+Require IP 10.0.0.1/24
+#control O
+#control X
+
+sudo nano /etc/apache2/mods-available/info.conf
+# Locate the "#Require IP 192.0.2.0/24" 
+# line and add a lind underneath for yout lan segment change
+# eg
+#Require IP 192.0.2.0/24
+Require IP 10.0.0.1/24
+#control O
+#control X
+
+# disable listening on port 80, so we also listen on 443 for TLS
+sudo nano /etc/apache2/ports.conf
+# superseded: leave port 80 listening, so do not comment-out the line which says Listen 80
+#control O
+#control X
+
+# enable the apache default-tls site and disable the 000-default site
+ls -al /etc/apache2/sites-available
+ls -al /etc/apache2/sites-enabled
+sudo a2ensite   default-tls
+sudo a2ensite  000-default
+ls -al /etc/apache2/sites-enabled
+
+#------------------------------------------------------------------------------------------------------------------------------
+# Attempt to generate and install a self-signed SSL/TLS certificate
+# -----------------------------------------------------------------
+
+# :(   Since Chromecasts complain if the serving web page isn't done via https:
+
+# FIND fqdn FOR USE IN CREATING THE SELF SIGNED CERTIFICATE FOR APACHE
+hostname
+hostname --fqdn
+hostname --all-ip-addresses
+
+# ++++++++++ BELOW worked however is likely not ideal ++++++++++
+# ++++++++++ BELOW worked however is likely not ideal ++++++++++
+# ++++++++++ BELOW worked however is likely not ideal ++++++++++
+#
+# https://the-bionic-cyclist.co.uk/2017/03/22/setup-ssl-on-a-raspberry-pi-in-2-minutes/
+# https://stackoverflow.com/questions/21141215/creating-a-p12-file
+# https://www.ssl.com/how-to/create-a-pfx-p12-certificate-file-using-openssl/
+# https://stackoverflow.com/questions/21141215/creating-a-p12-file
+# https://samhobbs.co.uk/2014/04/ssl-certificate-signing-cacert-raspberry-pi-ubuntu-debian
+
+# Create the self-signed Certificate Files for use with TLS
+sudo mkdir -p /etc/tls/localcerts
+
+# find local hostname eg Pi4CC
+hostname
+hostname --fqdn
+hostname --all-ip-addresses
+
+# Create the Certificate and Key (12650 = 50 years)
+# REMEMBER any passwords !!! Write them down.
+sudo openssl req -x509 -nodes -days 12650 -newkey rsa:2048 -out /etc/tls/localcerts/Pi4CC.pem -keyout /etc/tls/localcerts/Pi4CC.key
+
+# Strip Out Passphrase from the Key
+cp /etc/tls/localcerts/Pi4CC.key /etc/tls/localcerts/Pi4CC.key.orig
+openssl rsa -in /etc/tls/localcerts/Pi4CC.key.orig -out /etc/tls/localcerts/Pi4CC.key
+sudo chmod 600 /etc/tls/localcerts/*
+
+#Enter pass phrase for Pi4CC.key: Certificates
+#You are about to be asked to enter information that will be incorporated
+#into your certificate request.
+#What you are about to enter is what is called a Distinguished Name or a DN.
+#There are quite a few fields but you can leave some blank
+#For some fields there will be a default value,
+#If you enter '.', the field will be left blank.
+#-----
+#Country Name (2 letter code) [AU]:AU
+#State or Province Name (full name) [Some-State]:anon
+#Locality Name (eg, city) []:NoCity
+#Organization Name (eg, company) [Internet Widgits Pty Ltd]:noname
+#Organizational Unit Name (eg, section) []:noname
+#Common Name (e.g. server FQDN or YOUR name) []:Pi4CC
+#Email Address []:heckle@gmail.com
+#
+#Please enter the following 'extra' attributes
+#to be sent with your certificate request
+#A challenge password []:
+#An optional company name []:
+
+# in /etc/tls/localcerts we should now have
+Pi4CC.key.orig  cert key with embedded Passphrase
+Pi4CC.key       cert key
+Pi4CC.pem       final certificate
+
+# Create the PKCS12 Certificate
+# If we need a pk12 cert (eg for EMBY software) it requires a pkcs12 certificate to be generated, 
+#
+#Convert PEM & Private Key to PFX/P12:
+sudo openssl pkcs12 -export -out /etc/tls/localcerts/Pi4CC.pfx -inkey /etc/tls/localcerts/Pi4CC.key.orig -in /etc/tls/localcerts/Pi4CC.pem 
+# optional also  -certfile more.crt : This is optional, this is if you have any additional certificates you would like to include in the PFX file.
+#You should be prompted in this order:
+#   Loading 'screen' into random state - done
+#   Enter pass phrase for filename.txt: (Enter the private key password)
+#   Enter Export Password: (This will be the password for the new PKCS12 file)
+#   Verifying - Enter Export Password: (Confirm the password)
+#   unable to write 'random state' (If this this error appears, please ignore)
+
+sudo chmod 777 /etc/tls/localcerts/*
+
+# ++++++++++ ABOVE worked however is likely not ideal ++++++++++
+# ++++++++++ ABOVE worked however is likely not ideal ++++++++++
+# ++++++++++ ABOVE worked however is likely not ideal ++++++++++
+
+#------------------------------------------------------------------------------------------------------------------------------
+
+# Update Apache2 config
+# Edit the tls conf and insert all of the good stuff
+sudo nano /etc/apache2/sites-enabled/default-tls.conf
+# Add stuff to make it look like the below :::::
+
+<IfModule mod_gnutls.c> 
+   #
+   # from /etc/apache2/conf-available/security.conf
+   # ServerTokens
+   # This directive configures what you return as the Server HTTP response
+   # Header. The default is 'Full' which sends information about the OS-Type
+   # and compiled in modules.
+   # Set to one of:  Full | OS | Minimal | Minor | Major | Prod
+   # where Full conveys the most information, and Prod the least.
+   ServerTokens Full
+   #
+   # from /etc/apache2/conf-available/security.conf
+   # Optionally add a line containing the server version and virtual host
+   # name to server-generated pages (internal error documents, FTP directory
+   # listings, mod_status and mod_info output etc., but not CGI generated
+   # documents or custom error documents).
+   # Set to "EMail" to also include a mailto: link to the ServerAdmin.
+   # Set to one of:  On | Off | EMail
+   ServerSignature On
+   #
+<VirtualHost _default_:443>
+   ServerName Pi4CC
+   ServerAdmin noname@noname.com
+   DocumentRoot /var/www/
+   MaxRanges unlimited
+   MaxRangeOverlaps unlimited
+   MaxRangeReversals unlimited
+   Header set Accept-Ranges bytes
+   Header set Access-Control-Allow-Origin "*" 
+   Header set Access-Control-Allow-Headers "Allow-Origin, X-Requested-With, Content-Type, Accept" 
+   CheckSpelling On
+   CheckCaseOnly On
+   # /etc/apache2/conf-available/security.conf
+   # Disable access to the entire file system except for the directories that are explicitly allowed later.
+   # This currently breaks the configurations that come with some web application Debian packages.
+   #<Directory />
+   #   AllowOverride None
+   #   Require all denied
+   #</Directory>
+   <Directory />
+      Options +Includes +Indexes +FollowSymLinks +MultiViews
+      AddEncoding gzip gz
+      AllowOverride None
+      Require all denied
+      MaxRanges unlimited
+      MaxRangeOverlaps unlimited
+      MaxRangeReversals unlimited
+      Header set Accept-Ranges bytes
+      Header set Access-Control-Allow-Origin "*" 
+      Header set Access-Control-Allow-Headers "Allow-Origin, X-Requested-With, Content-Type, Accept" 
+   </Directory>
+   <Directory /var/www/>
+      Options +Includes +Indexes +FollowSymLinks +MultiViews
+      AllowOverride None
+      Require all granted
+      MaxRanges unlimited
+      MaxRangeOverlaps unlimited
+      MaxRangeReversals unlimited
+      Header set Accept-Ranges bytes
+      Header set Access-Control-Allow-Origin "*" 
+      Header set Access-Control-Allow-Headers "Allow-Origin, X-Requested-With, Content-Type, Accept" 
+   </Directory>
+   Alias /mp4library /mnt/mp4library/mp4library
+   <Directory /mnt/mp4library/mp4library>
+      Options +Includes +Indexes +FollowSymLinks +MultiViews
+      AllowOverride None
+      Require all granted
+      #<ifModule mod_headers.c>
+      MaxRanges unlimited
+      MaxRangeOverlaps unlimited
+      MaxRangeReversals unlimited
+      Header set Accept-Ranges bytes
+      Header set Access-Control-Allow-Origin "*" 
+      Header set Access-Control-Allow-Headers "Allow-Origin, X-Requested-With, Content-Type, Accept" 
+      #</ifModule>
+      #AuthType Basic
+      #AuthName "Password Required"
+      #AuthUserFile /usr/local/etc/apache_passwd
+      #Require user johndoe
+   </Directory>
+   ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+   <Directory "/usr/lib/cgi-bin">
+      AllowOverride None
+      Options +Includes +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+      #Order allow,deny
+      #Allow from all
+	  Require all granted
+   </Directory>
+   #
+   # Possible values include: debug, info, notice, warn, error, crit, alert, emerg.
+   LogLevel warn
+   ErrorLog ${APACHE_LOG_DIR}/error.log
+   CustomLog ${APACHE_LOG_DIR}/tls_access.log combined
+   #
+   # GnuTLS Switch: Enable/Disable SSL/TLS for this virtual host.
+   # Use the certificate and key files we created earlier
+   GnuTLSEnable On
+   GnuTLSCertificateFile /etc/tls/localcerts/Pi4CC.pem
+   GnuTLSKeyFile         /etc/tls/localcerts/Pi4CC.key
+   # A self-signed (snakeoil) certificate can instead be created by installing the ssl-cert package. 
+   # See /usr/share/doc/apache2.2-common/README.Debian.gz for more info.
+   #GnuTLSCertificateFile   /etc/ssl/certs/ssl-cert-snakeoil.pem
+   #GnuTLSKeyFile /etc/ssl/private/ssl-cert-snakeoil.key
+   #   See http://www.outoforder.cc/projects/apache/mod_gnutls/docs/#GnuTLSPriorities
+   #
+   GnuTLSPriorities NORMAL 
+</VirtualHost> 
+</IfModule>
+#control O
+#control X
+
+
+# Edit the 000-default conf and insert all of the good stuff
+sudo nano /etc/apache2/sites-enabled/000-default.conf
+# and add stuff to make it look like the below :::::
+
+   #
+   # from /etc/apache2/conf-available/security.conf
+   # ServerTokens
+   # This directive configures what you return as the Server HTTP response
+   # Header. The default is 'Full' which sends information about the OS-Type
+   # and compiled in modules.
+   # Set to one of:  Full | OS | Minimal | Minor | Major | Prod
+   # where Full conveys the most information, and Prod the least.
+   ServerTokens Full
+   #
+   # from /etc/apache2/conf-available/security.conf
+   # Optionally add a line containing the server version and virtual host
+   # name to server-generated pages (internal error documents, FTP directory
+   # listings, mod_status and mod_info output etc., but not CGI generated
+   # documents or custom error documents).
+   # Set to "EMail" to also include a mailto: link to the ServerAdmin.
+   # Set to one of:  On | Off | EMail
+   ServerSignature On
+   #
+<VirtualHost _default_:80>
+   ServerName Pi4CC
+   ServerAdmin noname@noname.com
+   DocumentRoot /var/www/
+   MaxRanges unlimited
+   MaxRangeOverlaps unlimited
+   MaxRangeReversals unlimited
+   Header set Accept-Ranges bytes
+   Header set Access-Control-Allow-Origin "*" 
+   Header set Access-Control-Allow-Headers "Allow-Origin, X-Requested-With, Content-Type, Accept" 
+   CheckSpelling On
+   CheckCaseOnly On
+   # /etc/apache2/conf-available/security.conf
+   # Disable access to the entire file system except for the directories that are explicitly allowed later.
+   # This currently breaks the configurations that come with some web application Debian packages.
+   #<Directory />
+   #   AllowOverride None
+   #   Require all denied
+   #</Directory>
+   <Directory />
+      Options +Includes +Indexes +FollowSymLinks +MultiViews
+      AddEncoding gzip gz
+      AllowOverride None
+      Require all denied
+      MaxRanges unlimited
+      MaxRangeOverlaps unlimited
+      MaxRangeReversals unlimited
+      Header set Accept-Ranges bytes
+      Header set Access-Control-Allow-Origin "*" 
+      Header set Access-Control-Allow-Headers "Allow-Origin, X-Requested-With, Content-Type, Accept" 
+   </Directory>
+   <Directory /var/www/>
+      Options +Includes +Indexes +FollowSymLinks +MultiViews
+      AllowOverride None
+      Require all granted
+      MaxRanges unlimited
+      MaxRangeOverlaps unlimited
+      MaxRangeReversals unlimited
+      Header set Accept-Ranges bytes
+      Header set Access-Control-Allow-Origin "*" 
+      Header set Access-Control-Allow-Headers "Allow-Origin, X-Requested-With, Content-Type, Accept" 
+   </Directory>
+   Alias /mp4library /mnt/mp4library/mp4library
+   <Directory /mnt/mp4library/mp4library>
+      Options +Includes +Indexes +FollowSymLinks +MultiViews
+      AllowOverride None
+      Require all granted
+      #<ifModule mod_headers.c>
+      MaxRanges unlimited
+      MaxRangeOverlaps unlimited
+      MaxRangeReversals unlimited
+      Header set Accept-Ranges bytes
+      Header set Access-Control-Allow-Origin "*" 
+      Header set Access-Control-Allow-Headers "Allow-Origin, X-Requested-With, Content-Type, Accept" 
+      #</ifModule>
+      #AuthType Basic
+      #AuthName "Password Required"
+      #AuthUserFile /usr/local/etc/apache_passwd
+      #Require user johndoe
+   </Directory>
+   ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+   <Directory "/usr/lib/cgi-bin">
+      AllowOverride None
+      Options +Includes +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+      #Order allow,deny
+      #Allow from all
+	  Require all granted
+   </Directory>
+   #
+   # Possible values include: debug, info, notice, warn, error, crit, alert, emerg.
+   LogLevel warn
+   ErrorLog ${APACHE_LOG_DIR}/error.log
+   CustomLog ${APACHE_LOG_DIR}/tls_access.log combined
+</VirtualHost> 
+#control O
+#control X
+
+
+# add an apache user, "pi"
+sudo htpasswd -c /usr/local/etc/apache_passwd pi
+# then enter your-intended-password twice
+
+# At this point the folder /var/www/ still contains an index file something like index.html
+# remove it so that we can do directory browsing from the root (it is handy)
+sudo rm /var/www/Index.*
+sudo rm /var/www/index.*
+
+systemctl restart apache2
+sudo service apache2 restart
+
+journalctl -xe
+cat /var/log/apache2/error.log
+
+sudo nano /var/www/example.php
+<?php echo "Today's date is ".date('Y-m-d H:i:s');
+phpinfo();
+?>
+#control O
+#control X
+
+sudo nano /var/www/phpinfo.php
+# Put these lines in the file.
+<?php
+phpinfo();
+?>
+#control O
+#control X
+
+# Remotely:
+http://10.0.0.6/server-status
+http://10.0.0.6/server-info
+http://10.0.0.6/phpinfo.php
+http://10.0.0.6/example.php
+
+# Locally:
+curl --head 127.0.0.1
+curl -I 127.0.0.1
+# Check for accept-ranges bytes etc
+#Accept-Ranges: bytes
+#Access-Control-Allow-Origin: *
+#Access-Control-Allow-Headers: Allow-Origin, X-Requested-With, Content-Type, Accept
+
+
+#curl 127.0.0.1/server-status
+#curl 127.0.0.1/server-info
+#curl 127.0.0.1/phpinfo.php
+#curl 127.0.0.1/example.php
+
+# ------------------------------------------------------------------------------------------------------------------------
+# INSTALL miniDLNA
+# ----------------
+
+# not strictly necessary to install, however it makes the server more "rounded" and accessible
+
+# https://unixblogger.com/dlna-server-raspberry-pi-linux/
+
+# https://www.youtube.com/watch?v=Vry0NpFjn5w
+
+# https://www.deviceplus.com/how-tos/setting-up-raspberry-pi-as-a-home-media-server/
+
+sudo apt update -y 
+sudo apt upgrade -y
+sudo mkdir -p /mnt/mp4library/miniDLNA/log
+sudo chmod -R +777 /mnt/mp4library/miniDLNA
+
+# Remove your old miniDLNA version
+sudo apt purge minidlna -y
+sudo apt remove minidlna -y
+sudo apt autoremove -y
+
+# Do the install
+sudo apt install -y minidlna
+
+# Change config settings to look like these
+sudo nano /etc/minidlna.conf
+#user=minidlna
+user=pi
+#...
+# Path to the directory you want scanned for media files.
+# This option can be specified more than once if you want multiple directories
+# scanned.
+# If you want to restrict a media_dir to a specific content type, you can
+# prepend the directory name with a letter representing the type (A, P or V),
+# followed by a comma, as so:
+# * "A" for audio (eg. media_dir=A,/var/lib/minidlna/music)
+# * "P" for pictures (eg. media_dir=P,/var/lib/minidlna/pictures)
+# * "V" for video (eg. media_dir=V,/var/lib/minidlna/videos)
+# * "PV" for pictures and video (eg. media_dir=PV,[...]
+media_dir=PV,/mnt/mp4library/mp4library
+db_dir=/mnt/mp4library/miniDLNA
+log_dir=/mnt/mp4library/miniDLNA/log
+friendly_name=Pi4CC-miniDLNA
+inotify=yes
+strict_dlna=no
+enable_tivo=no
+notify_interval=300
+max_connections=4
+log_level=artwork,database,general,http,inotify,metadata,scanner,ssdp,tivo=info
+#control O
+#control X
+
+sudo service minidlna restart
+# after re-start, looks for media
+
+# force a re-scan at 4:00 am every night
+https://sourceforge.net/p/minidlna/discussion/879956/thread/41ae22d6/#4bf3
+sudo /usr/bin/killall minidlna
+sleep 10
+sudo /usr/sbin/minidlna -R
+sleep 3600
+sudo /usr/bin/killall minidlna
+sleep 10
+sudo /usr/sbin/minidlna
+
+Then run crontab -e and add the following:
+#    <minute> <hour> <day> <month> <dow> <tags and command>
+#    <@freq> <tags and command>
+0 4 * * * /usr/scripts/minidlna_refresh.sh > /usr/scripts/minidlna_refresh.log
+
+# The MiniDLNA service comes with a small webinterface. 
+# This webinterface is just for informational purposes. 
+# You will not be able to configure anything here. 
+# However, it gives you a nice and short information screen how many files have been found by MiniDLNA. 
+# MiniDLNA comes with it’s own webserver integrated. 
+# This means that no additional webserver is needed in order to use the webinterface.
+# To access the webinterface, open your browser of choice and enter 
+http://10.0.0.6:8200
+
+# The actual streaming process
+# A short overview how a connection from a client to the configured and running MiniDLNA server could work. 
+# In this scenario we simply use a computer which is in the same local area network than the server. 
+# As the client software we use the Video Lan Client (VLC). 
+# Simple, robust, cross-platform and open source. 
+# After starting VLC, go to the playlist mode by pressing CTRL+L in windows. 
+# You will now see on the left side a category which is called Local Network. 
+# Click on Universal Plug’n’Play which is under the Local Network category. 
+# You will then see a list of available DLNA service within your local network. 
+# In this list you should see your DLNA server. 
+# Navigate through the different directories for music, videos and pictures and select a file to start the streaming process
+#
+# ------------------------------------------------------------------------------------------------------------------------
+# INSTALL SAMBA
+# -------------
+# https://magpi.raspberrypi.org/articles/raspberry-pi-samba-file-server
+# https://pimylifeup.com/raspberry-pi-samba/
+
+
+sudo apt -y update
+sudo apt -y upgrade
+sudo apt -y install samba samba-common-bin
+
+#Create a password
+#Before we start the server, you’ll want to set a Samba password. Enter:
+sudo smbpasswd -a pi
+sudo smbpasswd -a root
+
+sudo cp /etc/samba/smb.conf /etc/samba/smb.conf_backup
+sudo nano /etc/samba/smb.conf
+
+sudo cp /etc/samba/smb.conf /etc/samba/smb.conf_backup
+sudo nano /etc/samba/smb.conf
+# https://calomel.org/samba_optimize.html
+# https://calomel.org/samba.html
+# find and change/add lines etc to make this outcome:
+
+[global]
+	# add these
+    hosts 10.0.0.0/255.255.255.0 127.0.0.1
+    security = user
+    deadtime = 15
+    #socket options = IPTOS_LOWDELAY TCP_NODELAY SO_RCVBUF=65536 SO_SNDBUF=65536 SO_KEEPALIVE
+    # linux auto tunes SO_RCVBUF=65536 SO_SNDBUF=65536
+    socket options = IPTOS_LOWDELAY TCP_NODELAY  SO_KEEPALIVE
+    inherit permissions = yes
+    # OK ... 1 is a sticky bit
+    # create mask and directory mask REMOVE permissions
+    #   create mask = 0777
+    #   directory mask = 0777
+    # force create mode and force directory mode 
+    # specifies a set of UNIX mode bit permissions that will always be set 
+    force create mode = 1777
+    force directory mode = 1777
+    #   valid users = %S
+    # my stuff
+    preferred master = No
+    local master = No
+    guest ok = yes
+    browseable = yes
+    #guest account = root
+    guest account = pi
+    #valid users = @users
+	public = yes
+
+# ADD THESE
+[Pi]
+comment=Pi4CC pi home
+#force group = users
+#guest only = Yes
+guest ok = Yes
+public = yes
+#valid users = @users
+path = /home/pi
+available = yes
+read only = no
+browsable = yes
+writeable = yes
+#create mask = 0777
+#directory mask = 0777
+force create mode = 1777
+force directory mode = 1777
+inherit permissions = yes
+
+[mp4library]
+comment=Pi4CC mp4library
+#force group = users
+#guest only = Yes
+guest ok = Yes
+public = yes
+#valid users = @users
+path = /mnt/mp4library
+available = yes
+read only = no
+browsable = yes
+writeable = yes
+#create mask = 0777
+#directory mask = 0777
+force create mode = 1777
+force directory mode = 1777
+inherit permissions = yes
+
+[www]
+comment=Pi4CC www home
+#force group = users
+#guest only = Yes
+guest ok = Yes
+public = yes
+#valid users = @users
+path = /var/www
+available = yes
+read only = no
+browsable = yes
+writeable = yes
+#create mask = 0777
+#directory mask = 0777
+force create mode = 1777
+force directory mode = 1777
+inherit permissions = yes
+
+#control O
+#control X
+
+# Test the samba config is OK
+sudo testparm
+
+# ???????????????? ignore this
+#rlimit_max: increasing rlimit_max (1024) to minimum Windows limit (16384)
+
+# Restart Samba using
+sudo service smbd restart
+
+# List the new samba users, which can have different passwords to the Pi itself
+sudo pdbedit -L -v
+
+# You can now access the defined shares from a Windows machine 
+# or from an app that supports the SMB protocol
+# eg from Windows Explorer use address \\10.0.0.6\
+
+# ------------------------------------------------------------------------------------------------------------------------
+#
+# "walk" the mp4library in our browser
+# ------------------------------------
+#
+# Use a chrome browser to check if it is working.
+# Navigate to the mp4library of the Pi web server 
+# by typing the following into your web browser using your Pi's IP address
+# http://10.0.0.6/mp4library
+# and we should be able to navigate the mp4library folder tree
+#
+# To copy .mp4 files to/from the Pi via SAMBA (file shares) -
+# From a Windows 7 PC, use Windows Explorer to open a share on 
+# the Pi using its IP address, put it in the address bar of Windows Explorer
+# \\10.0.0.6\
+# and see a number of shares including
+#    mp4library
+#    www
+# Open the mp4library share. See the files and folders there.
+# We can copy files to/from it just like any other windows folders.
+
+# ------------------------------------------------------------------------------------------------------------------------
+
+# Setup the Pi4CC website for chromecasting
+#
+# which contains a web page for local LAN access and control of casting, if not using a 3rd party app
+# as well as the python3 app to regenerate 
+
+# create the Pi4CC folder inside Apache2 folder
+sudo mkdir /var/www/Pi4CC
+sudo chown -R -f pi:www-data /var/www/Pi4CC
+sudo chmod +777 -R /var/www/Pi4CC
+
+# Copy the Pi4CC folder/file tree from github into this folder 
+#   /var/www/Pi4CC
+# (samba can be handy for that)
+
+# RE-CREATE the essential JSON file used by the Pi4CC website
+# Invoke this script manually from the commandline like
+python3 /var/www/Pi4CC/2019.12.10-create-json.py --source_folder /mnt/mp4library/mp4library --filename-extension mp4 --json_file /var/www/Pi4CC/media.js > /var/www/Pi4CC/create-json.log 2>&1
+
+#Run crontab with the -e flag to edit the cron table:
+#crontab -e
+#Select an editor
+#The first time you run crontab you'll be prompted to select an editor; if you are not sure which one to use, choose nano by pressing Enter.
+#Add a scheduled task
+#The layout for a cron entry is made up of six components: minute, hour, day of month, month of year, day of week, and the command to be executed.
+# m h  dom mon dow   command
+# * * * * *  command to execute
+# ┬ ┬ ┬ ┬ ┬
+# │ │ │ │ │
+# │ │ │ │ │
+# │ │ │ │ └───── day of week (0 - 7) (0 to 6 are Sunday to Saturday, or use names; 7 is Sunday, the same as 0)
+# │ │ │ └────────── month (1 - 12)
+# │ │ └─────────────── day of month (1 - 31)
+# │ └──────────────────── hour (0 - 23)
+# └───────────────────────── min (0 - 59)
+#For example:
+#0 0 * * *  /home/pi/backup.sh
+# If you want your command to be run in the background while the Raspberry Pi continues starting up, add a space and & at the end of the line, like this:
+# @reboot python /home/pi/myscript.py &
+#
+
+# Run crontab -e and add the lines after, under user pi so it reloads media.js every night
+crontab -e
+@reboot python3 /var/www/Pi4CC/2019.12.10-create-json.py --source_folder /mnt/mp4library/mp4library ---filename-extension mp4 --json_file /var/www/Pi4CC/media.js > /var/www/Pi4CC/create-json.log 2>&1 &
+0 4 * * * python3 /var/www/Pi4CC/2019.12.10-create-json.py --source_folder /mnt/mp4library/mp4library ---filename-extension mp4 --json_file /var/www/Pi4CC/media.js > /var/www/Pi4CC/create-json.log 2>&1
+
+#View your currently saved scheduled tasks with:
+crontab -l
+
+# Visit the web page from a different PC to see if it all works:
+https://10.0.0.6/Pi4CC
+# You may need to accept that the self-signed security certificate is "insecure" (cough, it is, it's solely inside your LAN)
+# and allow it (proceed to "unsafe" website anyway)
+# If you like, in Chrome browser, "hamburger" -> More Tools -> Developer Tools an watch the instrumentation log fly along (don't).
+
+
+# How to use the website site https://10.0.0.6/Pi4CC
+# --------------------------------------------------
+# Notes:
+# 1. https: is "required" to cast videos to chromecast devices
+# 2. All of the javascript runs on the client-side (i.e in the user browser)
+# 3. The web page uses native HTML5 "<details> for drop-down lists
+# 4. On a tablet or PC, open web page https://10.0.0.6/Pi4CC IN A CHROME BROWSER ONLY
+# 5. Click on a folder to see it drop down and display its list of .mp4 files
+# 6. Click on a .mp4 file to load it into the browser
+# 7. Check its the one you want, pause it, cast it to a chromecast device
+# 8. Control playback via the web page
+#
+
+# ------------------------------------------------------------------------------------------------------------------------
+
+# Yet to investigate:
+#
+# As at 2019.12.12
+# 1. implement a "back 30 seconds" button
+# 2. implement a "forward 30 seconds" button
+# 3. implement a "stop" button
+# 4. implement no autoplay upon media loading (a quick look shows "hard" code changes may be needed due to the way the app is coded)
+# 5. perhaps re-implement using video.js ?  the google code seems VERY tightly bound to their web page though :(
+
+
+Addendum:
+
+## Documentation
+* [Google Cast Chrome Sender Overview](https://developers.google.com/cast/docs/chrome_sender/)
+* [Developer Guides](https://developers.google.com/cast/docs/developers)
+
+## References
+* [Chrome Sender Reference](http://developers.google.com/cast/docs/reference/chrome)
+* [Design Checklist](http://developers.google.com/cast/docs/design_checklist)
+
+## How to report bugs
+* [Google Cast SDK Support](https://developers.google.com/cast/support)
+* For sample app issues, open an issue on this GitHub repo.
+
+## Terms
+Your use of this sample is subject to, and by using or downloading the sample files you agree to comply with, the [Google APIs Terms of Service](https://developers.google.com/terms/) and the [Google Cast SDK Additional Developer Terms of Service](https://developers.google.com/cast/docs/terms/).
+
