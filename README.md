@@ -17,7 +17,7 @@ Hence,
    and the casting phone/tablet/PC (known as a Sender) then only chats with the chromecast device
    to control video playback.
 4. After setup, the monitor/mouse/keyboard can be disconnected from the Pi4. 
-5. It does NOT do any "non-Google-app" *external* connections outside your home LAN at runtime
+5. It does NOT do any "non-Google-app" *external* network connections outside your home LAN at runtime
       ... unlike Plex Media Server (search about it in the Raspberry Pi forums)
       ... unlike Kodi 
    Your list of media contents etc is NOT shared with any company or individual. 
