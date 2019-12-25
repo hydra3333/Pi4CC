@@ -23,7 +23,7 @@ Hence,
    ... Your list of media contents etc is NOT shared with any company or individual. 
    You are in control.
 6. If you want something better and fancier, 
-   look for Plex Media Server and Kodi. They're good, if you are willing to be a sharing individual.
+   look for Plex Media Server and Kodi. They're good, if you are willing to be a "sharing" individual ;)
 5. This is based solely on the Google "CastVideos-chrome" example at 
       https://github.com/googlecast/CastVideos-chrome
    with "minimal" changes.
