@@ -12,7 +12,7 @@ How to setup a Raspberry Pi 4 (Raspbian buster) as a HOME LAN media server (only
    (eg a Chromecast Ultra, which can play h.265).
 Hence,
 3. Remember, "casting" a .mp4 files means that once a .mp4 file is cast to a Chromecast device, 
-   the serving of the data in the large .mp4 video file is then directly between the 
+   serving up the data in the large .mp4 video file is then directly between the 
    chromecast device and the Pi 4 (i.e. a tablet or phone or PC does not forward data packets)
    and the casting phone/tablet/PC (known as a Sender) then only chats with the chromecast device
    to control video playback.
