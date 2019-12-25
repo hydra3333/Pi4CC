@@ -20,7 +20,7 @@ Hence,
 5. It does NOT do any "non-Google-app" *external* network connections outside your home LAN at runtime
       ... unlike Plex Media Server (search about it in the Raspberry Pi forums)
       ... unlike Kodi 
-   Your list of media contents etc is NOT shared with any company or individual. 
+   ... Your list of media contents etc is NOT shared with any company or individual. 
    You are in control.
 6. If you want something better and fancier, 
    look for Plex Media Server and Kodi. They're good, if you are willing to be a sharing individual.
