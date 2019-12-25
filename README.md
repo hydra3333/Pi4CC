@@ -1,7 +1,7 @@
 # Description <TL;DR> 
 
-   A zero-frills LAN-only Media Server using DLNA and Apache2 web server to serve up .mp4 files
-   from a low-cost low-power Raspberry Pi 4 server
+   A zero-frills LAN-only Media Server using DLNA and Apache2 web server to serve up .mp4 (avc/hevc) video files
+   from a low-cost low-power Raspberry Pi 4 server to Chromecast devices and SmartTVs in the home.
 
 # More Description:
 
