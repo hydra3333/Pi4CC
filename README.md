@@ -1,9 +1,9 @@
-#Description <TL;DR> 
+# Description <TL;DR> 
 
    A zero-frills LAN-only Media Server using DLNA and Apache2 web server to serve up .mp4 files
    from a low-cost low-power Raspberry Pi 4 server
 
-#More Description:
+# More Description:
 
 How to setup a Raspberry Pi 4 (Raspbian buster) as a HOME LAN media server (only inside a home LAN) so that :-
 1. via DLNA, it can be searchable and serve .mp4 files to Apps on tablets and phones and smartTVs
@@ -35,7 +35,7 @@ Key things installed and configured:
 4. SAMBA file-sharing software compatible with Windows file shares
 5. The Pi4CC web page with companion python3 script
 
-#Addendum:
+# Addendum:
 
 Documentation
 * [Google Cast Chrome Sender Overview](https://developers.google.com/cast/docs/chrome_sender/)
