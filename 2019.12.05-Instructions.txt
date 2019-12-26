@@ -4,6 +4,7 @@
 # Description <TL;DR> 
 #
 #    A zero-frills LAN-only Media Server using DLNA and Apache to serve up .mp4 files
+#    from a low-cost low-power Raspberry Pi 4 server
 #
 # More Description:
 #
@@ -16,7 +17,7 @@
 # 3. Remember, "casting" a .mp4 files means that once a .mp4 file is cast to a Chromecast device, 
 #    the serving of the data in the large .mp4 video file is then directly between the 
 #    chromecast device and the Pi 4 (i.e. a tablet or phone or PC does not forward data packets)
-#    and the casting phone/tablet/PC (knows as a Sender) then only chats with the chromecast device
+#    and the casting phone/tablet/PC (known as a Sender) then only chats with the chromecast device
 #    to control video playback.
 # 4. After setup, the monitor/mouse/keyboard can be disconnected from the Pi4. 
 # 5. It does NOT do any "non-Google-app" *external* connections outside your home LAN at runtime
@@ -1097,3 +1098,20 @@ https://10.0.0.6/Pi4CC
 # 3. implement a "stop" button
 # 4. implement no autoplay upon media loading (a quick look shows "hard" code changes may be needed due to the way the app is coded)
 # 5. perhaps re-implement using video.js ?  the google code seems VERY tightly bound to their web page though :(
+
+Addendum:
+
+## Documentation
+* [Google Cast Chrome Sender Overview](https://developers.google.com/cast/docs/chrome_sender/)
+* [Developer Guides](https://developers.google.com/cast/docs/developers)
+
+## References
+* [Chrome Sender Reference](http://developers.google.com/cast/docs/reference/chrome)
+* [Design Checklist](http://developers.google.com/cast/docs/design_checklist)
+
+## How to report bugs
+* [Google Cast SDK Support](https://developers.google.com/cast/support)
+* For sample app issues, open an issue on this GitHub repo.
+
+## Terms
+Your use of this sample is subject to, and by using or downloading the sample files you agree to comply with, the [Google APIs Terms of Service](https://developers.google.com/terms/) and the [Google Cast SDK Additional Developer Terms of Service](https://developers.google.com/cast/docs/terms/).
