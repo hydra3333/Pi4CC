@@ -64,7 +64,7 @@ sudo cat /boot/config.txt >> ./tmp.tmp
 sudo cp -fv ./tmp.tmp /boot/config.txt
 rm -f ./tmp.tmp
 #cat /boot/config.txt
-diff "/boot/config.txt.old" "/boot/config.txt"
+diff -u "/boot/config.txt.old" "/boot/config.txt"
 
 set +x
 
@@ -180,7 +180,7 @@ set +x
 
 set -x
 #cat "/etc/fstab"
-diff "/etc/fstab.old" "/etc/fstab" 
+diff -u "/etc/fstab.old" "/etc/fstab" 
 set +x
 
 echo ""

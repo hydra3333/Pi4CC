@@ -1,4 +1,5 @@
 # 2019.12.12 Installation and configuration notes for Pi4CC
+# 2019.12.12 Installation and configuration notes for Pi4CC
 # ---------------------------------------------------------
 #
 # Description <TL;DR> 
@@ -287,7 +288,7 @@ sudo apt install -y apache2-ssl-dev
 sudo apt install -y libxml2 libxml2-dev libxml2-utils
 sudo apt install -y libaprutil1 libaprutil1-dev
 # socache_dbm required for gnutls
-a2enmod socache_dbm
+sudo a2enmod socache_dbm
 sudo apt install -y libapache2-mod-gnutls 
 sudo apt install -y libapache2-mod-security2
 
@@ -360,7 +361,7 @@ video/wemb  webm
 sudo nano /etc/apache2/apache2.conf
 # just underneath the line 
 	#ServerRoot "/etc/apache2"
-# add this line to say the web server name is going to be pi3ccserver
+# add this line to say the web server name is going to be Pi4CC
 ServerName Pi4CC
 # And locate/change the following items to have new values
 # change timeout from 5 mins to 3 hours (60*60*3)
@@ -418,7 +419,7 @@ sudo nano /etc/apache2/ports.conf
 ls -al /etc/apache2/sites-available
 ls -al /etc/apache2/sites-enabled
 sudo a2ensite   default-tls
-sudo a2ensite  000-default
+sudo a2dissite  000-default
 ls -al /etc/apache2/sites-enabled
 
 #------------------------------------------------------------------------------------------------------------------------------
