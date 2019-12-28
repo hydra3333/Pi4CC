@@ -4,6 +4,8 @@
 #
 # This will install some of the requisitive thuff, but not edit the config files etc
 
+cd ~/Desktop
+
 set +x
 
 echo "# LETS INSTALL THE Pi 4"

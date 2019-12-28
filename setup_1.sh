@@ -213,6 +213,10 @@ set +x
 # https://stackoverflow.com/questions/21141215/creating-a-p12-file
 # https://samhobbs.co.uk/2014/04/ssl-certificate-signing-cacert-raspberry-pi-ubuntu-debian
 
+cd ~/Desktop
+
+set +x
+
 echo ""
 echo "# Create the self-signed Certificate Files for use with TLS"
 set -x
