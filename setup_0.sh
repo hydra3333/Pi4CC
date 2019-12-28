@@ -71,7 +71,6 @@ echo "boot_delay=15" > ./tmp.tmp
 sudo cat /boot/config.txt >> ./tmp.tmp
 sudo cp -fv ./tmp.tmp /boot/config.txt
 rm -f ./tmp.tmp
-#cat /boot/config.txt
 diff -u "/boot/config.txt.old" "/boot/config.txt"
 
 set +x
@@ -121,8 +120,6 @@ echo "# install the tool to download setup support files"
 set -x
 sudo apt install -y curl
 set +x
-
-
 
 echo "# ------------------------------------------------------------------------------------------------------------------------"
 echo "# MOUNT THE EXTERNALLY-POWERED USB3 HARD DRIVE"
