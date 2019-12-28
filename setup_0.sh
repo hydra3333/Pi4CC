@@ -71,7 +71,7 @@ echo "boot_delay=15" > ./tmp.tmp
 sudo cat /boot/config.txt >> ./tmp.tmp
 sudo cp -fv ./tmp.tmp /boot/config.txt
 rm -f ./tmp.tmp
-diff -u "/boot/config.txt.old" "/boot/config.txt"
+diff -U 1 "/boot/config.txt.old" "/boot/config.txt"
 
 set +x
 
@@ -194,7 +194,7 @@ set +x
 
 set -x
 #cat "/etc/fstab"
-diff -u "/etc/fstab.old" "/etc/fstab" 
+diff -U 1 "/etc/fstab.old" "/etc/fstab" 
 set +x
 
 echo ""
