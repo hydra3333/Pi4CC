@@ -96,9 +96,9 @@ read -p "Press Enter to continue, if it there were 6 changes correctly"
 
 echo "# Install python3"
 set -x
-sudo apt purge -y python3 idle
-sudo apt purge -y libapache2-mod-python
-sudo apt autoremove -y
+#sudo apt purge -y python3 idle
+#sudo apt purge -y libapache2-mod-python
+#sudo apt autoremove -y
 #
 sudo apt install -y python3 idle
 sudo apt install -y libapache2-mod-python
