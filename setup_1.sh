@@ -94,7 +94,7 @@ set +x
 echo ""
 read -p "Press Enter to continue, if it there were 6 changes correctly"
 
-echo "#Install python3"
+echo "# Install python3"
 set -x
 sudo apt purge -y python3 idle
 sudo apt purge -y libapache2-mod-python
@@ -178,9 +178,9 @@ sudo sed -i 's;Include ports.conf;Include ports.conf\nHeader set Access-Control-
 sudo sed -i 's;Include ports.conf;Include ports.conf\nHeader set Access-Control-Allow-Origin "*";g' "/etc/apache2/apache2.conf"
 sudo sed -i 's;Include ports.conf;Include ports.conf\nHeader set Accept-Ranges bytes;g' "/etc/apache2/apache2.conf"
 #
-sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g"  "/etc/apache2/apache2.conf"
-sed -i "s;/mp4library;/${server_alias};g"  "/etc/apache2/apache2.conf"
-sed -i "s;mp4library;${server_alias};g"  "/etc/apache2/apache2.conf"
+sudo sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g"  "/etc/apache2/apache2.conf"
+sudo sed -i "s;/mp4library;/${server_alias};g"  "/etc/apache2/apache2.conf"
+sudo sed -i "s;mp4library;${server_alias};g"  "/etc/apache2/apache2.conf"
 #
 diff -U 1 "/etc/apache2/apache2.conf.old" "/etc/apache2/apache2.conf"
 set +x
@@ -197,7 +197,7 @@ echo "# which you will be using to access the web server,"
 echo ""
 set -x
 sudo cp -fv "/etc/apache2/mods-available/status.conf" "/etc/apache2/mods-available/status.conf.old"
-sed -i 's;#Require IP 192.0.2.0/24;#Require IP 192.0.2.0/24\nRequire IP 127.0.0.1\n#Require IP 192.168.108.133/24\nRequire IP 10.0.0.1/24;g' "/etc/apache2/mods-available/status.conf"
+sudo sed -i 's;#Require IP 192.0.2.0/24;#Require IP 192.0.2.0/24\nRequire IP 127.0.0.1\n#Require IP 192.168.108.133/24\nRequire IP 10.0.0.1/24;g' "/etc/apache2/mods-available/status.conf"
 diff -U 1 "/etc/apache2/mods-available/status.conf.old" "/etc/apache2/mods-available/status.conf"
 set +x
 echo ""
@@ -206,7 +206,7 @@ echo ""
 
 set -x
 sudo cp -fv "/etc/apache2/mods-available/info.conf" "/etc/apache2/mods-available/info.conf.old"
-sed -i 's;#Require IP 192.0.2.0/24;#Require IP 192.0.2.0/24\nRequire IP 127.0.0.1\n#Require IP 192.168.108.133/24\nRequire IP 10.0.0.1/24;g' "/etc/apache2/mods-available/info.conf"
+sudo sed -i 's;#Require IP 192.0.2.0/24;#Require IP 192.0.2.0/24\nRequire IP 127.0.0.1\n#Require IP 192.168.108.133/24\nRequire IP 10.0.0.1/24;g' "/etc/apache2/mods-available/info.conf"
 diff -U 1 "/etc/apache2/mods-available/info.old" "/etc/apache2/mods-available/info."
 set +x
 echo ""
@@ -366,10 +366,10 @@ rm -f "000-default.conf"
 rm -f "000-default.conf.old"
 curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "000-default.conf" --fail # -L means "allow redirection" or some odd :|
 cp -fv "000-default.conf"  "000-default.conf.old"
-sed -i "s;Pi4CC;${server_name};g" "000-default.conf"
-sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g" "000-default.conf"
-sed -i "s;/mp4library;/${server_alias};g" "000-default.conf"
-sed -i "s;mp4library;${server_alias};g" "000-default.conf"
+sudo sed -i "s;Pi4CC;${server_name};g" "000-default.conf"
+sudo sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g" "000-default.conf"
+sudo sed -i "s;/mp4library;/${server_alias};g" "000-default.conf"
+sudo sed -i "s;mp4library;${server_alias};g" "000-default.conf"
 diff -U 1 "000-default.conf.old" "000-default.conf"
 sudo mv -fv "000-default.conf" "/etc/apache2/sites-available/000-default.conf"
 set +x
@@ -384,10 +384,10 @@ rm -f "default-tls.conf"
 rm -f "default-tls.conf.old"
 curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "default-tls.conf" --fail # -L means "allow redirection" or some odd :|
 cp -fv "default-tls.conf"  "default-tls.conf.old"
-sed -i "s;Pi4CC;${server_name};g" "default-tls.conf"
-sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g" "default-tls.conf"
-sed -i "s;/mp4library;/${server_alias};g" "default-tls.conf"
-sed -i "s;mp4library;${server_alias};g" "default-tls.conf"
+sudo sed -i "s;Pi4CC;${server_name};g" "default-tls.conf"
+sudo sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g" "default-tls.conf"
+sudo sed -i "s;/mp4library;/${server_alias};g" "default-tls.conf"
+sudo sed -i "s;mp4library;${server_alias};g" "default-tls.conf"
 diff -U 1 "default-tls.conf.old" "default-tls.conf"
 sudo mv -fv "default-tls.conf" "/etc/apache2/sites-available/default-tls.conf"
 set +x
