@@ -4,16 +4,20 @@
 #
 # This will install some of the requisitive thuff, but not edit the config files etc
 
+set -x
 cd ~/Desktop
-
+server_name=Pi4cc
 set +x
+
+sudo apt update -y
+sudo apt upgrade -y
 
 echo "# LETS INSTALL THE Pi 4"
 echo "# ---------------------"
 echo ""
 echo "# BEFORE RUNNING THIS SCRIPT :-"
 echo ""
-echo "# Change server name to Pi4CC"
+echo "# Change server name to ${server_name}"
 echo "# Enable SSH"
 echo "# Enable VNC"
 echo "# Set the video RAM to 384Mb"
@@ -107,7 +111,16 @@ sudo apt install apt-transport-https -y
 set +x
 
 echo "# install the tool to turn EOL in text files from windows to unix"
+set -x
 sudo apt install -y dos2unix
+set +x
+
+echo "# install the tool to download setup support files"
+set -x
+sudo apt install -y curl
+set +x
+
+
 
 echo "# ------------------------------------------------------------------------------------------------------------------------"
 echo "# MOUNT THE EXTERNALLY-POWERED USB3 HARD DRIVE"

@@ -4,6 +4,9 @@
 #
 # This will install some of the requisitive thuff, but not edit the config files etc
 
+set -x
+cd ~/Desktop
+server_name=Pi4CC
 set +x
 
 echo "# Set permissions so we can do ANYTHING with the USB3 drive."
@@ -121,11 +124,11 @@ echo "Change some Apache2 settings"
 echo ""
 echo "## Just underneath the line"
 echo '#ServerRoot "/etc/apache2'
-echo "## add this line to say the web server name is going to be Pi4CC"
-echo "ServerName Pi4CC"
+echo "## add this line to say the web server name is going to be ${server_name}"
+echo "ServerName ${server_name}"
 set -x
 sudo cp -fv "/etc/apache2/apache2.conf" "/etc/apache2/apache2.conf.old"
-sudo sed -i 's;#ServerRoot "/etc/apache2";ServerName Pi4CC\n#ServerRoot "/etc/apache2";'  "/etc/php/7.3/apache2/php.ini"
+sudo sed -i 's;#ServerRoot "/etc/apache2";ServerName ${server_name}\n#ServerRoot "/etc/apache2";'  "/etc/php/7.3/apache2/php.ini"
 sudo sed -i 's;Timeout 300;Timeout 10800;' "/etc/apache2/apache2.conf"
 sudo sed -i 's;MaxKeepAliveRequests 100;MaxKeepAliveRequests 0;' "/etc/apache2/apache2.conf"
 sudo sed -i 's;KeepAliveTimeout 5;KeepAliveTimeout 10800;' "/etc/apache2/apache2.conf"
@@ -175,12 +178,12 @@ echo ""
 
 # Leave port 80 listening, so do not comment-out the line which says Listen 80 in /etc/apache2/ports.conf
 
-echo "# enable the apache default-tls site and disable the 000-default site"
+echo "# Enable the apache default-tls site and enable the 000-default site (may disable 000-default one day)"
 set -x
 #ls -al /etc/apache2/sites-available
 ls -al /etc/apache2/sites-enabled
 sudo a2ensite default-tls
-sudo a2dissite 000-default
+sudo a2ensite 000-default
 ls -al /etc/apache2/sites-enabled
 set +x
 echo ""
@@ -224,7 +227,7 @@ sudo mkdir -p /etc/tls/localcerts
 set +x
 
 echo ""
-echo "# find local hostname eg Pi4CC"
+echo "# find local hostname eg ${server_name}"
 set -x
 hostname
 hostname --fqdn
@@ -232,12 +235,12 @@ hostname --all-ip-addresses
 set +x
 
 echo ""
-echo "# ASSUME THE HOSTNAME IS Pi4CC "
+echo "# ASSUME THE HOSTNAME IS ${server_name} "
 echo "#    IF NOT, exit this script and change it !!!!!"
 echo "# Now Create the Certificate and Key (12650 = 50 years)"
 echo "# REMEMBER any passwords !!!     Write them down !!!!"
 set -x
-sudo openssl req -x509 -nodes -days 12650 -newkey rsa:2048 -out /etc/tls/localcerts/Pi4CC.pem -keyout /etc/tls/localcerts/Pi4CC.key
+sudo openssl req -x509 -nodes -days 12650 -newkey rsa:2048 -out /etc/tls/localcerts/${server_name}.pem -keyout /etc/tls/localcerts/${server_name}.key
 set +x
 echo ""
 read -p "Press Enter to continue"
@@ -245,15 +248,15 @@ echo ""
 
 echo "# Strip Out Passphrase from the Key"
 set -x
-cp /etc/tls/localcerts/Pi4CC.key /etc/tls/localcerts/Pi4CC.key.orig
-openssl rsa -in /etc/tls/localcerts/Pi4CC.key.orig -out /etc/tls/localcerts/Pi4CC.key
+cp /etc/tls/localcerts/${server_name}.key /etc/tls/localcerts/${server_name}.key.orig
+openssl rsa -in /etc/tls/localcerts/${server_name}.key.orig -out /etc/tls/localcerts/${server_name}.key
 sudo chmod 600 /etc/tls/localcerts/*
 set +x
 echo ""
 read -p "Press Enter to continue"
 echo ""
 
-#Enter pass phrase for Pi4CC.key: Certificates
+#Enter pass phrase for ${server_name}.key: Certificates
 #You are about to be asked to enter information that will be incorporated
 #into your certificate request.
 #What you are about to enter is what is called a Distinguished Name or a DN.
@@ -266,7 +269,7 @@ echo ""
 #Locality Name (eg, city) []:NoCity
 #Organization Name (eg, company) [Internet Widgits Pty Ltd]:noname
 #Organizational Unit Name (eg, section) []:noname
-#Common Name (e.g. server FQDN or YOUR name) []:Pi4CC
+#Common Name (e.g. server FQDN or YOUR name) []:${server_name}
 #Email Address []:heckle@gmail.com
 #
 #Please enter the following 'extra' attributes
@@ -276,9 +279,9 @@ echo ""
 
 echo ""
 echo "# In /etc/tls/localcerts we should now have"
-echo "# Pi4CC.key.orig  cert key with embedded Passphrase"
-echo "# Pi4CC.key       cert key"
-echo "# Pi4CC.pem       final certificate"
+echo "# ${server_name}.key.orig  cert key with embedded Passphrase"
+echo "# ${server_name}.key       cert key"
+echo "# ${server_name}.pem       final certificate"
 echo ""
 set -x
 ls -al "/etc/tls/localcerts/"
@@ -292,7 +295,7 @@ echo "# If we need a pk12 cert (eg for EMBY software) it requires a pkcs12 certi
 echo "#"
 echo "#Convert PEM & Private Key to PFX/P12:"
 set -x
-sudo openssl pkcs12 -export -out /etc/tls/localcerts/Pi4CC.pfx -inkey /etc/tls/localcerts/Pi4CC.key.orig -in /etc/tls/localcerts/Pi4CC.pem 
+sudo openssl pkcs12 -export -out /etc/tls/localcerts/${server_name}.pfx -inkey /etc/tls/localcerts/${server_name}.key.orig -in /etc/tls/localcerts/${server_name}.pem 
 set +x
 echo ""
 
@@ -312,330 +315,201 @@ echo ""
 read -p "Press Enter to continue, if that worked"
 echo ""
 
-#------------------------------------------------------------------------------------------------------------------------------
 
-# Update Apache2 config
-# Edit the tls conf and insert all of the good stuff
-sudo nano /etc/apache2/sites-enabled/default-tls.conf
-# Add stuff to make it look like the below :::::
+echo ""
+echo "# ------------------------------------------------------------------------------------------------------------------------"
+echo "# Update Apache2 virtualhost configs"
+echo ""
+echo ""
+echo "# Use a modified tls conf with all of the good stuff"
+set -x
+cd ~/Desktop
+url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/setup_support_files/000-default.conf"
+rm -f "000-default.conf"
+curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "000-default.conf" --fail # -L means "allow redirection" or some odd :|
+sed -iBAK "s;Pi4CC;${server_name};" "000-default.conf"
+diff -u "000-default.BAK" "000-default.conf"
+sudo mv -fv "000-default.conf" "/etc/apache2/sites-available/000-default.conf"
+set +x
+echo ""
+#
+echo ""
+echo "# Use a modified default conf with all of the good stuff"
+set -x
+cd ~/Desktop
+url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/setup_support_files/default-tls.conf"
+rm -f "default-tls.conf"
+curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "default-tls.conf" --fail # -L means "allow redirection" or some odd :|
+sed -iBAK "s;Pi4CC;${server_name};" "default-tls.conf"
+diff -u "default-tls.BAK" "default-tls.conf"
+sudo mv -fv "default-tls.conf" "/etc/apache2/sites-available/default-tls.conf"
+set +x
+echo ""
 
-<IfModule mod_gnutls.c> 
-   #
-   # from /etc/apache2/conf-available/security.conf
-   # ServerTokens
-   # This directive configures what you return as the Server HTTP response
-   # Header. The default is 'Full' which sends information about the OS-Type
-   # and compiled in modules.
-   # Set to one of:  Full | OS | Minimal | Minor | Major | Prod
-   # where Full conveys the most information, and Prod the least.
-   ServerTokens Full
-   #
-   # from /etc/apache2/conf-available/security.conf
-   # Optionally add a line containing the server version and virtual host
-   # name to server-generated pages (internal error documents, FTP directory
-   # listings, mod_status and mod_info output etc., but not CGI generated
-   # documents or custom error documents).
-   # Set to "EMail" to also include a mailto: link to the ServerAdmin.
-   # Set to one of:  On | Off | EMail
-   ServerSignature On
-   #
-<VirtualHost _default_:443>
-   ServerName Pi4CC
-   ServerAdmin noname@noname.com
-   DocumentRoot /var/www/
-   MaxRanges unlimited
-   MaxRangeOverlaps unlimited
-   MaxRangeReversals unlimited
-   Header set Accept-Ranges bytes
-   Header set Access-Control-Allow-Origin "*" 
-   Header set Access-Control-Allow-Headers "Allow-Origin, X-Requested-With, Content-Type, Accept" 
-   CheckSpelling On
-   CheckCaseOnly On
-   # /etc/apache2/conf-available/security.conf
-   # Disable access to the entire file system except for the directories that are explicitly allowed later.
-   # This currently breaks the configurations that come with some web application Debian packages.
-   #<Directory />
-   #   AllowOverride None
-   #   Require all denied
-   #</Directory>
-   <Directory />
-      Options +Includes +Indexes +FollowSymLinks +MultiViews
-      AddEncoding gzip gz
-      AllowOverride None
-      Require all denied
-      MaxRanges unlimited
-      MaxRangeOverlaps unlimited
-      MaxRangeReversals unlimited
-      Header set Accept-Ranges bytes
-      Header set Access-Control-Allow-Origin "*" 
-      Header set Access-Control-Allow-Headers "Allow-Origin, X-Requested-With, Content-Type, Accept" 
-   </Directory>
-   <Directory /var/www/>
-      Options +Includes +Indexes +FollowSymLinks +MultiViews
-      AllowOverride None
-      Require all granted
-      MaxRanges unlimited
-      MaxRangeOverlaps unlimited
-      MaxRangeReversals unlimited
-      Header set Accept-Ranges bytes
-      Header set Access-Control-Allow-Origin "*" 
-      Header set Access-Control-Allow-Headers "Allow-Origin, X-Requested-With, Content-Type, Accept" 
-   </Directory>
-   Alias /mp4library /mnt/mp4library/mp4library
-   <Directory /mnt/mp4library/mp4library>
-      Options +Includes +Indexes +FollowSymLinks +MultiViews
-      AllowOverride None
-      Require all granted
-      #<ifModule mod_headers.c>
-      MaxRanges unlimited
-      MaxRangeOverlaps unlimited
-      MaxRangeReversals unlimited
-      Header set Accept-Ranges bytes
-      Header set Access-Control-Allow-Origin "*" 
-      Header set Access-Control-Allow-Headers "Allow-Origin, X-Requested-With, Content-Type, Accept" 
-      #</ifModule>
-      #AuthType Basic
-      #AuthName "Password Required"
-      #AuthUserFile /usr/local/etc/apache_passwd
-      #Require user johndoe
-   </Directory>
-   ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
-   <Directory "/usr/lib/cgi-bin">
-      AllowOverride None
-      Options +Includes +ExecCGI -MultiViews +SymLinksIfOwnerMatch
-      #Order allow,deny
-      #Allow from all
-	  Require all granted
-   </Directory>
-   #
-   # Possible values include: debug, info, notice, warn, error, crit, alert, emerg.
-   LogLevel warn
-   ErrorLog ${APACHE_LOG_DIR}/error.log
-   CustomLog ${APACHE_LOG_DIR}/tls_access.log combined
-   #
-   # GnuTLS Switch: Enable/Disable SSL/TLS for this virtual host.
-   # Use the certificate and key files we created earlier
-   GnuTLSEnable On
-   GnuTLSCertificateFile /etc/tls/localcerts/Pi4CC.pem
-   GnuTLSKeyFile         /etc/tls/localcerts/Pi4CC.key
-   # A self-signed (snakeoil) certificate can instead be created by installing the ssl-cert package. 
-   # See /usr/share/doc/apache2.2-common/README.Debian.gz for more info.
-   #GnuTLSCertificateFile   /etc/ssl/certs/ssl-cert-snakeoil.pem
-   #GnuTLSKeyFile /etc/ssl/private/ssl-cert-snakeoil.key
-   #   See http://www.outoforder.cc/projects/apache/mod_gnutls/docs/#GnuTLSPriorities
-   #
-   GnuTLSPriorities NORMAL 
-</VirtualHost> 
-</IfModule>
-#control O
-#control X
+echo ""
+set -x
+cd ~/Desktop
+url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/setup_support_files/example.php"
+rm -f "example.php"
+curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "example.php" --fail # -L means "allow redirection" or some odd :|
+sed -iBAK "s;Pi4CC;${server_name};" "example.php"
+diff -u "example.BAK" "example.php"
+sudo mv -fv "example.php" "/var/www/example.php"
+set +x
+echo ""
 
+echo ""
+set -x
+cd ~/Desktop
+url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/setup_support_files/phpinfo.php"
+rm -f "phpinfo.php"
+curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "phpinfo.php" --fail # -L means "allow redirection" or some odd :|
+sed -iBAK "s;Pi4CC;${server_name};" "phpinfo.php"
+diff -u "phpinfo.BAK" "phpinfo.php"
+sudo mv -fv "phpinfo.php" "/var/www/phpinfo.php"
+set +x
+echo ""
 
-# Edit the 000-default conf and insert all of the good stuff
-sudo nano /etc/apache2/sites-enabled/000-default.conf
-# and add stuff to make it look like the below :::::
+#echo ""
+#read -p "Press Enter to continue, if those downloads/moves worked"
+#echo ""
 
-   #
-   # from /etc/apache2/conf-available/security.conf
-   # ServerTokens
-   # This directive configures what you return as the Server HTTP response
-   # Header. The default is 'Full' which sends information about the OS-Type
-   # and compiled in modules.
-   # Set to one of:  Full | OS | Minimal | Minor | Major | Prod
-   # where Full conveys the most information, and Prod the least.
-   ServerTokens Full
-   #
-   # from /etc/apache2/conf-available/security.conf
-   # Optionally add a line containing the server version and virtual host
-   # name to server-generated pages (internal error documents, FTP directory
-   # listings, mod_status and mod_info output etc., but not CGI generated
-   # documents or custom error documents).
-   # Set to "EMail" to also include a mailto: link to the ServerAdmin.
-   # Set to one of:  On | Off | EMail
-   ServerSignature On
-   #
-<VirtualHost _default_:80>
-   ServerName Pi4CC
-   ServerAdmin noname@noname.com
-   DocumentRoot /var/www/
-   MaxRanges unlimited
-   MaxRangeOverlaps unlimited
-   MaxRangeReversals unlimited
-   Header set Accept-Ranges bytes
-   Header set Access-Control-Allow-Origin "*" 
-   Header set Access-Control-Allow-Headers "Allow-Origin, X-Requested-With, Content-Type, Accept" 
-   CheckSpelling On
-   CheckCaseOnly On
-   # /etc/apache2/conf-available/security.conf
-   # Disable access to the entire file system except for the directories that are explicitly allowed later.
-   # This currently breaks the configurations that come with some web application Debian packages.
-   #<Directory />
-   #   AllowOverride None
-   #   Require all denied
-   #</Directory>
-   <Directory />
-      Options +Includes +Indexes +FollowSymLinks +MultiViews
-      AddEncoding gzip gz
-      AllowOverride None
-      Require all denied
-      MaxRanges unlimited
-      MaxRangeOverlaps unlimited
-      MaxRangeReversals unlimited
-      Header set Accept-Ranges bytes
-      Header set Access-Control-Allow-Origin "*" 
-      Header set Access-Control-Allow-Headers "Allow-Origin, X-Requested-With, Content-Type, Accept" 
-   </Directory>
-   <Directory /var/www/>
-      Options +Includes +Indexes +FollowSymLinks +MultiViews
-      AllowOverride None
-      Require all granted
-      MaxRanges unlimited
-      MaxRangeOverlaps unlimited
-      MaxRangeReversals unlimited
-      Header set Accept-Ranges bytes
-      Header set Access-Control-Allow-Origin "*" 
-      Header set Access-Control-Allow-Headers "Allow-Origin, X-Requested-With, Content-Type, Accept" 
-   </Directory>
-   Alias /mp4library /mnt/mp4library/mp4library
-   <Directory /mnt/mp4library/mp4library>
-      Options +Includes +Indexes +FollowSymLinks +MultiViews
-      AllowOverride None
-      Require all granted
-      #<ifModule mod_headers.c>
-      MaxRanges unlimited
-      MaxRangeOverlaps unlimited
-      MaxRangeReversals unlimited
-      Header set Accept-Ranges bytes
-      Header set Access-Control-Allow-Origin "*" 
-      Header set Access-Control-Allow-Headers "Allow-Origin, X-Requested-With, Content-Type, Accept" 
-      #</ifModule>
-      #AuthType Basic
-      #AuthName "Password Required"
-      #AuthUserFile /usr/local/etc/apache_passwd
-      #Require user johndoe
-   </Directory>
-   ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
-   <Directory "/usr/lib/cgi-bin">
-      AllowOverride None
-      Options +Includes +ExecCGI -MultiViews +SymLinksIfOwnerMatch
-      #Order allow,deny
-      #Allow from all
-	  Require all granted
-   </Directory>
-   #
-   # Possible values include: debug, info, notice, warn, error, crit, alert, emerg.
-   LogLevel warn
-   ErrorLog ${APACHE_LOG_DIR}/error.log
-   CustomLog ${APACHE_LOG_DIR}/tls_access.log combined
-</VirtualHost> 
-#control O
-#control X
-
-
-# add an apache user, "pi"
+echo ""
+echo "# add an apache user, 'pi', enter your-intended-password twice"
+set -x
 sudo htpasswd -c /usr/local/etc/apache_passwd pi
-# then enter your-intended-password twice
-
-# At this point the folder /var/www/ still contains an index file something like index.html
-# remove it so that we can do directory browsing from the root (it is handy)
+set +x
+echo ""
+echo "# At this point the folder /var/www/ still contains an index file something like index.html"
+echo "# remove it so that we can do directory browsing from the root (it is handy)"
+set -x
 sudo rm /var/www/Index.*
 sudo rm /var/www/index.*
-
-systemctl restart apache2
+set +x
+echo ""
+echo "Restart the Apache2 Service"
+set -x
+#systemctl restart apache2
 sudo service apache2 restart
+set +x
 
+echo ""
+echo "# See if there were any Apache2 errors"
+echo ""
+set -x
 journalctl -xe
+set +x
+echo ""
+set -x
 cat /var/log/apache2/error.log
+set +x
 
-sudo nano /var/www/example.php
-<?php echo "Today's date is ".date('Y-m-d H:i:s');
-phpinfo();
-?>
-#control O
-#control X
+echo ""
+read -p "Press Enter to continue, if that all worked"
+echo ""
 
-sudo nano /var/www/phpinfo.php
-# Put these lines in the file.
-<?php
-phpinfo();
-?>
-#control O
-#control X
 
-# Remotely:
-http://10.0.0.6/server-status
-http://10.0.0.6/server-info
-http://10.0.0.6/phpinfo.php
-http://10.0.0.6/example.php
+
+# Remotely connect to these to check things:
+#http://10.0.0.6/server-status
+#http://10.0.0.6/server-info
+#http://10.0.0.6/phpinfo.php
+#http://10.0.0.6/example.php
+
 
 # Locally:
+
+echo ""
+set -x
 curl --head 127.0.0.1
 curl -I 127.0.0.1
-# Check for accept-ranges bytes etc
-#Accept-Ranges: bytes
-#Access-Control-Allow-Origin: *
-#Access-Control-Allow-Headers: Allow-Origin, X-Requested-With, Content-Type, Accept
+set +x
+echo "# Check for accept-ranges bytes etc"
+echo "     Accept-Ranges: bytes"
+echo "     Access-Control-Allow-Origin: *"
+echo "     Access-Control-Allow-Headers: Allow-Origin, X-Requested-With, Content-Type, Accept"
+echo ""
+read -p "Press Enter to continue, if that all worked and those are OK."
+echo ""
+
+set -x
+curl 127.0.0.1/server-status
+set +x
+read -p "Press Enter to continue, if that worked."
+set -x
+curl 127.0.0.1/server-info
+set +x
+read -p "Press Enter to continue, if that worked."
+set -x
+curl 127.0.0.1/phpinfo.php
+set +x
+read -p "Press Enter to continue, if that worked."
+set -x
+curl 127.0.0.1/example.php
+set +x
+read -p "Press Enter to continue, if that worked."
+echo ""
 
 
-#curl 127.0.0.1/server-status
-#curl 127.0.0.1/server-info
-#curl 127.0.0.1/phpinfo.php
-#curl 127.0.0.1/example.php
-
-# ------------------------------------------------------------------------------------------------------------------------
-# INSTALL miniDLNA
-# ----------------
+echo ""
+echo "# ------------------------------------------------------------------------------------------------------------------------"
+echo "# INSTALL miniDLNA"
+echo "# ----------------"
 
 # not strictly necessary to install, however it makes the server more "rounded" and accessible
-
 # https://unixblogger.com/dlna-server-raspberry-pi-linux/
-
 # https://www.youtube.com/watch?v=Vry0NpFjn5w
-
 # https://www.deviceplus.com/how-tos/setting-up-raspberry-pi-as-a-home-media-server/
 
-sudo apt update -y 
-sudo apt upgrade -y
-sudo mkdir -p /mnt/mp4library/miniDLNA/log
-sudo chmod -R +777 /mnt/mp4library/miniDLNA
+echo ""
 
-# Remove your old miniDLNA version
+echo "# create a folderfor miniDLNA logs"
+set -x
+sudo mkdir -p /home/pi/Desktop/miniDLNA/log
+sudo chmod -R +777 /home/pi/Desktop/miniDLNA/log
+set +x
+echo ""
+
+echo "# Remove the old miniDLNA, if any"
+set -x
 sudo apt purge minidlna -y
 sudo apt remove minidlna -y
 sudo apt autoremove -y
+set +x
+echo ""
 
-# Do the install
+echo "# Do the miniDLNA install"
+set -x
 sudo apt install -y minidlna
+set +x
 
-# Change config settings to look like these
-sudo nano /etc/minidlna.conf
-#user=minidlna
-user=pi
-#...
-# Path to the directory you want scanned for media files.
-# This option can be specified more than once if you want multiple directories
-# scanned.
-# If you want to restrict a media_dir to a specific content type, you can
-# prepend the directory name with a letter representing the type (A, P or V),
-# followed by a comma, as so:
-# * "A" for audio (eg. media_dir=A,/var/lib/minidlna/music)
-# * "P" for pictures (eg. media_dir=P,/var/lib/minidlna/pictures)
-# * "V" for video (eg. media_dir=V,/var/lib/minidlna/videos)
-# * "PV" for pictures and video (eg. media_dir=PV,[...]
-media_dir=PV,/mnt/mp4library/mp4library
-db_dir=/mnt/mp4library/miniDLNA
-log_dir=/mnt/mp4library/miniDLNA/log
-friendly_name=Pi4CC-miniDLNA
-inotify=yes
-strict_dlna=no
-enable_tivo=no
-notify_interval=300
-max_connections=4
-log_level=artwork,database,general,http,inotify,metadata,scanner,ssdp,tivo=info
-#control O
-#control X
-
+echo ""
+echo "# Change miniDLNA config settings to look like these"
+echo ""
+set -x
+sudo cp -fv "/etc/minidlna.conf" "/etc/minidlna.conf.old"
+sudo sed -i 's;#user=minidlna;#user=minidlna\nuser=pi;' "/etc/minidlna.conf"
+sudo sed -i 's;media_dir=/var/lib/minidlna;#media_dir=/var/lib/minidlna\nmedia_dir=PV,/mnt/mp4library/mp4library;' "/etc/minidlna.conf"
+sudo sed -i 's;#db_dir=/var/cache/minidlna;#db_dir=/var/cache/minidlna\ndb_dir=/home/pi/Desktop/miniDLNA;' "/etc/minidlna.conf"
+sudo sed -i 's;#log_dir=/var/log;#log_dir=/var/log\nlog_dir=/home/pi/Desktop/miniDLNA/log;' "/etc/minidlna.conf"
+sudo sed -i 's;#friendly_name=;#friendly_name=\nfriendly_name=${server_name}-miniDLNA;' "/etc/minidlna.conf"
+sudo sed -i 's;#inotify=yes;#inotify=yes\ninotify=yes;' "/etc/minidlna.conf"
+sudo sed -i 's;#strict_dlna=no;#strict_dlna=no\nstrict_dlna=yes;' "/etc/minidlna.conf"
+sudo sed -i 's;#notify_interval=895;#notify_interval=895\nnotify_interval=300;' "/etc/minidlna.conf"
+sudo sed -i 's;#max_connections=50;#max_connections=50\nmax_connections=4;' "/etc/minidlna.conf"
+sudo sed -i 's;#log_level=general,artwork,database,inotify,scanner,metadata,http,ssdp,tivo=warn;#log_level=general,artwork,database,inotify,scanner,metadata,http,ssdp,tivo=warn\nlog_level=artwork,database,general,http,inotify,metadata,scanner,ssdp,tivo=info;' "/etc/minidlna.conf"
+diff -u "/etc/minidlna.conf.old" "/etc/minidlna.conf"
 sudo service minidlna restart
+set +x
+echo ""
+read -p "Press Enter to continue, if the seds and service restart worked."
+echo ""
+
+
+
+
+
+
 # after re-start, looks for media
 
 # force a re-scan at 4:00 am every night
@@ -729,7 +603,7 @@ sudo nano /etc/samba/smb.conf
 
 # ADD THESE
 [Pi]
-comment=Pi4CC pi home
+comment=${server_name} pi home
 #force group = users
 #guest only = Yes
 guest ok = Yes
@@ -747,7 +621,7 @@ force directory mode = 1777
 inherit permissions = yes
 
 [mp4library]
-comment=Pi4CC mp4library
+comment=${server_name} mp4library
 #force group = users
 #guest only = Yes
 guest ok = Yes
@@ -765,7 +639,7 @@ force directory mode = 1777
 inherit permissions = yes
 
 [www]
-comment=Pi4CC www home
+comment=${server_name} www home
 #force group = users
 #guest only = Yes
 guest ok = Yes
@@ -824,7 +698,7 @@ sudo pdbedit -L -v
 
 # ------------------------------------------------------------------------------------------------------------------------
 
-# Setup the Pi4CC website for chromecasting
+# Setup the ${server_name} website for chromecasting
 #
 # setup ready for the pything script
 sudo apt install -y mediainfo
@@ -833,18 +707,18 @@ pip3 install pymediainfo
 # which contains a web page for local LAN access and control of casting, if not using a 3rd party app
 # as well as the python3 app to regenerate 
 
-# create the Pi4CC folder inside Apache2 folder
-sudo mkdir /var/www/Pi4CC
-sudo chown -R -f pi:www-data /var/www/Pi4CC
-sudo chmod +777 -R /var/www/Pi4CC
+# create the ${server_name} folder inside Apache2 folder
+sudo mkdir /var/www/${server_name}
+sudo chown -R -f pi:www-data /var/www/${server_name}
+sudo chmod +777 -R /var/www/${server_name}
 
-# Copy the Pi4CC folder/file tree from github into this folder 
-#   /var/www/Pi4CC
+# Copy the ${server_name} folder/file tree from github into this folder 
+#   /var/www/${server_name}
 # (samba can be handy for that)
 
-# RE-CREATE the essential JSON file used by the Pi4CC website
+# RE-CREATE the essential JSON file used by the ${server_name} website
 # Invoke this script manually from the commandline like
-python3 /var/www/Pi4CC/2019.12.10-create-json.py --source_folder /mnt/mp4library/mp4library --filename-extension mp4 --json_file /var/www/Pi4CC/media.js > /var/www/Pi4CC/create-json.log 2>&1
+python3 /var/www/${server_name}/2019.12.10-create-json.py --source_folder /mnt/mp4library/mp4library --filename-extension mp4 --json_file /var/www/${server_name}/media.js > /var/www/${server_name}/create-json.log 2>&1
 
 #Run crontab with the -e flag to edit the cron table:
 #crontab -e
@@ -870,26 +744,26 @@ python3 /var/www/Pi4CC/2019.12.10-create-json.py --source_folder /mnt/mp4library
 
 # Run crontab -e and add the lines after, under user pi so it reloads media.js every night
 crontab -e
-@reboot python3 /var/www/Pi4CC/2019.12.10-create-json.py --source_folder /mnt/mp4library/mp4library ---filename-extension mp4 --json_file /var/www/Pi4CC/media.js > /var/www/Pi4CC/create-json.log 2>&1 &
-0 4 * * * python3 /var/www/Pi4CC/2019.12.10-create-json.py --source_folder /mnt/mp4library/mp4library ---filename-extension mp4 --json_file /var/www/Pi4CC/media.js > /var/www/Pi4CC/create-json.log 2>&1
+@reboot python3 /var/www/${server_name}/2019.12.10-create-json.py --source_folder /mnt/mp4library/mp4library ---filename-extension mp4 --json_file /var/www/${server_name}/media.js > /var/www/${server_name}/create-json.log 2>&1 &
+0 4 * * * python3 /var/www/${server_name}/2019.12.10-create-json.py --source_folder /mnt/mp4library/mp4library ---filename-extension mp4 --json_file /var/www/${server_name}/media.js > /var/www/${server_name}/create-json.log 2>&1
 
 #View your currently saved scheduled tasks with:
 crontab -l
 
 # Visit the web page from a different PC to see if it all works:
-https://10.0.0.6/Pi4CC
+https://10.0.0.6/${server_name}
 # You may need to accept that the self-signed security certificate is "insecure" (cough, it is, it's solely inside your LAN)
 # and allow it (proceed to "unsafe" website anyway)
 # If you like, in Chrome browser, "hamburger" -> More Tools -> Developer Tools an watch the instrumentation log fly along (don't).
 
 
-# How to use the website site https://10.0.0.6/Pi4CC
+# How to use the website site https://10.0.0.6/${server_name}
 # --------------------------------------------------
 # Notes:
 # 1. https: is "required" to cast videos to chromecast devices
 # 2. All of the javascript runs on the client-side (i.e in the user browser)
 # 3. The web page uses native HTML5 "<details> for drop-down lists
-# 4. On a tablet or PC, open web page https://10.0.0.6/Pi4CC IN A CHROME BROWSER ONLY
+# 4. On a tablet or PC, open web page https://10.0.0.6/${server_name} IN A CHROME BROWSER ONLY
 # 5. Click on a folder to see it drop down and display its list of .mp4 files
 # 6. Click on a .mp4 file to load it into the browser
 # 7. Check its the one you want, pause it, cast it to a chromecast device
