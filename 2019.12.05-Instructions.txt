@@ -109,7 +109,7 @@
 # Enable SSH 
 # Enable VNC
 # Set the video RAM to 384Mb
-$ Disable IPv6
+# Disable IPv6
 # Remember to ALWAYS set the Pi to boot to GUI, EVEN IF later running it headless (see later).
 # Yes against most security recommendations, also check and set the Pi to auto-login.
 
@@ -151,7 +151,7 @@ net.ipv6.conf.all.disable_ipv6 = 1
 # add 15 seconds for the USB3 drive to spin up.  Add the line at the top.
 # https://www.raspberrypi.org/documentation/configuration/config-txt/boot.md
 sudo nano /boot/config.txt
-boot_delay=10
+boot_delay=15
 #control O
 #control X
 
