@@ -192,13 +192,16 @@ echo "# ------------------------------------------------------------------------
 echo ""
 echo "# Attempt to generate and install a self-signed SSL/TLS certificate"
 echo "# -----------------------------------------------------------------"
-
-# :(   Since Chromecasts complain if the serving web page isn't done via https:
-
-# FIND fqdn FOR USE IN CREATING THE SELF SIGNED CERTIFICATE FOR APACHE
+echo ""
+echo "# :(   Do this since Chromecasts complain if the serving web page isn't done via https:"
+echo ""
+echo "# FIND fqdn FOR USE IN CREATING THE SELF SIGNED CERTIFICATE FOR APACHE"
+echo ""
+set -x
 hostname
 hostname --fqdn
 hostname --all-ip-addresses
+set +x
 
 # ++++++++++ BELOW worked however is likely not ideal ++++++++++
 # ++++++++++ BELOW worked however is likely not ideal ++++++++++
@@ -210,22 +213,41 @@ hostname --all-ip-addresses
 # https://stackoverflow.com/questions/21141215/creating-a-p12-file
 # https://samhobbs.co.uk/2014/04/ssl-certificate-signing-cacert-raspberry-pi-ubuntu-debian
 
-# Create the self-signed Certificate Files for use with TLS
+echo ""
+echo "# Create the self-signed Certificate Files for use with TLS"
+set -x
 sudo mkdir -p /etc/tls/localcerts
+set +x
 
-# find local hostname eg Pi4CC
+echo ""
+echo "# find local hostname eg Pi4CC"
+set -x
 hostname
 hostname --fqdn
 hostname --all-ip-addresses
+set +x
 
-# Create the Certificate and Key (12650 = 50 years)
-# REMEMBER any passwords !!! Write them down.
+echo ""
+echo "# ASSUME THE HOSTNAME IS Pi4CC "
+echo "#    IF NOT, exit this script and change it !!!!!"
+echo "# Now Create the Certificate and Key (12650 = 50 years)"
+echo "# REMEMBER any passwords !!!     Write them down !!!!"
+set -x
 sudo openssl req -x509 -nodes -days 12650 -newkey rsa:2048 -out /etc/tls/localcerts/Pi4CC.pem -keyout /etc/tls/localcerts/Pi4CC.key
+set +x
+echo ""
+read -p "Press Enter to continue"
+echo ""
 
-# Strip Out Passphrase from the Key
+echo "# Strip Out Passphrase from the Key"
+set -x
 cp /etc/tls/localcerts/Pi4CC.key /etc/tls/localcerts/Pi4CC.key.orig
 openssl rsa -in /etc/tls/localcerts/Pi4CC.key.orig -out /etc/tls/localcerts/Pi4CC.key
 sudo chmod 600 /etc/tls/localcerts/*
+set +x
+echo ""
+read -p "Press Enter to continue"
+echo ""
 
 #Enter pass phrase for Pi4CC.key: Certificates
 #You are about to be asked to enter information that will be incorporated
@@ -248,16 +270,28 @@ sudo chmod 600 /etc/tls/localcerts/*
 #A challenge password []:
 #An optional company name []:
 
-# in /etc/tls/localcerts we should now have
-Pi4CC.key.orig  cert key with embedded Passphrase
-Pi4CC.key       cert key
-Pi4CC.pem       final certificate
+echo ""
+echo "# In /etc/tls/localcerts we should now have"
+echo "# Pi4CC.key.orig  cert key with embedded Passphrase"
+echo "# Pi4CC.key       cert key"
+echo "# Pi4CC.pem       final certificate"
+echo ""
+set -x
+ls -al "/etc/tls/localcerts/"
+set +x
+echo ""
+read -p "Press Enter to continue, if that worked"
+echo ""
 
-# Create the PKCS12 Certificate
-# If we need a pk12 cert (eg for EMBY software) it requires a pkcs12 certificate to be generated, 
-#
-#Convert PEM & Private Key to PFX/P12:
+echo "# Create the PKCS12 Certificate"
+echo "# If we need a pk12 cert (eg for EMBY software) it requires a pkcs12 certificate to be generated, "
+echo "#"
+echo "#Convert PEM & Private Key to PFX/P12:"
+set -x
 sudo openssl pkcs12 -export -out /etc/tls/localcerts/Pi4CC.pfx -inkey /etc/tls/localcerts/Pi4CC.key.orig -in /etc/tls/localcerts/Pi4CC.pem 
+set +x
+echo ""
+
 # optional also  -certfile more.crt : This is optional, this is if you have any additional certificates you would like to include in the PFX file.
 #You should be prompted in this order:
 #   Loading 'screen' into random state - done
@@ -266,11 +300,13 @@ sudo openssl pkcs12 -export -out /etc/tls/localcerts/Pi4CC.pfx -inkey /etc/tls/l
 #   Verifying - Enter Export Password: (Confirm the password)
 #   unable to write 'random state' (If this this error appears, please ignore)
 
+set -x
 sudo chmod 777 /etc/tls/localcerts/*
+set +x
 
-# ++++++++++ ABOVE worked however is likely not ideal ++++++++++
-# ++++++++++ ABOVE worked however is likely not ideal ++++++++++
-# ++++++++++ ABOVE worked however is likely not ideal ++++++++++
+echo ""
+read -p "Press Enter to continue, if that worked"
+echo ""
 
 #------------------------------------------------------------------------------------------------------------------------------
 
