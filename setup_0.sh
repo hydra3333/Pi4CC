@@ -7,6 +7,8 @@
 set -x
 cd ~/Desktop
 server_name=Pi4cc
+server_root=/mnt/mp4library
+server_root_folder=/mnt/mp4library/mp4library
 set +x
 
 sudo apt update -y
@@ -61,8 +63,8 @@ echo "# add 15 seconds for the USB3 drive to spin up.  Add the line at the top."
 echo "# https://www.raspberrypi.org/documentation/configuration/config-txt/boot.md"
 read -p "Press Enter to add a line 'boot_delay=15' at the top of '/boot/config.txt'"
 echo ""
-#sudo sed -i "1 i boot_delay=15" "/boot/config.txt"
 set -x
+#sudo sed -i "1 i boot_delay=15" "/boot/config.txt" # doesn't work if the file has no line 1
 sudo cp -fv "/boot/config.txt" "/boot/config.txt.old"
 rm -f ./tmp.tmp
 echo "boot_delay=15" > ./tmp.tmp
@@ -129,12 +131,12 @@ echo ""
 echo "# Create a mount point for the USB3 drive, which we'll use in a minute."
 echo "# In this case I want to call it mp4library."
 set -x
-sudo mkdir /mnt/mp4library
+sudo mkdir -p ${server_root}
 set +x
 
 echo "# Set protections so we can so ANYTHING with it (we are inside our own home LAN)"
 set -x
-sudo chmod +777 /mnt/mp4library
+sudo chmod +777 ${${server_root}}
 set +x
 
 echo "# Fix permissions to allow user pi so that it has no trouble"
@@ -179,11 +181,11 @@ echo ""
 echo "# ADD this line at the end of the file like this"
 echo "# using the correct newly-discovered UUID"
 echo "# exclude the '#' to make it active"
-echo "#UUID=F8ACDEBBACDE741A /mnt/mp4library ntfs defaults,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,x-systemd.device-timeout=120 0 2"
+echo "#UUID=F8ACDEBBACDE741A ${server_root} ntfs defaults,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,x-systemd.device-timeout=120 0 2"
 echo ""
 set -x
 sudo cp -fv "/etc/fstab" "/etc/fstab.old"
-sudo sed -i "$ a #UUID=F8ACDEBBACDE741A /mnt/mp4library ntfs defaults,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,x-systemd.device-timeout=120 0 2" "/etc/fstab"
+sudo sed -i "$ a #UUID=F8ACDEBBACDE741A ${server_root} ntfs defaults,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,x-systemd.device-timeout=120 0 2" "/etc/fstab"
 set +x
 echo ""
 
