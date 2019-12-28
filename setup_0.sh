@@ -57,12 +57,15 @@ read -p "Press Enter to add a line 'boot_delay=15' at the top of '/boot/config.t
 echo ""
 #sudo sed -i "1 i boot_delay=15" "/boot/config.txt"
 set -x
+sudo cp -fv "/boot/config.txt" "/boot/config.txt.old"
 rm -f ./tmp.tmp
 echo "boot_delay=15" > ./tmp.tmp
 sudo cat /boot/config.txt >> ./tmp.tmp
 sudo cp -fv ./tmp.tmp /boot/config.txt
 rm -f ./tmp.tmp
-cat /boot/config.txt
+#cat /boot/config.txt
+diff "/boot/config.txt.old" "/boot/config.txt"
+
 set +x
 
 echo ""
@@ -164,12 +167,8 @@ echo "# exclude the '#' to make it active"
 echo "#UUID=F8ACDEBBACDE741A /mnt/mp4library ntfs defaults,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,x-systemd.device-timeout=120 0 2"
 echo ""
 set -x
+sudo cp -fv "/etc/fstab" "/etc/fstab.old"
 sudo sed -i "$ a #UUID=F8ACDEBBACDE741A /mnt/mp4library ntfs defaults,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,x-systemd.device-timeout=120 0 2" "/etc/fstab"
-set +x
-echo ""
-
-set -x
-cat "/etc/fstab"
 set +x
 echo ""
 
@@ -180,7 +179,8 @@ sudo nano /etc/fstab
 set +x
 
 set -x
-cat "/etc/fstab"
+#cat "/etc/fstab"
+diff "/etc/fstab.old" "/etc/fstab" 
 set +x
 
 echo ""
