@@ -29,6 +29,31 @@ echo "#https://pimylifeup.com/raspberry-pi-apache/"
 echo ""
 
 set -x
+# REMOVE PHP BEFORE INSTALL
+sudo apt purge -y php7.3 php7.3-common php7.3-cli php7.3-intl php7.3-curl php7.3-xsl php7.3-gd 
+sudo apt purge -y php7.3-recode php7.3-tidy php7.3-json php7.3-mbstring php7.3-dev php7.3-bz2 php7.3-zip php-pear 
+sudo apt purge -y libmcrypt-dev
+sudo apt purge -y libapache2-mod-php
+sudo apt autoremove -y
+# REMOVE APACHE2 BEFORE INSTALL
+sudo apt purge -y apache2 
+sudo apt purge -y apache2-bin
+sudo apt purge -y apache2-data
+sudo apt purge -y apache2-utils
+sudo apt purge -y apache2-doc
+sudo apt purge -y apache2-suexec-pristine
+sudo apt purge -y apache2-ssl-dev
+sudo apt purge -y libxml2 libxml2-dev libxml2-utils
+sudo apt purge -y libaprutil1 libaprutil1-dev
+sudo apt autoremove -y
+# REMOVE CONFIG FILES
+sudo rm -fv "/etc/php/7.3/apache2/php.ini"
+sudo rm -fv "/etc/apache2/apache2.conf"
+sudo rm -fv "/etc/apache2/mods-available/status.conf"
+sudo rm -fv "/etc/apache2/mods-available/info.conf"
+sudo rm -fv "/etc/apache2/sites-available/000-default.conf"
+sudo rm -fv "/etc/apache2/sites-available/default-tls.conf"
+# INSTALL APACHE2
 sudo apt install -y apache2 
 sudo apt install -y apache2-bin
 sudo apt install -y apache2-data
@@ -43,6 +68,7 @@ sudo a2enmod socache_dbm
 sudo apt install -y libapache2-mod-gnutls 
 sudo apt install -y libapache2-mod-security2
 # Note: the version lile 7.3 will change as time passes !!!!!!!
+# INSTALL PHP
 sudo apt install -y php7.3 php7.3-common php7.3-cli php7.3-intl php7.3-curl php7.3-xsl php7.3-gd 
 sudo apt install -y php7.3-recode php7.3-tidy php7.3-json php7.3-mbstring php7.3-dev php7.3-bz2 php7.3-zip php-pear 
 sudo apt install -y libmcrypt-dev
@@ -61,7 +87,7 @@ sudo sed -i 's;display_errors = Off;display_errors = On;g'                  "/et
 sudo sed -i 's;display_startup_errors = Off;display_startup_errors = On;g'  "/etc/php/7.3/apache2/php.ini"
 sudo sed -i 's;log_errors_max_len = 1024;log_errors_max_len = 8192;g'       "/etc/php/7.3/apache2/php.ini"
 sudo sed -i 's;default_socket_timeout = 60;default_socket_timeout = 300;g'  "/etc/php/7.3/apache2/php.ini"
-diff -u "/etc/php/7.3/apache2/php.ini.old" "/etc/php/7.3/apache2/php.ini"
+diff -U 1 "/etc/php/7.3/apache2/php.ini.old" "/etc/php/7.3/apache2/php.ini"
 php -version
 set +x
 
@@ -70,6 +96,10 @@ read -p "Press Enter to continue, if it there were 6 changes correctly"
 
 echo "#Install python3"
 set -x
+sudo apt purge -y python3 idle
+sudo apt purge -y libapache2-mod-python
+sudo apt autoremove -y
+#
 sudo apt install -y python3 idle
 sudo apt install -y libapache2-mod-python
 set +x
@@ -79,7 +109,6 @@ echo "# ok, finished Apache2/Python3/PSH APT installs"
 
 echo "# Setup some handy protections"
 set -x
-sudo apt autoremove -y
 sudo groupadd -f www-data
 sudo usermod -a -G www-data root
 sudo usermod -a -G www-data pi
@@ -153,7 +182,7 @@ sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g"  "/etc/apache2/apa
 sed -i "s;/mp4library;/${server_alias};g"  "/etc/apache2/apache2.conf"
 sed -i "s;mp4library;${server_alias};g"  "/etc/apache2/apache2.conf"
 #
-diff -u "/etc/apache2/apache2.conf.old" "/etc/apache2/apache2.conf"
+diff -U 1 "/etc/apache2/apache2.conf.old" "/etc/apache2/apache2.conf"
 set +x
 
 echo ""
@@ -169,7 +198,7 @@ echo ""
 set -x
 sudo cp -fv "/etc/apache2/mods-available/status.conf" "/etc/apache2/mods-available/status.conf.old"
 sed -i 's;#Require IP 192.0.2.0/24;#Require IP 192.0.2.0/24\nRequire IP 127.0.0.1\n#Require IP 192.168.108.133/24\nRequire IP 10.0.0.1/24;g' "/etc/apache2/mods-available/status.conf"
-diff -u "/etc/apache2/mods-available/status.conf.old" "/etc/apache2/mods-available/status.conf"
+diff -U 1 "/etc/apache2/mods-available/status.conf.old" "/etc/apache2/mods-available/status.conf"
 set +x
 echo ""
 read -p "Press Enter to continue, if the status.conf sed worked correctly"
@@ -178,7 +207,7 @@ echo ""
 set -x
 sudo cp -fv "/etc/apache2/mods-available/info.conf" "/etc/apache2/mods-available/info.conf.old"
 sed -i 's;#Require IP 192.0.2.0/24;#Require IP 192.0.2.0/24\nRequire IP 127.0.0.1\n#Require IP 192.168.108.133/24\nRequire IP 10.0.0.1/24;g' "/etc/apache2/mods-available/info.conf"
-diff -u "/etc/apache2/mods-available/info.old" "/etc/apache2/mods-available/info."
+diff -U 1 "/etc/apache2/mods-available/info.old" "/etc/apache2/mods-available/info."
 set +x
 echo ""
 read -p "Press Enter to continue, if the info.conf sed worked correctly"
@@ -341,7 +370,7 @@ sed -i "s;Pi4CC;${server_name};g" "000-default.conf"
 sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g" "000-default.conf"
 sed -i "s;/mp4library;/${server_alias};g" "000-default.conf"
 sed -i "s;mp4library;${server_alias};g" "000-default.conf"
-diff -u "000-default.conf.old" "000-default.conf"
+diff -U 1 "000-default.conf.old" "000-default.conf"
 sudo mv -fv "000-default.conf" "/etc/apache2/sites-available/000-default.conf"
 set +x
 echo ""
@@ -359,7 +388,7 @@ sed -i "s;Pi4CC;${server_name};g" "default-tls.conf"
 sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g" "default-tls.conf"
 sed -i "s;/mp4library;/${server_alias};g" "default-tls.conf"
 sed -i "s;mp4library;${server_alias};g" "default-tls.conf"
-diff -u "default-tls.conf.old" "default-tls.conf"
+diff -U 1 "default-tls.conf.old" "default-tls.conf"
 sudo mv -fv "default-tls.conf" "/etc/apache2/sites-available/default-tls.conf"
 set +x
 echo ""
@@ -371,7 +400,7 @@ url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/setup_support_file
 rm -f "example.php"
 curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "example.php" --fail # -L means "allow redirection" or some odd :|
 sed -iBAK "s;Pi4CC;${server_name};g" "example.php"
-diff -u "example.BAK" "example.php"
+diff -U 1 "example.BAK" "example.php"
 sudo mv -fv "example.php" "/var/www/example.php"
 set +x
 echo ""
@@ -383,7 +412,7 @@ url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/setup_support_file
 rm -f "phpinfo.php"
 curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "phpinfo.php" --fail # -L means "allow redirection" or some odd :|
 sed -iBAK "s;Pi4CC;${server_name};g" "phpinfo.php"
-diff -u "phpinfo.BAK" "phpinfo.php"
+diff -U 1 "phpinfo.BAK" "phpinfo.php"
 sudo mv -fv "phpinfo.php" "/var/www/phpinfo.php"
 set +x
 echo ""
@@ -491,8 +520,8 @@ echo ""
 echo "# Remove the old miniDLNA, if any"
 set -x
 sudo apt purge minidlna -y
-sudo apt remove minidlna -y
 sudo apt autoremove -y
+sudo rm -vf "/etc/minidlna.conf"
 set +x
 echo ""
 
@@ -516,7 +545,7 @@ sudo sed -i 's;#strict_dlna=no;#strict_dlna=no\nstrict_dlna=yes;g' "/etc/minidln
 sudo sed -i 's;#notify_interval=895;#notify_interval=895\nnotify_interval=300;g' "/etc/minidlna.conf"
 sudo sed -i 's;#max_connections=50;#max_connections=50\nmax_connections=4;g' "/etc/minidlna.conf"
 sudo sed -i 's;#log_level=general,artwork,database,inotify,scanner,metadata,http,ssdp,tivo=warn;#log_level=general,artwork,database,inotify,scanner,metadata,http,ssdp,tivo=warn\nlog_level=artwork,database,general,http,inotify,metadata,scanner,ssdp,tivo=info;g' "/etc/minidlna.conf"
-diff -u "/etc/minidlna.conf.old" "/etc/minidlna.conf"
+diff -U 1 "/etc/minidlna.conf.old" "/etc/minidlna.conf"
 sudo service minidlna restart
 set +x
 echo ""
@@ -577,7 +606,8 @@ http://10.0.0.6:8200
 
 sudo apt -y update
 sudo apt -y upgrade
-sudo apt -y install samba samba-common-bin
+sudo apt purge -y samba samba-common-bin
+sudo apt install -y samba samba-common-bin
 
 #Create a password
 #Before we start the server, you’ll want to set a Samba password. Enter:

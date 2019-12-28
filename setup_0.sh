@@ -103,12 +103,12 @@ echo ""
 
 echo "# install a remote-printing feature so we can print from the Pi via the Windows 10 PC (see below)"
 set -x
-sudo apt install cups -y
+sudo apt install -y cups
 set +x
 
 echo "# install https for distros although not strictly needed"
 set -x
-sudo apt install apt-transport-https -y
+sudo apt install -y apt-transport-https
 set +x
 
 echo "# install the tool to turn EOL in text files from windows to unix"
