@@ -7,11 +7,14 @@
 set -x
 cd ~/Desktop
 server_name=Pi4CC
+server_alias=mp4library
+server_root=/mnt/mp4library
+server_root_folder=/mnt/mp4library/mp4library
 set +x
 
 echo "# Set permissions so we can do ANYTHING with the USB3 drive."
 set -x
-sudo chmod +777 /mnt/mp4library
+sudo chmod +777 ${server_root}
 set +x
 
 echo "# Check the exterrnal USB3 drive mounted where we told it to by doing a df"
@@ -52,12 +55,12 @@ read -p "Press Enter to continue, if it installed correctly"
 echo "Make changes to /etc/php/7.3/apache2/php.ini"
 set -x
 sudo cp -fv "/etc/php/7.3/apache2/php.ini" "/etc/php/7.3/apache2/php.ini.old"
-sudo sed -i 's/max_execution_time = 30/max_execution_time = 300/'          "/etc/php/7.3/apache2/php.ini"
-sudo sed -i 's/max_input_time = 60/max_input_time = 300/'                  "/etc/php/7.3/apache2/php.ini"
-sudo sed -i 's/display_errors = Off/display_errors = On/'                  "/etc/php/7.3/apache2/php.ini"
-sudo sed -i 's/display_startup_errors = Off/display_startup_errors = On/'  "/etc/php/7.3/apache2/php.ini"
-sudo sed -i 's/log_errors_max_len = 1024/log_errors_max_len = 8192/'       "/etc/php/7.3/apache2/php.ini"
-sudo sed -i 's/default_socket_timeout = 60/default_socket_timeout = 300/'  "/etc/php/7.3/apache2/php.ini"
+sudo sed -i 's;max_execution_time = 30;max_execution_time = 300;g'          "/etc/php/7.3/apache2/php.ini"
+sudo sed -i 's;max_input_time = 60;max_input_time = 300;g'                  "/etc/php/7.3/apache2/php.ini"
+sudo sed -i 's;display_errors = Off;display_errors = On;g'                  "/etc/php/7.3/apache2/php.ini"
+sudo sed -i 's;display_startup_errors = Off;display_startup_errors = On;g'  "/etc/php/7.3/apache2/php.ini"
+sudo sed -i 's;log_errors_max_len = 1024;log_errors_max_len = 8192;g'       "/etc/php/7.3/apache2/php.ini"
+sudo sed -i 's;default_socket_timeout = 60;default_socket_timeout = 300;g'  "/etc/php/7.3/apache2/php.ini"
 diff -u "/etc/php/7.3/apache2/php.ini.old" "/etc/php/7.3/apache2/php.ini"
 php -version
 set +x
@@ -128,23 +131,28 @@ echo "## add this line to say the web server name is going to be ${server_name}"
 echo "ServerName ${server_name}"
 set -x
 sudo cp -fv "/etc/apache2/apache2.conf" "/etc/apache2/apache2.conf.old"
-sudo sed -i 's;#ServerRoot "/etc/apache2";ServerName ${server_name}\n#ServerRoot "/etc/apache2";'  "/etc/php/7.3/apache2/php.ini"
-sudo sed -i 's;Timeout 300;Timeout 10800;' "/etc/apache2/apache2.conf"
-sudo sed -i 's;MaxKeepAliveRequests 100;MaxKeepAliveRequests 0;' "/etc/apache2/apache2.conf"
-sudo sed -i 's;KeepAliveTimeout 5;KeepAliveTimeout 10800;' "/etc/apache2/apache2.conf"
+sudo sed -i 's;#ServerRoot "/etc/apache2";#ServerRoot "/etc/apache2"\nServerName ${server_name};g' "/etc/php/7.3/apache2/php.ini"
+sudo sed -i 's;Timeout 300;Timeout 10800;g' "/etc/apache2/apache2.conf"
+sudo sed -i 's;MaxKeepAliveRequests 100;MaxKeepAliveRequests 0;g' "/etc/apache2/apache2.conf"
+sudo sed -i 's;KeepAliveTimeout 5;KeepAliveTimeout 10800;g' "/etc/apache2/apache2.conf"
 # in reverse order
-sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nCheckCaseOnly On;' "/etc/apache2/apache2.conf"
-sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nCheckSpelling On;' "/etc/apache2/apache2.conf"
-sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nHeader set Accept-Ranges bytes;' "/etc/apache2/apache2.conf"
-sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nMaxRangeReversals unlimited;' "/etc/apache2/apache2.conf"
-sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nMaxRangeOverlaps unlimited;' "/etc/apache2/apache2.conf"
-sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nMaxRanges unlimited;' "/etc/apache2/apache2.conf"
+sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nCheckCaseOnly On;g' "/etc/apache2/apache2.conf"
+sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nCheckSpelling On;g' "/etc/apache2/apache2.conf"
+sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nHeader set Accept-Ranges bytes;g' "/etc/apache2/apache2.conf"
+sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nMaxRangeReversals unlimited;g' "/etc/apache2/apache2.conf"
+sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nMaxRangeOverlaps unlimited;g' "/etc/apache2/apache2.conf"
+sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nMaxRanges unlimited;g' "/etc/apache2/apache2.conf"
 # in reverse order
-sudo sed -i 's;Include ports.conf;Include ports.conf\nCheckCaseOnly On;' "/etc/apache2/apache2.conf"
-sudo sed -i 's;Include ports.conf;Include ports.conf\nCheckSpelling On;' "/etc/apache2/apache2.conf"
-sudo sed -i 's;Include ports.conf;Include ports.conf\nHeader set Access-Control-Allow-Headers "Allow-Origin, X-Requested-With, Content-Type, Accept";' "/etc/apache2/apache2.conf"
-sudo sed -i 's;Include ports.conf;Include ports.conf\nHeader set Access-Control-Allow-Origin "*";' "/etc/apache2/apache2.conf"
-sudo sed -i 's;Include ports.conf;Include ports.conf\nHeader set Accept-Ranges bytes;' "/etc/apache2/apache2.conf"
+sudo sed -i 's;Include ports.conf;Include ports.conf\nCheckCaseOnly On;g' "/etc/apache2/apache2.conf"
+sudo sed -i 's;Include ports.conf;Include ports.conf\nCheckSpelling On;g' "/etc/apache2/apache2.conf"
+sudo sed -i 's;Include ports.conf;Include ports.conf\nHeader set Access-Control-Allow-Headers "Allow-Origin, X-Requested-With, Content-Type, Accept";g' "/etc/apache2/apache2.conf"
+sudo sed -i 's;Include ports.conf;Include ports.conf\nHeader set Access-Control-Allow-Origin "*";g' "/etc/apache2/apache2.conf"
+sudo sed -i 's;Include ports.conf;Include ports.conf\nHeader set Accept-Ranges bytes;g' "/etc/apache2/apache2.conf"
+#
+sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g"  "/etc/apache2/apache2.conf"
+sed -i "s;/mp4library;/${server_alias};g"  "/etc/apache2/apache2.conf"
+sed -i "s;mp4library;${server_alias};g"  "/etc/apache2/apache2.conf"
+#
 diff -u "/etc/apache2/apache2.conf.old" "/etc/apache2/apache2.conf"
 set +x
 
@@ -160,7 +168,7 @@ echo "# which you will be using to access the web server,"
 echo ""
 set -x
 sudo cp -fv "/etc/apache2/mods-available/status.conf" "/etc/apache2/mods-available/status.conf.old"
-sed -i 's;#Require IP 192.0.2.0/24;#Require IP 192.0.2.0/24\nRequire IP 127.0.0.1\n#Require IP 192.168.108.133/24\nRequire IP 10.0.0.1/24;' "/etc/apache2/mods-available/status.conf"
+sed -i 's;#Require IP 192.0.2.0/24;#Require IP 192.0.2.0/24\nRequire IP 127.0.0.1\n#Require IP 192.168.108.133/24\nRequire IP 10.0.0.1/24;g' "/etc/apache2/mods-available/status.conf"
 diff -u "/etc/apache2/mods-available/status.conf.old" "/etc/apache2/mods-available/status.conf"
 set +x
 echo ""
@@ -169,7 +177,7 @@ echo ""
 
 set -x
 sudo cp -fv "/etc/apache2/mods-available/info.conf" "/etc/apache2/mods-available/info.conf.old"
-sed -i 's;#Require IP 192.0.2.0/24;#Require IP 192.0.2.0/24\nRequire IP 127.0.0.1\n#Require IP 192.168.108.133/24\nRequire IP 10.0.0.1/24;' "/etc/apache2/mods-available/info.conf"
+sed -i 's;#Require IP 192.0.2.0/24;#Require IP 192.0.2.0/24\nRequire IP 127.0.0.1\n#Require IP 192.168.108.133/24\nRequire IP 10.0.0.1/24;g' "/etc/apache2/mods-available/info.conf"
 diff -u "/etc/apache2/mods-available/info.old" "/etc/apache2/mods-available/info."
 set +x
 echo ""
@@ -326,9 +334,14 @@ set -x
 cd ~/Desktop
 url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/setup_support_files/000-default.conf"
 rm -f "000-default.conf"
+rm -f "000-default.conf.old"
 curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "000-default.conf" --fail # -L means "allow redirection" or some odd :|
-sed -iBAK "s;Pi4CC;${server_name};" "000-default.conf"
-diff -u "000-default.BAK" "000-default.conf"
+cp -fv "000-default.conf"  "000-default.conf.old"
+sed -i "s;Pi4CC;${server_name};g" "000-default.conf"
+sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g" "000-default.conf"
+sed -i "s;/mp4library;/${server_alias};g" "000-default.conf"
+sed -i "s;mp4library;${server_alias};g" "000-default.conf"
+diff -u "000-default.conf.old" "000-default.conf"
 sudo mv -fv "000-default.conf" "/etc/apache2/sites-available/000-default.conf"
 set +x
 echo ""
@@ -339,9 +352,14 @@ set -x
 cd ~/Desktop
 url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/setup_support_files/default-tls.conf"
 rm -f "default-tls.conf"
+rm -f "default-tls.conf.old"
 curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "default-tls.conf" --fail # -L means "allow redirection" or some odd :|
-sed -iBAK "s;Pi4CC;${server_name};" "default-tls.conf"
-diff -u "default-tls.BAK" "default-tls.conf"
+cp -fv "default-tls.conf"  "default-tls.conf.old"
+sed -i "s;Pi4CC;${server_name};g" "default-tls.conf"
+sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g" "default-tls.conf"
+sed -i "s;/mp4library;/${server_alias};g" "default-tls.conf"
+sed -i "s;mp4library;${server_alias};g" "default-tls.conf"
+diff -u "default-tls.conf.old" "default-tls.conf"
 sudo mv -fv "default-tls.conf" "/etc/apache2/sites-available/default-tls.conf"
 set +x
 echo ""
@@ -352,7 +370,7 @@ cd ~/Desktop
 url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/setup_support_files/example.php"
 rm -f "example.php"
 curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "example.php" --fail # -L means "allow redirection" or some odd :|
-sed -iBAK "s;Pi4CC;${server_name};" "example.php"
+sed -iBAK "s;Pi4CC;${server_name};g" "example.php"
 diff -u "example.BAK" "example.php"
 sudo mv -fv "example.php" "/var/www/example.php"
 set +x
@@ -364,7 +382,7 @@ cd ~/Desktop
 url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/setup_support_files/phpinfo.php"
 rm -f "phpinfo.php"
 curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "phpinfo.php" --fail # -L means "allow redirection" or some odd :|
-sed -iBAK "s;Pi4CC;${server_name};" "phpinfo.php"
+sed -iBAK "s;Pi4CC;${server_name};g" "phpinfo.php"
 diff -u "phpinfo.BAK" "phpinfo.php"
 sudo mv -fv "phpinfo.php" "/var/www/phpinfo.php"
 set +x
@@ -488,22 +506,24 @@ echo "# Change miniDLNA config settings to look like these"
 echo ""
 set -x
 sudo cp -fv "/etc/minidlna.conf" "/etc/minidlna.conf.old"
-sudo sed -i 's;#user=minidlna;#user=minidlna\nuser=pi;' "/etc/minidlna.conf"
-sudo sed -i 's;media_dir=/var/lib/minidlna;#media_dir=/var/lib/minidlna\nmedia_dir=PV,/mnt/mp4library/mp4library;' "/etc/minidlna.conf"
-sudo sed -i 's;#db_dir=/var/cache/minidlna;#db_dir=/var/cache/minidlna\ndb_dir=/home/pi/Desktop/miniDLNA;' "/etc/minidlna.conf"
-sudo sed -i 's;#log_dir=/var/log;#log_dir=/var/log\nlog_dir=/home/pi/Desktop/miniDLNA/log;' "/etc/minidlna.conf"
-sudo sed -i 's;#friendly_name=;#friendly_name=\nfriendly_name=${server_name}-miniDLNA;' "/etc/minidlna.conf"
-sudo sed -i 's;#inotify=yes;#inotify=yes\ninotify=yes;' "/etc/minidlna.conf"
-sudo sed -i 's;#strict_dlna=no;#strict_dlna=no\nstrict_dlna=yes;' "/etc/minidlna.conf"
-sudo sed -i 's;#notify_interval=895;#notify_interval=895\nnotify_interval=300;' "/etc/minidlna.conf"
-sudo sed -i 's;#max_connections=50;#max_connections=50\nmax_connections=4;' "/etc/minidlna.conf"
-sudo sed -i 's;#log_level=general,artwork,database,inotify,scanner,metadata,http,ssdp,tivo=warn;#log_level=general,artwork,database,inotify,scanner,metadata,http,ssdp,tivo=warn\nlog_level=artwork,database,general,http,inotify,metadata,scanner,ssdp,tivo=info;' "/etc/minidlna.conf"
+sudo sed -i 's;#user=minidlna;#user=minidlna\nuser=pi;g' "/etc/minidlna.conf"
+sudo sed -i 's;media_dir=/var/lib/minidlna;#media_dir=/var/lib/minidlna\nmedia_dir=PV,${server_root_folder};g' "/etc/minidlna.conf"
+sudo sed -i 's;#db_dir=/var/cache/minidlna;#db_dir=/var/cache/minidlna\ndb_dir=/home/pi/Desktop/miniDLNA;g' "/etc/minidlna.conf"
+sudo sed -i 's;#log_dir=/var/log;#log_dir=/var/log\nlog_dir=/home/pi/Desktop/miniDLNA/log;g' "/etc/minidlna.conf"
+sudo sed -i 's;#friendly_name=;#friendly_name=\nfriendly_name=${server_name}-miniDLNA;g' "/etc/minidlna.conf"
+sudo sed -i 's;#inotify=yes;#inotify=yes\ninotify=yes;g' "/etc/minidlna.conf"
+sudo sed -i 's;#strict_dlna=no;#strict_dlna=no\nstrict_dlna=yes;g' "/etc/minidlna.conf"
+sudo sed -i 's;#notify_interval=895;#notify_interval=895\nnotify_interval=300;g' "/etc/minidlna.conf"
+sudo sed -i 's;#max_connections=50;#max_connections=50\nmax_connections=4;g' "/etc/minidlna.conf"
+sudo sed -i 's;#log_level=general,artwork,database,inotify,scanner,metadata,http,ssdp,tivo=warn;#log_level=general,artwork,database,inotify,scanner,metadata,http,ssdp,tivo=warn\nlog_level=artwork,database,general,http,inotify,metadata,scanner,ssdp,tivo=info;g' "/etc/minidlna.conf"
 diff -u "/etc/minidlna.conf.old" "/etc/minidlna.conf"
 sudo service minidlna restart
 set +x
 echo ""
 read -p "Press Enter to continue, if the seds and service restart worked."
 echo ""
+
+
 
 
 
@@ -603,7 +623,7 @@ sudo nano /etc/samba/smb.conf
 
 # ADD THESE
 [Pi]
-comment=${server_name} pi home
+comment=${server_name} pi_home
 #force group = users
 #guest only = Yes
 guest ok = Yes
@@ -620,14 +640,14 @@ force create mode = 1777
 force directory mode = 1777
 inherit permissions = yes
 
-[mp4library]
-comment=${server_name} mp4library
+[${server_alias}]
+comment=${server_name} ${server_alias}
 #force group = users
 #guest only = Yes
 guest ok = Yes
 public = yes
 #valid users = @users
-path = /mnt/mp4library
+path = ${server_root}
 available = yes
 read only = no
 browsable = yes
@@ -639,7 +659,7 @@ force directory mode = 1777
 inherit permissions = yes
 
 [www]
-comment=${server_name} www home
+comment=${server_name} www_home
 #force group = users
 #guest only = Yes
 guest ok = Yes
@@ -677,23 +697,23 @@ sudo pdbedit -L -v
 
 # ------------------------------------------------------------------------------------------------------------------------
 #
-# "walk" the mp4library in our browser
+# "walk" the ${server_alias} in our browser
 # ------------------------------------
 #
 # Use a chrome browser to check if it is working.
-# Navigate to the mp4library of the Pi web server 
+# Navigate to the ${server_alias} of the Pi web server 
 # by typing the following into your web browser using your Pi's IP address
-# http://10.0.0.6/mp4library
-# and we should be able to navigate the mp4library folder tree
+# http://10.0.0.6/${server_alias}
+# and we should be able to navigate the ${server_alias} folder tree
 #
 # To copy .mp4 files to/from the Pi via SAMBA (file shares) -
 # From a Windows 7 PC, use Windows Explorer to open a share on 
 # the Pi using its IP address, put it in the address bar of Windows Explorer
 # \\10.0.0.6\
 # and see a number of shares including
-#    mp4library
+#    ${server_alias}
 #    www
-# Open the mp4library share. See the files and folders there.
+# Open the ${server_alias} share. See the files and folders there.
 # We can copy files to/from it just like any other windows folders.
 
 # ------------------------------------------------------------------------------------------------------------------------
@@ -718,7 +738,7 @@ sudo chmod +777 -R /var/www/${server_name}
 
 # RE-CREATE the essential JSON file used by the ${server_name} website
 # Invoke this script manually from the commandline like
-python3 /var/www/${server_name}/2019.12.10-create-json.py --source_folder /mnt/mp4library/mp4library --filename-extension mp4 --json_file /var/www/${server_name}/media.js > /var/www/${server_name}/create-json.log 2>&1
+python3 /var/www/${server_name}/2019.12.10-create-json.py --source_folder "${server_root_folder}" --filename-extension mp4 --json_file /var/www/${server_name}/media.js > /var/www/${server_name}/create-json.log 2>&1
 
 #Run crontab with the -e flag to edit the cron table:
 #crontab -e
@@ -744,8 +764,8 @@ python3 /var/www/${server_name}/2019.12.10-create-json.py --source_folder /mnt/m
 
 # Run crontab -e and add the lines after, under user pi so it reloads media.js every night
 crontab -e
-@reboot python3 /var/www/${server_name}/2019.12.10-create-json.py --source_folder /mnt/mp4library/mp4library ---filename-extension mp4 --json_file /var/www/${server_name}/media.js > /var/www/${server_name}/create-json.log 2>&1 &
-0 4 * * * python3 /var/www/${server_name}/2019.12.10-create-json.py --source_folder /mnt/mp4library/mp4library ---filename-extension mp4 --json_file /var/www/${server_name}/media.js > /var/www/${server_name}/create-json.log 2>&1
+@reboot python3 /var/www/${server_name}/2019.12.10-create-json.py --source_folder ${server_root_folder} ---filename-extension mp4 --json_file /var/www/${server_name}/media.js > /var/www/${server_name}/create-json.log 2>&1 &
+0 4 * * * python3 /var/www/${server_name}/2019.12.10-create-json.py --source_folder ${server_root_folder} ---filename-extension mp4 --json_file /var/www/${server_name}/media.js > /var/www/${server_name}/create-json.log 2>&1
 
 #View your currently saved scheduled tasks with:
 crontab -l
