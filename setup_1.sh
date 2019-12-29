@@ -16,8 +16,8 @@ echo "--------------------------------------------------------------------------
 #
 server_name_default=Pi4cc
 server_alias_default=mp4library
-server_root_USBmountpoint_default=/mnt/${server_alias_default}
-server_root_folder_default=${server_root_USBmountpoint_default}/${server_alias_default}
+#server_root_USBmountpoint_default=/mnt/${server_alias_default}
+#server_root_folder_default=${server_root_USBmountpoint_default}/${server_alias_default}
 #
 read -e -p "This server_name (will become name of website) [${server_name_default}]: " -i "${server_name_default}" input_string
 server_name="${input_string:-$server_name_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
@@ -25,9 +25,11 @@ server_name="${input_string:-$server_name_default}" # forces the name to be the 
 read -e -p "This server_alias (will become a Virtual Folder within the website) [${server_alias_default}]: " -i "${server_alias_default}" input_string
 server_alias="${input_string:-$server_alias_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
 #
+server_root_USBmountpoint_default=/mnt/${server_alias}
 read -e -p "Designate the mount point for the USB3 external hard drive [${server_root_USBmountpoint_default}]: " -i "${server_root_USBmountpoint_default}" input_string
 server_root_USBmountpoint="${input_string:-$server_root_USBmountpoint_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
 #
+server_root_folder_default=${server_root_USBmountpoint}/${server_alias}
 read -e -p "Designate the root folder on the USB3 external hard drive) [${server_root_folder_default}]: " -i "${server_root_folder_default}" input_string
 server_root_folder="${input_string:-$server_root_folder_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
 #
