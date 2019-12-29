@@ -431,6 +431,7 @@ echo "Use Host (server) name FQDN = ${server_name}"
 echo ""
 set -x
 sudo openssl req -x509 -nodes -days 12650 -newkey rsa:2048 -out /etc/tls/localcerts/${server_name}.pem -keyout /etc/tls/localcerts/${server_name}.key
+sudo chmod 777 /etc/tls/localcerts/*
 ls -al "/etc/tls/localcerts/"
 set +x
 echo ""
@@ -441,8 +442,9 @@ echo "# Strip Out Passphrase from the Key"
 set -x
 sudo cp -fv /etc/tls/localcerts/${server_name}.pem /etc/tls/localcerts/${server_name}.pem.orig
 sudo cp -fv /etc/tls/localcerts/${server_name}.key /etc/tls/localcerts/${server_name}.key.orig
+sudo chmod 777 /etc/tls/localcerts/*
 sudo openssl rsa -in /etc/tls/localcerts/${server_name}.key.orig -out /etc/tls/localcerts/${server_name}.key
-sudo chmod 600 /etc/tls/localcerts/*
+sudo chmod 777 /etc/tls/localcerts/*
 set +x
 echo ""
 #read -p "Press Enter to continue #"
@@ -488,6 +490,7 @@ echo "#"
 echo "#Convert PEM & Private Key to PFX/P12:"
 set -x
 sudo openssl pkcs12 -export -out /etc/tls/localcerts/${server_name}.pfx -inkey /etc/tls/localcerts/${server_name}.key.orig -in /etc/tls/localcerts/${server_name}.pem 
+sudo chmod 777 /etc/tls/localcerts/*
 set +x
 echo ""
 
