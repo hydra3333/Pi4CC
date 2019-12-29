@@ -43,7 +43,7 @@ set +x
 
 echo "# Set permissions so we can do ANYTHING with the USB3 drive."
 set -x
-sudo chmod +777 ${server_root}
+sudo chmod +777 ${server_root_USBmountpoint}
 set +x
 
 echo "# Check the exterrnal USB3 drive mounted where we told it to by doing a df"
@@ -838,7 +838,7 @@ comment=${server_name} ${server_alias}
 guest ok = Yes
 public = yes
 #valid users = @users
-path = ${server_root}
+path = ${server_root_USBmountpoint}
 available = yes
 read only = no
 browsable = yes
@@ -850,7 +850,7 @@ force directory mode = 1777
 inherit permissions = yes
 
 [www]
-comment=${server_name} www_home
+comment=${server_root_USBmountpoint} www_home
 #force group = users
 #guest only = Yes
 guest ok = Yes
