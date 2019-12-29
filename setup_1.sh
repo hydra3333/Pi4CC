@@ -66,116 +66,116 @@ set -x
 #sudo apt autoremove -y
 # REMOVE CONFIG FILES
 sudo rm -fv "/etc/php/7.3/apache2/php.ini"
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 sudo rm -fv "/etc/apache2/apache2.conf"
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 sudo rm -fv "/etc/apache2/mods-available/status.conf"
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 sudo rm -fv "/etc/apache2/mods-available/info.conf"
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 sudo rm -fv "/etc/apache2/sites-available/000-default.conf"
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 sudo rm -fv "/etc/apache2/sites-available/default-tls.conf"
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 # INSTALL APACHE2
 sudo apt install -y apache2 
 sleep 3s
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 sudo apt install -y apache2-bin
 sleep 3s
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 sudo apt install -y apache2-data
 sleep 3s
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 sudo apt install -y apache2-utils
 sleep 3s
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 sudo apt install -y apache2-doc
 sleep 3s
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 sudo apt install -y apache2-suexec-pristine
 sleep 3s
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 sudo apt install -y apache2-ssl-dev
 sleep 3s
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 sudo apt install -y libxml2 
 sleep 3s
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 sudo apt install -y libxml2-dev 
 sleep 3s
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 sudo apt install -y libxml2-utils
 sleep 3s
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 sudo apt install -y libaprutil1 
 sleep 3s
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 sudo apt install -y libaprutil1-dev
 sleep 3s
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 # socache_dbm required for gnutls
 sudo a2enmod socache_dbm
 sleep 3s
 sudo apt install -y libapache2-mod-gnutls 
 sleep 3s
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 sudo apt install -y libapache2-mod-security2
 sleep 3s
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 # Note: the version lile 7.3 will change as time passes !!!!!!!
 # INSTALL PHP
 sudo apt install -y php7.3 
 sleep 3s
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 sudo apt install -y php7.3-common 
 sleep 3s
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 sudo apt install -y php7.3-cli 
 sleep 3s
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 sudo apt install -y php7.3-intl 
 sleep 3s
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 sudo apt install -y php7.3-curl 
 sleep 3s
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 sudo apt install -y php7.3-xsl 
 sleep 3s
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 sudo apt install -y php7.3-gd 
 sleep 3s
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 sudo apt install -y php7.3-recode 
 sleep 3s
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 sudo apt install -y php7.3-tidy 
 sleep 3s
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 sudo apt install -y php7.3-json 
 sleep 3s
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 sudo apt install -y php7.3-mbstring 
 sleep 3s
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 sudo apt install -y php7.3-dev 
 sleep 3s
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 sudo apt install -y php7.3-bz2 
 sleep 3s
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 sudo apt install -y php7.3-zip 
 sleep 3s
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 sudo apt install -y php-pear 
 sleep 3s
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 sudo apt install -y libmcrypt-dev
 sleep 3s
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 sudo apt install -y libapache2-mod-php
 sleep 3s
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 set +x
 
 echo ""
@@ -397,7 +397,7 @@ sudo openssl req -x509 -nodes -days 12650 -newkey rsa:2048 -out /etc/tls/localce
 ls -al "/etc/tls/localcerts/"
 set +x
 echo ""
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 echo ""
 
 echo "# Strip Out Passphrase from the Key"
@@ -408,7 +408,7 @@ openssl rsa -in /etc/tls/localcerts/${server_name}.key.orig -out /etc/tls/localc
 sudo chmod 600 /etc/tls/localcerts/*
 set +x
 echo ""
-read -p "Press Enter to continue"
+#read -p "Press Enter to continue #"
 echo ""
 
 #Enter pass phrase for ${server_name}.key: Certificates
