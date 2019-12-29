@@ -48,7 +48,7 @@ sudo apt purge -y php-pear
 sudo apt purge -y libmcrypt-dev
 sudo apt purge -y libapache2-mod-php
 sudo apt autoremove -y
-sleep 5
+sleep 5s
 # REMOVE APACHE2 BEFORE INSTALL
 sudo apt purge -y apache2 
 sudo apt purge -y apache2-bin
@@ -65,7 +65,7 @@ sudo apt purge -y apache2-ssl-dev
 sudo apt purge -y libapache2-mod-gnutls 
 sudo apt purge -y libapache2-mod-security2
 sudo apt autoremove -y
-sleep 5
+sleep 5s
 # REMOVE CONFIG FILES
 sudo rm -fv "/etc/php/7.3/apache2/php.ini"
 #read -p "Press Enter to continue #"
@@ -204,7 +204,7 @@ set -x
 #sudo apt purge -y python3 idle
 sudo apt purge -y libapache2-mod-python
 sudo apt autoremove -y
-sleep 5
+sleep 5s
 #
 sudo apt install -y python3 
 sudo apt install -y idle
@@ -650,7 +650,7 @@ echo "# Remove the old miniDLNA, if any"
 set -x
 sudo apt purge minidlna -y
 sudo apt autoremove -y
-sleep 5
+sleep 5s
 sudo rm -vf "/etc/minidlna.conf"
 set +x
 echo ""
@@ -694,11 +694,11 @@ echo ""
 # force a re-scan at 4:00 am every night
 https://sourceforge.net/p/minidlna/discussion/879956/thread/41ae22d6/#4bf3
 sudo /usr/bin/killall minidlna
-sleep 10
+sleep 10s
 sudo /usr/sbin/minidlna -R
-sleep 3600
+sleep 3600s
 sudo /usr/bin/killall minidlna
-sleep 10
+sleep 10s
 sudo /usr/sbin/minidlna
 
 Then run crontab -e and add the following:
