@@ -165,7 +165,7 @@ set +x
 
 echo "# Set protections so we can so ANYTHING with it (we are inside our own home LAN)"
 set -x
-sudo chmod +777 -R ${${server_root_USBmountpoint}}
+sudo chmod a=rwx -R ${${server_root_USBmountpoint}}
 set +x
 
 echo "# Fix permissions to allow user pi so that it has no trouble"

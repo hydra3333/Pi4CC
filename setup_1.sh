@@ -43,7 +43,7 @@ set +x
 
 echo "# Set permissions so we can do ANYTHING with the USB3 drive."
 set -x
-sudo chmod +777 -R ${server_root_USBmountpoint}
+sudo chmod a=rwx -R ${server_root_USBmountpoint}
 set +x
 
 echo "# Check the exterrnal USB3 drive mounted where we told it to by doing a df"
@@ -253,7 +253,7 @@ sudo groupadd -f www-data
 sudo usermod -a -G www-data root
 sudo usermod -a -G www-data pi
 sudo chown -R -f pi:www-data /var/www
-sudo chmod +777 -R /var/www
+sudo chmod a=rwx -R /var/www
 sleep 3s
 cat /var/log/apache2/error.log
 ls -al /etc/apache2/sites-enabled
@@ -431,7 +431,7 @@ echo "Use Host (server) name FQDN = ${server_name}"
 echo ""
 set -x
 sudo openssl req -x509 -nodes -days 12650 -newkey rsa:2048 -out /etc/tls/localcerts/${server_name}.pem -keyout /etc/tls/localcerts/${server_name}.key
-sudo chmod 777 /etc/tls/localcerts/*
+sudo chmod a=rwx /etc/tls/localcerts/*
 ls -al "/etc/tls/localcerts/"
 set +x
 echo ""
@@ -442,9 +442,9 @@ echo "# Strip Out Passphrase from the Key"
 set -x
 sudo cp -fv /etc/tls/localcerts/${server_name}.pem /etc/tls/localcerts/${server_name}.pem.orig
 sudo cp -fv /etc/tls/localcerts/${server_name}.key /etc/tls/localcerts/${server_name}.key.orig
-sudo chmod 777 /etc/tls/localcerts/*
+sudo chmod a=rwx /etc/tls/localcerts/*
 sudo openssl rsa -in /etc/tls/localcerts/${server_name}.key.orig -out /etc/tls/localcerts/${server_name}.key
-sudo chmod 777 /etc/tls/localcerts/*
+sudo chmod a=rwx /etc/tls/localcerts/*
 set +x
 echo ""
 #read -p "Press Enter to continue #"
@@ -490,7 +490,7 @@ echo "#"
 echo "#Convert PEM & Private Key to PFX/P12:"
 set -x
 sudo openssl pkcs12 -export -out /etc/tls/localcerts/${server_name}.pfx -inkey /etc/tls/localcerts/${server_name}.key.orig -in /etc/tls/localcerts/${server_name}.pem 
-sudo chmod 777 /etc/tls/localcerts/*
+sudo chmod a=rwx /etc/tls/localcerts/*
 set +x
 echo ""
 
@@ -503,7 +503,7 @@ echo ""
 #   unable to write 'random state' (If this this error appears, please ignore)
 
 set -x
-sudo chmod 777 /etc/tls/localcerts/*
+sudo chmod a=rwx /etc/tls/localcerts/*
 set +x
 
 echo ""
@@ -690,7 +690,7 @@ echo ""
 echo "# Create a folder for miniDLNA logs and db - place the folder in the root of the (fast) USB3 drive"
 set -x
 sudo mkdir -p "${server_root_USBmountpoint}/miniDLNA"
-sudo chmod +777 -R "${server_root_USBmountpoint}/miniDLNA"
+sudo chmod a=rwx -R "${server_root_USBmountpoint}/miniDLNA"
 set +x
 echo ""
 
@@ -927,7 +927,7 @@ pip3 install pymediainfo
 # create the ${server_name} folder inside Apache2 folder
 sudo mkdir /var/www/${server_name}
 sudo chown -R -f pi:www-data /var/www/${server_name}
-sudo chmod +777 -R /var/www/${server_name}
+sudo chmod a=rwx -R /var/www/${server_name}
 
 # Copy the ${server_name} folder/file tree from github into this folder 
 #   /var/www/${server_name}
