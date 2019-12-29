@@ -30,49 +30,120 @@ echo ""
 
 set -x
 # REMOVE PHP BEFORE INSTALL
-sudo apt purge -y php7.3 php7.3-common php7.3-cli php7.3-intl php7.3-curl php7.3-xsl php7.3-gd 
-sudo apt purge -y php7.3-recode php7.3-tidy php7.3-json php7.3-mbstring php7.3-dev php7.3-bz2 php7.3-zip php-pear 
-sudo apt purge -y libmcrypt-dev
-sudo apt purge -y libapache2-mod-php
-sudo apt autoremove -y
+#sudo apt purge -y php7.3 
+#sudo apt purge -y php7.3-common 
+#sudo apt purge -y php7.3-cli 
+#sudo apt purge -y php7.3-intl 
+#sudo apt purge -y php7.3-curl 
+#sudo apt purge -y php7.3-xsl 
+#sudo apt purge -y php7.3-gd 
+#sudo apt purge -y php7.3-recode 
+#sudo apt purge -y php7.3-tidy 
+#sudo apt purge -y php7.3-json 
+#sudo apt purge -y php7.3-mbstring 
+#sudo apt purge -y php7.3-dev 
+#sudo apt purge -y php7.3-bz2 
+#sudo apt purge -y php7.3-zip 
+#sudo apt purge -y php-pear 
+#sudo apt purge -y libmcrypt-dev
+#sudo apt purge -y libapache2-mod-php
+#sudo apt autoremove -y
 # REMOVE APACHE2 BEFORE INSTALL
-sudo apt purge -y apache2 
-sudo apt purge -y apache2-bin
-sudo apt purge -y apache2-data
-sudo apt purge -y apache2-utils
-sudo apt purge -y apache2-doc
-sudo apt purge -y apache2-suexec-pristine
-sudo apt purge -y apache2-ssl-dev
-sudo apt purge -y libxml2 libxml2-dev libxml2-utils
-sudo apt purge -y libaprutil1 libaprutil1-dev
-sudo apt autoremove -y
+#sudo apt purge -y apache2 
+#sudo apt purge -y apache2-bin
+#sudo apt purge -y apache2-data
+#sudo apt purge -y apache2-utils
+#sudo apt purge -y apache2-doc
+#sudo apt purge -y apache2-suexec-pristine
+#sudo apt purge -y apache2-ssl-dev
+#sudo apt purge -y libxml2 
+#sudo apt purge -y libxml2-dev 
+#sudo apt purge -y libxml2-utils
+#sudo apt purge -y libaprutil1 
+#sudo apt purge -y libaprutil1-dev
+#sudo apt purge -y libapache2-mod-gnutls 
+#sudo apt purge -y libapache2-mod-security2
+#sudo apt autoremove -y
 # REMOVE CONFIG FILES
 sudo rm -fv "/etc/php/7.3/apache2/php.ini"
+read -p "Press Enter to continue"
 sudo rm -fv "/etc/apache2/apache2.conf"
+read -p "Press Enter to continue"
 sudo rm -fv "/etc/apache2/mods-available/status.conf"
+read -p "Press Enter to continue"
 sudo rm -fv "/etc/apache2/mods-available/info.conf"
+read -p "Press Enter to continue"
 sudo rm -fv "/etc/apache2/sites-available/000-default.conf"
+read -p "Press Enter to continue"
 sudo rm -fv "/etc/apache2/sites-available/default-tls.conf"
+read -p "Press Enter to continue"
 # INSTALL APACHE2
 sudo apt install -y apache2 
+read -p "Press Enter to continue"
 sudo apt install -y apache2-bin
+read -p "Press Enter to continue"
 sudo apt install -y apache2-data
+read -p "Press Enter to continue"
 sudo apt install -y apache2-utils
+read -p "Press Enter to continue"
 sudo apt install -y apache2-doc
+read -p "Press Enter to continue"
 sudo apt install -y apache2-suexec-pristine
+read -p "Press Enter to continue"
 sudo apt install -y apache2-ssl-dev
-sudo apt install -y libxml2 libxml2-dev libxml2-utils
-sudo apt install -y libaprutil1 libaprutil1-dev
+read -p "Press Enter to continue"
+sudo apt install -y libxml2 
+read -p "Press Enter to continue"
+sudo apt install -y libxml2-dev 
+read -p "Press Enter to continue"
+sudo apt install -y libxml2-utils
+read -p "Press Enter to continue"
+sudo apt install -y libaprutil1 
+read -p "Press Enter to continue"
+sudo apt install -y libaprutil1-dev
+read -p "Press Enter to continue"
 # socache_dbm required for gnutls
 sudo a2enmod socache_dbm
 sudo apt install -y libapache2-mod-gnutls 
+read -p "Press Enter to continue"
 sudo apt install -y libapache2-mod-security2
+read -p "Press Enter to continue"
 # Note: the version lile 7.3 will change as time passes !!!!!!!
 # INSTALL PHP
-sudo apt install -y php7.3 php7.3-common php7.3-cli php7.3-intl php7.3-curl php7.3-xsl php7.3-gd 
-sudo apt install -y php7.3-recode php7.3-tidy php7.3-json php7.3-mbstring php7.3-dev php7.3-bz2 php7.3-zip php-pear 
+sudo apt install -y php7.3 
+read -p "Press Enter to continue"
+sudo apt install -y php7.3-common 
+read -p "Press Enter to continue"
+sudo apt install -y php7.3-cli 
+read -p "Press Enter to continue"
+sudo apt install -y php7.3-intl 
+read -p "Press Enter to continue"
+sudo apt install -y php7.3-curl 
+read -p "Press Enter to continue"
+sudo apt install -y php7.3-xsl 
+read -p "Press Enter to continue"
+sudo apt install -y php7.3-gd 
+read -p "Press Enter to continue"
+sudo apt install -y php7.3-recode 
+read -p "Press Enter to continue"
+sudo apt install -y php7.3-tidy 
+read -p "Press Enter to continue"
+sudo apt install -y php7.3-json 
+read -p "Press Enter to continue"
+sudo apt install -y php7.3-mbstring 
+read -p "Press Enter to continue"
+sudo apt install -y php7.3-dev 
+read -p "Press Enter to continue"
+sudo apt install -y php7.3-bz2 
+read -p "Press Enter to continue"
+sudo apt install -y php7.3-zip 
+read -p "Press Enter to continue"
+sudo apt install -y php-pear 
+read -p "Press Enter to continue"
 sudo apt install -y libmcrypt-dev
+read -p "Press Enter to continue"
 sudo apt install -y libapache2-mod-php
+read -p "Press Enter to continue"
 set +x
 
 echo ""
