@@ -30,40 +30,42 @@ echo ""
 
 set -x
 # REMOVE PHP BEFORE INSTALL
-#sudo apt purge -y php7.3 
-#sudo apt purge -y php7.3-common 
-#sudo apt purge -y php7.3-cli 
-#sudo apt purge -y php7.3-intl 
-#sudo apt purge -y php7.3-curl 
-#sudo apt purge -y php7.3-xsl 
-#sudo apt purge -y php7.3-gd 
-#sudo apt purge -y php7.3-recode 
-#sudo apt purge -y php7.3-tidy 
-#sudo apt purge -y php7.3-json 
-#sudo apt purge -y php7.3-mbstring 
-#sudo apt purge -y php7.3-dev 
-#sudo apt purge -y php7.3-bz2 
-#sudo apt purge -y php7.3-zip 
-#sudo apt purge -y php-pear 
-#sudo apt purge -y libmcrypt-dev
-#sudo apt purge -y libapache2-mod-php
-#sudo apt autoremove -y
+sudo apt purge -y php7.3 
+sudo apt purge -y php7.3-common 
+sudo apt purge -y php7.3-cli 
+sudo apt purge -y php7.3-intl 
+sudo apt purge -y php7.3-curl 
+sudo apt purge -y php7.3-xsl 
+sudo apt purge -y php7.3-gd 
+sudo apt purge -y php7.3-recode 
+sudo apt purge -y php7.3-tidy 
+sudo apt purge -y php7.3-json 
+sudo apt purge -y php7.3-mbstring 
+sudo apt purge -y php7.3-dev 
+sudo apt purge -y php7.3-bz2 
+sudo apt purge -y php7.3-zip 
+sudo apt purge -y php-pear 
+sudo apt purge -y libmcrypt-dev
+sudo apt purge -y libapache2-mod-php
+sudo apt autoremove -y
+sleep 5
 # REMOVE APACHE2 BEFORE INSTALL
-#sudo apt purge -y apache2 
-#sudo apt purge -y apache2-bin
-#sudo apt purge -y apache2-data
-#sudo apt purge -y apache2-utils
-#sudo apt purge -y apache2-doc
-#sudo apt purge -y apache2-suexec-pristine
-#sudo apt purge -y apache2-ssl-dev
-#sudo apt purge -y libxml2 
-#sudo apt purge -y libxml2-dev 
-#sudo apt purge -y libxml2-utils
-#sudo apt purge -y libaprutil1 
-#sudo apt purge -y libaprutil1-dev
-#sudo apt purge -y libapache2-mod-gnutls 
-#sudo apt purge -y libapache2-mod-security2
-#sudo apt autoremove -y
+sudo apt purge -y apache2 
+sudo apt purge -y apache2-bin
+sudo apt purge -y apache2-data
+sudo apt purge -y apache2-utils
+sudo apt purge -y apache2-doc
+sudo apt purge -y apache2-suexec-pristine
+sudo apt purge -y apache2-ssl-dev
+sudo apt purge -y libxml2 
+sudo apt purge -y libxml2-dev 
+sudo apt purge -y libxml2-utils
+sudo apt purge -y libaprutil1 
+sudo apt purge -y libaprutil1-dev
+sudo apt purge -y libapache2-mod-gnutls 
+sudo apt purge -y libapache2-mod-security2
+sudo apt autoremove -y
+sleep 5
 # REMOVE CONFIG FILES
 sudo rm -fv "/etc/php/7.3/apache2/php.ini"
 #read -p "Press Enter to continue #"
@@ -199,9 +201,10 @@ read -p "Press Enter to continue, if it there were 6 changes correctly"
 
 echo "# Install python3"
 set -x
-#sudo apt purge -y python3 idle
-#sudo apt purge -y libapache2-mod-python
-#sudo apt autoremove -y
+sudo apt purge -y python3 idle
+sudo apt purge -y libapache2-mod-python
+sudo apt autoremove -y
+sleep 5
 #
 sudo apt install -y python3 idle
 sleep 3s
@@ -646,6 +649,7 @@ echo "# Remove the old miniDLNA, if any"
 set -x
 sudo apt purge minidlna -y
 sudo apt autoremove -y
+sleep 5
 sudo rm -vf "/etc/minidlna.conf"
 set +x
 echo ""
