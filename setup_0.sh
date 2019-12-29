@@ -100,6 +100,7 @@ echo "boot_delay=15" > ./tmp.tmp
 sudo cat /boot/config.txt >> ./tmp.tmp
 sudo cp -fv ./tmp.tmp /boot/config.txt
 rm -f ./tmp.tmp
+sudo nano "/boot/config.txt"
 diff -U 1 "/boot/config.txt.old" "/boot/config.txt"
 
 set +x
