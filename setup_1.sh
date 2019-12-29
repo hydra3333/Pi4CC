@@ -439,8 +439,8 @@ echo ""
 
 echo "# Strip Out Passphrase from the Key"
 set -x
-cp /etc/tls/localcerts/${server_name}.pem /etc/tls/localcerts/${server_name}.pem.orig
-cp /etc/tls/localcerts/${server_name}.key /etc/tls/localcerts/${server_name}.key.orig
+sudo cp -fv /etc/tls/localcerts/${server_name}.pem /etc/tls/localcerts/${server_name}.pem.orig
+sudo cp -fv /etc/tls/localcerts/${server_name}.key /etc/tls/localcerts/${server_name}.key.orig
 openssl rsa -in /etc/tls/localcerts/${server_name}.key.orig -out /etc/tls/localcerts/${server_name}.key
 sudo chmod 600 /etc/tls/localcerts/*
 set +x
@@ -520,7 +520,7 @@ url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/setup_support_file
 rm -f "000-default.conf"
 rm -f "000-default.conf.old"
 curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "000-default.conf" --fail # -L means "allow redirection" or some odd :|
-cp -fv "000-default.conf"  "000-default.conf.old"
+sudo cp -fv "000-default.conf"  "000-default.conf.old"
 #
 sudo sed -i "s;Pi4CC;${server_name};g"  "000-default.conf"
 sudo sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g"  "000-default.conf"
@@ -540,7 +540,7 @@ url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/setup_support_file
 rm -f "default-tls.conf"
 rm -f "default-tls.conf.old"
 curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "default-tls.conf" --fail # -L means "allow redirection" or some odd :|
-cp -fv "default-tls.conf"  "default-tls.conf.old"
+sudo cp -fv "default-tls.conf"  "default-tls.conf.old"
 #
 sudo sed -i "s;Pi4CC;${server_name};g"  "default-tls.conf"
 sudo sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g"  "default-tls.conf"
@@ -778,10 +778,10 @@ sudo apt install -y samba samba-common-bin
 sudo smbpasswd -a pi
 sudo smbpasswd -a root
 
-sudo cp /etc/samba/smb.conf /etc/samba/smb.conf_backup
+sudo cp -fv /etc/samba/smb.conf /etc/samba/smb.conf_backup
 sudo nano /etc/samba/smb.conf
 
-sudo cp /etc/samba/smb.conf /etc/samba/smb.conf_backup
+sudo cp -fv /etc/samba/smb.conf /etc/samba/smb.conf_backup
 sudo nano /etc/samba/smb.conf
 # https://calomel.org/samba_optimize.html
 # https://calomel.org/samba.html
