@@ -1,5 +1,5 @@
 #!/bin/bash
-# to get rid of MSDOS format do this to this file: sudo sed --debug -i s/\\r//g ./filename
+# to get rid of MSDOS format do this to this file: sudo sed -i s/\\r//g ./filename
 # or, open in nano, control-o and then then alt-M a few times to toggle msdos format off and then save
 #
 # This will install some of the requisitive thuff, but not edit the config files etc
@@ -94,10 +94,10 @@ echo "# https://www.raspberrypi.org/documentation/configuration/config-txt/boot.
 read -p "Press Enter to add a line 'boot_delay=15' at the top of '/boot/config.txt'"
 echo ""
 set -x
-#sudo sed --debug -i "1 i boot_delay=15" "/boot/config.txt" # doesn't work if the file has no line 1
+#sudo sed -i "1 i boot_delay=15" "/boot/config.txt" # doesn't work if the file has no line 1
 sudo cp -fv "/boot/config.txt" "/boot/config.txt.old"
 rm -f ./tmp.tmp
-sudo sed --debug "s;boot_delay=15;;g" "/boot/config.txt"
+sudo sed "s;boot_delay=15;;g" "/boot/config.txt"
 echo "boot_delay=15" > ./tmp.tmp
 sudo cat /boot/config.txt >> ./tmp.tmp
 sudo cp -fv ./tmp.tmp /boot/config.txt
@@ -214,7 +214,7 @@ echo "#UUID=F8ACDEBBACDE741A ${server_root_USBmountpoint} ntfs defaults,auto,use
 echo ""
 set -x
 sudo cp -fv "/etc/fstab" "/etc/fstab.old"
-sudo sed --debug -i "$ a #UUID=F8ACDEBBACDE741A ${server_root_USBmountpoint} ntfs defaults,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,x-systemd.device-timeout=120 0 2" "/etc/fstab"
+sudo sed -i "$ a #UUID=F8ACDEBBACDE741A ${server_root_USBmountpoint} ntfs defaults,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,x-systemd.device-timeout=120 0 2" "/etc/fstab"
 set +x
 echo ""
 
