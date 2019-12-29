@@ -1,5 +1,5 @@
 #!/bin/bash
-# to get rid of MSDOS format do this to this file: sudo sed -i s/\\r//g ./filename
+# to get rid of MSDOS format do this to this file: sudo sed --debug -i s/\\r//g ./filename
 # or, open in nano, control-o and then then alt-M a few times to toggle msdos format off and then save
 #
 # This will install some of the requisitive thuff, but not edit the config files etc
@@ -213,12 +213,12 @@ read -p "Press Enter to continue, if it installed correctly"
 echo "Make changes to /etc/php/7.3/apache2/php.ini"
 set -x
 sudo cp -fv "/etc/php/7.3/apache2/php.ini" "/etc/php/7.3/apache2/php.ini.old"
-sudo sed -i 's;max_execution_time = 30;max_execution_time = 300;g'          "/etc/php/7.3/apache2/php.ini"
-sudo sed -i 's;max_input_time = 60;max_input_time = 300;g'                  "/etc/php/7.3/apache2/php.ini"
-sudo sed -i 's;display_errors = Off;display_errors = On;g'                  "/etc/php/7.3/apache2/php.ini"
-sudo sed -i 's;display_startup_errors = Off;display_startup_errors = On;g'  "/etc/php/7.3/apache2/php.ini"
-sudo sed -i 's;log_errors_max_len = 1024;log_errors_max_len = 8192;g'       "/etc/php/7.3/apache2/php.ini"
-sudo sed -i 's;default_socket_timeout = 60;default_socket_timeout = 300;g'  "/etc/php/7.3/apache2/php.ini"
+sudo sed --debug -i 's;max_execution_time = 30;max_execution_time = 300;g'          "/etc/php/7.3/apache2/php.ini"
+sudo sed --debug -i 's;max_input_time = 60;max_input_time = 300;g'                  "/etc/php/7.3/apache2/php.ini"
+sudo sed --debug -i 's;display_errors = Off;display_errors = On;g'                  "/etc/php/7.3/apache2/php.ini"
+sudo sed --debug -i 's;display_startup_errors = Off;display_startup_errors = On;g'  "/etc/php/7.3/apache2/php.ini"
+sudo sed --debug -i 's;log_errors_max_len = 1024;log_errors_max_len = 8192;g'       "/etc/php/7.3/apache2/php.ini"
+sudo sed --debug -i 's;default_socket_timeout = 60;default_socket_timeout = 300;g'  "/etc/php/7.3/apache2/php.ini"
 diff -U 1 "/etc/php/7.3/apache2/php.ini.old" "/etc/php/7.3/apache2/php.ini"
 php -version
 set +x
@@ -298,39 +298,39 @@ echo "## add this line to say the web server name is going to be ${server_name}"
 echo "ServerName ${server_name}"
 set -x
 sudo cp -fv "/etc/apache2/apache2.conf" "/etc/apache2/apache2.conf.old"
-sudo sed -i 's;#ServerRoot;#ServerRoot\nServerName ${server_name};g' "/etc/php/7.3/apache2/php.ini"
-sudo sed -i 's;Timeout 300;Timeout 10800;g' "/etc/apache2/apache2.conf"
-sudo sed -i 's;MaxKeepAliveRequests 100;MaxKeepAliveRequests 0;g' "/etc/apache2/apache2.conf"
-sudo sed -i 's;KeepAliveTimeout 5;KeepAliveTimeout 10800;g' "/etc/apache2/apache2.conf"
+sudo sed --debug -i 's;#ServerRoot;#ServerRoot\nServerName ${server_name};g' "/etc/php/7.3/apache2/php.ini"
+sudo sed --debug -i 's;Timeout 300;Timeout 10800;g' "/etc/apache2/apache2.conf"
+sudo sed --debug -i 's;MaxKeepAliveRequests 100;MaxKeepAliveRequests 0;g' "/etc/apache2/apache2.conf"
+sudo sed --debug -i 's;KeepAliveTimeout 5;KeepAliveTimeout 10800;g' "/etc/apache2/apache2.conf"
 # in reverse order
-sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nCheckCaseOnly On;g' "/etc/apache2/apache2.conf"
-sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nCheckSpelling On;g' "/etc/apache2/apache2.conf"
-sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nHeader set Access-Control-Allow-Headers "Allow-Origin, X-Requested-With, Content-Type, Accept";g' "/etc/apache2/apache2.conf"
-sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nHeader set Access-Control-Allow-Origin "*";g' "/etc/apache2/apache2.conf"
-sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nHeader set Accept-Ranges bytes;g' "/etc/apache2/apache2.conf"
-sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nMaxRangeReversals unlimited;g' "/etc/apache2/apache2.conf"
-sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nMaxRangeOverlaps unlimited;g' "/etc/apache2/apache2.conf"
-sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nMaxRanges unlimited;g' "/etc/apache2/apache2.conf"
+sudo sed --debug -i 's;HostnameLookups Off;HostnameLookups Off\nCheckCaseOnly On;g' "/etc/apache2/apache2.conf"
+sudo sed --debug -i 's;HostnameLookups Off;HostnameLookups Off\nCheckSpelling On;g' "/etc/apache2/apache2.conf"
+sudo sed --debug -i 's;HostnameLookups Off;HostnameLookups Off\nHeader set Access-Control-Allow-Headers "Allow-Origin, X-Requested-With, Content-Type, Accept";g' "/etc/apache2/apache2.conf"
+sudo sed --debug -i 's;HostnameLookups Off;HostnameLookups Off\nHeader set Access-Control-Allow-Origin "*";g' "/etc/apache2/apache2.conf"
+sudo sed --debug -i 's;HostnameLookups Off;HostnameLookups Off\nHeader set Accept-Ranges bytes;g' "/etc/apache2/apache2.conf"
+sudo sed --debug -i 's;HostnameLookups Off;HostnameLookups Off\nMaxRangeReversals unlimited;g' "/etc/apache2/apache2.conf"
+sudo sed --debug -i 's;HostnameLookups Off;HostnameLookups Off\nMaxRangeOverlaps unlimited;g' "/etc/apache2/apache2.conf"
+sudo sed --debug -i 's;HostnameLookups Off;HostnameLookups Off\nMaxRanges unlimited;g' "/etc/apache2/apache2.conf"
 # in reverse order
-sudo sed -i 's;Include ports.conf;Include ports.conf\nCheckCaseOnly On;g' "/etc/apache2/apache2.conf"
-sudo sed -i 's;Include ports.conf;Include ports.conf\nCheckSpelling On;g' "/etc/apache2/apache2.conf"
-sudo sed -i 's;Include ports.conf;Include ports.conf\nHeader set Access-Control-Allow-Headers "Allow-Origin, X-Requested-With, Content-Type, Accept";g' "/etc/apache2/apache2.conf"
-sudo sed -i 's;Include ports.conf;Include ports.conf\nHeader set Access-Control-Allow-Origin "*";g' "/etc/apache2/apache2.conf"
-sudo sed -i 's;Include ports.conf;Include ports.conf\nHeader set Accept-Ranges bytes;g' "/etc/apache2/apache2.conf"
-sudo sed -i 's;Include ports.conf;Include ports.conf\nMaxRangeReversals unlimited;g' "/etc/apache2/apache2.conf"
-sudo sed -i 's;Include ports.conf;Include ports.conf\nMaxRangeOverlaps unlimited;g' "/etc/apache2/apache2.conf"
-sudo sed -i 's;Include ports.conf;Include ports.conf\nMaxRanges unlimited;g' "/etc/apache2/apache2.conf"
+sudo sed --debug -i 's;Include ports.conf;Include ports.conf\nCheckCaseOnly On;g' "/etc/apache2/apache2.conf"
+sudo sed --debug -i 's;Include ports.conf;Include ports.conf\nCheckSpelling On;g' "/etc/apache2/apache2.conf"
+sudo sed --debug -i 's;Include ports.conf;Include ports.conf\nHeader set Access-Control-Allow-Headers "Allow-Origin, X-Requested-With, Content-Type, Accept";g' "/etc/apache2/apache2.conf"
+sudo sed --debug -i 's;Include ports.conf;Include ports.conf\nHeader set Access-Control-Allow-Origin "*";g' "/etc/apache2/apache2.conf"
+sudo sed --debug -i 's;Include ports.conf;Include ports.conf\nHeader set Accept-Ranges bytes;g' "/etc/apache2/apache2.conf"
+sudo sed --debug -i 's;Include ports.conf;Include ports.conf\nMaxRangeReversals unlimited;g' "/etc/apache2/apache2.conf"
+sudo sed --debug -i 's;Include ports.conf;Include ports.conf\nMaxRangeOverlaps unlimited;g' "/etc/apache2/apache2.conf"
+sudo sed --debug -i 's;Include ports.conf;Include ports.conf\nMaxRanges unlimited;g' "/etc/apache2/apache2.conf"
 # these don't occur in this file, however try anyway
-sudo sed -i "s;Pi4CC;${server_name};g"  "/etc/apache2/apache2.conf"
-sudo sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g"  "/etc/apache2/apache2.conf"
-sudo sed -i "s;/mnt/mp4library;${server_root_USBmountpoint};g"  "/etc/apache2/apache2.conf"
-sudo sed -i "s;mp4library;${server_alias};g"  "/etc/apache2/apache2.conf"
+sudo sed --debug -i "s;Pi4CC;${server_name};g"  "/etc/apache2/apache2.conf"
+sudo sed --debug -i "s;/mnt/mp4library/mp4library;${server_root_folder};g"  "/etc/apache2/apache2.conf"
+sudo sed --debug -i "s;/mnt/mp4library;${server_root_USBmountpoint};g"  "/etc/apache2/apache2.conf"
+sudo sed --debug -i "s;mp4library;${server_alias};g"  "/etc/apache2/apache2.conf"
 #
 diff -U 1 "/etc/apache2/apache2.conf.old" "/etc/apache2/apache2.conf"
 set +x
 
 echo ""
-read -p "Press Enter to continue, if the all of the apache2.conf sed worked correctly"
+read -p "Press Enter to continue, if the all of the apache2.conf worked correctly"
 echo ""
 
 echo '# Under the "Location /server-status" directive, '
@@ -341,20 +341,20 @@ echo "# which you will be using to access the web server,"
 echo ""
 set -x
 sudo cp -fv "/etc/apache2/mods-available/status.conf" "/etc/apache2/mods-available/status.conf.old"
-sudo sed -i 's;#Require IP 192.0.2.0/24;#Require IP 192.0.2.0/24\nRequire IP 127.0.0.1\n#Require IP 192.168.108.133/24\nRequire IP 10.0.0.1/24;g' "/etc/apache2/mods-available/status.conf"
+sudo sed --debug -i 's;#Require IP 192.0.2.0/24;#Require IP 192.0.2.0/24\nRequire IP 127.0.0.1\n#Require IP 192.168.108.133/24\nRequire IP 10.0.0.1/24;g' "/etc/apache2/mods-available/status.conf"
 diff -U 1 "/etc/apache2/mods-available/status.conf.old" "/etc/apache2/mods-available/status.conf"
 set +x
 echo ""
-read -p "Press Enter to continue, if the status.conf sed worked correctly"
+read -p "Press Enter to continue, if the status.conf worked correctly"
 echo ""
 
 set -x
 sudo cp -fv "/etc/apache2/mods-available/info.conf" "/etc/apache2/mods-available/info.conf.old"
-sudo sed -i 's;#Require IP 192.0.2.0/24;#Require IP 192.0.2.0/24\nRequire IP 127.0.0.1\n#Require IP 192.168.108.133/24\nRequire IP 10.0.0.1/24;g' "/etc/apache2/mods-available/info.conf"
+sudo sed --debug -i 's;#Require IP 192.0.2.0/24;#Require IP 192.0.2.0/24\nRequire IP 127.0.0.1\n#Require IP 192.168.108.133/24\nRequire IP 10.0.0.1/24;g' "/etc/apache2/mods-available/info.conf"
 diff -U 1 "/etc/apache2/mods-available/info.old" "/etc/apache2/mods-available/info."
 set +x
 echo ""
-read -p "Press Enter to continue, if the info.conf sed worked correctly"
+read -p "Press Enter to continue, if the info.conf worked correctly"
 echo ""
 
 # Leave port 80 listening, so do not comment-out the line which says Listen 80 in /etc/apache2/ports.conf
@@ -517,10 +517,10 @@ rm -f "000-default.conf.old"
 curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "000-default.conf" --fail # -L means "allow redirection" or some odd :|
 cp -fv "000-default.conf"  "000-default.conf.old"
 #
-sudo sed -i "s;Pi4CC;${server_name};g"  "000-default.conf"
-sudo sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g"  "000-default.conf"
-sudo sed -i "s;/mnt/mp4library;${server_root_USBmountpoint};g"  "000-default.conf"
-sudo sed -i "s;mp4library;${server_alias};g"  "000-default.conf"
+sudo sed --debug -i "s;Pi4CC;${server_name};g"  "000-default.conf"
+sudo sed --debug -i "s;/mnt/mp4library/mp4library;${server_root_folder};g"  "000-default.conf"
+sudo sed --debug -i "s;/mnt/mp4library;${server_root_USBmountpoint};g"  "000-default.conf"
+sudo sed --debug -i "s;mp4library;${server_alias};g"  "000-default.conf"
 #
 diff -U 1 "000-default.conf.old" "000-default.conf"
 sudo mv -fv "000-default.conf" "/etc/apache2/sites-available/000-default.conf"
@@ -537,10 +537,10 @@ rm -f "default-tls.conf.old"
 curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "default-tls.conf" --fail # -L means "allow redirection" or some odd :|
 cp -fv "default-tls.conf"  "default-tls.conf.old"
 #
-sudo sed -i "s;Pi4CC;${server_name};g"  "default-tls.conf"
-sudo sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g"  "default-tls.conf"
-sudo sed -i "s;/mnt/mp4library;${server_root_USBmountpoint};g"  "default-tls.conf"
-sudo sed -i "s;mp4library;${server_alias};g"  "default-tls.conf"
+sudo sed --debug -i "s;Pi4CC;${server_name};g"  "default-tls.conf"
+sudo sed --debug -i "s;/mnt/mp4library/mp4library;${server_root_folder};g"  "default-tls.conf"
+sudo sed --debug -i "s;/mnt/mp4library;${server_root_USBmountpoint};g"  "default-tls.conf"
+sudo sed --debug -i "s;mp4library;${server_alias};g"  "default-tls.conf"
 #
 diff -U 1 "default-tls.conf.old" "default-tls.conf"
 sudo mv -fv "default-tls.conf" "/etc/apache2/sites-available/default-tls.conf"
@@ -553,7 +553,7 @@ cd ~/Desktop
 url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/setup_support_files/example.php"
 rm -f "example.php"
 curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "example.php" --fail # -L means "allow redirection" or some odd :|
-sed -iBAK "s;Pi4CC;${server_name};g" "example.php"
+sed --debug -iBAK "s;Pi4CC;${server_name};g" "example.php"
 diff -U 1 "example.BAK" "example.php"
 sudo mv -fv "example.php" "/var/www/example.php"
 set +x
@@ -565,7 +565,7 @@ cd ~/Desktop
 url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/setup_support_files/phpinfo.php"
 rm -f "phpinfo.php"
 curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "phpinfo.php" --fail # -L means "allow redirection" or some odd :|
-sed -iBAK "s;Pi4CC;${server_name};g" "phpinfo.php"
+sed --debug -iBAK "s;Pi4CC;${server_name};g" "phpinfo.php"
 diff -U 1 "phpinfo.BAK" "phpinfo.php"
 sudo mv -fv "phpinfo.php" "/var/www/phpinfo.php"
 set +x
@@ -696,16 +696,16 @@ echo "# Change miniDLNA config settings to look like these"
 echo ""
 set -x
 sudo cp -fv "/etc/minidlna.conf" "/etc/minidlna.conf.old"
-sudo sed -i 's;#user=minidlna;#user=minidlna\nuser=pi;g' "/etc/minidlna.conf"
-sudo sed -i 's;media_dir=/var/lib/minidlna;#media_dir=/var/lib/minidlna\nmedia_dir=PV,${server_root_folder};g' "/etc/minidlna.conf"
-sudo sed -i 's;#db_dir=/var/cache/minidlna;#db_dir=/var/cache/minidlna\ndb_dir=${server_root_USBmountpoint}/miniDLNA;g' "/etc/minidlna.conf"
-sudo sed -i 's;#log_dir=/var/log;#log_dir=/var/log\nlog_dir=${server_root_USBmountpoint}/miniDLNA;g' "/etc/minidlna.conf"
-sudo sed -i 's;#friendly_name=;#friendly_name=\nfriendly_name=${server_name}-miniDLNA;g' "/etc/minidlna.conf"
-sudo sed -i 's;#inotify=yes;#inotify=yes\ninotify=yes;g' "/etc/minidlna.conf"
-sudo sed -i 's;#strict_dlna=no;#strict_dlna=no\nstrict_dlna=yes;g' "/etc/minidlna.conf"
-sudo sed -i 's;#notify_interval=895;#notify_interval=895\nnotify_interval=300;g' "/etc/minidlna.conf"
-sudo sed -i 's;#max_connections=50;#max_connections=50\nmax_connections=4;g' "/etc/minidlna.conf"
-sudo sed -i 's;#log_level=general,artwork,database,inotify,scanner,metadata,http,ssdp,tivo=warn;#log_level=general,artwork,database,inotify,scanner,metadata,http,ssdp,tivo=warn\nlog_level=artwork,database,general,http,inotify,metadata,scanner,ssdp,tivo=info;g' "/etc/minidlna.conf"
+sudo sed --debug -i 's;#user=minidlna;#user=minidlna\nuser=pi;g' "/etc/minidlna.conf"
+sudo sed --debug -i 's;media_dir=/var/lib/minidlna;#media_dir=/var/lib/minidlna\nmedia_dir=PV,${server_root_folder};g' "/etc/minidlna.conf"
+sudo sed --debug -i 's;#db_dir=/var/cache/minidlna;#db_dir=/var/cache/minidlna\ndb_dir=${server_root_USBmountpoint}/miniDLNA;g' "/etc/minidlna.conf"
+sudo sed --debug -i 's;#log_dir=/var/log;#log_dir=/var/log\nlog_dir=${server_root_USBmountpoint}/miniDLNA;g' "/etc/minidlna.conf"
+sudo sed --debug -i 's;#friendly_name=;#friendly_name=\nfriendly_name=${server_name}-miniDLNA;g' "/etc/minidlna.conf"
+sudo sed --debug -i 's;#inotify=yes;#inotify=yes\ninotify=yes;g' "/etc/minidlna.conf"
+sudo sed --debug -i 's;#strict_dlna=no;#strict_dlna=no\nstrict_dlna=yes;g' "/etc/minidlna.conf"
+sudo sed --debug -i 's;#notify_interval=895;#notify_interval=895\nnotify_interval=300;g' "/etc/minidlna.conf"
+sudo sed --debug -i 's;#max_connections=50;#max_connections=50\nmax_connections=4;g' "/etc/minidlna.conf"
+sudo sed --debug -i 's;#log_level=general,artwork,database,inotify,scanner,metadata,http,ssdp,tivo=warn;#log_level=general,artwork,database,inotify,scanner,metadata,http,ssdp,tivo=warn\nlog_level=artwork,database,general,http,inotify,metadata,scanner,ssdp,tivo=info;g' "/etc/minidlna.conf"
 diff -U 1 "/etc/minidlna.conf.old" "/etc/minidlna.conf"
 sudo service minidlna restart
 set +x
