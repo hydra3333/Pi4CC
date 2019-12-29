@@ -238,6 +238,8 @@ sudo sed -i 's;KeepAliveTimeout 5;KeepAliveTimeout 10800;g' "/etc/apache2/apache
 # in reverse order
 sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nCheckCaseOnly On;g' "/etc/apache2/apache2.conf"
 sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nCheckSpelling On;g' "/etc/apache2/apache2.conf"
+sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nHeader set Access-Control-Allow-Headers "Allow-Origin, X-Requested-With, Content-Type, Accept";g' "/etc/apache2/apache2.conf"
+sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nHeader set Access-Control-Allow-Origin "*";g' "/etc/apache2/apache2.conf"
 sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nHeader set Accept-Ranges bytes;g' "/etc/apache2/apache2.conf"
 sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nMaxRangeReversals unlimited;g' "/etc/apache2/apache2.conf"
 sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nMaxRangeOverlaps unlimited;g' "/etc/apache2/apache2.conf"
@@ -248,6 +250,9 @@ sudo sed -i 's;Include ports.conf;Include ports.conf\nCheckSpelling On;g' "/etc/
 sudo sed -i 's;Include ports.conf;Include ports.conf\nHeader set Access-Control-Allow-Headers "Allow-Origin, X-Requested-With, Content-Type, Accept";g' "/etc/apache2/apache2.conf"
 sudo sed -i 's;Include ports.conf;Include ports.conf\nHeader set Access-Control-Allow-Origin "*";g' "/etc/apache2/apache2.conf"
 sudo sed -i 's;Include ports.conf;Include ports.conf\nHeader set Accept-Ranges bytes;g' "/etc/apache2/apache2.conf"
+sudo sed -i 's;Include ports.conf;HostnameLookups Off\nMaxRangeReversals unlimited;g' "/etc/apache2/apache2.conf"
+sudo sed -i 's;Include ports.conf;HostnameLookups Off\nMaxRangeOverlaps unlimited;g' "/etc/apache2/apache2.conf"
+sudo sed -i 's;Include ports.conf;HostnameLookups Off\nMaxRanges unlimited;g' "/etc/apache2/apache2.conf"
 #
 sudo sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g"  "/etc/apache2/apache2.conf"
 sudo sed -i "s;/mp4library;/${server_alias};g"  "/etc/apache2/apache2.conf"
