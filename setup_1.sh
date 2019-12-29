@@ -79,70 +79,102 @@ sudo rm -fv "/etc/apache2/sites-available/default-tls.conf"
 read -p "Press Enter to continue"
 # INSTALL APACHE2
 sudo apt install -y apache2 
+sleep 3s
 read -p "Press Enter to continue"
 sudo apt install -y apache2-bin
+sleep 3s
 read -p "Press Enter to continue"
 sudo apt install -y apache2-data
+sleep 3s
 read -p "Press Enter to continue"
 sudo apt install -y apache2-utils
+sleep 3s
 read -p "Press Enter to continue"
 sudo apt install -y apache2-doc
+sleep 3s
 read -p "Press Enter to continue"
 sudo apt install -y apache2-suexec-pristine
+sleep 3s
 read -p "Press Enter to continue"
 sudo apt install -y apache2-ssl-dev
+sleep 3s
 read -p "Press Enter to continue"
 sudo apt install -y libxml2 
+sleep 3s
 read -p "Press Enter to continue"
 sudo apt install -y libxml2-dev 
+sleep 3s
 read -p "Press Enter to continue"
 sudo apt install -y libxml2-utils
+sleep 3s
 read -p "Press Enter to continue"
 sudo apt install -y libaprutil1 
+sleep 3s
 read -p "Press Enter to continue"
 sudo apt install -y libaprutil1-dev
+sleep 3s
 read -p "Press Enter to continue"
 # socache_dbm required for gnutls
 sudo a2enmod socache_dbm
+sleep 3s
 sudo apt install -y libapache2-mod-gnutls 
+sleep 3s
 read -p "Press Enter to continue"
 sudo apt install -y libapache2-mod-security2
+sleep 3s
 read -p "Press Enter to continue"
 # Note: the version lile 7.3 will change as time passes !!!!!!!
 # INSTALL PHP
 sudo apt install -y php7.3 
+sleep 3s
 read -p "Press Enter to continue"
 sudo apt install -y php7.3-common 
+sleep 3s
 read -p "Press Enter to continue"
 sudo apt install -y php7.3-cli 
+sleep 3s
 read -p "Press Enter to continue"
 sudo apt install -y php7.3-intl 
+sleep 3s
 read -p "Press Enter to continue"
 sudo apt install -y php7.3-curl 
+sleep 3s
 read -p "Press Enter to continue"
 sudo apt install -y php7.3-xsl 
+sleep 3s
 read -p "Press Enter to continue"
 sudo apt install -y php7.3-gd 
+sleep 3s
 read -p "Press Enter to continue"
 sudo apt install -y php7.3-recode 
+sleep 3s
 read -p "Press Enter to continue"
 sudo apt install -y php7.3-tidy 
+sleep 3s
 read -p "Press Enter to continue"
 sudo apt install -y php7.3-json 
+sleep 3s
 read -p "Press Enter to continue"
 sudo apt install -y php7.3-mbstring 
+sleep 3s
 read -p "Press Enter to continue"
 sudo apt install -y php7.3-dev 
+sleep 3s
 read -p "Press Enter to continue"
 sudo apt install -y php7.3-bz2 
+sleep 3s
 read -p "Press Enter to continue"
 sudo apt install -y php7.3-zip 
+sleep 3s
 read -p "Press Enter to continue"
 sudo apt install -y php-pear 
+sleep 3s
 read -p "Press Enter to continue"
 sudo apt install -y libmcrypt-dev
+sleep 3s
 read -p "Press Enter to continue"
 sudo apt install -y libapache2-mod-php
+sleep 3s
 read -p "Press Enter to continue"
 set +x
 
@@ -172,7 +204,9 @@ set -x
 #sudo apt autoremove -y
 #
 sudo apt install -y python3 idle
+sleep 3s
 sudo apt install -y libapache2-mod-python
+sleep 3s
 set +x
 read -p "Press Enter to continue, if it worked correctly"
 
@@ -185,6 +219,7 @@ sudo usermod -a -G www-data root
 sudo usermod -a -G www-data pi
 sudo chown -R -f pi:www-data /var/www
 sudo chmod +777 -R /var/www
+sleep 3s
 cat /var/log/apache2/error.log
 ls -al /etc/apache2/sites-enabled
 ls -al /etc/apache2/sites-available
@@ -207,6 +242,7 @@ sudo a2enmod python
 sudo a2enmod xml2enc
 sudo a2enmod alias 
 sudo a2enmod cgi
+sleep 3s
 set +x
 read -p "Press Enter to continue, if it worked correctly"
 
@@ -352,8 +388,13 @@ echo "# ASSUME THE HOSTNAME IS ${server_name} "
 echo "#    IF NOT, exit this script and change it !!!!!"
 echo "# Now Create the Certificate and Key (12650 = 50 years)"
 echo "# REMEMBER any passwords !!!     Write them down !!!!"
+echo ""
+echo "Use Host (server) name FQDN = ${server_name}"
+echo "Use Host (server) name FQDN = ${server_name}"
+echo ""
 set -x
 sudo openssl req -x509 -nodes -days 12650 -newkey rsa:2048 -out /etc/tls/localcerts/${server_name}.pem -keyout /etc/tls/localcerts/${server_name}.key
+ls -al "/etc/tls/localcerts/"
 set +x
 echo ""
 read -p "Press Enter to continue"
@@ -361,6 +402,7 @@ echo ""
 
 echo "# Strip Out Passphrase from the Key"
 set -x
+cp /etc/tls/localcerts/${server_name}.pem /etc/tls/localcerts/${server_name}.pem.orig
 cp /etc/tls/localcerts/${server_name}.key /etc/tls/localcerts/${server_name}.key.orig
 openssl rsa -in /etc/tls/localcerts/${server_name}.key.orig -out /etc/tls/localcerts/${server_name}.key
 sudo chmod 600 /etc/tls/localcerts/*
@@ -512,8 +554,10 @@ set +x
 echo ""
 echo "Restart the Apache2 Service"
 set -x
+sleep 3s
 #systemctl restart apache2
 sudo service apache2 restart
+sleep 10s
 set +x
 
 echo ""
@@ -523,14 +567,18 @@ set -x
 journalctl -xe
 set +x
 echo ""
-set -x
-cat /var/log/apache2/error.log
-set +x
+read -p "Press Enter to continue, if that all worked"
+echo ""
+#set -x
+#cat /var/log/apache2/error.log
+#set +x
+#echo ""
+#read -p "Press Enter to continue, if that all worked"
+#echo ""
 
 echo ""
 read -p "Press Enter to continue, if that all worked"
 echo ""
-
 
 
 # Remotely connect to these to check things:
@@ -545,6 +593,7 @@ echo ""
 echo ""
 set -x
 curl --head 127.0.0.1
+#
 curl -I 127.0.0.1
 set +x
 echo "# Check for accept-ranges bytes etc"
