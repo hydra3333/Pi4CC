@@ -441,7 +441,7 @@ echo "# Strip Out Passphrase from the Key"
 set -x
 sudo cp -fv /etc/tls/localcerts/${server_name}.pem /etc/tls/localcerts/${server_name}.pem.orig
 sudo cp -fv /etc/tls/localcerts/${server_name}.key /etc/tls/localcerts/${server_name}.key.orig
-openssl rsa -in /etc/tls/localcerts/${server_name}.key.orig -out /etc/tls/localcerts/${server_name}.key
+sudo openssl rsa -in /etc/tls/localcerts/${server_name}.key.orig -out /etc/tls/localcerts/${server_name}.key
 sudo chmod 600 /etc/tls/localcerts/*
 set +x
 echo ""
