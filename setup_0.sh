@@ -32,10 +32,10 @@ read -e -p "Designate the root folder on the USB3 external hard drive) [${server
 server_root_folder="${input_string:-$server_root_folder_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
 #
 echo ""
-echo "server_name=${server_name}"
-echo "server_alias=${server_alias}"
+echo "              server_name=${server_name}"
+echo "             server_alias=${server_alias}"
 echo "server_root_USBmountpoint=${server_root_USBmountpoint}"
-echo "server_root_folder=${server_root_folder}"
+echo "       server_root_folder=${server_root_folder}"
 echo "--------------------------------------------------------------------------------------------------------------------------------------------------------"
 set +x
 
