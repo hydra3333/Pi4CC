@@ -57,11 +57,11 @@ sudo apt purge -y apache2-utils
 sudo apt purge -y apache2-doc
 sudo apt purge -y apache2-suexec-pristine
 sudo apt purge -y apache2-ssl-dev
-sudo apt purge -y libxml2 
-sudo apt purge -y libxml2-dev 
-sudo apt purge -y libxml2-utils
-sudo apt purge -y libaprutil1 
-sudo apt purge -y libaprutil1-dev
+#sudo apt purge -y libxml2 
+#sudo apt purge -y libxml2-dev 
+#sudo apt purge -y libxml2-utils
+#sudo apt purge -y libaprutil1 
+#sudo apt purge -y libaprutil1-dev
 sudo apt purge -y libapache2-mod-gnutls 
 sudo apt purge -y libapache2-mod-security2
 sudo apt autoremove -y
