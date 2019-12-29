@@ -336,14 +336,14 @@ read -p "Press Enter to continue, if the all of the apache2.conf worked correctl
 echo ""
 
 echo '# Under the "Location /server-status" directive, '
-echo '# Locate the "#Require IP 192.0.2.0/24" '
+echo '# Locate the "#Require ip 192.0.2.0/24" '
 echo "# line and add a lind underneath for yout lan segment change"
 echo "# of a the tablet or equipment on the LAN "
 echo "# which you will be using to access the web server,"
 echo ""
 set -x
 sudo cp -fv "/etc/apache2/mods-available/status.conf" "/etc/apache2/mods-available/status.conf.old"
-sudo sed -i 's;#Require IP 192.0.2.0/24;#Require IP 192.0.2.0/24\nRequire IP 127.0.0.1\n#Require IP 192.168.108.133/24\nRequire IP 10.0.0.1/24;g' "/etc/apache2/mods-available/status.conf"
+sudo sed -i 's;#Require ip 192.0.2.0/24;#Require ip 192.0.2.0/24\nRequire ip 127.0.0.1\n#Require ip 192.168.108.133/24\nRequire ip 10.0.0.1/24;g' "/etc/apache2/mods-available/status.conf"
 diff -U 1 "/etc/apache2/mods-available/status.conf.old" "/etc/apache2/mods-available/status.conf"
 set +x
 echo ""
@@ -352,7 +352,7 @@ echo ""
 
 set -x
 sudo cp -fv "/etc/apache2/mods-available/info.conf" "/etc/apache2/mods-available/info.conf.old"
-sudo sed -i 's;#Require IP 192.0.2.0/24;#Require IP 192.0.2.0/24\nRequire IP 127.0.0.1\n#Require IP 192.168.108.133/24\nRequire IP 10.0.0.1/24;g' "/etc/apache2/mods-available/info.conf"
+sudo sed -i 's;#Require ip 192.0.2.0/24;#Require ip 192.0.2.0/24\nRequire ip 127.0.0.1\n#Require ip 192.168.108.133/24\nRequire ip 10.0.0.1/24;g' "/etc/apache2/mods-available/info.conf"
 diff -U 1 "/etc/apache2/mods-available/info.old" "/etc/apache2/mods-available/info."
 set +x
 echo ""
