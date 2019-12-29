@@ -97,12 +97,12 @@ set -x
 #sudo sed -i "1 i boot_delay=15" "/boot/config.txt" # doesn't work if the file has no line 1
 sudo cp -fv "/boot/config.txt" "/boot/config.txt.old"
 rm -f ./tmp.tmp
-sudo sed "s;boot_delay=15;;g" "/boot/config.txt"
+sudo sed -i "/boot_delay/d" "/boot/config.txt"
 echo "boot_delay=15" > ./tmp.tmp
 sudo cat /boot/config.txt >> ./tmp.tmp
 sudo cp -fv ./tmp.tmp /boot/config.txt
 rm -f ./tmp.tmp
-sudo nano "/boot/config.txt"
+#sudo nano "/boot/config.txt"
 diff -U 1 "/boot/config.txt.old" "/boot/config.txt"
 
 set +x

@@ -243,8 +243,10 @@ sleep 3s
 set +x
 read -p "Press Enter to continue, if it worked correctly"
 
-echo "# ok, finished Apache2/Python3/PSH APT installs"
+echo ""
+echo "# OK, finished Apache2/Python3/PSH APT installs"
 
+echo ""
 echo "# Setup some handy protections"
 set -x
 sudo groupadd -f www-data
@@ -257,8 +259,9 @@ cat /var/log/apache2/error.log
 ls -al /etc/apache2/sites-enabled
 ls -al /etc/apache2/sites-available
 set +x
-read -p "Press Enter to continue, if it worked correctly"
+#read -p "Press Enter to continue, if it worked correctly"
 
+echo ""
 echo "# Enable/Disable Apache2 features"
 set -x
 sudo a2enmod headers
@@ -277,7 +280,7 @@ sudo a2enmod alias
 sudo a2enmod cgi
 sleep 3s
 set +x
-read -p "Press Enter to continue, if it worked correctly"
+#read -p "Press Enter to continue, if it worked correctly"
 
 #echo "# check the mp4 mime type is in place"
 #ls -al /etc/mime.types
@@ -332,7 +335,7 @@ diff -U 1 "/etc/apache2/apache2.conf.old" "/etc/apache2/apache2.conf"
 set +x
 
 echo ""
-read -p "Press Enter to continue, if the all of the apache2.conf worked correctly"
+#read -p "Press Enter to continue, if the all of the apache2.conf worked correctly"
 echo ""
 
 echo '# Under the "Location /server-status" directive, '
@@ -343,20 +346,20 @@ echo "# which you will be using to access the web server,"
 echo ""
 set -x
 sudo cp -fv "/etc/apache2/mods-available/status.conf" "/etc/apache2/mods-available/status.conf.old"
-sudo sed -i 's;#Require ip 192.0.2.0/24;#Require ip 192.0.2.0/24\nRequire ip 127.0.0.1\n#Require ip 192.168.108.133/24\nRequire ip 10.0.0.1/24;g' "/etc/apache2/mods-available/status.conf"
+sudo sed -i 's;#Require ip 192.0.2.0/24;#Require ip 192.0.2.0/24\n#Require ip 127.0.0.1\n#Require ip 192.168.108.133/24\n#Require ip 10.0.0.1/24;g' "/etc/apache2/mods-available/status.conf"
 diff -U 1 "/etc/apache2/mods-available/status.conf.old" "/etc/apache2/mods-available/status.conf"
 set +x
 echo ""
-read -p "Press Enter to continue, if the status.conf worked correctly"
+#read -p "Press Enter to continue, if the status.conf worked correctly"
 echo ""
 
 set -x
 sudo cp -fv "/etc/apache2/mods-available/info.conf" "/etc/apache2/mods-available/info.conf.old"
-sudo sed -i 's;#Require ip 192.0.2.0/24;#Require ip 192.0.2.0/24\nRequire ip 127.0.0.1\n#Require ip 192.168.108.133/24\nRequire ip 10.0.0.1/24;g' "/etc/apache2/mods-available/info.conf"
+sudo sed -i 's;#Require ip 192.0.2.0/24;#Require ip 192.0.2.0/24\n#Require ip 127.0.0.1\n#Require ip 192.168.108.133/24\n#Require ip 10.0.0.1/24;g' "/etc/apache2/mods-available/info.conf"
 diff -U 1 "/etc/apache2/mods-available/info.old" "/etc/apache2/mods-available/info."
 set +x
 echo ""
-read -p "Press Enter to continue, if the info.conf worked correctly"
+#read -p "Press Enter to continue, if the info.conf worked correctly"
 echo ""
 
 # Leave port 80 listening, so do not comment-out the line which says Listen 80 in /etc/apache2/ports.conf
