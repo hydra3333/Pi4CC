@@ -43,7 +43,7 @@ set +x
 
 echo "# Set permissions so we can do ANYTHING with the USB3 drive."
 set -x
-sudo chmod +777 ${server_root_USBmountpoint}
+sudo chmod +777 -R ${server_root_USBmountpoint}
 set +x
 
 echo "# Check the exterrnal USB3 drive mounted where we told it to by doing a df"
@@ -684,7 +684,7 @@ echo ""
 echo "# Create a folder for miniDLNA logs and db - place the folder in the root of the (fast) USB3 drive"
 set -x
 sudo mkdir -p "${server_root_USBmountpoint}/miniDLNA"
-sudo chmod -R +777 "${server_root_USBmountpoint}/miniDLNA"
+sudo chmod +777 -R "${server_root_USBmountpoint}/miniDLNA"
 set +x
 echo ""
 
