@@ -6,10 +6,37 @@
 
 set -x
 cd ~/Desktop
-server_name=Pi4CC
-server_alias=mp4library
-server_root=/mnt/mp4library
-server_root_folder=/mnt/mp4library/mp4library
+
+set +x
+echo "--------------------------------------------------------------------------------------------------------------------------------------------------------"
+#server_name=Pi4cc
+#server_alias=mp4library
+#server_root=/mnt/mp4library
+#server_root_folder=/mnt/mp4library/mp4library
+#
+server_name_default=Pi4cc
+server_alias_default=mp4library
+server_root_USBmountpoint_default=/mnt/${server_alias_default}
+server_root_folder_default=${server_root_USBmountpoint_default}/${server_alias_default}
+#
+read -e -p "This server_name (will become name of website) [${server_name_default}]: " -i "${server_name_default}" input_string
+server_name="${input_string:-$server_name_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
+#
+read -e -p "This server_alias (will become a Virtual Folder within the website) [${server_alias_default}]: " -i "${server_alias_default}" input_string
+server_alias="${input_string:-$server_alias_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
+#
+read -e -p "Designate the mount point for the USB3 external hard drive [${server_root_USBmountpoint_default}]: " -i "${server_root_USBmountpoint_default}" input_string
+server_root_USBmountpoint="${input_string:-$server_root_USBmountpoint_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
+#
+read -e -p "Designate the root folder on the USB3 external hard drive) [${server_root_folder_default}]: " -i "${server_root_folder_default}" input_string
+server_root_folder="${input_string:-$server_root_folder_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
+#
+echo ""
+echo "server_name=${server_name}"
+echo "server_alias=${server_alias}"
+echo "server_root_USBmountpoint=${server_root_USBmountpoint}"
+echo "server_root_folder=${server_root_folder}"
+echo "--------------------------------------------------------------------------------------------------------------------------------------------------------"
 set +x
 
 echo "# Set permissions so we can do ANYTHING with the USB3 drive."
@@ -293,9 +320,10 @@ sudo sed -i 's;Include ports.conf;Include ports.conf\nHeader set Accept-Ranges b
 sudo sed -i 's;Include ports.conf;Include ports.conf\nMaxRangeReversals unlimited;g' "/etc/apache2/apache2.conf"
 sudo sed -i 's;Include ports.conf;Include ports.conf\nMaxRangeOverlaps unlimited;g' "/etc/apache2/apache2.conf"
 sudo sed -i 's;Include ports.conf;Include ports.conf\nMaxRanges unlimited;g' "/etc/apache2/apache2.conf"
-#
+# these don't occur in this file, however try anyway
+sudo sed -i "s;Pi4CC;${server_name};g"  "/etc/apache2/apache2.conf"
 sudo sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g"  "/etc/apache2/apache2.conf"
-sudo sed -i "s;/mp4library;/${server_alias};g"  "/etc/apache2/apache2.conf"
+sudo sed -i "s;/mnt/mp4library;${server_root_USBmountpoint};g"  "/etc/apache2/apache2.conf"
 sudo sed -i "s;mp4library;${server_alias};g"  "/etc/apache2/apache2.conf"
 #
 diff -U 1 "/etc/apache2/apache2.conf.old" "/etc/apache2/apache2.conf"
@@ -488,10 +516,12 @@ rm -f "000-default.conf"
 rm -f "000-default.conf.old"
 curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "000-default.conf" --fail # -L means "allow redirection" or some odd :|
 cp -fv "000-default.conf"  "000-default.conf.old"
-sudo sed -i "s;Pi4CC;${server_name};g" "000-default.conf"
-sudo sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g" "000-default.conf"
-sudo sed -i "s;/mp4library;/${server_alias};g" "000-default.conf"
-sudo sed -i "s;mp4library;${server_alias};g" "000-default.conf"
+#
+sudo sed -i "s;Pi4CC;${server_name};g"  "000-default.conf"
+sudo sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g"  "000-default.conf"
+sudo sed -i "s;/mnt/mp4library;${server_root_USBmountpoint};g"  "000-default.conf"
+sudo sed -i "s;mp4library;${server_alias};g"  "000-default.conf"
+#
 diff -U 1 "000-default.conf.old" "000-default.conf"
 sudo mv -fv "000-default.conf" "/etc/apache2/sites-available/000-default.conf"
 set +x
@@ -506,10 +536,12 @@ rm -f "default-tls.conf"
 rm -f "default-tls.conf.old"
 curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "default-tls.conf" --fail # -L means "allow redirection" or some odd :|
 cp -fv "default-tls.conf"  "default-tls.conf.old"
-sudo sed -i "s;Pi4CC;${server_name};g" "default-tls.conf"
-sudo sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g" "default-tls.conf"
-sudo sed -i "s;/mp4library;/${server_alias};g" "default-tls.conf"
-sudo sed -i "s;mp4library;${server_alias};g" "default-tls.conf"
+#
+sudo sed -i "s;Pi4CC;${server_name};g"  "default-tls.conf"
+sudo sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g"  "default-tls.conf"
+sudo sed -i "s;/mnt/mp4library;${server_root_USBmountpoint};g"  "default-tls.conf"
+sudo sed -i "s;mp4library;${server_alias};g"  "default-tls.conf"
+#
 diff -U 1 "default-tls.conf.old" "default-tls.conf"
 sudo mv -fv "default-tls.conf" "/etc/apache2/sites-available/default-tls.conf"
 set +x

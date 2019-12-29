@@ -6,9 +6,37 @@
 
 set -x
 cd ~/Desktop
-server_name=Pi4cc
-server_root=/mnt/mp4library
-server_root_folder=/mnt/mp4library/mp4library
+
+set +x
+echo "--------------------------------------------------------------------------------------------------------------------------------------------------------"
+#server_name=Pi4cc
+#server_alias=mp4library
+#server_root=/mnt/mp4library
+#server_root_folder=/mnt/mp4library/mp4library
+#
+server_name_default=Pi4cc
+server_alias_default=mp4library
+server_root_USBmountpoint_default=/mnt/${server_alias_default}
+server_root_folder_default=${server_root_USBmountpoint_default}/${server_alias_default}
+#
+read -e -p "This server_name (will become name of website) [${server_name_default}]: " -i "${server_name_default}" input_string
+server_name="${input_string:-$server_name_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
+#
+read -e -p "This server_alias (will become a Virtual Folder within the website) [${server_alias_default}]: " -i "${server_alias_default}" input_string
+server_alias="${input_string:-$server_alias_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
+#
+read -e -p "Designate the mount point for the USB3 external hard drive [${server_root_USBmountpoint_default}]: " -i "${server_root_USBmountpoint_default}" input_string
+server_root_USBmountpoint="${input_string:-$server_root_USBmountpoint_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
+#
+read -e -p "Designate the root folder on the USB3 external hard drive) [${server_root_folder_default}]: " -i "${server_root_folder_default}" input_string
+server_root_folder="${input_string:-$server_root_folder_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
+#
+echo ""
+echo "server_name=${server_name}"
+echo "server_alias=${server_alias}"
+echo "server_root_USBmountpoint=${server_root_USBmountpoint}"
+echo "server_root_folder=${server_root_folder}"
+echo "--------------------------------------------------------------------------------------------------------------------------------------------------------"
 set +x
 
 sudo apt update -y
@@ -129,12 +157,12 @@ echo ""
 echo "# Create a mount point for the USB3 drive, which we'll use in a minute."
 echo "# In this case I want to call it mp4library."
 set -x
-sudo mkdir -p ${server_root}
+sudo mkdir -p ${server_root_USBmountpoint}
 set +x
 
 echo "# Set protections so we can so ANYTHING with it (we are inside our own home LAN)"
 set -x
-sudo chmod +777 ${${server_root}}
+sudo chmod +777 ${${server_root_USBmountpoint}}
 set +x
 
 echo "# Fix permissions to allow user pi so that it has no trouble"
@@ -179,11 +207,11 @@ echo ""
 echo "# ADD this line at the end of the file like this"
 echo "# using the correct newly-discovered UUID"
 echo "# exclude the '#' to make it active"
-echo "#UUID=F8ACDEBBACDE741A ${server_root} ntfs defaults,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,x-systemd.device-timeout=120 0 2"
+echo "#UUID=F8ACDEBBACDE741A ${server_root_USBmountpoint} ntfs defaults,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,x-systemd.device-timeout=120 0 2"
 echo ""
 set -x
 sudo cp -fv "/etc/fstab" "/etc/fstab.old"
-sudo sed -i "$ a #UUID=F8ACDEBBACDE741A ${server_root} ntfs defaults,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,x-systemd.device-timeout=120 0 2" "/etc/fstab"
+sudo sed -i "$ a #UUID=F8ACDEBBACDE741A ${server_root_USBmountpoint} ntfs defaults,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,x-systemd.device-timeout=120 0 2" "/etc/fstab"
 set +x
 echo ""
 
