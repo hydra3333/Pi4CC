@@ -671,19 +671,18 @@ echo "# ----------------"
 
 echo ""
 
-echo "# create a folderfor miniDLNA logs"
-set -x
-sudo mkdir -p /home/pi/Desktop/miniDLNA/log
-sudo chmod -R +777 /home/pi/Desktop/miniDLNA/log
-set +x
-echo ""
-
-echo "# Remove the old miniDLNA, if any"
 set -x
 sudo apt purge minidlna -y
 sudo apt autoremove -y
 sleep 5s
 sudo rm -vf "/etc/minidlna.conf"
+set +x
+echo ""
+
+echo "# Create a folder for miniDLNA logs and db - place the folder in the root of the (fast) USB3 drive"
+set -x
+sudo mkdir -p "${server_root_USBmountpoint}/miniDLNA"
+sudo chmod -R +777 "${server_root_USBmountpoint}/miniDLNA"
 set +x
 echo ""
 
@@ -699,8 +698,8 @@ set -x
 sudo cp -fv "/etc/minidlna.conf" "/etc/minidlna.conf.old"
 sudo sed -i 's;#user=minidlna;#user=minidlna\nuser=pi;g' "/etc/minidlna.conf"
 sudo sed -i 's;media_dir=/var/lib/minidlna;#media_dir=/var/lib/minidlna\nmedia_dir=PV,${server_root_folder};g' "/etc/minidlna.conf"
-sudo sed -i 's;#db_dir=/var/cache/minidlna;#db_dir=/var/cache/minidlna\ndb_dir=/home/pi/Desktop/miniDLNA;g' "/etc/minidlna.conf"
-sudo sed -i 's;#log_dir=/var/log;#log_dir=/var/log\nlog_dir=/home/pi/Desktop/miniDLNA/log;g' "/etc/minidlna.conf"
+sudo sed -i 's;#db_dir=/var/cache/minidlna;#db_dir=/var/cache/minidlna\ndb_dir=${server_root_USBmountpoint}/miniDLNA;g' "/etc/minidlna.conf"
+sudo sed -i 's;#log_dir=/var/log;#log_dir=/var/log\nlog_dir=${server_root_USBmountpoint}/miniDLNA;g' "/etc/minidlna.conf"
 sudo sed -i 's;#friendly_name=;#friendly_name=\nfriendly_name=${server_name}-miniDLNA;g' "/etc/minidlna.conf"
 sudo sed -i 's;#inotify=yes;#inotify=yes\ninotify=yes;g' "/etc/minidlna.conf"
 sudo sed -i 's;#strict_dlna=no;#strict_dlna=no\nstrict_dlna=yes;g' "/etc/minidlna.conf"
@@ -711,20 +710,11 @@ diff -U 1 "/etc/minidlna.conf.old" "/etc/minidlna.conf"
 sudo service minidlna restart
 set +x
 echo ""
-read -p "Press Enter to continue, if the seds and service restart worked."
-echo ""
 
-
-
-
-
-
-
-
-# after re-start, looks for media
-
-# force a re-scan at 4:00 am every night
-https://sourceforge.net/p/minidlna/discussion/879956/thread/41ae22d6/#4bf3
+# after re-start, it looks for media
+# force a re-scan at 4:00 am every night using crontab
+# https://sourceforge.net/p/minidlna/discussion/879956/thread/41ae22d6/#4bf3
+set -x
 sudo /usr/bin/killall minidlna
 sleep 10s
 sudo /usr/sbin/minidlna -R
@@ -732,6 +722,13 @@ sleep 3600s
 sudo /usr/bin/killall minidlna
 sleep 10s
 sudo /usr/sbin/minidlna
+set +x
+
+read -p "Press Enter to continue, if the seds and service restart worked."
+echo ""
+
+exit
+
 
 Then run crontab -e and add the following:
 #    <minute> <hour> <day> <month> <dow> <tags and command>
