@@ -430,6 +430,12 @@ echo "Use Host (server) name FQDN = ${server_name}"
 echo "Use Host (server) name FQDN = ${server_name}"
 echo ""
 set -x
+sudo rm -fv /etc/tls/localcerts/${server_name}.key.orig
+sudo rm -fv /etc/tls/localcerts/${server_name}.key
+sudo rm -fv /etc/tls/localcerts/${server_name}.pem.orig
+sudo rm -fv /etc/tls/localcerts/${server_name}.pem 
+sudo rm -fv /etc/tls/localcerts/${server_name}.pfx
+#
 sudo openssl req -x509 -nodes -days 12650 -newkey rsa:2048 -out /etc/tls/localcerts/${server_name}.pem -keyout /etc/tls/localcerts/${server_name}.key
 sudo chmod a=rwx /etc/tls/localcerts/*
 ls -al "/etc/tls/localcerts/"
@@ -471,19 +477,6 @@ echo ""
 #A challenge password []:
 #An optional company name []:
 
-echo ""
-echo "# In /etc/tls/localcerts we should now have"
-echo "# ${server_name}.key.orig  cert key with embedded Passphrase"
-echo "# ${server_name}.key       cert key"
-echo "# ${server_name}.pem       final certificate"
-echo ""
-set -x
-ls -al "/etc/tls/localcerts/"
-set +x
-echo ""
-read -p "Press Enter to continue, if that worked"
-echo ""
-
 echo "# Create the PKCS12 Certificate"
 echo "# If we need a pk12 cert (eg for EMBY software) it requires a pkcs12 certificate to be generated, "
 echo "#"
@@ -491,6 +484,19 @@ echo "#Convert PEM & Private Key to PFX/P12:"
 set -x
 sudo openssl pkcs12 -export -out /etc/tls/localcerts/${server_name}.pfx -inkey /etc/tls/localcerts/${server_name}.key.orig -in /etc/tls/localcerts/${server_name}.pem 
 sudo chmod a=rwx /etc/tls/localcerts/*
+set +x
+echo ""
+
+echo ""
+echo "# In /etc/tls/localcerts we should now have"
+echo "# ${server_name}.key.orig  original cert key with embedded (blank) Passphrase"
+echo "# ${server_name}.pem.orig  original final certificate"
+echo "# ${server_name}.key       cert key without embedded (blank) passphrase"
+echo "# ${server_name}.pem       final certificate"
+echo "# ${server_name}.pfx       the PKCS12 Certificate"
+echo ""
+set -x
+ls -al "/etc/tls/localcerts/"
 set +x
 echo ""
 
