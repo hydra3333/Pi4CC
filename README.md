@@ -1,3 +1,7 @@
+# UNDER CONSTRUCTION
+
+does not work yet
+
 # Description <TL;DR> 
 
    A zero-frills LAN-only Media Server using DLNA and Apache2 web server to serve up .mp4 (avc/hevc) video files
