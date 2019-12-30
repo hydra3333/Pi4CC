@@ -651,7 +651,16 @@ echo ""
 #echo ""
 
 echo ""
-echo "# add an apache user, 'pi', enter your-intended-password twice"
+echo "# apache user, 'pi' ... Enter your normal password, then again"
+echo "# apache user, 'pi' ... Enter your normal password, then again"
+echo "# apache user, 'pi' ... Enter your normal password, then again"
+echo "# apache user, 'pi' ... Enter your normal password, then again"
+echo "# apache user, 'pi' ... Enter your normal password, then again"
+echo "# apache user, 'pi' ... Enter your normal password, then again"
+echo "# apache user, 'pi' ... Enter your normal password, then again"
+echo "# apache user, 'pi' ... Enter your normal password, then again"
+echo "# apache user, 'pi' ... Enter your normal password, then again"
+echo "# apache user, 'pi' ... Enter your normal password, then again"
 set -x
 sudo htpasswd -c /usr/local/etc/apache_passwd pi
 set +x
