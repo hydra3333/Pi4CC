@@ -799,12 +799,8 @@ sudo sed -i "s;#max_connections=50;#max_connections=50\nmax_connections=4;g" "/e
 sudo sed -i "s;#log_level=general,artwork,database,inotify,scanner,metadata,http,ssdp,tivo=warn;#log_level=general,artwork,database,inotify,scanner,metadata,http,ssdp,tivo=warn\nlog_level=artwork,database,general,http,inotify,metadata,scanner,ssdp,tivo=info;g" "/etc/minidlna.conf"
 sudo diff -U 1 "/etc/minidlna.conf.old" "/etc/minidlna.conf"
 sudo service minidlna restart
-
-chown ???? 
-/run/minidlna/minidlna.pid
-/run/minidlna/minidlna.pid
-
-
+sudo chmod a=rwx -R "/run/minidlna"
+sudo chown -R pi:www-data "/run/minidlna"
 sleep 10s
 cat =${log_dir}\minidlna.log
 set +x
@@ -845,10 +841,24 @@ echo "set +x" >> "${sh_file}"
 echo ""
 echo "Adding the 4:00am nightly crontab job to re-index miniDLNA"
 echo ""
+#The layout for a cron entry is made up of six components: minute, hour, day of month, month of year, day of week, and the command to be executed.
+# m h  dom mon dow   command
+# * * * * *  command to execute
+# ┬ ┬ ┬ ┬ ┬
+# │ │ │ │ │
+# │ │ │ │ │
+# │ │ │ │ └───── day of week (0 - 7) (0 to 6 are Sunday to Saturday, or use names; 7 is Sunday, the same as 0)
+# │ │ │ └────────── month (1 - 12)
+# │ │ └─────────────── day of month (1 - 31)
+# │ └──────────────────── hour (0 - 23)
+# └───────────────────────── min (0 - 59)
+# https://stackoverflow.com/questions/610839/how-can-i-programmatically-create-a-new-cron-job
 # <minute> <hour> <day> <month> <dow> <tags and command>
 set -x
 crontab -l # before
-(crontab -l ; echo "0 4 * * * ${sh_file} >> ${log_file}") 2>&1 | sed "/no crontab for/d" | sort - | uniq - | crontab -
+set +x
+( crontab -l ; echo "0 4 * * * ${sh_file} >> ${log_file}" ) 2>&1 | sed "s/no crontab for $(whoami)//g" | sort - | uniq - | crontab -
+set -x
 crontab -l # after
 set +x
 
@@ -1110,7 +1120,9 @@ echo ""
 # <minute> <hour> <day> <month> <dow> <tags and command>
 set -x
 crontab -l # before
-(crontab -l ; echo "0 5 * * * python3 /var/www/${server_name}/create-json.py --source_folder ${server_root_folder} ---filename-extension mp4 --json_file /var/www/${server_name}/media.js > /var/www/${server_name}/create-json.log 2>&1") 2>&1 | sed "/no crontab for/d" | sort - | uniq - | crontab -
+set +x
+(crontab -l ; echo "0 5 * * * python3 /var/www/${server_name}/create-json.py --source_folder ${server_root_folder} ---filename-extension mp4 --json_file /var/www/${server_name}/media.js > /var/www/${server_name}/create-json.log 2>&1") 2>&1 | sed "s/no crontab for $(whoami)//g" | sort - | uniq - | crontab -
+set -x
 crontab -l # after
 set +x
 
