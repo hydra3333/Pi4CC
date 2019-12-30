@@ -970,14 +970,21 @@ copy_to_top() {
   set -x
   sudo rm -f "/var/www/${server_name}/${the_file}"
   sudo curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "/var/www/${server_name}/${the_file}" --fail # -L means "allow redirection" or some odd :|
+  sudo cp -fv "/var/www/${server_name}/${the_file}" "./${the_file}.old"
+  sudo sed "s;10.0.0.6;${server_name};g" "/var/www/${server_name}/${the_file}"
+  sudo sed "s;Pi4CC;${server_name};g" "/var/www/${server_name}/${the_file}"
+  sudo sed "s;/mnt/mp4library/mp4library;${server_root_folder};g" "/var/www/${server_name}/${the_file}"
   sudo chmod a=rwx "/var/www/${server_name}/${the_file}"  set -x
+  sudo diff -U 1 "./${the_file}.old" "/var/www/${server_name}/${the_file}" 
+  sudo rm -fv "./${the_file}.old"
   return 0
 }
+copy_to_top index.html
 copy_to_top CastVideos.js
 copy_to_top ads.js
-copy_to_top index.html
-copy_to_top media.js
 copy_to_top reload_media.js.sh
+copy_to_top create-json.py
+copy_to_top media.js
 #---
 # css files
 sudo mkdir -p "/var/www/${server_name}/css"
