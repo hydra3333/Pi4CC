@@ -9,7 +9,7 @@ cd ~/Desktop
 
 set +x
 set +x
-echo "--------------------------------------------------------------------------------------------------------------------------------------------------------"
+echo "# ------------------------------------------------------------------------------------------------------------------------"
 set -x
 cd ~/Desktop
 set +x
@@ -63,7 +63,7 @@ echo "             server_alias=${server_alias}"
 echo "server_root_USBmountpoint=${server_root_USBmountpoint}"
 echo "       server_root_folder=${server_root_folder}"
 echo ""
-echo "--------------------------------------------------------------------------------------------------------------------------------------------------------"
+echo "# ------------------------------------------------------------------------------------------------------------------------"
 
 echo "# Set permissions so we can do ANYTHING with the USB3 drive."
 set -x
@@ -78,6 +78,7 @@ read -p "Press Enter to continue"
 
 echo "# ------------------------------------------------------------------------------------------------------------------------"
 echo "# INSTALLING APACHE & PHP"
+echo ""
 echo "#https://pimylifeup.com/raspberry-pi-apache/"
 echo ""
 
@@ -588,7 +589,7 @@ set -x
 cd ~/Desktop
 url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/setup_support_files/000-default.conf"
 rm -f "./000-default.conf"
-rm -f "000-default.conf.old"
+rm -f "./000-default.conf.old"
 curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "./000-default.conf" --fail # -L means "allow redirection" or some odd :|
 sudo cp -fv "./000-default.conf"  "./000-default.conf.old"
 #
@@ -597,7 +598,7 @@ sudo sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g"  "./000-defau
 sudo sed -i "s;/mnt/mp4library;${server_root_USBmountpoint};g"  "./000-default.conf"
 sudo sed -i "s;mp4library;${server_alias};g"  "./000-default.conf"
 #
-diff -U 1 "000-default.conf.old" "./000-default.conf"
+diff -U 1 "./000-default.conf.old" "./000-default.conf"
 sudo mv -fv "./000-default.conf" "/etc/apache2/sites-available/000-default.conf"
 set +x
 echo ""
@@ -608,16 +609,16 @@ set -x
 cd ~/Desktop
 url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/setup_support_files/default-tls.conf"
 rm -f "./default-tls.conf"
-rm -f "default-tls.conf.old"
+rm -f "./default-tls.conf.old"
 curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "./default-tls.conf" --fail # -L means "allow redirection" or some odd :|
-sudo cp -fv "./default-tls.conf"  "default-tls.conf.old"
+sudo cp -fv "./default-tls.conf"  "./default-tls.conf.old"
 #
 sudo sed -i "s;Pi4CC;${server_name};g"  "./default-tls.conf"
 sudo sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g"  "./default-tls.conf"
 sudo sed -i "s;/mnt/mp4library;${server_root_USBmountpoint};g"  "./default-tls.conf"
 sudo sed -i "s;mp4library;${server_alias};g"  "./default-tls.conf"
 #
-diff -U 1 "default-tls.conf.old" "./default-tls.conf"
+diff -U 1 "./default-tls.conf.old" "./default-tls.conf"
 sudo mv -fv "./default-tls.conf" "/etc/apache2/sites-available/default-tls.conf"
 set +x
 echo ""
@@ -779,11 +780,14 @@ echo ""
 echo "# Change miniDLNA config settings to look like these"
 echo ""
 set -x
+log_dir=${server_root_USBmountpoint}/miniDLNA
+db_dir=${server_root_USBmountpoint}/miniDLNA
+sh_dir=${server_root_USBmountpoint}/miniDLNA
 sudo cp -fv "/etc/minidlna.conf" "/etc/minidlna.conf.old"
 sudo sed -i "s;#user=minidlna;#user=minidlna\nuser=pi;g" "/etc/minidlna.conf"
 sudo sed -i "s;media_dir=/var/lib/minidlna;#media_dir=/var/lib/minidlna\nmedia_dir=PV,${server_root_folder};g" "/etc/minidlna.conf"
-sudo sed -i "s;#db_dir=/var/cache/minidlna;#db_dir=/var/cache/minidlna\ndb_dir=${server_root_USBmountpoint}/miniDLNA;g" "/etc/minidlna.conf"
-sudo sed -i "s;#log_dir=/var/log;#log_dir=/var/log\nlog_dir=${server_root_USBmountpoint}/miniDLNA;g" "/etc/minidlna.conf"
+sudo sed -i "s;#db_dir=/var/cache/minidlna;#db_dir=/var/cache/minidlna\ndb_dir=${db_dir};g" "/etc/minidlna.conf"
+sudo sed -i "s;#log_dir=/var/log;#log_dir=/var/log\nlog_dir=${log_dir};g" "/etc/minidlna.conf"
 sudo sed -i "s;#friendly_name=;#friendly_name=\nfriendly_name=${server_name}-miniDLNA;g" "/etc/minidlna.conf"
 sudo sed -i "s;#inotify=yes;#inotify=yes\ninotify=yes;g" "/etc/minidlna.conf"
 sudo sed -i "s;#strict_dlna=no;#strict_dlna=no\nstrict_dlna=yes;g" "/etc/minidlna.conf"
@@ -798,36 +802,57 @@ echo ""
 # after re-start, it looks for media
 # force a re-scan at 4:00 am every night using crontab
 # https://sourceforge.net/p/minidlna/discussion/879956/thread/41ae22d6/#4bf3
+# To restart the service
+#sudo service minidlna restart
 set -x
-sudo /usr/bin/killall minidlna
-sleep 10s
-sudo /usr/sbin/minidlna -R
-echo "Wait 3 minutes for miniDLNA to index media files"
-sleep 180s
-sudo /usr/bin/killall minidlna
-sleep 10s
-sudo /usr/sbin/minidlna
+# To rebuild the database use:
+sudo service minidlna force-reload
+set +x
+#sudo service minidlna stop
+
+sh_file=${sh_dir}/minidlna_refresh.sh
+log_file=${log_dir}/minidlna_refresh.log
+#
+sudo rm -vf "${log_file}"
+touch "${log_file}"
+#
+sudo rm -vf "${sh_file}"
+echo "#!/bin/bash" >> "${sh_file}"
+echo "set -x" >> "${sh_file}"
+echo "sudo /usr/bin/killall minidlna" >> "${sh_file}"
+echo "sleep 10s" >> "${sh_file}"
+echo "sudo /usr/sbin/minidlna -R" >> "${sh_file}"
+echo "echo 'Wait 15 minutes for miniDLNA to index media files'" >> "${sh_file}"
+echo "sleep 900s" >> "${sh_file}"
+echo "sudo /usr/bin/killall minidlna" >> "${sh_file}"
+echo "sleep 10s" >> "${sh_file}"
+echo "sudo /usr/sbin/minidlna" >> "${sh_file}"
+echo "set +x" >> "${sh_file}"
+
+# https://stackoverflow.com/questions/610839/how-can-i-programmatically-create-a-new-cron-job
+echo ""
+echo "Adding the 4:00am nightly crontab job to re-index miniDLNA"
+echo ""
+# <minute> <hour> <day> <month> <dow> <tags and command>
+set -x
+contab -l # before
+(crontab -l ; echo "0 4 * * * ${sh_file} >> ${log_file}") 2>&1 | sed "/no crontab for/d" | sort - | uniq - | crontab -
+contab -l # after
 set +x
 
-read -p "Press Enter to continue, if the miniDLNS setup and sed's and service restart worked."
+echo "#"
+echo "# The MiniDLNA service comes with a small webinterface. "
+echo "# This webinterface is just for informational purposes. "
+echo "# You will not be able to configure anything here. "
+echo "# However, it gives you a nice and short information screen how many files have been found by MiniDLNA. "
+echo "# MiniDLNA comes with it’s own webserver integrated. "
+echo "# This means that no additional webserver is needed in order to use the webinterface."
+echo "# To access the webinterface, open your browser of choice and enter "
 echo ""
-
-exit
-
-
-Then run crontab -e and add the following:
-#    <minute> <hour> <day> <month> <dow> <tags and command>
-#    <@freq> <tags and command>
-0 4 * * * /usr/scripts/minidlna_refresh.sh > /usr/scripts/minidlna_refresh.log
-
-# The MiniDLNA service comes with a small webinterface. 
-# This webinterface is just for informational purposes. 
-# You will not be able to configure anything here. 
-# However, it gives you a nice and short information screen how many files have been found by MiniDLNA. 
-# MiniDLNA comes with it’s own webserver integrated. 
-# This means that no additional webserver is needed in order to use the webinterface.
-# To access the webinterface, open your browser of choice and enter 
-http://10.0.0.6:8200
+set -x
+curl -i http://127.0.0.1:8200
+set +x
+echo ""
 
 # The actual streaming process
 # A short overview how a connection from a client to the configured and running MiniDLNA server could work. 
@@ -840,26 +865,68 @@ http://10.0.0.6:8200
 # You will then see a list of available DLNA service within your local network. 
 # In this list you should see your DLNA server. 
 # Navigate through the different directories for music, videos and pictures and select a file to start the streaming process
-#
-# ------------------------------------------------------------------------------------------------------------------------
-# INSTALL SAMBA
-# -------------
+
+echo ""
+read -p "Press Enter to continue, if that all worked"
+echo ""
+
+echo ""
+echo "# ------------------------------------------------------------------------------------------------------------------------"
+echo "# INSTALL SAMBA"
+echo "# -------------"
 # https://magpi.raspberrypi.org/articles/raspberry-pi-samba-file-server
 # https://pimylifeup.com/raspberry-pi-samba/
 
-
-sudo apt -y update
-sudo apt -y upgrade
+set -x
 sudo apt purge -y samba samba-common-bin
 sudo apt install -y samba samba-common-bin
+set +x
 
-#Create a password
-#Before we start the server, you’ll want to set a Samba password. Enter:
+echo ""
+echo "Create a SAMBA password."
+echo " Before we start the server, you’ll want to set a Samba password. Enter you pi password."
+set -x
 sudo smbpasswd -a pi
 sudo smbpasswd -a root
+set +x
+echo ""
 
-sudo cp -fv /etc/samba/smb.conf /etc/samba/smb.conf_backup
+set -x
+sudo cp -fv /etc/samba/smb.conf /etc/samba/smb.conf.backup
 sudo nano /etc/samba/smb.conf
+set +x
+
+
+
+
+
+
+
+echo ""
+echo "# Use a modified tls conf with all of the good stuff"
+url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/setup_support_files/smb.conf"
+set -x
+cd ~/Desktop
+rm -f "./smb.conf"
+curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "./smb.conf" --fail # -L means "allow redirection" or some odd :|
+sudo cp -fv "./smb.conf"  "./smb.conf.old"
+# do the edits
+sudo sed -i "s;;;g"  "./smb.conf"
+diff -U 1 "smb.conf.old" "./smb.conf"
+#
+sudo cp -fv "/etc/samba/smb.conf" "/etc/samba/smb.conf.old" 
+sudo mv -fv "./smb.conf" "/etc/samba/smb.conf"
+diff -U 1 "/etc/samba/smb.conf.old" "/etc/samba/smb.conf"
+set +x
+echo ""
+#
+
+
+
+
+
+
+
 
 sudo cp -fv /etc/samba/smb.conf /etc/samba/smb.conf_backup
 sudo nano /etc/samba/smb.conf
