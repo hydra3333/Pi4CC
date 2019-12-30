@@ -246,7 +246,7 @@ sudo sed -i "s;display_errors = Off;display_errors = On;g"                  "/et
 sudo sed -i "s;display_startup_errors = Off;display_startup_errors = On;g"  "/etc/php/7.3/apache2/php.ini"
 sudo sed -i "s;log_errors_max_len = 1024;log_errors_max_len = 8192;g"       "/etc/php/7.3/apache2/php.ini"
 sudo sed -i "s;default_socket_timeout = 60;default_socket_timeout = 300;g"  "/etc/php/7.3/apache2/php.ini"
-diff -U 1 "/etc/php/7.3/apache2/php.ini.old" "/etc/php/7.3/apache2/php.ini"
+sudo diff -U 1 "/etc/php/7.3/apache2/php.ini.old" "/etc/php/7.3/apache2/php.ini"
 php -version
 set +x
 
@@ -356,7 +356,7 @@ sudo sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g"  "/etc/apache
 sudo sed -i "s;/mnt/mp4library;${server_root_USBmountpoint};g"  "/etc/apache2/apache2.conf"
 sudo sed -i "s;mp4library;${server_alias};g"  "/etc/apache2/apache2.conf"
 #
-diff -U 1 "/etc/apache2/apache2.conf.old" "/etc/apache2/apache2.conf"
+sudo diff -U 1 "/etc/apache2/apache2.conf.old" "/etc/apache2/apache2.conf"
 set +x
 
 echo ""
@@ -372,7 +372,7 @@ echo ""
 set -x
 sudo cp -fv "/etc/apache2/mods-available/status.conf" "/etc/apache2/mods-available/status.conf.old"
 sudo sed -i "s;#Require ip 192.0.2.0/24;#Require ip 192.0.2.0/24\n#Require ip 127.0.0.1\n#Require ip 192.168.108.133/24\n#Require ip 10.0.0.1/24;g" "/etc/apache2/mods-available/status.conf"
-diff -U 1 "/etc/apache2/mods-available/status.conf.old" "/etc/apache2/mods-available/status.conf"
+sudo diff -U 1 "/etc/apache2/mods-available/status.conf.old" "/etc/apache2/mods-available/status.conf"
 set +x
 echo ""
 #read -p "Press Enter to continue, if the status.conf worked correctly"
@@ -381,7 +381,7 @@ echo ""
 set -x
 sudo cp -fv "/etc/apache2/mods-available/info.conf" "/etc/apache2/mods-available/info.conf.old"
 sudo sed -i "s;#Require ip 192.0.2.0/24;#Require ip 192.0.2.0/24\n#Require ip 127.0.0.1\n#Require ip 192.168.108.133/24\n#Require ip 10.0.0.1/24;g" "/etc/apache2/mods-available/info.conf"
-diff -U 1 "/etc/apache2/mods-available/info.old" "/etc/apache2/mods-available/info."
+sudo diff -U 1 "/etc/apache2/mods-available/info.old" "/etc/apache2/mods-available/info."
 set +x
 echo ""
 #read -p "Press Enter to continue, if the info.conf worked correctly"
@@ -598,7 +598,7 @@ sudo sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g"  "./000-defau
 sudo sed -i "s;/mnt/mp4library;${server_root_USBmountpoint};g"  "./000-default.conf"
 sudo sed -i "s;mp4library;${server_alias};g"  "./000-default.conf"
 #
-diff -U 1 "./000-default.conf.old" "./000-default.conf"
+sudo diff -U 1 "./000-default.conf.old" "./000-default.conf"
 sudo mv -fv "./000-default.conf" "/etc/apache2/sites-available/000-default.conf"
 set +x
 echo ""
@@ -618,7 +618,7 @@ sudo sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g"  "./default-t
 sudo sed -i "s;/mnt/mp4library;${server_root_USBmountpoint};g"  "./default-tls.conf"
 sudo sed -i "s;mp4library;${server_alias};g"  "./default-tls.conf"
 #
-diff -U 1 "./default-tls.conf.old" "./default-tls.conf"
+sudo diff -U 1 "./default-tls.conf.old" "./default-tls.conf"
 sudo mv -fv "./default-tls.conf" "/etc/apache2/sites-available/default-tls.conf"
 set +x
 echo ""
@@ -630,7 +630,7 @@ url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/setup_support_file
 rm -f "./example.php"
 curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "./example.php" --fail # -L means "allow redirection" or some odd :|
 sed -i.BAK "s;Pi4CC;${server_name};g" "./example.php"
-diff -U 1 "./example.php.BAK" "./example.php"
+sudo diff -U 1 "./example.php.BAK" "./example.php"
 sudo mv -fv "./example.php" "/var/www/example.php"
 set +x
 echo ""
@@ -642,7 +642,7 @@ url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/setup_support_file
 rm -f "./phpinfo.php"
 curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "./phpinfo.php" --fail # -L means "allow redirection" or some odd :|
 sed -i.BAK "s;Pi4CC;${server_name};g" "./phpinfo.php"
-diff -U 1 "./phpinfo.php.BAK" "./phpinfo.php"
+sudo diff -U 1 "./phpinfo.php.BAK" "./phpinfo.php"
 sudo mv -fv "./phpinfo.php" "/var/www/phpinfo.php"
 set +x
 echo ""
@@ -794,7 +794,7 @@ sudo sed -i "s;#strict_dlna=no;#strict_dlna=no\nstrict_dlna=yes;g" "/etc/minidln
 sudo sed -i "s;#notify_interval=895;#notify_interval=895\nnotify_interval=300;g" "/etc/minidlna.conf"
 sudo sed -i "s;#max_connections=50;#max_connections=50\nmax_connections=4;g" "/etc/minidlna.conf"
 sudo sed -i "s;#log_level=general,artwork,database,inotify,scanner,metadata,http,ssdp,tivo=warn;#log_level=general,artwork,database,inotify,scanner,metadata,http,ssdp,tivo=warn\nlog_level=artwork,database,general,http,inotify,metadata,scanner,ssdp,tivo=info;g" "/etc/minidlna.conf"
-diff -U 1 "/etc/minidlna.conf.old" "/etc/minidlna.conf"
+sudo diff -U 1 "/etc/minidlna.conf.old" "/etc/minidlna.conf"
 sudo service minidlna restart
 set +x
 echo ""
@@ -891,150 +891,165 @@ sudo smbpasswd -a root
 set +x
 echo ""
 
-set -x
-sudo cp -fv /etc/samba/smb.conf /etc/samba/smb.conf.backup
-sudo nano /etc/samba/smb.conf
-set +x
-
-
-
-
-
-
-
 echo ""
-echo "# Use a modified tls conf with all of the good stuff"
+echo "Use a modified SAMBA conf with all of the good stuff"
 url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/setup_support_files/smb.conf"
 set -x
 cd ~/Desktop
 rm -f "./smb.conf"
 curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "./smb.conf" --fail # -L means "allow redirection" or some odd :|
 sudo cp -fv "./smb.conf"  "./smb.conf.old"
-# do the edits
-sudo sed -i "s;;;g"  "./smb.conf"
-diff -U 1 "smb.conf.old" "./smb.conf"
+#---
+##sudo sed -i "s;[Pi];[Pi];g"  "./smb.conf"
+##sudo sed -i "s;[Pi];[${server_name}];g"  "./smb.conf"
+sudo sed -i "s;comment=Pi4CC pi home;comment=${server_name} pi_home;;g"  "./smb.conf"
+##sudo sed -i "s;path = /home/pi;path = /home/pi;g"  "./smb.conf"
+#---
+sudo sed -i "s;[mp4library];[${server_alias}];g"  "./smb.conf"
+sudo sed -i "s;comment=Pi4CC mp4library home;${server_name} ${server_alias} home;g"  "./smb.conf"
+sudo sed -i "s;path = /mnt/mp4library;path = ${server_root_USBmountpoint};g"  "./smb.conf"
+#---
+##sudo sed -i "s;[www];[www];g"  "./smb.conf"
+sudo sed -i "s;comment=Pi4CC www home;comment=${server_name} www home;g"  "./smb.conf"
+#sudo sed -i "s;path = /var/www;path = /var/www;g"  "./smb.conf"
+#---
+sudo diff -U 1 "./smb.conf.old" "./smb.conf"
 #
 sudo cp -fv "/etc/samba/smb.conf" "/etc/samba/smb.conf.old" 
 sudo mv -fv "./smb.conf" "/etc/samba/smb.conf"
-diff -U 1 "/etc/samba/smb.conf.old" "/etc/samba/smb.conf"
+sudo diff -U 1 "/etc/samba/smb.conf.old" "/etc/samba/smb.conf"
+sudo chmod a=rwx -R *
 set +x
+# ignore this: # rlimit_max: increasing rlimit_max (1024) to minimum Windows limit (16384)
+
 echo ""
-#
-
-
-
-
-
-
-
-
-sudo cp -fv /etc/samba/smb.conf /etc/samba/smb.conf_backup
-sudo nano /etc/samba/smb.conf
-# https://calomel.org/samba_optimize.html
-# https://calomel.org/samba.html
-# find and change/add lines etc to make this outcome:
-
-[global]
-	# add these
-    hosts 10.0.0.0/255.255.255.0 127.0.0.1
-    security = user
-    deadtime = 15
-    #socket options = IPTOS_LOWDELAY TCP_NODELAY SO_RCVBUF=65536 SO_SNDBUF=65536 SO_KEEPALIVE
-    # linux auto tunes SO_RCVBUF=65536 SO_SNDBUF=65536
-    socket options = IPTOS_LOWDELAY TCP_NODELAY  SO_KEEPALIVE
-    inherit permissions = yes
-    # OK ... 1 is a sticky bit
-    # create mask and directory mask REMOVE permissions
-    #   create mask = 0777
-    #   directory mask = 0777
-    # force create mode and force directory mode 
-    # specifies a set of UNIX mode bit permissions that will always be set 
-    force create mode = 1777
-    force directory mode = 1777
-    #   valid users = %S
-    # my stuff
-    preferred master = No
-    local master = No
-    guest ok = yes
-    browseable = yes
-    #guest account = root
-    guest account = pi
-    #valid users = @users
-	public = yes
-
-# ADD THESE
-[Pi]
-comment=${server_name} pi_home
-#force group = users
-#guest only = Yes
-guest ok = Yes
-public = yes
-#valid users = @users
-path = /home/pi
-available = yes
-read only = no
-browsable = yes
-writeable = yes
-#create mask = 0777
-#directory mask = 0777
-force create mode = 1777
-force directory mode = 1777
-inherit permissions = yes
-
-[${server_alias}]
-comment=${server_name} ${server_alias}
-#force group = users
-#guest only = Yes
-guest ok = Yes
-public = yes
-#valid users = @users
-path = ${server_root_USBmountpoint}
-available = yes
-read only = no
-browsable = yes
-writeable = yes
-#create mask = 0777
-#directory mask = 0777
-force create mode = 1777
-force directory mode = 1777
-inherit permissions = yes
-
-[www]
-comment=${server_root_USBmountpoint} www_home
-#force group = users
-#guest only = Yes
-guest ok = Yes
-public = yes
-#valid users = @users
-path = /var/www
-available = yes
-read only = no
-browsable = yes
-writeable = yes
-#create mask = 0777
-#directory mask = 0777
-force create mode = 1777
-force directory mode = 1777
-inherit permissions = yes
-
-#control O
-#control X
-
-# Test the samba config is OK
+echo "Test the samba config is OK"
+echo ""
+set -x
 sudo testparm
+set +x
 
-# ???????????????? ignore this
-#rlimit_max: increasing rlimit_max (1024) to minimum Windows limit (16384)
-
-# Restart Samba using
+echo ""
+echo "Restart Samba service"
+set -x
 sudo service smbd restart
+set +x
 
-# List the new samba users, which can have different passwords to the Pi itself
+echo "List the new samba users (which can have different passwords to the Pi itself)"
+set -x
 sudo pdbedit -L -v
+set +x
 
-# You can now access the defined shares from a Windows machine 
-# or from an app that supports the SMB protocol
-# eg from Windows Explorer use address \\10.0.0.6\
+echo ""
+echo "You can now access the defined shares from a Windows machine"
+echo "or from an app that supports the SMB protocol"
+echo "eg from Win10 PC in Windows Explorer use the IP address of ${server_name} like ... \\10.0.0.6\ "
+set -x
+hostname
+hostname --fqdn
+hostname --all-ip-addresses
+set +x
+
+echo ""
+read -p "Press Enter to continue, if that all worked"
+echo ""
+
+echo "# ------------------------------------------------------------------------------------------------------------------------"
+echo "# INSTALL the web pages and javascript and pyhton code etc for ${server_alias}"
+echo ""
+
+# get each file individually rathe than the full package
+cd ~/Desktop
+
+#---
+# Top level files
+sudo mkdir -p "/var/www/${server_name}"
+sudo chmod a=rwx -R "/var/www/${server_name}"
+copy_to_top() {
+  the_file=$1
+  set -x
+  sudo rm -f "/var/www/${server_name}/${the_file}"
+  sudo curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "/var/www/${server_name}/${the_file}" --fail # -L means "allow redirection" or some odd :|
+  sudo chmod a=rwx "/var/www/${server_name}/${the_file}"  set -x
+  return 0
+}
+copy_to_top CastVideos.js
+copy_to_top ads.js
+copy_to_top index.html
+copy_to_top media.js
+copy_to_top reload_media.js.sh
+#---
+# css files
+sudo mkdir -p "/var/www/${server_name}/css"
+sudo chmod a=rwx -R "/var/www/${server_name}/css"
+copy_to_css() {
+  the_file=$1
+  set -x
+  sudo rm -f "/var/www/${server_name}/css/${the_file}"
+  sudo curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "/var/www/${server_name}/css/${the_file}" --fail # -L means "allow redirection" or some odd :|
+  sudo chmod a=rwx "/var/www/${server_name}/${the_file}"  set -x
+  return 0
+}
+copy_to_css CastVideos.css
+#---
+# image files
+sudo mkdir -p "/var/www/${server_name}/imagefiles"
+sudo chmod a=rwx -R "/var/www/${server_name}/imagefiles"
+copy_to_imagefiles() {
+  the_file=$1
+  set -x
+  sudo rm -f "/var/www/${server_name}/imagefiles/${the_file}"
+  sudo curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "/var/www/${server_name}/imagefiles/${the_file}" --fail # -L means "allow redirection" or some odd :|
+  sudo chmod a=rwx "/var/www/${server_name}/${the_file}"  set -x
+  return 0
+}
+copy_to_imagefiles free-boat_02.jpg
+copy_to_imagefiles favicon.ico
+copy_to_imagefiles favicon-16x16.png
+copy_to_imagefiles favicon-32x32.png
+copy_to_imagefiles favicon-64x64.png
+copy_to_imagefiles header_bg-top.png
+copy_to_imagefiles header_bg.png
+copy_to_imagefiles footer_bg.png
+copy_to_imagefiles logo.png
+copy_to_imagefiles play.png
+copy_to_imagefiles play-hover.png
+copy_to_imagefiles play-press.png
+copy_to_imagefiles pause.png
+copy_to_imagefiles pause-hover.png
+copy_to_imagefiles audio_off.png
+copy_to_imagefiles audio_on.png
+copy_to_imagefiles audio_bg.png
+copy_to_imagefiles audio_bg_track.png
+copy_to_imagefiles audio_indicator.png
+copy_to_imagefiles audio_bg_level.png
+copy_to_imagefiles fullscreen_expand.png
+copy_to_imagefiles fullscreen_collapse.png
+copy_to_imagefiles skip.png
+copy_to_imagefiles skip_hover.png
+copy_to_imagefiles skip_press.png
+copy_to_imagefiles live_indicator_active.png
+copy_to_imagefiles live_indicator_inactive.png
+copy_to_imagefiles timeline_bg_progress.png
+copy_to_imagefiles timeline_bg_buffer.png
+#---
+sudo chmod a=rwx -R "/var/www/${server_name}"
+#---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # ------------------------------------------------------------------------------------------------------------------------
 #
