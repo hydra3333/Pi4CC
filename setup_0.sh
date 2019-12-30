@@ -9,38 +9,62 @@ cd ~/Desktop
 
 set +x
 echo "--------------------------------------------------------------------------------------------------------------------------------------------------------"
-#server_name=Pi4cc
-#server_alias=mp4library
-#server_root=/mnt/mp4library
-#server_root_folder=/mnt/mp4library/mp4library
-#
-server_name_default=Pi4cc
-server_alias_default=mp4library
-#server_root_USBmountpoint_default=/mnt/${server_alias_default}
-#server_root_folder_default=${server_root_USBmountpoint_default}/${server_alias_default}
-#
-read -e -p "This server_name (will become name of website) [${server_name_default}]: " -i "${server_name_default}" input_string
-server_name="${input_string:-$server_name_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
-#
-read -e -p "This server_alias (will become a Virtual Folder within the website) [${server_alias_default}]: " -i "${server_alias_default}" input_string
-server_alias="${input_string:-$server_alias_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
-#
-server_root_USBmountpoint_default=/mnt/${server_alias}
-read -e -p "Designate the mount point for the USB3 external hard drive [${server_root_USBmountpoint_default}]: " -i "${server_root_USBmountpoint_default}" input_string
-server_root_USBmountpoint="${input_string:-$server_root_USBmountpoint_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
-#
-server_root_folder_default=${server_root_USBmountpoint}/${server_alias}
-read -e -p "Designate the root folder on the USB3 external hard drive) [${server_root_folder_default}]: " -i "${server_root_folder_default}" input_string
-server_root_folder="${input_string:-$server_root_folder_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
-#
+set -x
+cd ~/Desktop
+set +x
+setup_config_file=./setup.config
+if [[ -f "$setup_config_file" ]]; then  # config file already exists
+    echo "Using prior answers as defaults..."
+    set -x
+	cat "$setup_config_file"
+	set +x
+	source "$setup_config_file" # use "source" to retrieve the previous answers and use those as  the defaults in prompting
+    read -e -p "This server_name (will become name of website) [${server_name_default}]: " -i "${server_name_default}" input_string
+    server_name="${input_string:-$server_name_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
+    read -e -p "This server_alias (will become a Virtual Folder within the website) [${server_alias_default}]: " -i "${server_alias_default}" input_string
+    server_alias="${input_string:-$server_alias_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
+    read -e -p "Designate the mount point for the USB3 external hard drive [${server_root_USBmountpoint_default}]: " -i "${server_root_USBmountpoint_default}" input_string
+    server_root_USBmountpoint="${input_string:-$server_root_USBmountpoint_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
+    read -e -p "Designate the root folder on the USB3 external hard drive) [${server_root_folder_default}]: " -i "${server_root_folder_default}" input_string
+    server_root_folder="${input_string:-$server_root_folder_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
+else  # config file does not exist, prompt normally with successive defaults based on answers aqs we go along
+    echo "No prior answers found, creating new default answers ..."
+    server_name_default=Pi4cc
+    server_alias_default=mp4library
+    ##server_root_USBmountpoint_default=/mnt/${server_alias_default}
+    ##server_root_folder_default=${server_root_USBmountpoint_default}/${server_alias_default}
+    read -e -p "This server_name (will become name of website) [${server_name_default}]: " -i "${server_name_default}" input_string
+    server_name="${input_string:-$server_name_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
+    read -e -p "This server_alias (will become a Virtual Folder within the website) [${server_alias_default}]: " -i "${server_alias_default}" input_string
+    server_alias="${input_string:-$server_alias_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
+    server_root_USBmountpoint_default=/mnt/${server_alias}
+    read -e -p "Designate the mount point for the USB3 external hard drive [${server_root_USBmountpoint_default}]: " -i "${server_root_USBmountpoint_default}" input_string
+    server_root_USBmountpoint="${input_string:-$server_root_USBmountpoint_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
+    server_root_folder_default=${server_root_USBmountpoint}/${server_alias}
+    read -e -p "Designate the root folder on the USB3 external hard drive) [${server_root_folder_default}]: " -i "${server_root_folder_default}" input_string
+    server_root_folder="${input_string:-$server_root_folder_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
+fi
+echo "(re)saving the new answers to the config file for re-use as future defaults..."
+sudo rm -fv "$setup_config_file"
+echo "#" > "$setup_config_file"
+echo "server_name_default=${server_name}">> "$setup_config_file"
+echo "server_alias_default=${server_alias}">> "$setup_config_file"
+echo "server_root_USBmountpoint_default=${server_root_USBmountpoint}">> "$setup_config_file"
+echo "server_root_folder_default=${server_root_folder}">> "$setup_config_file"
+echo "#">> "$setup_config_file"
+set -x
+sudo chmod a=rwx -R "$setup_config_file"
+cat "$setup_config_file"
+set +x
 echo ""
 echo "              server_name=${server_name}"
 echo "             server_alias=${server_alias}"
 echo "server_root_USBmountpoint=${server_root_USBmountpoint}"
 echo "       server_root_folder=${server_root_folder}"
+echo ""
 echo "--------------------------------------------------------------------------------------------------------------------------------------------------------"
-set +x
 
+set -x
 sudo apt update -y
 sudo apt upgrade -y
 
