@@ -526,18 +526,18 @@ echo "# Use a modified tls conf with all of the good stuff"
 set -x
 cd ~/Desktop
 url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/setup_support_files/000-default.conf"
-rm -f "000-default.conf"
+rm -f "./000-default.conf"
 rm -f "000-default.conf.old"
-curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "000-default.conf" --fail # -L means "allow redirection" or some odd :|
-sudo cp -fv "000-default.conf"  "000-default.conf.old"
+curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "./000-default.conf" --fail # -L means "allow redirection" or some odd :|
+sudo cp -fv "./000-default.conf"  "./000-default.conf.old"
 #
-sudo sed -i "s;Pi4CC;${server_name};g"  "000-default.conf"
-sudo sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g"  "000-default.conf"
-sudo sed -i "s;/mnt/mp4library;${server_root_USBmountpoint};g"  "000-default.conf"
-sudo sed -i "s;mp4library;${server_alias};g"  "000-default.conf"
+sudo sed -i "s;Pi4CC;${server_name};g"  "./000-default.conf"
+sudo sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g"  "./000-default.conf"
+sudo sed -i "s;/mnt/mp4library;${server_root_USBmountpoint};g"  "./000-default.conf"
+sudo sed -i "s;mp4library;${server_alias};g"  "./000-default.conf"
 #
-diff -U 1 "000-default.conf.old" "000-default.conf"
-sudo mv -fv "000-default.conf" "/etc/apache2/sites-available/000-default.conf"
+diff -U 1 "000-default.conf.old" "./000-default.conf"
+sudo mv -fv "./000-default.conf" "/etc/apache2/sites-available/000-default.conf"
 set +x
 echo ""
 #
@@ -546,18 +546,18 @@ echo "# Use a modified default conf with all of the good stuff"
 set -x
 cd ~/Desktop
 url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/setup_support_files/default-tls.conf"
-rm -f "default-tls.conf"
+rm -f "./default-tls.conf"
 rm -f "default-tls.conf.old"
-curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "default-tls.conf" --fail # -L means "allow redirection" or some odd :|
-sudo cp -fv "default-tls.conf"  "default-tls.conf.old"
+curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "./default-tls.conf" --fail # -L means "allow redirection" or some odd :|
+sudo cp -fv "./default-tls.conf"  "default-tls.conf.old"
 #
-sudo sed -i "s;Pi4CC;${server_name};g"  "default-tls.conf"
-sudo sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g"  "default-tls.conf"
-sudo sed -i "s;/mnt/mp4library;${server_root_USBmountpoint};g"  "default-tls.conf"
-sudo sed -i "s;mp4library;${server_alias};g"  "default-tls.conf"
+sudo sed -i "s;Pi4CC;${server_name};g"  "./default-tls.conf"
+sudo sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g"  "./default-tls.conf"
+sudo sed -i "s;/mnt/mp4library;${server_root_USBmountpoint};g"  "./default-tls.conf"
+sudo sed -i "s;mp4library;${server_alias};g"  "./default-tls.conf"
 #
-diff -U 1 "default-tls.conf.old" "default-tls.conf"
-sudo mv -fv "default-tls.conf" "/etc/apache2/sites-available/default-tls.conf"
+diff -U 1 "default-tls.conf.old" "./default-tls.conf"
+sudo mv -fv "./default-tls.conf" "/etc/apache2/sites-available/default-tls.conf"
 set +x
 echo ""
 
@@ -565,11 +565,11 @@ echo ""
 set -x
 cd ~/Desktop
 url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/setup_support_files/example.php"
-rm -f "example.php"
-curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "example.php" --fail # -L means "allow redirection" or some odd :|
-sed -iBAK "s;Pi4CC;${server_name};g" "example.php"
-diff -U 1 "example.BAK" "example.php"
-sudo mv -fv "example.php" "/var/www/example.php"
+rm -f "./example.php"
+curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "./example.php" --fail # -L means "allow redirection" or some odd :|
+sed -i.BAK "s;Pi4CC;${server_name};g" "./example.php"
+diff -U 1 "./example.php.BAK" "./example.php"
+sudo mv -fv "./example.php" "/var/www/example.php"
 set +x
 echo ""
 
@@ -577,11 +577,11 @@ echo ""
 set -x
 cd ~/Desktop
 url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/setup_support_files/phpinfo.php"
-rm -f "phpinfo.php"
-curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "phpinfo.php" --fail # -L means "allow redirection" or some odd :|
-sed -iBAK "s;Pi4CC;${server_name};g" "phpinfo.php"
-diff -U 1 "phpinfo.BAK" "phpinfo.php"
-sudo mv -fv "phpinfo.php" "/var/www/phpinfo.php"
+rm -f "./phpinfo.php"
+curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "./phpinfo.php" --fail # -L means "allow redirection" or some odd :|
+sed -i.BAK "s;Pi4CC;${server_name};g" "./phpinfo.php"
+diff -U 1 "./phpinfo.php.BAK" "./phpinfo.php"
+sudo mv -fv "./phpinfo.php" "/var/www/phpinfo.php"
 set +x
 echo ""
 
