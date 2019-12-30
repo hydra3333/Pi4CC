@@ -1067,6 +1067,7 @@ read -p "Press Enter to continue, if that all worked"
 echo ""
 
 echo "RE-CREATE the essential JSON file consumed by the ${server_name} website"
+
 echo ""
 set -x
 python3 /var/www/${server_name}/create-json.py --source_folder "${server_root_folder}" --filename-extension mp4 --json_file /var/www/${server_name}/media.js > /var/www/${server_name}/create-json.log 2>&1
@@ -1081,17 +1082,6 @@ echo ""
 echo ""
 echo "Add a nightly job to crontab to RE-CREATE the essential JSON file consumed by the ${server_name} website"
 echo ""
-
-?????????????????????
-crontab
-
-
-
-#Run crontab with the -e flag to edit the cron table:
-#crontab -e
-#Select an editor
-#The first time you run crontab you'll be prompted to select an editor; if you are not sure which one to use, choose nano by pressing Enter.
-#Add a scheduled task
 #The layout for a cron entry is made up of six components: minute, hour, day of month, month of year, day of week, and the command to be executed.
 # m h  dom mon dow   command
 # * * * * *  command to execute
@@ -1103,39 +1093,56 @@ crontab
 # │ │ └─────────────── day of month (1 - 31)
 # │ └──────────────────── hour (0 - 23)
 # └───────────────────────── min (0 - 59)
-#For example:
-#0 0 * * *  /home/pi/backup.sh
-# If you want your command to be run in the background while the Raspberry Pi continues starting up, add a space and & at the end of the line, like this:
-# @reboot python /home/pi/myscript.py &
-#
+# https://stackoverflow.com/questions/610839/how-can-i-programmatically-create-a-new-cron-job
+# <minute> <hour> <day> <month> <dow> <tags and command>
+set -x
+contab -l # before
+(crontab -l ; echo "0 5 * * * python3 /var/www/${server_name}/create-json.py --source_folder ${server_root_folder} ---filename-extension mp4 --json_file /var/www/${server_name}/media.js > /var/www/${server_name}/create-json.log 2>&1") 2>&1 | sed "/no crontab for/d" | sort - | uniq - | crontab -
+contab -l # after
+set +x
 
-# Run crontab -e and add the lines after, under user pi so it reloads media.js every night
-crontab -e
-@reboot python3 /var/www/${server_name}/2019.12.10-create-json.py --source_folder ${server_root_folder} ---filename-extension mp4 --json_file /var/www/${server_name}/media.js > /var/www/${server_name}/create-json.log 2>&1 &
-0 4 * * * python3 /var/www/${server_name}/2019.12.10-create-json.py --source_folder ${server_root_folder} ---filename-extension mp4 --json_file /var/www/${server_name}/media.js > /var/www/${server_name}/create-json.log 2>&1
+echo ""
+read -p "Press Enter to continue, if that all worked"
+echo ""
+echo ""
+echo ""
 
-#View your currently saved scheduled tasks with:
-crontab -l
+echo "# ------------------------------------------------------------------------------------------------------------------------"
+echo ""
+echo "Visit the web page from a different PC to see if it all works:"
+echo "   https://${server_name}/${server_alias}"
+echo ""
+echo "You may need to accept that the self-signed security certificate is 'insecure' "
+echo "(cough, it is secure, it's solely inside your LAN)"
+echo "... and tell the browser to allow it (proceed to 'unsafe' website anyway)"
+echo ""
+echo "In Chrome browser, see 'hamburger' -> More Tools -> Developer Tools "
+echo "and watch the instrumentation log fly along. (Don't)."
+echo ""
+echo ""
+echo ""
+echo "NOTES:"
+echo ""
+echo "# How to use the website site https://${server_name}/${server_alias}"
+echo "# ------------------------------------------------------------------"
+echo "# Notes:"
+echo "# 1. https: is 'required' by google to cast videos to chromecast devices"
+echo "# 2. All of the javascript runs on the client-side (i.e in the user browser)"
+echo "# 3. The web page uses native HTML5 '<details>' for drop-down lists"
+echo "# 4. On a tablet or PC, open web page https://${server_name}/${server_alias} IN A CHROME BROWSER ONLY"
+echo "# 5. Click on a folder to see it drop down and display its list of .mp4 files"
+echo "# 6. Click on a .mp4 file to load it into the browser"
+echo "# 7. Check its the one you want, pause it, cast it to a chromecast device"
+echo "# 8. Control playback via the web page"
+echo "#"
 
-# Visit the web page from a different PC to see if it all works:
-https://10.0.0.6/${server_name}
-# You may need to accept that the self-signed security certificate is "insecure" (cough, it is, it's solely inside your LAN)
-# and allow it (proceed to "unsafe" website anyway)
-# If you like, in Chrome browser, "hamburger" -> More Tools -> Developer Tools an watch the instrumentation log fly along (don't).
+echo ""
+echo ""
+echo ""
+echo "Finished."
+echo ""
 
-
-# How to use the website site https://10.0.0.6/${server_name}
-# --------------------------------------------------
-# Notes:
-# 1. https: is "required" to cast videos to chromecast devices
-# 2. All of the javascript runs on the client-side (i.e in the user browser)
-# 3. The web page uses native HTML5 "<details> for drop-down lists
-# 4. On a tablet or PC, open web page https://10.0.0.6/${server_name} IN A CHROME BROWSER ONLY
-# 5. Click on a folder to see it drop down and display its list of .mp4 files
-# 6. Click on a .mp4 file to load it into the browser
-# 7. Check its the one you want, pause it, cast it to a chromecast device
-# 8. Control playback via the web page
-#
+exit
 
 # ------------------------------------------------------------------------------------------------------------------------
 
