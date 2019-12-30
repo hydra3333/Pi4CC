@@ -955,16 +955,18 @@ read -p "Press Enter to continue, if that all worked"
 echo ""
 
 echo "# ------------------------------------------------------------------------------------------------------------------------"
-echo "# INSTALL the web pages and javascript and pyhton code etc for ${server_alias}"
+echo "# INSTALL the chromecast WEB pages and javascript and pyhton code etc for ${server_alias}"
 echo ""
 
 # get each file individually rathe than the full package
+set +x
 cd ~/Desktop
-
 #---
 # Top level files
 sudo mkdir -p "/var/www/${server_name}"
+sudo chown -R -f pi:www-data "/var/www/${server_name}"
 sudo chmod a=rwx -R "/var/www/${server_name}"
+set -x
 copy_to_top() {
   the_file=$1
   set -x
@@ -974,9 +976,10 @@ copy_to_top() {
   sudo sed "s;10.0.0.6;${server_name};g" "/var/www/${server_name}/${the_file}"
   sudo sed "s;Pi4CC;${server_name};g" "/var/www/${server_name}/${the_file}"
   sudo sed "s;/mnt/mp4library/mp4library;${server_root_folder};g" "/var/www/${server_name}/${the_file}"
-  sudo chmod a=rwx "/var/www/${server_name}/${the_file}"  set -x
+  sudo chmod a=rwx "/var/www/${server_name}/${the_file}"
   sudo diff -U 1 "./${the_file}.old" "/var/www/${server_name}/${the_file}" 
   sudo rm -fv "./${the_file}.old"
+  set +x
   return 0
 }
 copy_to_top index.html
@@ -995,6 +998,7 @@ copy_to_css() {
   sudo rm -f "/var/www/${server_name}/css/${the_file}"
   sudo curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "/var/www/${server_name}/css/${the_file}" --fail # -L means "allow redirection" or some odd :|
   sudo chmod a=rwx "/var/www/${server_name}/${the_file}"  set -x
+  set +x
   return 0
 }
 copy_to_css CastVideos.css
@@ -1008,6 +1012,7 @@ copy_to_imagefiles() {
   sudo rm -f "/var/www/${server_name}/imagefiles/${the_file}"
   sudo curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "/var/www/${server_name}/imagefiles/${the_file}" --fail # -L means "allow redirection" or some odd :|
   sudo chmod a=rwx "/var/www/${server_name}/${the_file}"  set -x
+  set +x
   return 0
 }
 copy_to_imagefiles free-boat_02.jpg
@@ -1040,68 +1045,47 @@ copy_to_imagefiles live_indicator_inactive.png
 copy_to_imagefiles timeline_bg_progress.png
 copy_to_imagefiles timeline_bg_buffer.png
 #---
+set -x
 sudo chmod a=rwx -R "/var/www/${server_name}"
+set +x
 #---
 
+echo ""
+read -p "Press Enter to continue, if that all worked"
+echo ""
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# ------------------------------------------------------------------------------------------------------------------------
-#
-# "walk" the ${server_alias} in our browser
-# ------------------------------------
-#
-# Use a chrome browser to check if it is working.
-# Navigate to the ${server_alias} of the Pi web server 
-# by typing the following into your web browser using your Pi's IP address
-# http://10.0.0.6/${server_alias}
-# and we should be able to navigate the ${server_alias} folder tree
-#
-# To copy .mp4 files to/from the Pi via SAMBA (file shares) -
-# From a Windows 7 PC, use Windows Explorer to open a share on 
-# the Pi using its IP address, put it in the address bar of Windows Explorer
-# \\10.0.0.6\
-# and see a number of shares including
-#    ${server_alias}
-#    www
-# Open the ${server_alias} share. See the files and folders there.
-# We can copy files to/from it just like any other windows folders.
-
-# ------------------------------------------------------------------------------------------------------------------------
-
-# Setup the ${server_name} website for chromecasting
-#
-# setup ready for the pything script
+echo ""
+echo "# Setup mediainfo and pymediainfo ready for the python script to use"
+set -x
 sudo apt install -y mediainfo
 pip3 install pymediainfo
+set +x
+echo ""
 
-# which contains a web page for local LAN access and control of casting, if not using a 3rd party app
-# as well as the python3 app to regenerate 
+echo ""
+read -p "Press Enter to continue, if that all worked"
+echo ""
 
-# create the ${server_name} folder inside Apache2 folder
-sudo mkdir /var/www/${server_name}
-sudo chown -R -f pi:www-data /var/www/${server_name}
-sudo chmod a=rwx -R /var/www/${server_name}
+echo "RE-CREATE the essential JSON file consumed by the ${server_name} website"
+echo ""
+set -x
+python3 /var/www/${server_name}/create-json.py --source_folder "${server_root_folder}" --filename-extension mp4 --json_file /var/www/${server_name}/media.js > /var/www/${server_name}/create-json.log 2>&1
+sudo chmod a=rwx "/var/www/${server_name}/media.js"
+sudo chmod a=rwx /var/www/${server_name}/create-json.log
+set +x
 
-# Copy the ${server_name} folder/file tree from github into this folder 
-#   /var/www/${server_name}
-# (samba can be handy for that)
+echo ""
+read -p "Press Enter to continue, if that all worked"
+echo ""
 
-# RE-CREATE the essential JSON file used by the ${server_name} website
-# Invoke this script manually from the commandline like
-python3 /var/www/${server_name}/2019.12.10-create-json.py --source_folder "${server_root_folder}" --filename-extension mp4 --json_file /var/www/${server_name}/media.js > /var/www/${server_name}/create-json.log 2>&1
+echo ""
+echo "Add a nightly job to crontab to RE-CREATE the essential JSON file consumed by the ${server_name} website"
+echo ""
+
+?????????????????????
+crontab
+
+
 
 #Run crontab with the -e flag to edit the cron table:
 #crontab -e
