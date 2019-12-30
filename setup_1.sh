@@ -234,7 +234,7 @@ sleep 3s
 set +x
 
 echo ""
-read -p "Press Enter to continue, if it installed correctly"
+#read -p "Press Enter to continue, if it installed correctly"
 
 echo "Make changes to /etc/php/7.3/apache2/php.ini"
 set -x
@@ -250,7 +250,7 @@ php -version
 set +x
 
 echo ""
-read -p "Press Enter to continue, if it there were 6 changes correctly"
+#read -p "Press Enter to continue, if it there were 6 changes correctly"
 
 echo "# Install python3"
 set -x
@@ -265,7 +265,7 @@ sleep 3s
 sudo apt install -y libapache2-mod-python
 sleep 3s
 set +x
-read -p "Press Enter to continue, if it worked correctly"
+#read -p "Press Enter to continue, if it worked correctly"
 
 echo ""
 echo "# OK, finished Apache2/Python3/PSH APT installs"
@@ -397,7 +397,7 @@ sudo a2ensite 000-default
 ls -al /etc/apache2/sites-enabled
 set +x
 echo ""
-read -p "Press Enter to continue, if setting the sites worked correctly"
+#read -p "Press Enter to continue, if setting up Apache2 and Sites/Config worked correctly"
 echo ""
 
 echo ""
@@ -557,7 +557,7 @@ sudo chmod a=rwx /etc/tls/localcerts/*
 set +x
 
 echo ""
-read -p "Press Enter to continue, if that worked"
+#read -p "Press Enter to continue, if the Certificates Setup worked"
 echo ""
 
 
@@ -783,7 +783,7 @@ sleep 10s
 sudo /usr/sbin/minidlna
 set +x
 
-read -p "Press Enter to continue, if the seds and service restart worked."
+read -p "Press Enter to continue, if the miniDLNS setup and sed's and service restart worked."
 echo ""
 
 exit
