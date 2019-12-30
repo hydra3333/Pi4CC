@@ -335,8 +335,8 @@ sudo sed -i "s;KeepAliveTimeout 5;KeepAliveTimeout 10800;g" "/etc/apache2/apache
 # in reverse order
 sudo sed -i "s;HostnameLookups Off;HostnameLookups Off\nCheckCaseOnly On;g" "/etc/apache2/apache2.conf"
 sudo sed -i "s;HostnameLookups Off;HostnameLookups Off\nCheckSpelling On;g" "/etc/apache2/apache2.conf"
-sudo sed -i "s;HostnameLookups Off;HostnameLookups Off\nHeader set Access-Control-Allow-Headers "Allow-Origin, X-Requested-With, Content-Type, Accept";g" "/etc/apache2/apache2.conf"
-sudo sed -i "s;HostnameLookups Off;HostnameLookups Off\nHeader set Access-Control-Allow-Origin "*";g" "/etc/apache2/apache2.conf"
+sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nHeader set Access-Control-Allow-Headers "Allow-Origin, X-Requested-With, Content-Type, Accept";g' "/etc/apache2/apache2.conf"
+sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nHeader set Access-Control-Allow-Origin "*";g" "/etc/apache2/apache2.conf'
 sudo sed -i "s;HostnameLookups Off;HostnameLookups Off\nHeader set Accept-Ranges bytes;g" "/etc/apache2/apache2.conf"
 sudo sed -i "s;HostnameLookups Off;HostnameLookups Off\nMaxRangeReversals unlimited;g" "/etc/apache2/apache2.conf"
 sudo sed -i "s;HostnameLookups Off;HostnameLookups Off\nMaxRangeOverlaps unlimited;g" "/etc/apache2/apache2.conf"
@@ -344,8 +344,8 @@ sudo sed -i "s;HostnameLookups Off;HostnameLookups Off\nMaxRanges unlimited;g" "
 # in reverse order
 sudo sed -i "s;Include ports.conf;Include ports.conf\nCheckCaseOnly On;g" "/etc/apache2/apache2.conf"
 sudo sed -i "s;Include ports.conf;Include ports.conf\nCheckSpelling On;g" "/etc/apache2/apache2.conf"
-sudo sed -i "s;Include ports.conf;Include ports.conf\nHeader set Access-Control-Allow-Headers "Allow-Origin, X-Requested-With, Content-Type, Accept";g" "/etc/apache2/apache2.conf"
-sudo sed -i "s;Include ports.conf;Include ports.conf\nHeader set Access-Control-Allow-Origin "*";g" "/etc/apache2/apache2.conf"
+sudo sed -i 's;Include ports.conf;Include ports.conf\nHeader set Access-Control-Allow-Headers "Allow-Origin, X-Requested-With, Content-Type, Accept";g' "/etc/apache2/apache2.conf"
+sudo sed -i 's;Include ports.conf;Include ports.conf\nHeader set Access-Control-Allow-Origin "*";g" "/etc/apache2/apache2.conf'
 sudo sed -i "s;Include ports.conf;Include ports.conf\nHeader set Accept-Ranges bytes;g" "/etc/apache2/apache2.conf"
 sudo sed -i "s;Include ports.conf;Include ports.conf\nMaxRangeReversals unlimited;g" "/etc/apache2/apache2.conf"
 sudo sed -i "s;Include ports.conf;Include ports.conf\nMaxRangeOverlaps unlimited;g" "/etc/apache2/apache2.conf"
