@@ -991,9 +991,11 @@ sudo chmod a=rwx -R "/var/www/${server_name}"
 set -x
 copy_to_top() {
   the_file=$1
+  the_url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/${the_file}"
+  echo "Processing file '${the_file}'"
   set -x
   sudo rm -f "/var/www/${server_name}/${the_file}"
-  sudo curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "/var/www/${server_name}/${the_file}" --fail # -L means "allow redirection" or some odd :|
+  sudo curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$the_url" --retry 50 -L --output "/var/www/${server_name}/${the_file}" --fail # -L means "allow redirection" or some odd :|
   sudo cp -fv "/var/www/${server_name}/${the_file}" "./${the_file}.old"
   sudo sed "s;10.0.0.6;${server_name};g" "/var/www/${server_name}/${the_file}"
   sudo sed "s;Pi4CC;${server_name};g" "/var/www/${server_name}/${the_file}"
@@ -1016,9 +1018,10 @@ sudo mkdir -p "/var/www/${server_name}/css"
 sudo chmod a=rwx -R "/var/www/${server_name}/css"
 copy_to_css() {
   the_file=$1
+  the_url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/css/${the_file}"
   set -x
   sudo rm -f "/var/www/${server_name}/css/${the_file}"
-  sudo curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "/var/www/${server_name}/css/${the_file}" --fail # -L means "allow redirection" or some odd :|
+  sudo curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$the_url" --retry 50 -L --output "/var/www/${server_name}/css/${the_file}" --fail # -L means "allow redirection" or some odd :|
   sudo chmod a=rwx "/var/www/${server_name}/${the_file}"  set -x
   set +x
   return 0
@@ -1030,9 +1033,10 @@ sudo mkdir -p "/var/www/${server_name}/imagefiles"
 sudo chmod a=rwx -R "/var/www/${server_name}/imagefiles"
 copy_to_imagefiles() {
   the_file=$1
+  the_url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/imagefiles/${the_file}"
   set -x
   sudo rm -f "/var/www/${server_name}/imagefiles/${the_file}"
-  sudo curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "/var/www/${server_name}/imagefiles/${the_file}" --fail # -L means "allow redirection" or some odd :|
+  sudo curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$the_url" --retry 50 -L --output "/var/www/${server_name}/imagefiles/${the_file}" --fail # -L means "allow redirection" or some odd :|
   sudo chmod a=rwx "/var/www/${server_name}/${the_file}"  set -x
   set +x
   return 0
