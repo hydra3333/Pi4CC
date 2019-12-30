@@ -936,10 +936,9 @@ sudo sed -i "s;comment=Pi4CC www home;comment=${server_name} www home;g"  "./smb
 #sudo sed -i "s;path = /var/www;path = /var/www;g"  "./smb.conf"
 #---
 sudo diff -U 1 "./smb.conf.old" "./smb.conf"
-#
 sudo cp -fv "/etc/samba/smb.conf" "/etc/samba/smb.conf.old" 
 sudo mv -fv "./smb.conf" "/etc/samba/smb.conf"
-sudo diff -U 1 "/etc/samba/smb.conf.old" "/etc/samba/smb.conf"
+#sudo diff -U 1 "/etc/samba/smb.conf.old" "/etc/samba/smb.conf"
 sudo chmod a=rwx -R *
 set +x
 # ignore this: # rlimit_max: increasing rlimit_max (1024) to minimum Windows limit (16384)
