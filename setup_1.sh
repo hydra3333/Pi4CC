@@ -381,7 +381,7 @@ echo ""
 set -x
 sudo cp -fv "/etc/apache2/mods-available/info.conf" "/etc/apache2/mods-available/info.conf.old"
 sudo sed -i "s;#Require ip 192.0.2.0/24;#Require ip 192.0.2.0/24\n#Require ip 127.0.0.1\n#Require ip 192.168.108.133/24\n#Require ip 10.0.0.1/24;g" "/etc/apache2/mods-available/info.conf"
-sudo diff -U 1 "/etc/apache2/mods-available/info.old" "/etc/apache2/mods-available/info."
+sudo diff -U 1 "/etc/apache2/mods-available/info.conf.old" "/etc/apache2/mods-available/info.conf"
 set +x
 echo ""
 #read -p "Press Enter to continue, if the info.conf worked correctly"
