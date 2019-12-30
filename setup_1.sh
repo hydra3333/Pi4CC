@@ -277,7 +277,7 @@ set -x
 sudo groupadd -f www-data
 sudo usermod -a -G www-data root
 sudo usermod -a -G www-data pi
-sudo chown -R -f pi:www-data /var/www
+sudo chown -R pi:www-data /var/www
 sudo chmod a=rwx -R /var/www
 #sleep 3s
 cat /var/log/apache2/error.log
@@ -767,13 +767,16 @@ echo ""
 echo "# Create a folder for miniDLNA logs and db - place the folder in the root of the (fast) USB3 drive"
 set -x
 sudo mkdir -p "${server_root_USBmountpoint}/miniDLNA"
-sudo chmod a=rwx -R "${server_root_USBmountpoint}/miniDLNA"
+sudo chmod a=rwx -R "${server_root_USBmountpoint}"
+sudo chown -R pi:www-data "${server_root_USBmountpoint}/miniDLNA"
 set +x
 echo ""
 
 echo "# Do the miniDLNA install"
 set -x
 sudo apt install -y minidlna
+sudo chmod a=rwx -R "/run/minidlna"
+sudo chown -R pi:www-data "/run/minidlna"
 set +x
 
 echo ""
@@ -796,7 +799,14 @@ sudo sed -i "s;#max_connections=50;#max_connections=50\nmax_connections=4;g" "/e
 sudo sed -i "s;#log_level=general,artwork,database,inotify,scanner,metadata,http,ssdp,tivo=warn;#log_level=general,artwork,database,inotify,scanner,metadata,http,ssdp,tivo=warn\nlog_level=artwork,database,general,http,inotify,metadata,scanner,ssdp,tivo=info;g" "/etc/minidlna.conf"
 sudo diff -U 1 "/etc/minidlna.conf.old" "/etc/minidlna.conf"
 sudo service minidlna restart
+
+chown ???? 
+/run/minidlna/minidlna.pid
+/run/minidlna/minidlna.pid
+
+
 sleep 10s
+cat =${log_dir}\minidlna.log
 set +x
 echo ""
 
@@ -837,9 +847,9 @@ echo "Adding the 4:00am nightly crontab job to re-index miniDLNA"
 echo ""
 # <minute> <hour> <day> <month> <dow> <tags and command>
 set -x
-contab -l # before
+crontab -l # before
 (crontab -l ; echo "0 4 * * * ${sh_file} >> ${log_file}") 2>&1 | sed "/no crontab for/d" | sort - | uniq - | crontab -
-contab -l # after
+crontab -l # after
 set +x
 
 echo "#"
@@ -967,7 +977,7 @@ cd ~/Desktop
 #---
 # Top level files
 sudo mkdir -p "/var/www/${server_name}"
-sudo chown -R -f pi:www-data "/var/www/${server_name}"
+sudo chown -R pi:www-data "/var/www/${server_name}"
 sudo chmod a=rwx -R "/var/www/${server_name}"
 set -x
 copy_to_top() {
@@ -1099,9 +1109,9 @@ echo ""
 # https://stackoverflow.com/questions/610839/how-can-i-programmatically-create-a-new-cron-job
 # <minute> <hour> <day> <month> <dow> <tags and command>
 set -x
-contab -l # before
+crontab -l # before
 (crontab -l ; echo "0 5 * * * python3 /var/www/${server_name}/create-json.py --source_folder ${server_root_folder} ---filename-extension mp4 --json_file /var/www/${server_name}/media.js > /var/www/${server_name}/create-json.log 2>&1") 2>&1 | sed "/no crontab for/d" | sort - | uniq - | crontab -
-contab -l # after
+crontab -l # after
 set +x
 
 echo ""
