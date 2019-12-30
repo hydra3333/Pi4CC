@@ -102,7 +102,7 @@ sudo apt purge -y php-pear
 sudo apt purge -y libmcrypt-dev
 sudo apt purge -y libapache2-mod-php
 sudo apt autoremove -y
-sleep 5s
+#sleep 3s
 # REMOVE APACHE2 BEFORE INSTALL
 sudo apt purge -y apache2 
 sudo apt purge -y apache2-bin
@@ -119,7 +119,7 @@ sudo apt purge -y apache2-ssl-dev
 sudo apt purge -y libapache2-mod-gnutls 
 sudo apt purge -y libapache2-mod-security2
 sudo apt autoremove -y
-sleep 5s
+#sleep 3s
 # REMOVE CONFIG FILES
 sudo rm -fv "/etc/php/7.3/apache2/php.ini"
 #read -p "Press Enter to continue #"
@@ -135,102 +135,102 @@ sudo rm -fv "/etc/apache2/sites-available/default-tls.conf"
 #read -p "Press Enter to continue #"
 # INSTALL APACHE2
 sudo apt install -y apache2 
-sleep 3s
+#sleep 3s
 #read -p "Press Enter to continue #"
 sudo apt install -y apache2-bin
-sleep 3s
+#sleep 3s
 #read -p "Press Enter to continue #"
 sudo apt install -y apache2-data
-sleep 3s
+#sleep 3s
 #read -p "Press Enter to continue #"
 sudo apt install -y apache2-utils
-sleep 3s
+#sleep 3s
 #read -p "Press Enter to continue #"
 sudo apt install -y apache2-doc
-sleep 3s
+#sleep 3s
 #read -p "Press Enter to continue #"
 sudo apt install -y apache2-suexec-pristine
-sleep 3s
+#sleep 3s
 #read -p "Press Enter to continue #"
 sudo apt install -y apache2-ssl-dev
-sleep 3s
+#sleep 3s
 #read -p "Press Enter to continue #"
 sudo apt install -y libxml2 
-sleep 3s
+#sleep 3s
 #read -p "Press Enter to continue #"
 sudo apt install -y libxml2-dev 
-sleep 3s
+#sleep 3s
 #read -p "Press Enter to continue #"
 sudo apt install -y libxml2-utils
-sleep 3s
+#sleep 3s
 #read -p "Press Enter to continue #"
 sudo apt install -y libaprutil1 
-sleep 3s
+#sleep 3s
 #read -p "Press Enter to continue #"
 sudo apt install -y libaprutil1-dev
-sleep 3s
+#sleep 3s
 #read -p "Press Enter to continue #"
 # socache_dbm required for gnutls
 sudo a2enmod socache_dbm
-sleep 3s
+#sleep 3s
 sudo apt install -y libapache2-mod-gnutls 
-sleep 3s
+#sleep 3s
 #read -p "Press Enter to continue #"
 sudo apt install -y libapache2-mod-security2
-sleep 3s
+#sleep 3s
 #read -p "Press Enter to continue #"
 # Note: the version lile 7.3 will change as time passes !!!!!!!
 # INSTALL PHP
 sudo apt install -y php7.3 
-sleep 3s
+#sleep 3s
 #read -p "Press Enter to continue #"
 sudo apt install -y php7.3-common 
-sleep 3s
+#sleep 3s
 #read -p "Press Enter to continue #"
 sudo apt install -y php7.3-cli 
-sleep 3s
+#sleep 3s
 #read -p "Press Enter to continue #"
 sudo apt install -y php7.3-intl 
-sleep 3s
+#sleep 3s
 #read -p "Press Enter to continue #"
 sudo apt install -y php7.3-curl 
-sleep 3s
+#sleep 3s
 #read -p "Press Enter to continue #"
 sudo apt install -y php7.3-xsl 
-sleep 3s
+#sleep 3s
 #read -p "Press Enter to continue #"
 sudo apt install -y php7.3-gd 
-sleep 3s
+#sleep 3s
 #read -p "Press Enter to continue #"
 sudo apt install -y php7.3-recode 
-sleep 3s
+#sleep 3s
 #read -p "Press Enter to continue #"
 sudo apt install -y php7.3-tidy 
-sleep 3s
+#sleep 3s
 #read -p "Press Enter to continue #"
 sudo apt install -y php7.3-json 
-sleep 3s
+#sleep 3s
 #read -p "Press Enter to continue #"
 sudo apt install -y php7.3-mbstring 
-sleep 3s
+#sleep 3s
 #read -p "Press Enter to continue #"
 sudo apt install -y php7.3-dev 
-sleep 3s
+#sleep 3s
 #read -p "Press Enter to continue #"
 sudo apt install -y php7.3-bz2 
-sleep 3s
+#sleep 3s
 #read -p "Press Enter to continue #"
 sudo apt install -y php7.3-zip 
-sleep 3s
+#sleep 3s
 #read -p "Press Enter to continue #"
 sudo apt install -y php-pear 
-sleep 3s
+#sleep 3s
 #read -p "Press Enter to continue #"
 sudo apt install -y libmcrypt-dev
-sleep 3s
+#sleep 3s
 #read -p "Press Enter to continue #"
 sudo apt install -y libapache2-mod-php
-sleep 3s
+#sleep 3s
 #read -p "Press Enter to continue #"
 set +x
 
@@ -258,13 +258,13 @@ set -x
 #sudo apt purge -y python3 idle
 sudo apt purge -y libapache2-mod-python
 sudo apt autoremove -y
-sleep 5s
+#sleep 5s
 #
 sudo apt install -y python3 
 sudo apt install -y idle
-sleep 3s
+#sleep 3s
 sudo apt install -y libapache2-mod-python
-sleep 3s
+#sleep 3s
 set +x
 #read -p "Press Enter to continue, if it worked correctly"
 
@@ -279,7 +279,7 @@ sudo usermod -a -G www-data root
 sudo usermod -a -G www-data pi
 sudo chown -R -f pi:www-data /var/www
 sudo chmod a=rwx -R /var/www
-sleep 3s
+#sleep 3s
 cat /var/log/apache2/error.log
 ls -al /etc/apache2/sites-enabled
 ls -al /etc/apache2/sites-available
@@ -303,7 +303,7 @@ sudo a2enmod python
 sudo a2enmod xml2enc
 sudo a2enmod alias 
 sudo a2enmod cgi
-sleep 3s
+#sleep 3s
 set +x
 #read -p "Press Enter to continue, if it worked correctly"
 
@@ -675,7 +675,7 @@ set +x
 echo ""
 echo "Restart the Apache2 Service"
 set -x
-sleep 3s
+#sleep 3s
 #systemctl restart apache2
 sudo service apache2 restart
 sleep 10s
@@ -759,7 +759,7 @@ echo ""
 set -x
 sudo apt purge minidlna -y
 sudo apt autoremove -y
-sleep 5s
+#sleep 3s
 sudo rm -vf "/etc/minidlna.conf"
 set +x
 echo ""
@@ -796,6 +796,7 @@ sudo sed -i "s;#max_connections=50;#max_connections=50\nmax_connections=4;g" "/e
 sudo sed -i "s;#log_level=general,artwork,database,inotify,scanner,metadata,http,ssdp,tivo=warn;#log_level=general,artwork,database,inotify,scanner,metadata,http,ssdp,tivo=warn\nlog_level=artwork,database,general,http,inotify,metadata,scanner,ssdp,tivo=info;g" "/etc/minidlna.conf"
 sudo diff -U 1 "/etc/minidlna.conf.old" "/etc/minidlna.conf"
 sudo service minidlna restart
+sleep 10s
 set +x
 echo ""
 
@@ -807,6 +808,7 @@ echo ""
 set -x
 # To rebuild the database use:
 sudo service minidlna force-reload
+sleep 10s
 set +x
 #sudo service minidlna stop
 
@@ -933,6 +935,7 @@ echo ""
 echo "Restart Samba service"
 set -x
 sudo service smbd restart
+sleep 10s
 set +x
 
 echo "List the new samba users (which can have different passwords to the Pi itself)"
