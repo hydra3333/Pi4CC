@@ -239,12 +239,12 @@ read -p "Press Enter to continue, if it installed correctly"
 echo "Make changes to /etc/php/7.3/apache2/php.ini"
 set -x
 sudo cp -fv "/etc/php/7.3/apache2/php.ini" "/etc/php/7.3/apache2/php.ini.old"
-sudo sed -i 's;max_execution_time = 30;max_execution_time = 300;g'          "/etc/php/7.3/apache2/php.ini"
-sudo sed -i 's;max_input_time = 60;max_input_time = 300;g'                  "/etc/php/7.3/apache2/php.ini"
-sudo sed -i 's;display_errors = Off;display_errors = On;g'                  "/etc/php/7.3/apache2/php.ini"
-sudo sed -i 's;display_startup_errors = Off;display_startup_errors = On;g'  "/etc/php/7.3/apache2/php.ini"
-sudo sed -i 's;log_errors_max_len = 1024;log_errors_max_len = 8192;g'       "/etc/php/7.3/apache2/php.ini"
-sudo sed -i 's;default_socket_timeout = 60;default_socket_timeout = 300;g'  "/etc/php/7.3/apache2/php.ini"
+sudo sed -i "s;max_execution_time = 30;max_execution_time = 300;g"          "/etc/php/7.3/apache2/php.ini"
+sudo sed -i "s;max_input_time = 60;max_input_time = 300;g"                  "/etc/php/7.3/apache2/php.ini"
+sudo sed -i "s;display_errors = Off;display_errors = On;g"                  "/etc/php/7.3/apache2/php.ini"
+sudo sed -i "s;display_startup_errors = Off;display_startup_errors = On;g"  "/etc/php/7.3/apache2/php.ini"
+sudo sed -i "s;log_errors_max_len = 1024;log_errors_max_len = 8192;g"       "/etc/php/7.3/apache2/php.ini"
+sudo sed -i "s;default_socket_timeout = 60;default_socket_timeout = 300;g"  "/etc/php/7.3/apache2/php.ini"
 diff -U 1 "/etc/php/7.3/apache2/php.ini.old" "/etc/php/7.3/apache2/php.ini"
 php -version
 set +x
@@ -322,33 +322,33 @@ echo ""
 echo "Change some Apache2 settings"
 echo ""
 echo "## Just underneath the line"
-echo '#ServerRoot "/etc/apache2'
+echo '#ServerRoot "/etc/apache2"'
 echo "## add this line to say the web server name is going to be ${server_name}"
 echo "ServerName ${server_name}"
 set -x
 sudo cp -fv "/etc/apache2/apache2.conf" "/etc/apache2/apache2.conf.old"
-sudo sed -i 's;#ServerRoot;#ServerRoot\nServerName ${server_name};g' "/etc/php/7.3/apache2/php.ini"
-sudo sed -i 's;Timeout 300;Timeout 10800;g' "/etc/apache2/apache2.conf"
-sudo sed -i 's;MaxKeepAliveRequests 100;MaxKeepAliveRequests 0;g' "/etc/apache2/apache2.conf"
-sudo sed -i 's;KeepAliveTimeout 5;KeepAliveTimeout 10800;g' "/etc/apache2/apache2.conf"
+sudo sed -i "s;#ServerRoot;#ServerRoot\nServerName ${server_name};g" "/etc/php/7.3/apache2/php.ini"
+sudo sed -i "s;Timeout 300;Timeout 10800;g" "/etc/apache2/apache2.conf"
+sudo sed -i "s;MaxKeepAliveRequests 100;MaxKeepAliveRequests 0;g" "/etc/apache2/apache2.conf"
+sudo sed -i "s;KeepAliveTimeout 5;KeepAliveTimeout 10800;g" "/etc/apache2/apache2.conf"
 # in reverse order
-sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nCheckCaseOnly On;g' "/etc/apache2/apache2.conf"
-sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nCheckSpelling On;g' "/etc/apache2/apache2.conf"
-sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nHeader set Access-Control-Allow-Headers "Allow-Origin, X-Requested-With, Content-Type, Accept";g' "/etc/apache2/apache2.conf"
-sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nHeader set Access-Control-Allow-Origin "*";g' "/etc/apache2/apache2.conf"
-sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nHeader set Accept-Ranges bytes;g' "/etc/apache2/apache2.conf"
-sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nMaxRangeReversals unlimited;g' "/etc/apache2/apache2.conf"
-sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nMaxRangeOverlaps unlimited;g' "/etc/apache2/apache2.conf"
-sudo sed -i 's;HostnameLookups Off;HostnameLookups Off\nMaxRanges unlimited;g' "/etc/apache2/apache2.conf"
+sudo sed -i "s;HostnameLookups Off;HostnameLookups Off\nCheckCaseOnly On;g" "/etc/apache2/apache2.conf"
+sudo sed -i "s;HostnameLookups Off;HostnameLookups Off\nCheckSpelling On;g" "/etc/apache2/apache2.conf"
+sudo sed -i "s;HostnameLookups Off;HostnameLookups Off\nHeader set Access-Control-Allow-Headers "Allow-Origin, X-Requested-With, Content-Type, Accept";g" "/etc/apache2/apache2.conf"
+sudo sed -i "s;HostnameLookups Off;HostnameLookups Off\nHeader set Access-Control-Allow-Origin "*";g" "/etc/apache2/apache2.conf"
+sudo sed -i "s;HostnameLookups Off;HostnameLookups Off\nHeader set Accept-Ranges bytes;g" "/etc/apache2/apache2.conf"
+sudo sed -i "s;HostnameLookups Off;HostnameLookups Off\nMaxRangeReversals unlimited;g" "/etc/apache2/apache2.conf"
+sudo sed -i "s;HostnameLookups Off;HostnameLookups Off\nMaxRangeOverlaps unlimited;g" "/etc/apache2/apache2.conf"
+sudo sed -i "s;HostnameLookups Off;HostnameLookups Off\nMaxRanges unlimited;g" "/etc/apache2/apache2.conf"
 # in reverse order
-sudo sed -i 's;Include ports.conf;Include ports.conf\nCheckCaseOnly On;g' "/etc/apache2/apache2.conf"
-sudo sed -i 's;Include ports.conf;Include ports.conf\nCheckSpelling On;g' "/etc/apache2/apache2.conf"
-sudo sed -i 's;Include ports.conf;Include ports.conf\nHeader set Access-Control-Allow-Headers "Allow-Origin, X-Requested-With, Content-Type, Accept";g' "/etc/apache2/apache2.conf"
-sudo sed -i 's;Include ports.conf;Include ports.conf\nHeader set Access-Control-Allow-Origin "*";g' "/etc/apache2/apache2.conf"
-sudo sed -i 's;Include ports.conf;Include ports.conf\nHeader set Accept-Ranges bytes;g' "/etc/apache2/apache2.conf"
-sudo sed -i 's;Include ports.conf;Include ports.conf\nMaxRangeReversals unlimited;g' "/etc/apache2/apache2.conf"
-sudo sed -i 's;Include ports.conf;Include ports.conf\nMaxRangeOverlaps unlimited;g' "/etc/apache2/apache2.conf"
-sudo sed -i 's;Include ports.conf;Include ports.conf\nMaxRanges unlimited;g' "/etc/apache2/apache2.conf"
+sudo sed -i "s;Include ports.conf;Include ports.conf\nCheckCaseOnly On;g" "/etc/apache2/apache2.conf"
+sudo sed -i "s;Include ports.conf;Include ports.conf\nCheckSpelling On;g" "/etc/apache2/apache2.conf"
+sudo sed -i "s;Include ports.conf;Include ports.conf\nHeader set Access-Control-Allow-Headers "Allow-Origin, X-Requested-With, Content-Type, Accept";g" "/etc/apache2/apache2.conf"
+sudo sed -i "s;Include ports.conf;Include ports.conf\nHeader set Access-Control-Allow-Origin "*";g" "/etc/apache2/apache2.conf"
+sudo sed -i "s;Include ports.conf;Include ports.conf\nHeader set Accept-Ranges bytes;g" "/etc/apache2/apache2.conf"
+sudo sed -i "s;Include ports.conf;Include ports.conf\nMaxRangeReversals unlimited;g" "/etc/apache2/apache2.conf"
+sudo sed -i "s;Include ports.conf;Include ports.conf\nMaxRangeOverlaps unlimited;g" "/etc/apache2/apache2.conf"
+sudo sed -i "s;Include ports.conf;Include ports.conf\nMaxRanges unlimited;g" "/etc/apache2/apache2.conf"
 # these don't occur in this file, however try anyway
 sudo sed -i "s;Pi4CC;${server_name};g"  "/etc/apache2/apache2.conf"
 sudo sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g"  "/etc/apache2/apache2.conf"
@@ -370,7 +370,7 @@ echo "# which you will be using to access the web server,"
 echo ""
 set -x
 sudo cp -fv "/etc/apache2/mods-available/status.conf" "/etc/apache2/mods-available/status.conf.old"
-sudo sed -i 's;#Require ip 192.0.2.0/24;#Require ip 192.0.2.0/24\n#Require ip 127.0.0.1\n#Require ip 192.168.108.133/24\n#Require ip 10.0.0.1/24;g' "/etc/apache2/mods-available/status.conf"
+sudo sed -i "s;#Require ip 192.0.2.0/24;#Require ip 192.0.2.0/24\n#Require ip 127.0.0.1\n#Require ip 192.168.108.133/24\n#Require ip 10.0.0.1/24;g" "/etc/apache2/mods-available/status.conf"
 diff -U 1 "/etc/apache2/mods-available/status.conf.old" "/etc/apache2/mods-available/status.conf"
 set +x
 echo ""
@@ -379,7 +379,7 @@ echo ""
 
 set -x
 sudo cp -fv "/etc/apache2/mods-available/info.conf" "/etc/apache2/mods-available/info.conf.old"
-sudo sed -i 's;#Require ip 192.0.2.0/24;#Require ip 192.0.2.0/24\n#Require ip 127.0.0.1\n#Require ip 192.168.108.133/24\n#Require ip 10.0.0.1/24;g' "/etc/apache2/mods-available/info.conf"
+sudo sed -i "s;#Require ip 192.0.2.0/24;#Require ip 192.0.2.0/24\n#Require ip 127.0.0.1\n#Require ip 192.168.108.133/24\n#Require ip 10.0.0.1/24;g" "/etc/apache2/mods-available/info.conf"
 diff -U 1 "/etc/apache2/mods-available/info.old" "/etc/apache2/mods-available/info."
 set +x
 echo ""
@@ -450,8 +450,16 @@ echo "#    IF NOT, exit this script and change it !!!!!"
 echo "# Now Create the Certificate and Key (12650 = 50 years)"
 echo "# REMEMBER any passwords !!!     Write them down !!!!"
 echo ""
-echo "Use Host (server) name FQDN = ${server_name}"
-echo "Use Host (server) name FQDN = ${server_name}"
+echo "Use Host (server) name ... the FQDN = ${server_name}"
+echo "Use Host (server) name ... the FQDN = ${server_name}"
+echo "Use Host (server) name ... the FQDN = ${server_name}"
+echo "Use Host (server) name ... the FQDN = ${server_name}"
+echo "Use Host (server) name ... the FQDN = ${server_name}"
+echo "Use Host (server) name ... the FQDN = ${server_name}"
+echo "Use Host (server) name ... the FQDN = ${server_name}"
+echo "Use Host (server) name ... the FQDN = ${server_name}"
+echo "Use Host (server) name ... the FQDN = ${server_name}"
+echo "Use Host (server) name ... the FQDN = ${server_name}"
 echo ""
 set -x
 sudo rm -fv /etc/tls/localcerts/${server_name}.key.orig
@@ -505,6 +513,18 @@ echo "# Create the PKCS12 Certificate"
 echo "# If we need a pk12 cert (eg for EMBY software) it requires a pkcs12 certificate to be generated, "
 echo "#"
 echo "#Convert PEM & Private Key to PFX/P12:"
+echo ""
+echo "When prompted for Export Password, just press Enter"
+echo "When prompted for Export Password, just press Enter"
+echo "When prompted for Export Password, just press Enter"
+echo "When prompted for Export Password, just press Enter"
+echo "When prompted for Export Password, just press Enter"
+echo "When prompted for Export Password, just press Enter"
+echo "When prompted for Export Password, just press Enter"
+echo "When prompted for Export Password, just press Enter"
+echo "When prompted for Export Password, just press Enter"
+echo "When prompted for Export Password, just press Enter"
+echo ""
 set -x
 sudo openssl pkcs12 -export -out /etc/tls/localcerts/${server_name}.pfx -inkey /etc/tls/localcerts/${server_name}.key.orig -in /etc/tls/localcerts/${server_name}.pem 
 sudo chmod a=rwx /etc/tls/localcerts/*
@@ -638,17 +658,17 @@ echo ""
 echo "# See if there were any Apache2 errors"
 echo ""
 set -x
-journalctl -xe
+#journalctl -xe # Press q to finish the listing
 set +x
 echo ""
-read -p "Press Enter to continue, if that all worked"
-echo ""
-#set -x
-#cat /var/log/apache2/error.log
-#set +x
-#echo ""
 #read -p "Press Enter to continue, if that all worked"
-#echo ""
+echo ""
+set -x
+cat /var/log/apache2/error.log
+set +x
+echo ""
+#read -p "Press Enter to continue, if that all worked"
+echo ""
 
 echo ""
 read -p "Press Enter to continue, if that all worked"
@@ -680,18 +700,18 @@ echo ""
 
 set -x
 curl 127.0.0.1/server-status
-set +x
-read -p "Press Enter to continue, if that worked."
-set -x
-curl 127.0.0.1/server-info
-set +x
-read -p "Press Enter to continue, if that worked."
-set -x
-curl 127.0.0.1/phpinfo.php
-set +x
-read -p "Press Enter to continue, if that worked."
-set -x
-curl 127.0.0.1/example.php
+#set +x
+#read -p "Press Enter to continue, if that worked."
+#set -x
+#curl 127.0.0.1/server-info
+#set +x
+#read -p "Press Enter to continue, if that worked."
+#set -x
+#curl 127.0.0.1/phpinfo.php
+#set +x
+#read -p "Press Enter to continue, if that worked."
+#set -x
+#curl 127.0.0.1/example.php
 set +x
 read -p "Press Enter to continue, if that worked."
 echo ""
@@ -734,16 +754,16 @@ echo "# Change miniDLNA config settings to look like these"
 echo ""
 set -x
 sudo cp -fv "/etc/minidlna.conf" "/etc/minidlna.conf.old"
-sudo sed -i 's;#user=minidlna;#user=minidlna\nuser=pi;g' "/etc/minidlna.conf"
-sudo sed -i 's;media_dir=/var/lib/minidlna;#media_dir=/var/lib/minidlna\nmedia_dir=PV,${server_root_folder};g' "/etc/minidlna.conf"
-sudo sed -i 's;#db_dir=/var/cache/minidlna;#db_dir=/var/cache/minidlna\ndb_dir=${server_root_USBmountpoint}/miniDLNA;g' "/etc/minidlna.conf"
-sudo sed -i 's;#log_dir=/var/log;#log_dir=/var/log\nlog_dir=${server_root_USBmountpoint}/miniDLNA;g' "/etc/minidlna.conf"
-sudo sed -i 's;#friendly_name=;#friendly_name=\nfriendly_name=${server_name}-miniDLNA;g' "/etc/minidlna.conf"
-sudo sed -i 's;#inotify=yes;#inotify=yes\ninotify=yes;g' "/etc/minidlna.conf"
-sudo sed -i 's;#strict_dlna=no;#strict_dlna=no\nstrict_dlna=yes;g' "/etc/minidlna.conf"
-sudo sed -i 's;#notify_interval=895;#notify_interval=895\nnotify_interval=300;g' "/etc/minidlna.conf"
-sudo sed -i 's;#max_connections=50;#max_connections=50\nmax_connections=4;g' "/etc/minidlna.conf"
-sudo sed -i 's;#log_level=general,artwork,database,inotify,scanner,metadata,http,ssdp,tivo=warn;#log_level=general,artwork,database,inotify,scanner,metadata,http,ssdp,tivo=warn\nlog_level=artwork,database,general,http,inotify,metadata,scanner,ssdp,tivo=info;g' "/etc/minidlna.conf"
+sudo sed -i "s;#user=minidlna;#user=minidlna\nuser=pi;g" "/etc/minidlna.conf"
+sudo sed -i "s;media_dir=/var/lib/minidlna;#media_dir=/var/lib/minidlna\nmedia_dir=PV,${server_root_folder};g" "/etc/minidlna.conf"
+sudo sed -i "s;#db_dir=/var/cache/minidlna;#db_dir=/var/cache/minidlna\ndb_dir=${server_root_USBmountpoint}/miniDLNA;g" "/etc/minidlna.conf"
+sudo sed -i "s;#log_dir=/var/log;#log_dir=/var/log\nlog_dir=${server_root_USBmountpoint}/miniDLNA;g" "/etc/minidlna.conf"
+sudo sed -i "s;#friendly_name=;#friendly_name=\nfriendly_name=${server_name}-miniDLNA;g" "/etc/minidlna.conf"
+sudo sed -i "s;#inotify=yes;#inotify=yes\ninotify=yes;g" "/etc/minidlna.conf"
+sudo sed -i "s;#strict_dlna=no;#strict_dlna=no\nstrict_dlna=yes;g" "/etc/minidlna.conf"
+sudo sed -i "s;#notify_interval=895;#notify_interval=895\nnotify_interval=300;g" "/etc/minidlna.conf"
+sudo sed -i "s;#max_connections=50;#max_connections=50\nmax_connections=4;g" "/etc/minidlna.conf"
+sudo sed -i "s;#log_level=general,artwork,database,inotify,scanner,metadata,http,ssdp,tivo=warn;#log_level=general,artwork,database,inotify,scanner,metadata,http,ssdp,tivo=warn\nlog_level=artwork,database,general,http,inotify,metadata,scanner,ssdp,tivo=info;g" "/etc/minidlna.conf"
 diff -U 1 "/etc/minidlna.conf.old" "/etc/minidlna.conf"
 sudo service minidlna restart
 set +x
@@ -756,7 +776,8 @@ set -x
 sudo /usr/bin/killall minidlna
 sleep 10s
 sudo /usr/sbin/minidlna -R
-sleep 3600s
+echo "Wait 3 minutes for miniDLNA to index media files"
+sleep 180s
 sudo /usr/bin/killall minidlna
 sleep 10s
 sudo /usr/sbin/minidlna
