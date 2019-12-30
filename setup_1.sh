@@ -476,6 +476,8 @@ echo "no-company">> "./cert.input"
 echo "no-orgunit">> "./cert.input"
 echo "${server_name}">> "./cert.input"
 echo "noname@no-company.com">> "./cert.input"
+echo "">> "./cert.input"
+echo "">> "./cert.input"
 sudo openssl req -x509 -nodes -days 12650 -newkey rsa:2048 -out /etc/tls/localcerts/${server_name}.pem -keyout /etc/tls/localcerts/${server_name}.key < "./cert.input"
 sudo chmod a=rwx /etc/tls/localcerts/*
 sudo rm -fv "./cert.input"
@@ -538,7 +540,9 @@ set -x
 sudo rm -fv "./cert.pass.input"
 echo "">> "./cert.pass.input"
 echo "">> "./cert.pass.input"
-sudo openssl pkcs12 -export -out /etc/tls/localcerts/${server_name}.pfx -inkey /etc/tls/localcerts/${server_name}.key.orig -in /etc/tls/localcerts/${server_name}.pem < "./cert.pass.input"
+echo "">> "./cert.pass.input"
+echo "">> "./cert.pass.input"
+sudo openssl pkcs12 -export -out /etc/tls/localcerts/${server_name}.pfx -inkey /etc/tls/localcerts/${server_name}.key.orig -in /etc/tls/localcerts/${server_name}.pem <"./cert.pass.input"
 sudo chmod a=rwx /etc/tls/localcerts/*
 sudo rm -fv "./cert.pass.input"
 set +x
