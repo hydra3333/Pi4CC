@@ -47,7 +47,7 @@ else  # config file does not exist, prompt normally with successive defaults bas
 fi
 echo "(re)saving the new answers to the config file for re-use as future defaults..."
 sudo rm -fv "$setup_config_file"
-echo "#" > "$setup_config_file"
+echo "#" >> "$setup_config_file"
 echo "server_name_default=${server_name}">> "$setup_config_file"
 echo "server_alias_default=${server_alias}">> "$setup_config_file"
 echo "server_root_USBmountpoint_default=${server_root_USBmountpoint}">> "$setup_config_file"
@@ -468,8 +468,17 @@ sudo rm -fv /etc/tls/localcerts/${server_name}.pem.orig
 sudo rm -fv /etc/tls/localcerts/${server_name}.pem 
 sudo rm -fv /etc/tls/localcerts/${server_name}.pfx
 #
-sudo openssl req -x509 -nodes -days 12650 -newkey rsa:2048 -out /etc/tls/localcerts/${server_name}.pem -keyout /etc/tls/localcerts/${server_name}.key
+sudo rm -fv "./cert.input"
+echo "AU">> "./cert.input"
+echo "no-state">> "./cert.input"
+echo "no-city">> "./cert.input"
+echo "no-company">> "./cert.input"
+echo "no-orgunit">> "./cert.input"
+echo "${server_name}">> "./cert.input"
+echo "noname@no-company.com">> "./cert.input"
+sudo openssl req -x509 -nodes -days 12650 -newkey rsa:2048 -out /etc/tls/localcerts/${server_name}.pem -keyout /etc/tls/localcerts/${server_name}.key < "./cert.input"
 sudo chmod a=rwx /etc/tls/localcerts/*
+sudo rm -fv "./cert.input"
 ls -al "/etc/tls/localcerts/"
 set +x
 echo ""
@@ -526,8 +535,12 @@ echo "When prompted for Export Password, just press Enter"
 echo "When prompted for Export Password, just press Enter"
 echo ""
 set -x
-sudo openssl pkcs12 -export -out /etc/tls/localcerts/${server_name}.pfx -inkey /etc/tls/localcerts/${server_name}.key.orig -in /etc/tls/localcerts/${server_name}.pem 
+sudo rm -fv "./cert.pass.input"
+echo "">> "./cert.pass.input"
+echo "">> "./cert.pass.input"
+sudo openssl pkcs12 -export -out /etc/tls/localcerts/${server_name}.pfx -inkey /etc/tls/localcerts/${server_name}.key.orig -in /etc/tls/localcerts/${server_name}.pem < "./cert.pass.input"
 sudo chmod a=rwx /etc/tls/localcerts/*
+sudo rm -fv "./cert.pass.input"
 set +x
 echo ""
 

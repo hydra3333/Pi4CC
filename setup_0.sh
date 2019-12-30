@@ -46,7 +46,7 @@ else  # config file does not exist, prompt normally with successive defaults bas
 fi
 echo "(re)saving the new answers to the config file for re-use as future defaults..."
 sudo rm -fv "$setup_config_file"
-echo "#" > "$setup_config_file"
+echo "#" >> "$setup_config_file"
 echo "server_name_default=${server_name}">> "$setup_config_file"
 echo "server_alias_default=${server_alias}">> "$setup_config_file"
 echo "server_root_USBmountpoint_default=${server_root_USBmountpoint}">> "$setup_config_file"
