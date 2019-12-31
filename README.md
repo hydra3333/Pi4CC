@@ -46,7 +46,7 @@ Key things installed and configured:
 # Installation
 
 1. Install and configure your Raspberry Pi 4 4Gb and set it to always to boot to GIU and autologin
-   - it is close enough to safe to autologin since it is only visible inside your "secure" home LAN
+   - it is close enough to safe to autologin since the Pi is only visible inside your "secure" home LAN
 2. Check, perhaps in the GUI tool Raspberry Pi Configuration,
    -  its hostname is short and easy and has no spaces or special characters (it will be used as the website name)
    - "login as user pi" is ticked
@@ -64,7 +64,8 @@ Key things installed and configured:
    git clone https://github.com/hydra3333/Pi4CC.git
    cp -fv ./Pi4CC/setup_0.sh ./
    cp -fv ./Pi4CC/setup_1.sh ./
-   chmod +777 *.sh```
+   chmod +777 *.sh
+   ```
 5. 
 
 
