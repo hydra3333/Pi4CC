@@ -73,8 +73,9 @@ Key things installed and configured:
    ./setup_0.sh
    ```
    - answer any prompts, eg
-     * This server_name 
-	   it's best to enter the hostname of the Pi here
+     ```This server_name 
+	 ```
+	 it's best to enter the hostname of the Pi here
 
 
 
