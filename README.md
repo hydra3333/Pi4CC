@@ -47,13 +47,14 @@ Key things installed and configured:
 
 1. Install and configure your Raspberry Pi 4 4Gb and set it to always to boot to GIU and autologin
    - it is close enough to safe to autologin since the Pi is only visible inside your "secure" home LAN
+   - (the GUI should be left to boot and run, even in a headless state later)
 2. Check, perhaps in the GUI tool Raspberry Pi Configuration,
    -  its hostname is short and easy and has no spaces or special characters (it will be used as the website name)
    - "login as user pi" is ticked
    - "wait for network" is ticked
    - "splash screen" is disabled
-   -  VNC is installed
-   -  SSH is installed 
+   -  VNC is enabled
+   -  SSH is enabled
    - GPU memory is 384k
    - "localisation" tab is used to check/configure your timezone/locale etc
 3. Also check the Pi has a fixed IP address, perhaps by setting your home router's DHCP facility to recognise the Pi's mac address and provide a fixed IP address
@@ -66,7 +67,13 @@ Key things installed and configured:
    cp -fv ./Pi4CC/setup_1.sh ./
    chmod +777 *.sh
    ```
-5. 
+5. Do the installation (it should be re-startable, feel free to "Control C" and re-start if feel uncomfortable)
+   - start a Terminal and do this:
+   ```cd ~/Desktop
+   ./setup_0.sh
+   ```
+   - answer any prompts, eg
+   5.1 test
 
 
 
