@@ -60,7 +60,8 @@ Key things installed and configured:
 3. Also check the Pi has a fixed IP address, perhaps by setting your home router's DHCP facility to recognise the Pi's mac address and provide a fixed IP address
 4. Clone the respository to the Desktop of the Pi and copy the setup files to the Desktop
    - start a Terminal and do this:
-   ```cd ~/Desktop
+   ```
+   cd ~/Desktop
    sudo apt install -y git
    git clone https://github.com/hydra3333/Pi4CC.git
    cp -fv ./Pi4CC/setup_0.sh ./
@@ -69,14 +70,15 @@ Key things installed and configured:
    ```
 5. Do the installation (it should be re-startable, feel free to "Control C" and re-start if feel uncomfortable)
    - start a Terminal and do this:
-   ```cd ~/Desktop
+   ```
+   cd ~/Desktop
    ./setup_0.sh
    ```
    - answer any prompts, eg
-     ```cd
-	 This server_name 
-	 ```
-	   * it's best to enter the hostname of the Pi therehere
+     * `This server_name` it's best to enter the hostname of the Pi therehere
+     * `This server_name` it's best to enter the hostname of the Pi therehere
+     * `This server_name` it's best to enter the hostname of the Pi therehere
+     * `This server_name` it's best to enter the hostname of the Pi therehere
 
 
 
@@ -84,12 +86,14 @@ Key things installed and configured:
 
 
 
-# Test on a PC first ?
+# Test it out on a PC first ?
 
+Perhaps consider usng Raspberry PI Desktop in VMware Player on a PC ?
 
 https://www.raspberrypi.org/forums/viewtopic.php?f=116&t=200252&p=1588362#p1586023
 
-
+You may have "fun" trying to finding and its IP address for remote https connections into it, have a try or
+use the chromium browser inside the Pi.
 
 
 
