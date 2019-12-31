@@ -1085,6 +1085,7 @@ copy_to_imagefiles timeline_bg_buffer.png
 set +x
 #---
 set -x
+sudo chown -R pi:www-data "/var/www/${server_name}"
 sudo chmod a=rwx -R "/var/www/${server_name}"
 set +x
 
