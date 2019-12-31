@@ -901,6 +901,9 @@ echo "# -------------"
 
 set -x
 sudo apt purge -y samba samba-common-bin
+sudo rm -fv -fv "/etc/samba/smb.conf"
+sudo apt autoremove -y
+#
 sudo apt install -y samba samba-common-bin
 set +x
 
@@ -924,7 +927,7 @@ sudo cp -fv "./smb.conf"  "./smb.conf.old"
 #---
 ##sudo sed -i "s;[Pi];[Pi];g"  "./smb.conf"
 ##sudo sed -i "s;[Pi];[${server_name}];g"  "./smb.conf"
-sudo sed -i "s;comment=Pi4CC pi home;comment=${server_name} pi_home;;g"  "./smb.conf"
+sudo sed -i "s;comment=Pi4CC pi home;comment=${server_name} pi_home;g"  "./smb.conf"
 ##sudo sed -i "s;path = /home/pi;path = /home/pi;g"  "./smb.conf"
 #---
 sudo sed -i "s;[mp4library];[${server_alias}];g"  "./smb.conf"
@@ -933,13 +936,12 @@ sudo sed -i "s;path = /mnt/mp4library;path = ${server_root_USBmountpoint};g"  ".
 #---
 ##sudo sed -i "s;[www];[www];g"  "./smb.conf"
 sudo sed -i "s;comment=Pi4CC www home;comment=${server_name} www home;g"  "./smb.conf"
-#sudo sed -i "s;path = /var/www;path = /var/www;g"  "./smb.conf"
+##sudo sed -i "s;path = /var/www;path = /var/www;g"  "./smb.conf"
 #---
-sudo diff -U 1 "./smb.conf.old" "./smb.conf"
-sudo cp -fv "/etc/samba/smb.conf" "/etc/samba/smb.conf.old" 
-sudo mv -fv "./smb.conf" "/etc/samba/smb.conf"
-#sudo diff -U 1 "/etc/samba/smb.conf.old" "/etc/samba/smb.conf"
 sudo chmod a=rwx -R *
+sudo diff -U 1 "./smb.conf.old" "./smb.conf"
+sudo mv -fv "./smb.conf" "/etc/samba/smb.conf"
+sudo chmod a=rwx -R "/etc/samba"
 set +x
 # ignore this: # rlimit_max: increasing rlimit_max (1024) to minimum Windows limit (16384)
 
