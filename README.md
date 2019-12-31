@@ -73,7 +73,7 @@ Key things installed and configured:
    ./setup_0.sh
    ```
    - answer any prompts, eg
-   5.1 test
+     * test
 
 
 
