@@ -1029,7 +1029,7 @@ copy_to_css() {
   #set -x
   sudo rm -f "/var/www/${server_name}/css/${the_file}"
   sudo curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$the_url" --retry 50 -L --output "/var/www/${server_name}/css/${the_file}" --fail # -L means "allow redirection" or some odd :|
-  sudo chmod a=rwx "/var/www/${server_name}/${the_file}"  set -x
+  sudo chmod a=rwx "/var/www/${server_name}/${the_file}"
   #set +x
   echo "Finished Processing file '${the_file}' ..."
   return 0
@@ -1047,7 +1047,7 @@ copy_to_imagefiles() {
   #set -x
   sudo rm -f "/var/www/${server_name}/imagefiles/${the_file}"
   sudo curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$the_url" --retry 50 -L --output "/var/www/${server_name}/imagefiles/${the_file}" --fail # -L means "allow redirection" or some odd :|
-  sudo chmod a=rwx "/var/www/${server_name}/${the_file}"  set -x
+  sudo chmod a=rwx "/var/www/${server_name}/${the_file}"
   #set +x
   echo "Finished Processing file '${the_file}' ..."
   return 0
