@@ -73,7 +73,8 @@ Key things installed and configured:
    ./setup_0.sh
    ```
    - answer any prompts, eg
-     * test
+     * This server_name 
+	   it's best to enter the hostname of the Pi here
 
 
 
