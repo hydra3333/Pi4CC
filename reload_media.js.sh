@@ -5,7 +5,9 @@
 set -x
 
 python3 /var/www/Pi4CC/create-json.py --source_folder /mnt/mp4library/mp4library --filename-extension mp4 --json_file /var/www/Pi4CC/media.js > /var/www/Pi4CC/create-json.log 2>&1
-
+#
 cat /var/www/Pi4CC/create-json.log
-
+#
 cat /var/www/Pi4CC/media.js
+#
+exit
