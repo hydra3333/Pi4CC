@@ -983,7 +983,7 @@ echo "# ------------------------------------------------------------------------
 echo "# INSTALL the chromecast WEB pages and javascript and pyhton code etc for ${server_alias}"
 echo ""
 
-# get each file individually rathe than the full package
+# get each file individually rather than the full package
 set +x
 cd ~/Desktop
 #---
@@ -995,26 +995,30 @@ set -x
 copy_to_top() {
   the_file=$1
   the_url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/${the_file}"
-  echo "Processing file '${the_file}'"
-  set -x
+  echo "Processing file '${the_file}' ..."
+  #set -x
   sudo rm -f "/var/www/${server_name}/${the_file}"
   sudo curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$the_url" --retry 50 -L --output "/var/www/${server_name}/${the_file}" --fail # -L means "allow redirection" or some odd :|
   sudo cp -fv "/var/www/${server_name}/${the_file}" "./${the_file}.old"
-  sudo sed "s;10.0.0.6;${server_name};g" "/var/www/${server_name}/${the_file}"
-  sudo sed "s;Pi4CC;${server_name};g" "/var/www/${server_name}/${the_file}"
-  sudo sed "s;/mnt/mp4library/mp4library;${server_root_folder};g" "/var/www/${server_name}/${the_file}"
+  sudo sed -i "s;10.0.0.6;${server_name};g" "/var/www/${server_name}/${the_file}"
+  sudo sed -i "s;Pi4CC;${server_name};g" "/var/www/${server_name}/${the_file}"
+  sudo sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g" "/var/www/${server_name}/${the_file}"
   sudo chmod a=rwx "/var/www/${server_name}/${the_file}"
   sudo diff -U 1 "./${the_file}.old" "/var/www/${server_name}/${the_file}" 
   sudo rm -fv "./${the_file}.old"
-  set +x
+  #set +x
+  echo "Finished Processing file '${the_file}' ..."
   return 0
 }
+set -x
 copy_to_top index.html
 copy_to_top CastVideos.js
 copy_to_top ads.js
 copy_to_top reload_media.js.sh
 copy_to_top create-json.py
 copy_to_top media.js
+set +x
+
 #---
 # css files
 sudo mkdir -p "/var/www/${server_name}/css"
@@ -1022,14 +1026,17 @@ sudo chmod a=rwx -R "/var/www/${server_name}/css"
 copy_to_css() {
   the_file=$1
   the_url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/css/${the_file}"
-  set -x
+  #set -x
   sudo rm -f "/var/www/${server_name}/css/${the_file}"
   sudo curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$the_url" --retry 50 -L --output "/var/www/${server_name}/css/${the_file}" --fail # -L means "allow redirection" or some odd :|
   sudo chmod a=rwx "/var/www/${server_name}/${the_file}"  set -x
-  set +x
+  #set +x
+  echo "Finished Processing file '${the_file}' ..."
   return 0
 }
+set -x
 copy_to_css CastVideos.css
+set +x
 #---
 # image files
 sudo mkdir -p "/var/www/${server_name}/imagefiles"
@@ -1037,13 +1044,15 @@ sudo chmod a=rwx -R "/var/www/${server_name}/imagefiles"
 copy_to_imagefiles() {
   the_file=$1
   the_url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/imagefiles/${the_file}"
-  set -x
+  #set -x
   sudo rm -f "/var/www/${server_name}/imagefiles/${the_file}"
   sudo curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$the_url" --retry 50 -L --output "/var/www/${server_name}/imagefiles/${the_file}" --fail # -L means "allow redirection" or some odd :|
   sudo chmod a=rwx "/var/www/${server_name}/${the_file}"  set -x
-  set +x
+  #set +x
+  echo "Finished Processing file '${the_file}' ..."
   return 0
 }
+set -x
 copy_to_imagefiles free-boat_02.jpg
 copy_to_imagefiles favicon.ico
 copy_to_imagefiles favicon-16x16.png
@@ -1073,11 +1082,11 @@ copy_to_imagefiles live_indicator_active.png
 copy_to_imagefiles live_indicator_inactive.png
 copy_to_imagefiles timeline_bg_progress.png
 copy_to_imagefiles timeline_bg_buffer.png
+set +x
 #---
 set -x
 sudo chmod a=rwx -R "/var/www/${server_name}"
 set +x
-#---
 
 echo ""
 read -p "Press Enter to continue, if that all worked"
