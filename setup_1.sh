@@ -1005,6 +1005,7 @@ copy_to_top() {
   sudo sed -i "s;Pi4CC;${server_name};g" "/var/www/${server_name}/${the_file}"
   sudo sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g" "/var/www/${server_name}/${the_file}"
   sudo chmod a=rwx "/var/www/${server_name}/${the_file}"
+  sudo sudo chown -R pi:www-data "/var/www/${server_name}/${the_file}"
   sudo diff -U 1 "./${the_file}.old" "/var/www/${server_name}/${the_file}" 
   sudo rm -fv "./${the_file}.old"
   #set +x
@@ -1032,6 +1033,7 @@ copy_to_css() {
   sudo rm -f "/var/www/${server_name}/css/${the_file}"
   sudo curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$the_url" --retry 50 -L --output "/var/www/${server_name}/css/${the_file}" --fail # -L means "allow redirection" or some odd :|
   sudo chmod a=rwx "/var/www/${server_name}/css/${the_file}"
+  sudo sudo chown -R pi:www-data "/var/www/${server_name}/css/${the_file}"
   #set +x
   echo "----------- Finished Processing file '${the_file}' '${the_url}' ..."
   return 0
@@ -1051,6 +1053,7 @@ copy_to_imagefiles() {
   sudo rm -f "/var/www/${server_name}/imagefiles/${the_file}"
   sudo curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$the_url" --retry 50 -L --output "/var/www/${server_name}/imagefiles/${the_file}" --fail # -L means "allow redirection" or some odd :|
   sudo chmod a=rwx "/var/www/${server_name}/imagefiles/${the_file}"
+  sudo sudo chown -R pi:www-data "/var/www/${server_name}/imagefiles/${the_file}"
   #set +x
   echo "----------- Finished Processing file '${the_file}' '${the_url}' ..."
   return 0
