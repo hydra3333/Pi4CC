@@ -8,7 +8,7 @@
 # which can be found at https://github.com/googlecast/CastVideos-chrome
 #
 # Invoke this script from the commandline like
-#    ./2019.12.09-create-json.py --source_folder /mnt/mp4library/mp4library --filename-extension mp4 --json_file /var/www/Pi4CC/media.js 
+#    ./create-json.py --source_folder /mnt/mp4library/mp4library --filename-extension mp4 --json_file /var/www/Pi4CC/media.js 
 #   
 import os
 import fnmatch
