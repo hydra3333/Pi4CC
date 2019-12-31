@@ -911,6 +911,16 @@ set +x
 
 echo ""
 echo "Create a SAMBA password."
+echo ""
+echo " Before we start the server, you’ll want to set a Samba password. Enter you pi password."
+echo " Before we start the server, you’ll want to set a Samba password. Enter you pi password."
+echo " Before we start the server, you’ll want to set a Samba password. Enter you pi password."
+echo " Before we start the server, you’ll want to set a Samba password. Enter you pi password."
+echo " Before we start the server, you’ll want to set a Samba password. Enter you pi password."
+echo " Before we start the server, you’ll want to set a Samba password. Enter you pi password."
+echo " Before we start the server, you’ll want to set a Samba password. Enter you pi password."
+echo " Before we start the server, you’ll want to set a Samba password. Enter you pi password."
+echo " Before we start the server, you’ll want to set a Samba password. Enter you pi password."
 echo " Before we start the server, you’ll want to set a Samba password. Enter you pi password."
 set -x
 sudo smbpasswd -a pi
