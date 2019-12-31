@@ -900,11 +900,12 @@ echo "# -------------"
 # https://pimylifeup.com/raspberry-pi-samba/
 
 set -x
-sudo apt purge -y samba samba-common-bin
-sudo rm -fv -fv "/etc/samba/smb.conf"
-sudo apt autoremove -y
+#sudo apt purge -y samba samba-common-bin
+#sudo apt autoremove -y
+#sudo rm -fv -fv "/etc/samba/smb.conf"
 #
 sudo apt install -y samba samba-common-bin
+sudo apt install --reinstall -y samba samba-common-bin
 set +x
 
 echo ""
