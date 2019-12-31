@@ -815,6 +815,7 @@ set -x
 # To rebuild the database use:
 sudo service minidlna force-reload
 sleep 10s
+cat =${log_dir}\minidlna.log
 set +x
 #sudo service minidlna stop
 
@@ -1092,19 +1093,11 @@ sudo chmod a=rwx -R "/var/www/${server_name}"
 set +x
 
 echo ""
-read -p "Press Enter to continue, if that all worked"
-echo ""
-
-echo ""
 echo "# Setup mediainfo and pymediainfo ready for the python script to use"
 set -x
 sudo apt install -y mediainfo
 pip3 install pymediainfo
 set +x
-echo ""
-
-echo ""
-read -p "Press Enter to continue, if that all worked"
 echo ""
 
 echo "RE-CREATE the essential JSON file consumed by the ${server_name} website"
@@ -1115,10 +1108,6 @@ python3 /var/www/${server_name}/create-json.py --source_folder "${server_root_fo
 sudo chmod a=rwx "/var/www/${server_name}/media.js"
 sudo chmod a=rwx /var/www/${server_name}/create-json.log
 set +x
-
-echo ""
-read -p "Press Enter to continue, if that all worked"
-echo ""
 
 echo ""
 echo "Add a nightly job to crontab to RE-CREATE the essential JSON file consumed by the ${server_name} website"
@@ -1145,11 +1134,7 @@ crontab -l # after
 set +x
 
 echo ""
-read -p "Press Enter to continue, if that all worked"
 echo ""
-echo ""
-echo ""
-
 echo "# ------------------------------------------------------------------------------------------------------------------------"
 echo ""
 echo "Visit the web page from a different PC to see if it all works:"
