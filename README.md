@@ -58,14 +58,14 @@ Key things installed and configured:
    - "localisation" tab is used to check/configure your timezone/locale etc
 3. Also check the Pi has a fixed IP address, perhaps by setting your home router's DHCP facility to recognise the Pi's mac address and provide a fixed IP address
 4. Clone the respository to the Desktop of the Pi and copy the setup files to the Desktop
-   - start a Terminal and do 
-   -- cd ~/Desktop
-   -- sudo apt install -y git
-   -- git clone https://github.com/hydra3333/Pi4CC.git
-   -- cp -fv ./Pi4CC/setup_0.sh ./
-   -- cp -fv ./Pi4CC/setup_1.sh ./
-   -- chmod +777 *.sh
-   
+   - start a Terminal and do this:
+   - cd ~/Desktop
+   - sudo apt install -y git
+   - git clone https://github.com/hydra3333/Pi4CC.git
+   - cp -fv ./Pi4CC/setup_0.sh ./
+   - cp -fv ./Pi4CC/setup_1.sh ./
+   - chmod +777 *.sh
+5. 
 
 
 
