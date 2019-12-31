@@ -36,7 +36,7 @@ Hence,
    with "minimal" changes.
 
 Key things installed and configured:
-1. A Raspberry Pi 4 server called Pi4CC (or whatever name you specify) with relevant software and settings
+1. A Raspberry Pi 4 server with hostname Pi4CC (or whatever name you specify) with relevant software and settings
 2. A USB3 (10Tb ?) external drive with a fixed mount point etc
 3. A miniDLNA server
 4. A SAMBA file-sharing software compatible with Windows file shares
@@ -44,6 +44,20 @@ Key things installed and configured:
 6. A local Pi4CC website (and bits) and companion python3 script and relevant crontab entries to re-index nightly
 
 # Installation
+
+0. Prepare an external USB3 hard drive (formatted as NTFS is good)
+   - In Windows, ensure
+     - "security" on the drive itself is set to `everyone` having FULL CONTROL
+     - a top-level folder is created called `mp4library`
+	 - copy your playable .mp4 files into that level and/or subfolders
+	   - NOTE: playable .mp4 files are 
+	     * not interlaced (a `Chromecast` device will not play them)
+	     * max resolution of `1080p` and `SDR` colours (unless you have a `Chromecast Ultra` device, in which case `4K` and `HDR`)
+	     * ideally encoded with `h.264(avc)/aac` or `h.265(hevc)/aac`
+         * ... a probably out-of-date list of acceptable .mp4 formats is at https://developers.google.com/cast/docs/media
+   - Note: 
+     - In the Pi, we will set the mount point for the USB3 disk to (usually) be `/mnt/mp4library`
+     - The top level folder on the USB3 disk will (usually) be `mp4library`, thus `/mnt/mp4library/mp4library`
 
 1. Install and configure your Raspberry Pi 4 4Gb and set it to always to boot to GIU and autologin
    - it is close enough to safe to autologin since the Pi is only visible inside your "secure" home LAN
@@ -75,9 +89,10 @@ Key things installed and configured:
    ./setup_0.sh
    ```
    - answer any prompts, eg
-     * `This server_name` it's best to enter the hostname of the Pi therehere
-     * `This server_name` it's best to enter the hostname of the Pi therehere
-     * `This server_name` it's best to enter the hostname of the Pi therehere
+     * `This server_name` it's best to enter the hostname of the Pi here (I use Pi4CC), it will be used as the Apache2 website name
+     * `This server_alias (will become a Virtual Folder within the website)` recommend leave it as `mp4library` 
+	 ... it will be used as the top-level folder name on your external USB3 hard drive, so put your media files there
+     * `Designate the mount point for the USB3 external hard drive` 
      * `This server_name` it's best to enter the hostname of the Pi therehere
 
 
