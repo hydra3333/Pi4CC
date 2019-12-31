@@ -6,10 +6,13 @@ does not work yet
 
    A zero-frills LAN-only Media Server using DLNA and Apache2 web server to serve up .mp4 (avc/hevc) video files
    from a low-cost low-power Raspberry Pi 4 server to Chromecast devices and SmartTVs in the home.
+   
+   Once installed and configured, the Pi 4 will eventally run "headless" (i.e. without a monitor/keyboard/mouse);
+   if required, it can be accessed and controlled remeotely from a PC via VNC or SSH etc.
 
 # More Description:
 
-How to setup a Raspberry Pi 4 (Raspbian buster) as a HOME LAN media server (only inside a home LAN) so that :-
+How to setup a Raspberry Pi 4 4Gb (Raspbian buster) as a HOME LAN media server (only inside a home LAN) so that :-
 1. via DLNA, it can be searchable and serve .mp4 files to Apps on tablets and phones and smartTVs
 2. via a LAN-only web page, it can it can be searchable on tablets and phones and PCs, 
    and be able to "cast" .mp4 files to Chromecast devices connected to TVs 
@@ -33,11 +36,53 @@ Hence,
    with "minimal" changes.
 
 Key things installed and configured:
-1. A Raspberry Pi 4 server called Pi4CC
-2. miniDLNA server
-3. Apache2 web server, with a self-signed SSL/TLS cerfificate
-4. SAMBA file-sharing software compatible with Windows file shares
-5. The Pi4CC web page with companion python3 script
+1. A Raspberry Pi 4 server called Pi4CC (or whatever name you specify) with relevant software and settings
+2. A USB3 (10Tb ?) external drive with a fixed mount point etc
+3. A miniDLNA server
+4. A SAMBA file-sharing software compatible with Windows file shares
+5. An Apache2 web server, with a self-signed SSL/TLS cerfificate
+6. A local Pi4CC website (and bits) and companion python3 script and relevant crontab entries to re-index nightly
+
+# Installation
+
+1. Install and configure your Raspberry Pi 4 4Gb and set it to always to boot to GIU and autologin
+   - it is close enough to safe to autologin since it is only visible inside your "secure" home LAN
+2. Check, perhaps in the GUI tool Raspberry Pi Configuration,
+   -  its hostname is short and easy and has no spaces or special characters (it will be used as the website name)
+   - "login as user pi" is ticked
+   - "wait for network" is ticked
+   - "splash screen" is disabled
+   -  VNC is installed
+   -  SSH is installed 
+   - GPU memory is 384k
+   - "localisation" tab is used to check/configure your timezone/locale etc
+3. Clone the respository to the Desktop of the Pi and copy the setup files to the Desktop
+   - start a Terminal
+     cd ~/Desktop
+     sudo apt install -y git
+     git clone https://github.com/hydra3333/Pi4CC.git
+     cp -fv ./Pi4CC/setup_0.sh ./
+     cp -fv ./Pi4CC/setup_1.sh ./
+     chmod +777 *.sh
+   
+
+-  the Pi has a fixed IP address, perhaps by setting your home router's DHCP facility to recognise the Pi's mac address and provide a fixed IP address
+
+
+
+
+
+
+# Test on a PC first ?
+
+
+https://www.raspberrypi.org/forums/viewtopic.php?f=116&t=200252&p=1588362#p1586023
+
+
+
+
+
+
 
 # Addendum:
 
@@ -55,3 +100,6 @@ How to report bugs
 
 Terms
 Your use of this sample is subject to, and by using or downloading the sample files you agree to comply with, the [Google APIs Terms of Service](https://developers.google.com/terms/) and the [Google Cast SDK Additional Developer Terms of Service](https://developers.google.com/cast/docs/terms/).
+
+
+TAKE 2:
