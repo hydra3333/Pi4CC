@@ -925,16 +925,16 @@ rm -f "./smb.conf"
 curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "./smb.conf" --fail # -L means "allow redirection" or some odd :|
 sudo cp -fv "./smb.conf"  "./smb.conf.old"
 #---
-##sudo sed -i "s;[Pi];[Pi];g"  "./smb.conf"
-##sudo sed -i "s;[Pi];[${server_name}];g"  "./smb.conf"
+##sudo sed -i "s;\[Pi\];\[Pi\];g"  "./smb.conf"
+##sudo sed -i "s;\[Pi\];\[${server_name}\];g"  "./smb.conf"
 sudo sed -i "s;comment=Pi4CC pi home;comment=${server_name} pi_home;g"  "./smb.conf"
 ##sudo sed -i "s;path = /home/pi;path = /home/pi;g"  "./smb.conf"
 #---
-sudo sed -i "s;[mp4library];[${server_alias}];g"  "./smb.conf"
+sudo sed -i "s;\[mp4library\];\[${server_alias}\];g"  "./smb.conf"
 sudo sed -i "s;comment=Pi4CC mp4library home;${server_name} ${server_alias} home;g"  "./smb.conf"
 sudo sed -i "s;path = /mnt/mp4library;path = ${server_root_USBmountpoint};g"  "./smb.conf"
 #---
-##sudo sed -i "s;[www];[www];g"  "./smb.conf"
+##sudo sed -i "s;\[www\];\[www\];g"  "./smb.conf"
 sudo sed -i "s;comment=Pi4CC www home;comment=${server_name} www home;g"  "./smb.conf"
 ##sudo sed -i "s;path = /var/www;path = /var/www;g"  "./smb.conf"
 #---
