@@ -145,7 +145,12 @@ Key things installed and configured:
    - answer other prompts
      * sometimes you will be asked to visually scan setup results for issues, and press Enter to continue
      * observe progress and "control C" if you spot anything "unfortunate" occurring
-
+     * when you see something like this (I cannot seem to avoid it prompting)
+       ```
+       + sudo openssl pkcs12 -export -out /etc/tls/localcerts/PiDesktop.pfx -inkey /etc/tls/localcerts/PiDesktop.key.orig -in /etc/tls/localcerts/PiDesktop.pem
+       Enter Export Password:
+       ```
+       just press Enter, then press Enter again to the next prompt `Verifying - Enter Export Password:`
 
 
 
