@@ -86,10 +86,10 @@ Key things installed and configured:
    - plug the USB3 external hard drive in to the Pi (always use the same USB3 slot in the Pi)
    - wait 15 seconds for the USB3 external hard drive to spin up and be recognised automatically
    - find and note EXACTLY the correct `UUID=` string of letters and numbers; start a Terminal and do this:
-   ```
-   sudo df
-   sudo blkid 
-   ```
+     ```
+     sudo df
+     sudo blkid 
+     ```
      * which should yield something like this
      ```
      /dev/mmcblk0p1: LABEL_FATBOOT="boot" LABEL="boot" UUID="69D5-9B27" TYPE="vfat" PARTUUID="d9b3f436-01"
