@@ -83,9 +83,26 @@ Key things installed and configured:
    chmod +777 *.sh
    ```
 7. Do part "Setup 0" of the installation (it should be re-startable, feel free to "Control C" and re-start if you feel uncomfortable)
-   - start a Terminal and do this:
+   - plug the USB3 external hard drive in to the Pi (always use the same USB3 slot in the Pi)
+   - wait 15 seconds for the USB3 external hard drive to spin up and be recognised automatically
+   - find and note EXACTLY the correct `UUID=` string of letters and numbers; start a Terminal and do this:
+   ```
+   sudo df
+   sudo blkid 
+   ```
+     - which should yield something like this
+     ```
+     /dev/mmcblk0p1: LABEL_FATBOOT="boot" LABEL="boot" UUID="69D5-9B27" TYPE="vfat" PARTUUID="d9b3f436-01"
+     /dev/mmcblk0p2: LABEL="rootfs" UUID="24eaa08b-10f2-49e0-8283-359f7eb1a0b6" TYPE="ext4" PARTUUID="d9b3f436-02"
+     /dev/sda2: LABEL="5TB-mp4library" UUID="F8ACDEBBACDE741A" TYPE="ntfs" PTTYPE="atari" PARTLABEL="Basic data partition" PARTUUID="6cc8d3fb-6942-4b4b-a7b1-c31d864accef"
+     /dev/mmcblk0: PTUUID="d9b3f436" PTTYPE="dos"
+     /dev/sda1: PARTLABEL="Microsoft reserved partition" PARTUUID="62ac9e1a-a82b-4df7-92b9-19ffc689d80b"
+     ```
+     * in thise case it is self-evidently `F8ACDEBBACDE741A` ... copy and paste it somewhere you can copy it from later
+   - then in a Terminal and do this:
    ```
    cd ~/Desktop
+   chmod +777 *.sh
    ./setup_0.sh
    ```
    - answer initial prompts (it will save these answers for use later)

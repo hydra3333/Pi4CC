@@ -135,19 +135,25 @@ set +x
 
 echo ""
 read -p "Press Enter to continue"
-
+echo ""
+echo "Now,"
 echo "# Use sudo raspi-config to set these options"
 echo "# In Advanced Options"
 echo "# Video Output Video output options for Pi 4 "
 echo "# Enable 4Kp60 HDMI"
 echo "# Enable 4Kp60 resolution on HDMI0 (disables analog)"
 echo "# Then check/change other settings"
-read -p "Press Enter to start sudo raspi-config to do that"
+echo ""
+echo "(use <tab> and<enter> to move around raspi-config and choose menu items)"
+echo ""
+read -p "Press Enter to start sudo raspi-config to do that.  (exiting raspi-config will return here)"
+echo ""
 
 set -x
 sudo raspi-config
 set +x
-read -p "Press Enter to continue"
+echo ""
+read -p "Press Enter to continue, if you are happy so far"
 
 echo ""
 echo "# ------------------------------------------------------------------------------------------------------------------------"
@@ -194,24 +200,24 @@ set -x
 sudo chmod a=rwx -R ${${server_root_USBmountpoint}}
 set +x
 
-echo "# Fix permissions to allow user pi so that it has no trouble"
+echo "# Fix user rights to allow user pi so that it has no trouble"
 echo "# with mounting external drives."
 set -x
 sudo usermod -a -G plugdev pi
 set +x
 
-echo "# Plugin a 5Tb external USB3 drive into the bottom USB3 socket in the Pi4."
+echo "# Plugin the external USB3 drive into the USB3 socket in the Pi4."
 echo "# Always use the same USB socket on the Pi."
 echo "# Always use an externally-powered  USB3 drive, so that we have "
 echo "# sufficient power and sufficient data transfer bandwidth."
 echo "# The USB3 drive will auto mount with NTFS, under Raspbian Buster."
 echo "# Now we need to find  stuff about the disk, so in a Terminal do"
 echo ""
-read -p "Press Enter AFTER you have plugged in the USB3 drive and waited 15 seconds"
+read -p "Press Enter AFTER you have plugged in the USB3 drive and waited 15 seconds for it to spin up and be recognised automatically"
 echo ""
 
 set -x
-df
+sudo df
 set +x
 echo ""
 
