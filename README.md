@@ -45,24 +45,24 @@ Key things installed and configured:
 
 # Installation
 
-0. Prepare an external USB3 hard drive (formatted as NTFS is good)
+1. Prepare an external USB3 hard drive (formatted as NTFS is good)
    - In Windows, ensure
      - "security" on the drive itself is set to `everyone` having FULL CONTROL
      - a top-level folder is created called `mp4library`
 	 - copy your playable .mp4 files into that level and/or subfolders
-	   - NOTE: playable .mp4 files are 
+	   - ... of probably interest, playable .mp4 files are 
 	     * not interlaced (a `Chromecast` device will not play them)
-	     * max resolution of `1080p` and `SDR` colours (unless you have a `Chromecast Ultra` device, in which case `4K` and `HDR`)
-	     * ideally encoded with `h.264(avc)/aac` or `h.265(hevc)/aac`
-         * ... a probably out-of-date list of acceptable .mp4 formats is at https://developers.google.com/cast/docs/media
+	     * max resolution of `1080p` and `SDR` colours (unless you have a `Chromecast Ultra` device, in which case `4K` and `HDR` applies)
+	     * ideally encoded with codecs `h.264(avc)/aac` or `h.265(hevc)/aac`
+         * google's probably out-of-date list of acceptable .mp4 codecs is at https://developers.google.com/cast/docs/media
    - Note: 
      - In the Pi, we will set the mount point for the USB3 disk to (usually) be `/mnt/mp4library`
      - The top level folder on the USB3 disk will (usually) be `mp4library`, thus `/mnt/mp4library/mp4library`
 
-1. Install and configure your Raspberry Pi 4 4Gb and set it to always to boot to GIU and autologin
+3. Install and configure your Raspberry Pi 4 4Gb and set it to always to boot to GIU and autologin
    - it is close enough to safe to autologin since the Pi is only visible inside your "secure" home LAN
    - (the GUI should be left to boot and run, even in a headless state later)
-2. Check, perhaps in the GUI tool Raspberry Pi Configuration,
+4. Check, perhaps in the GUI tool Raspberry Pi Configuration,
    -  its hostname is short and easy and has no spaces or special characters (it will be used as the website name)
    - "login as user pi" is ticked
    - "wait for network" is ticked
@@ -71,8 +71,8 @@ Key things installed and configured:
    -  SSH is enabled
    - GPU memory is 384k
    - "localisation" tab is used to check/configure your timezone/locale etc
-3. Also check the Pi has a fixed IP address, perhaps by setting your home router's DHCP facility to recognise the Pi's mac address and provide a fixed IP address
-4. Clone the respository to the Desktop of the Pi and copy the setup files to the Desktop
+5. Also check the Pi has a fixed IP address, perhaps by setting your home router's DHCP facility to recognise the Pi's mac address and provide a fixed IP address
+6. Clone the respository to the Desktop of the Pi and copy the setup files to the Desktop
    - start a Terminal and do this:
    ```
    cd ~/Desktop
@@ -82,7 +82,7 @@ Key things installed and configured:
    cp -fv ./Pi4CC/setup_1.sh ./
    chmod +777 *.sh
    ```
-5. Do the installation (it should be re-startable, feel free to "Control C" and re-start if feel uncomfortable)
+7. Do the installation (it should be re-startable, feel free to "Control C" and re-start if feel uncomfortable)
    - start a Terminal and do this:
    ```
    cd ~/Desktop
@@ -92,7 +92,7 @@ Key things installed and configured:
      * `This server_name` it's best to enter the hostname of the Pi here (I use Pi4CC), it will be used as the Apache2 website name
      * `This server_alias (will become a Virtual Folder within the website)` recommend leave it as `mp4library` 
 	 ... it will be used as the top-level folder name on your external USB3 hard drive, so put your media files there
-     * `Designate the mount point for the USB3 external hard drive` 
+     * `Designate the mount point for the USB3 external hard drive` it's a "virtual" place used everywhere to access the top level of the USB3 external hard drive when mounted
      * `This server_name` it's best to enter the hostname of the Pi therehere
 
 
@@ -112,6 +112,9 @@ use the chromium browser inside the Pi.
 
 
 
+# How to encode .mp4 content which is playable ?
+
+Perhaps place some ffmpeg example commandlines in here.
 
 
 # Addendum:
