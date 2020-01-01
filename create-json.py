@@ -13,6 +13,7 @@
 import os
 import fnmatch
 import argparse
+import datetime
 from collections import defaultdict
 from requests.utils import requote_uri
 from pymediainfo import MediaInfo
@@ -33,6 +34,7 @@ if __name__ == '__main__':
     parser.add_argument('-j', '--json_file', default='/var/www/Pi4CC/media.js')
     args = parser.parse_args()
     #
+	print(datetime.datetime.now() + " Started ...")
     print (f"Finding files '{args.source_folder}/*.{args.filename_extension.lower()}")
     the_files_dict = find_matching_files(args.source_folder, f'*.{args.filename_extension.lower()}')
     print (f"Found   files '{args.source_folder}/*.{args.filename_extension.lower()}")
@@ -124,6 +126,8 @@ if __name__ == '__main__':
             jf.write(f"        'folder'      : '{txt_part_url}',\n")
             jf.write("      },\n")
             cc=cc+1
+            if cc % 100 == 0:
+			    print(datetime.datetime.now() + " - processed " + cc + " files so far...")
         jf.write(f"      // ----- END   of folder({record_number}) {part_url} ... files={len(the_filenames)} \n")
     jf.write("     ]\n")
     jf.write("  }]\n")
