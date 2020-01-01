@@ -99,13 +99,13 @@ Key things installed and configured:
        /dev/mmcblk0: PTUUID="d9b3f436" PTTYPE="dos"
        /dev/sda1: PARTLABEL="Microsoft reserved partition" PARTUUID="62ac9e1a-a82b-4df7-92b9-19ffc689d80b"
        ```
-     * in thise case it is self-evidently `F8ACDEBBACDE741A` ... copy and paste it somewhere you can copy it from later
+     * in thise case (and not yours) it is self-evidently `F8ACDEBBACDE741A` ... copy and paste it somewhere you can copy it from later
    - Now, in a Terminal and do this:
      ```
      cd ~/Desktop
      chmod +777 *.sh
      ./setup_0.sh
-   ```
+     ```
    - answer initial prompts (it will save these answers for use later)
      * `This server_name` it's best to enter the hostname of the Pi here (I use Pi4CC), it will be used as the Apache2 website name
      * `This server_alias (will become a Virtual Folder within the website)` recommend leave it as `mp4library` 
