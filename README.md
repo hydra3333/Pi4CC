@@ -59,11 +59,11 @@ does not work yet
      - copy your playable .mp4 files into that level and/or subfolders
      - Of probable interest, playable .mp4 files are 
          * not interlaced (a `Chromecast` device will not play them)
-         * max resolution of `1080p` and `SDR` colours (unless you have a `Chromecast Ultra` device, in which case `4K` and `HDR`)
+         * max resolution of `1080p` and having an `SDR` colour scheme (unless you have a `Chromecast Ultra` device, in which case `4K` and `HDR`)
          * ideally encoded with codecs `h.264(avc)/aac` ... or `h.265(hevc)/aac`
-           * videos encoded with hevc/avc won't play in a Chrome browser, but they will cast to and play one a Chromecast device 
-           * (videos won't play in a Pi's Chromium browser) 
-         * google's probably out-of-date list of acceptable .mp4 codecs is at https://developers.google.com/cast/docs/media
+           * videos encoded with `hevc/avc` won't play in a Chrome browser, but they *will* cast to and play on a Chromecast device 
+           * (... neither type of video plays inside a Pi's Chromium browser, unfortunately) 
+         * google's *probably out-of-date list* of acceptable .mp4 codecs is at https://developers.google.com/cast/docs/media
    - Note: 
      - In the Pi, we will set the mount point for the USB3 disk to (usually) be `/mnt/mp4library`
      - The top level folder on the USB3 disk will (usually) be `mp4library`, thus accessible in the Pi via `/mnt/mp4library/mp4library`
@@ -195,15 +195,15 @@ does not work yet
      ```
      * **Please note:** 
        * you won't be able to play a video in the Pi browser itself, but you can click on the `triangle` expander to see if it works
-       * videos encoded with hevc/avc won't play in a Chrome browser
-       * only a google Chrome browser on a PC or tablet works to cast videos from the wbesite
-   - you **WILL** see a Chrome message `Your conenctions is not private  etc etc` which is due to 
-     us using the (free) self-signed certificate rather than a paid-for one (which has other associated complexities)
-     * click on the button `Advanced`
-     * then click on the link which says `Proceed to *localhost* (unsafe)` (it will have the hostname of the Pi)
-     * the browser should remember this is OK
-   - you can now disconnect the Pi from the monitor, keyboard, and mouse, if you want
-   
+       * videos encoded with `hevc/avc` won't play in a Chrome browser, likely something to do with google and licensing of `hevc`
+       * only a google Chrome browser on a PC or tablet works to cast videos from the website to a Chromecast device
+   - you **WILL** see a Chrome message `Your connection is not private ... etc etc` which is due to 
+     us using your (free) self-signed SSL/TLS certificate rather than a paid-for one (which has other associated complexities)
+     * to accept this, click on the button `Advanced`
+     * then click on the link which says `Proceed to Pi4CC (unsafe)` (it be showing the hostname of the Pi)
+     * the browser should remember this is OK, and proceed to display the Pi's new website
+   - you can now disconnect the Pi from the monitor, keyboard, and mouse, if you want to make it headless   
+     - yes, the GUI should be left running and left to start at boot time, so you can VNC into it later from your PC
 
 
 
