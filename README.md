@@ -128,7 +128,10 @@ Key things installed and configured:
    - Reboot the Pi so that any new settings take effect
 8. After rebooting, do part "Setup 1" of the installation (it should be re-startable, feel free to "Control C" and re-start if you feel uncomfortable)
    - this will be a longish process (15 to 30 mins) with a number of prompts
- 
+   - answer initial prompts (it will remember the answers you gave in setup_0 as defaults ... don't change them now !)
+   - answer other prompts
+     * sometimes you will be asked to visually scan setup results for issues, and press Enter to continue
+     * observe progress and "control C" if you spot bad issues
 
 
 
