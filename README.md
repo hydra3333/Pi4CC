@@ -92,8 +92,8 @@ Key things installed and configured:
      * `This server_name` it's best to enter the hostname of the Pi here (I use Pi4CC), it will be used as the Apache2 website name
      * `This server_alias (will become a Virtual Folder within the website)` recommend leave it as `mp4library` 
 	 ... it will be used as the top-level folder name on your external USB3 hard drive, so put your media files there
-     * `Designate the mount point for the USB3 external hard drive` it's a "virtual" place used everywhere to access the top level of the USB3 external hard drive when mounted
-     * `Designate the root folder on the USB3 external hard drive` it's the top level folder on the USB3 external hard drive containing .mp4 fiels and subfolders containing .mp4 files
+     * `Designate the mount point for the USB3 external hard drive` it's a "virtual" place used everywhere to access the top level of the USB3 external hard drive when mounted, eg `/mnt/mp4library`
+     * `Designate the root folder on the USB3 external hard drive` it's the top level folder on the USB3 external hard drive containing .mp4 files and subfolders containing .mp4 files, eg `/mnt/mp4library/mp4library`
    - answer other prompts (it will save these answers for use later)
      * sometimes you will be asked to visually scan setup results for issues, and press Enter to continue
    - Reboot the Pi so that any new settings take effect

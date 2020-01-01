@@ -80,41 +80,42 @@ echo "# Enable VNC"
 echo "# Set the video RAM to 384Mb"
 echo "# Disable IPv6"
 echo "# Remember to ALWAYS set the Pi to boot to GUI, EVEN IF later running it headless (see later)."
-echo "# Yes against most security recommendations, also check and set the Pi to auto-login."
+echo "#    Yes against most security recommendations, also check and set the Pi to auto-login."
 echo ""
-read -p "If not done that, cancel this script now"
+read -p "If not done that, please cancel this script now"
 echo ""
 
 set -x
 ifconfig
 set +x
-echo "# Reserve an IP in the home Router, corresponding to the Pi's WiFi mac address, then reboot the Pi."
-read -p "Reserve an IP in the home Router, corresponding to the Pi's WiFi mac address, then reboot the Pi."
+echo "# If not already done, Reserve an IP in the home Router, corresponding to the Pi's WiFi mac address, then reboot the Pi."
+read -p "If not already done, Reserve an IP in the home Router, corresponding to the Pi's WiFi mac address, then reboot the Pi."
 echo ""
 
+echo ""
 set -x
 sudo dhclient -r
 sudo dhclient
 set +x
 
 echo ""
-
-set -x
-ifconfig
-set +x
-read -p "Hope the Reserved IP worked. Press Enter to continue"
-echo ""
-
 set -x
 ifconfig
 hostname
 hostname --fqdn
 hostname --all-ip-addresses
 set +x
-read -p "Check the IP Address and Host name.  If no good, cancel this script and fix it."
+
+set -x
+ifconfig
+set +x
+echo ""
+echo "Check the reserved IP Address and Host name.  If no good, cancel this script and fix it."
+echo ""
+read -p "Hope the Reserved IP worked, please check the IP and hostname.  Press Enter to continue"
 
 echo ""
-echo "# add 15 seconds for the USB3 drive to spin up.  Add the line at the top."
+echo "# Add 15 seconds for the USB3 drive to spin up.  Add the line at the top."
 echo "# https://www.raspberrypi.org/documentation/configuration/config-txt/boot.md"
 read -p "Press Enter to add a line 'boot_delay=15' at the top of '/boot/config.txt'"
 echo ""
