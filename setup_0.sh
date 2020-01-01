@@ -29,7 +29,7 @@ if [[ -f "$setup_config_file" ]]; then  # config file already exists
     server_root_folder="${input_string:-$server_root_folder_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
 else  # config file does not exist, prompt normally with successive defaults based on answers aqs we go along
     echo "No prior answers found, creating new default answers ..."
-    server_name_default=Pi4cc
+    server_name_default=Pi4CC
     server_alias_default=mp4library
     ##server_root_USBmountpoint_default=/mnt/${server_alias_default}
     ##server_root_folder_default=${server_root_USBmountpoint_default}/${server_alias_default}

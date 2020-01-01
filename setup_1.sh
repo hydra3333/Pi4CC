@@ -997,8 +997,8 @@ echo ""
 
 echo ""
 echo "# ------------------------------------------------------------------------------------------------------------------------"
-echo "# INSTALL VSFTP ftp server, connectable from filezilla"
-echo "# ----------------------------------------------------"
+echo "# INSTALL VSFTPD ftp server, connectable from filezilla"
+echo "# -----------------------------------------------------"
 echo ""
 
 set -x 
@@ -1015,6 +1015,7 @@ set +x
 # The umask essentially removes the permissions you don't want users to have, so use 000
 
 set -x
+# https://security.appspot.com/vsftpd/vsftpd_conf.html
 sudo service vsftpd stop
 sudo chmod +777 "/etc/vsftpd.conf"
 sudo cp -fv "/etc/vsftpd.conf" "/etc/vsftpd.conf.backup"
