@@ -17,12 +17,12 @@ does not work yet
 # Description:
 
 **Key things installed and configured:**
-  1. A USB3 (10Tb ?) external drive with a fixed mount point, containing your .mp4 media files etc
-  2. A miniDLNA server, so you can play .mp4 files from a remote tablet or phone or smartTV etc
+  1. A USB3 (10Tb ?) external hard drive with a fixed mount point, containing your .mp4 video files
+  2. A miniDLNA server, so you can find and play .mp4 files from a remote tablet or phone or smartTV etc
   3. A SAMBA file-sharing software compatible with Windows file shares, so you can easily copy files back and forth (slowly)
-  4. An Apache2 web server, with a self-signed SSL/TLS cerfificate, sop you can access .mp4 files via a browser
-  5. A local Pi4CC website (and bits) and companion python3 script and relevant crontab entries to re-index nightly, 
-     so you can find and "cast" .mp4 files to Chromecast devices
+  4. An Apache2 web server, with a self-signed SSL/TLS cerfificate, so you can access .mp4 files via a browser
+  5. A local "Pi4CC" website (and bits) in Apache, with a companion python3 script and relevant crontab entries to re-index
+     your videos nightly, so you can find and "cast" .mp4 files to Chromecast devices
 
 
 **Setup a Raspberry Pi 4 4Gb (Raspbian buster) as a HOME LAN media server (only inside a home LAN) so that** :-
@@ -40,7 +40,7 @@ does not work yet
   5. It does NOT do any "non-Google-app" *external* network connections outside your home LAN at runtime
         ... unlike Plex Media Server (search about it in the Raspberry Pi forums)
         ... unlike Kodi 
-     ... Your list of media contents etc is NOT shared with any company or individual. 
+     ... Your list of video contents etc is NOT shared with any company or individual. 
      You are in control.
   6. If you want something better and fancier, 
      look for Plex Media Server and Kodi. They're good, if you are willing to be a "sharing" individual ;)
@@ -116,7 +116,7 @@ does not work yet
    - answer initial prompts (it will save these answers for use later)
      * `This server_name` it's best to enter the hostname of the Pi here (I use Pi4CC), it will be used as the Apache2 website name
      * `This server_alias (will become a Virtual Folder within the website)` recommend leave it as `mp4library` 
-	 ... it will be used as the top-level folder name on your external USB3 hard drive, so put your media files there
+	 ... it will be used as the top-level folder name on your external USB3 hard drive, so put your video files there
      * `Designate the mount point for the USB3 external hard drive` it's a "virtual" place used everywhere to access the top level of the USB3 external hard drive when mounted, eg `/mnt/mp4library`
      * `Designate the root folder on the USB3 external hard drive` it's the top level folder on the USB3 external hard drive containing .mp4 files and subfolders containing .mp4 files, eg `/mnt/mp4library/mp4library`
    - answer other prompts
