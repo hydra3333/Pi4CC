@@ -127,6 +127,12 @@ Key things installed and configured:
 	     * remove the `F8ACDEBBACDE741A` string and enter the UUID string you saved earlier ... good luck
    - Reboot the Pi so that any new settings take effect
 8. After rebooting, do part "Setup 1" of the installation (it should be re-startable, feel free to "Control C" and re-start if you feel uncomfortable)
+   - In a Terminal and do this:
+     ```
+     cd ~/Desktop
+     chmod +777 *.sh
+     ./setup_1.sh
+     ```
    - this will be a longish process (15 to 30 mins) with a number of prompts
    - answer initial prompts (it will remember the answers you gave in setup_0 as defaults ... don't change them now !)
    - answer other prompts
