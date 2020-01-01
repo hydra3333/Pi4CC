@@ -108,8 +108,8 @@ if __name__ == '__main__':
                     #print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
                     audio_codec = track.to_data()["format"]
             title,ignore_me = os.path.splitext(the_filename.replace("'","-"))  # root,ext = os.path.splitext(path) 
-            # source = requote_uri("http://10.0.0.6/mp4library" + part_url + the_filename)
-            source = requote_uri("/mp4library" + part_url + the_filename)
+            source = requote_uri("http://10.0.0.6/mp4library" + part_url + the_filename)
+            # source = requote_uri("/mp4library" + part_url + the_filename)
             subtitle = source
             thumb = "".replace("'","-")
             jf.write("      {\n")
