@@ -131,7 +131,7 @@ Key things installed and configured:
    - answer initial prompts (it will remember the answers you gave in setup_0 as defaults ... don't change them now !)
    - answer other prompts
      * sometimes you will be asked to visually scan setup results for issues, and press Enter to continue
-     * observe progress and "control C" if you spot bad issues
+     * observe progress and "control C" if you spot anything "unfortunate" occurring
 
 
 
