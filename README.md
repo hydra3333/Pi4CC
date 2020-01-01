@@ -49,11 +49,11 @@ Key things installed and configured:
    - In Windows, ensure
      - "security" on the drive itself is set to `everyone` having `full control`
      - a top-level folder is created called `mp4library`, with "security" on this folder set to `everyone` having `full control`
-	 - copy your playable .mp4 files into that level and/or subfolders
-	   - Of probable interest, playable .mp4 files are 
-	     * not interlaced (a `Chromecast` device will not play them)
-	     * max resolution of `1080p` and `SDR` colours (unless you have a `Chromecast Ultra` device, in which case `4K` and `HDR`)
-	     * ideally encoded with codecs `h.264(avc)/aac` or `h.265(hevc)/aac`
+     - copy your playable .mp4 files into that level and/or subfolders
+     - Of probable interest, playable .mp4 files are 
+         * not interlaced (a `Chromecast` device will not play them)
+         * max resolution of `1080p` and `SDR` colours (unless you have a `Chromecast Ultra` device, in which case `4K` and `HDR`)
+         * ideally encoded with codecs `h.264(avc)/aac` or `h.265(hevc)/aac`
          * google's probably out-of-date list of acceptable .mp4 codecs is at https://developers.google.com/cast/docs/media
    - Note: 
      - In the Pi, we will set the mount point for the USB3 disk to (usually) be `/mnt/mp4library`
@@ -90,7 +90,7 @@ Key things installed and configured:
    sudo df
    sudo blkid 
    ```
-     - which should yield something like this
+     * which should yield something like this
      ```
      /dev/mmcblk0p1: LABEL_FATBOOT="boot" LABEL="boot" UUID="69D5-9B27" TYPE="vfat" PARTUUID="d9b3f436-01"
      /dev/mmcblk0p2: LABEL="rootfs" UUID="24eaa08b-10f2-49e0-8283-359f7eb1a0b6" TYPE="ext4" PARTUUID="d9b3f436-02"
@@ -99,7 +99,7 @@ Key things installed and configured:
      /dev/sda1: PARTLABEL="Microsoft reserved partition" PARTUUID="62ac9e1a-a82b-4df7-92b9-19ffc689d80b"
      ```
      * in thise case it is self-evidently `F8ACDEBBACDE741A` ... copy and paste it somewhere you can copy it from later
-   - then in a Terminal and do this:
+   - Now, in a Terminal and do this:
    ```
    cd ~/Desktop
    chmod +777 *.sh
