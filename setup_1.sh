@@ -1016,9 +1016,11 @@ copy_to_top() {
   sudo rm -f "/var/www/${server_name}/${the_file}"
   sudo curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$the_url" --retry 50 -L --output "/var/www/${server_name}/${the_file}" --fail # -L means "allow redirection" or some odd :|
   sudo cp -fv "/var/www/${server_name}/${the_file}" "./${the_file}.old"
+  # the order is important in these sed edits
   sudo sed -i "s;10.0.0.6;${server_name};g" "/var/www/${server_name}/${the_file}"
   sudo sed -i "s;Pi4CC;${server_name};g" "/var/www/${server_name}/${the_file}"
   sudo sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g" "/var/www/${server_name}/${the_file}"
+  sudo sed -i "s;mp4library\"/${server_alias}\";g" "/var/www/${server_name}/${the_file}"
   sudo chmod a=rwx "/var/www/${server_name}/${the_file}"
   sudo sudo chown -R pi:www-data "/var/www/${server_name}/${the_file}"
   sudo diff -U 1 "./${the_file}.old" "/var/www/${server_name}/${the_file}" 
