@@ -122,7 +122,9 @@ Key things installed and configured:
        + set +x
        Press Enter to start nano to uncomment the line and CHANGE to the correct UUID  
        ```
-       you are about to start the `nano` editor to remove a "sample" UUID and enter in the one you saved earlier ... good luck
+       you are about to start the `nano` editor to do 2 things:
+	     * remove the `#` at the start of the line containing `UUID=F8ACDEBBACDE741A`
+	     * remove `F8ACDEBBACDE741A` and enter the UUID string you saved earlier ... good luck
    - Reboot the Pi so that any new settings take effect
 	 
 
