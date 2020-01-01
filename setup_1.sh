@@ -995,6 +995,62 @@ echo ""
 read -p "Press Enter to continue, if that all worked"
 echo ""
 
+echo ""
+echo "# ------------------------------------------------------------------------------------------------------------------------"
+echo "# INSTALL VSFTP ftp server, connectable from filezilla"
+echo "# ----------------------------------------------------"
+echo ""
+
+set -x 
+sudo apt-get purge -y vsftpd
+sudo apt-get install -y vsftpd
+set +x
+#
+# https://security.appspot.com/vsftpd/vsftpd_conf.html
+# http://vsftpd.beasts.org/vsftpd_conf.html
+# Remember
+# local_umask ( 0011 ) is subtracted. 
+# The umask essentially removes the permissions you don't want users to have, so use 000
+
+set -x
+sudo cp -fv "/etc/vsftpd.conf" "/etc/vsftpd.conf.backup"
+sudo sed -i "s;anonymous_enable=NO;anonymous_enable=YES;g" "/etc/vsftpd.conf"
+sudo sed -i "s;local_enable=YES;write_enable=YES;g" "/etc/vsftpd.conf"
+sudo sed -i "s;#local_umask=022;local_umask=000;g" "/etc/vsftpd.conf"
+sudo sed -i "s;#anon_upload_enable=YES;anon_upload_enable=YES;g" "/etc/vsftpd.conf"
+sudo sed -i "s;#anon_mkdir_write_enable=YES;anon_mkdir_write_enable=YES;g" "/etc/vsftpd.conf"
+sudo sed -i "s;use_localtime=YES;use_localtime=YES;g" "/etc/vsftpd.conf"
+sudo sed -i "s;xferlog_enable=YES;xferlog_enable=YES;g" "/etc/vsftpd.conf"
+sudo sed -i "s;#chown_uploads=YES;chown_uploads=YES;g" "/etc/vsftpd.conf"
+sudo sed -i "s;#chown_username=whoever;chown_username=pi;g" "/etc/vsftpd.conf"
+sudo sed -i "s;#xferlog_std_format=YES;xferlog_std_format=YES;g" "/etc/vsftpd.conf"
+sudo sed -i "s;#idle_session_timeout=600;idle_session_timeout=1200;g" "/etc/vsftpd.conf"
+sudo sed -i "s;#ftpd_banner=Welcome to blah FTP service.;ftpd_banner=${server_name} ftp service;g" "/etc/vsftpd.conf"
+sudo sed -i "s;#chroot_local_user=YES;chroot_local_user=NO;g" "/etc/vsftpd.conf"
+sudo sed -i "s;#ls_recurse_enable=YES;ls_recurse_enable=YES;g" "/etc/vsftpd.conf"
+sudo echo "## add our extra stuff" >> "/etc/vsftpd.conf"
+sudo echo "local_enable=YES" >> "/etc/vsftpd.conf"
+sudo echo "allow_anon_ssl=YES" >> "/etc/vsftpd.conf"
+sudo echo "anon_other_write_enable=YES" >> "/etc/vsftpd.conf"
+sudo echo "delete_failed_uploads=YES" >> "/etc/vsftpd.conf"
+sudo echo "dirlist_enable=YES" >> "/etc/vsftpd.conf"
+sudo echo "download_enable=YES" >> "/etc/vsftpd.conf"
+sudo echo "no_anon_password=YES" >> "/etc/vsftpd.conf"
+sudo echo "force_dot_files=YES" >> "/etc/vsftpd.conf"
+sudo echo "file_open_mode=0777" >> "/etc/vsftpd.conf"
+sudo echo "anon_root=/mnt/mp4library" >> "/etc/vsftpd.conf"
+sudo echo "ftp_username=pi" >> "/etc/vsftpd.conf"
+sudo echo "guest_username=pi" >> "/etc/vsftpd.conf"
+sudo diff -U 1 "/etc/vsftpd.conf.backup" "/etc/vsftpd.conf"
+sudo service vsftpd restart
+wait 5s
+set +x
+
+echo ""
+read -p "Press Enter to continue, if that all worked"
+echo ""
+
+
 echo "# ------------------------------------------------------------------------------------------------------------------------"
 echo "# INSTALL the chromecast WEB pages and javascript and pyhton code etc for ${server_alias}"
 echo ""
@@ -1191,6 +1247,7 @@ echo "Finished."
 echo ""
 
 exit
+
 
 # ------------------------------------------------------------------------------------------------------------------------
 
