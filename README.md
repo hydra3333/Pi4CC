@@ -124,9 +124,11 @@ Key things installed and configured:
        ```
        you are about to start the `nano` editor to do 2 things:
 	     * remove the `#` at the start of the line containing `UUID=F8ACDEBBACDE741A`
-	     * remove `F8ACDEBBACDE741A` and enter the UUID string you saved earlier ... good luck
+	     * remove the `F8ACDEBBACDE741A` string and enter the UUID string you saved earlier ... good luck
    - Reboot the Pi so that any new settings take effect
-	 
+8. After rebooting, do part "Setup 1" of the installation (it should be re-startable, feel free to "Control C" and re-start if you feel uncomfortable)
+   - this will be a longish process (15 to 30 mins) with a number of prompts
+ 
 
 
 
