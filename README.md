@@ -17,7 +17,7 @@ does not work yet
 # Description:
 
 **Key things installed and configured:**
-  1. A USB3 (10Tb ?) external drive with a fixed mount point etc
+  1. A USB3 (10Tb ?) external drive with a fixed mount point, containing your .mp4 media files etc
   2. A miniDLNA server, so you can play .mp4 files from a remote tablet or phone or smartTV etc
   3. A SAMBA file-sharing software compatible with Windows file shares, so you can easily copy files back and forth (slowly)
   4. An Apache2 web server, with a self-signed SSL/TLS cerfificate, sop you can access .mp4 files via a browser
