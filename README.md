@@ -2,6 +2,8 @@
 
 does not work yet
 
+---
+
 # Description <TL;DR> 
 
    A zero-frills LAN-only Media Server using DLNA and Apache2 web server to serve up .mp4 (avc/hevc) video files
@@ -10,9 +12,11 @@ does not work yet
    Once installed and configured, the Pi 4 will run "headless" (i.e. without a monitor/keyboard/mouse);
    if required, it can be accessed and controlled remotely from a Windows PC via VNC or SSH etc.
 
+---
+
 # Description:
 
-Key things installed and configured:
+**Key things installed and configured:**
   1. A USB3 (10Tb ?) external drive with a fixed mount point etc
   2. A miniDLNA server, so you can play .mp4 files from a remote tablet or phone or smartTV etc
   3. A SAMBA file-sharing software compatible with Windows file shares
@@ -20,8 +24,8 @@ Key things installed and configured:
   5. A local Pi4CC website (and bits) and companion python3 script and relevant crontab entries to re-index nightly
 
 
-Setup a Raspberry Pi 4 4Gb (Raspbian buster) as a HOME LAN media server (only inside a home LAN) so that :-
-  1. via DLNA, it can be searchable and serve .mp4 files to Apps on tablets and phones and smartTVs
+**Setup a Raspberry Pi 4 4Gb (Raspbian buster) as a HOME LAN media server (only inside a home LAN) so that** :-
+  1. via DLNA, it can be searchable and serve .mp4 files to Apps on tablets and phones and smartTVs etc
   2. via a LAN-only web page, it can it can be searchable on tablets and phones and PCs, 
      and be able to "cast" .mp4 files to Chromecast devices connected to TVs 
      (eg a Chromecast Ultra, which can play h.265).
@@ -42,6 +46,8 @@ Hence,
   5. This is based solely on the Google "CastVideos-chrome" example at 
         https://github.com/googlecast/CastVideos-chrome
      with "minimal" changes.
+
+---
 
 # Installation
 
