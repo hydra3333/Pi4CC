@@ -1020,7 +1020,7 @@ copy_to_top() {
   sudo sed -i "s;10.0.0.6;${server_name};g" "/var/www/${server_name}/${the_file}"
   sudo sed -i "s;Pi4CC;${server_name};g" "/var/www/${server_name}/${the_file}"
   sudo sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g" "/var/www/${server_name}/${the_file}"
-  sudo sed -i "s;mp4library\"/${server_alias}\";g" "/var/www/${server_name}/${the_file}"
+  sudo sed -i "s;mp4library\";${server_alias}\";g" "/var/www/${server_name}/${the_file}"
   sudo chmod a=rwx "/var/www/${server_name}/${the_file}"
   sudo sudo chown -R pi:www-data "/var/www/${server_name}/${the_file}"
   sudo diff -U 1 "./${the_file}.old" "/var/www/${server_name}/${the_file}" 
