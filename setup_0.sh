@@ -116,11 +116,12 @@ read -p "Hope the Reserved IP worked, please check the IP and hostname.  Press E
 
 echo ""
 echo "# Add 15 seconds for the USB3 drive to spin up.  Add the line at the top."
-echo "# https://www.raspberrypi.org/documentation/configuration/config-txt/boot.md"
-read -p "Press Enter to add a line 'boot_delay=15' at the top of '/boot/config.txt'"
+echo "# per https://www.raspberrypi.org/documentation/configuration/config-txt/boot.md"
 echo ""
-set -x
+echo "# Adding a line 'boot_delay=15' at the top of '/boot/config.txt'"
+echo ""
 #sudo sed -i "1 i boot_delay=15" "/boot/config.txt" # doesn't work if the file has no line 1
+set -x
 sudo cp -fv "/boot/config.txt" "/boot/config.txt.old"
 rm -f ./tmp.tmp
 sudo sed -i "/boot_delay/d" "/boot/config.txt"
@@ -128,9 +129,8 @@ echo "boot_delay=15" > ./tmp.tmp
 sudo cat /boot/config.txt >> ./tmp.tmp
 sudo cp -fv ./tmp.tmp /boot/config.txt
 rm -f ./tmp.tmp
-#sudo nano "/boot/config.txt"
 diff -U 1 "/boot/config.txt.old" "/boot/config.txt"
-
+cat "/boot/config.txt"
 set +x
 
 echo ""
