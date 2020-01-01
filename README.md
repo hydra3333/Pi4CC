@@ -179,6 +179,25 @@ does not work yet
        New SMB password:
        ```
        enter the password you had set for the pi login, then enter it again when you see `Retype new SMB password:`
+8. After rebooting now, it's ready.
+   - try to connect to it from a PC or tablet using a Chrome browser (only Chrome works to cast videos!), using the hostname of the Pi eg
+     ```
+     https://Pi4CC/Pi4CC
+     https://Pi4CC/mp4library
+     ```
+     on the Pi itself, use the Chromium browser and try this (where Pi4CC is the hostname of the Pi)
+     ```
+     https://localhost/Pi4CC
+     https://localhost/mp4library
+     ```
+     (you won't be able to play a video on the Pi itself, but you can click on the `triangle` expander to see if it works)
+   - you **WILL** see a Chrome message `Your conenctions is not private  etc etc` which is due to 
+     us using the (free) self-signed certificate rather than a paid-for one (which has other associated complexities)
+     * click on the button `Advanced`
+     * then click on the link which says `Proceed to *localhost* (unsafe)` (it will have the hostname of the Pi)
+     * the browser should remember this is OK
+   - you can now disconnect the Pi from the monitor, keyboard, and mouse, if you want
+   
 
 
 
