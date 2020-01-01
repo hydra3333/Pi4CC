@@ -74,36 +74,36 @@ Key things installed and configured:
 5. Also check the Pi has a fixed IP address, perhaps by setting your home router's DHCP facility to recognise the Pi's mac address and provide a fixed IP address
 6. Clone the respository to the Desktop of the Pi and copy the setup files to the Desktop
    - start a Terminal and do this:
-   ```
-   cd ~/Desktop
-   sudo apt install -y git
-   git clone https://github.com/hydra3333/Pi4CC.git
-   cp -fv ./Pi4CC/setup_0.sh ./
-   cp -fv ./Pi4CC/setup_1.sh ./
-   chmod +777 *.sh
-   ```
+     ```
+     cd ~/Desktop
+     sudo apt install -y git
+     git clone https://github.com/hydra3333/Pi4CC.git
+     cp -fv ./Pi4CC/setup_0.sh ./
+     cp -fv ./Pi4CC/setup_1.sh ./
+     chmod +777 *.sh
+     ```
 7. Do part "Setup 0" of the installation (it should be re-startable, feel free to "Control C" and re-start if you feel uncomfortable)
    - plug the USB3 external hard drive in to the Pi (always use the same USB3 slot in the Pi)
    - wait 15 seconds for the USB3 external hard drive to spin up and be recognised automatically
-   - find and note EXACTLY the correct `UUID=` string of letters and numbers; start a Terminal and do this:
+   - find and note EXACTLY the correct `UUID=` string of letters and numbers for the USB3 external hard drive ; start a Terminal and do this:
      ```
      sudo df
      sudo blkid 
      ```
      * which should yield something like this
-     ```
-     /dev/mmcblk0p1: LABEL_FATBOOT="boot" LABEL="boot" UUID="69D5-9B27" TYPE="vfat" PARTUUID="d9b3f436-01"
-     /dev/mmcblk0p2: LABEL="rootfs" UUID="24eaa08b-10f2-49e0-8283-359f7eb1a0b6" TYPE="ext4" PARTUUID="d9b3f436-02"
-     /dev/sda2: LABEL="5TB-mp4library" UUID="F8ACDEBBACDE741A" TYPE="ntfs" PTTYPE="atari" PARTLABEL="Basic data partition" PARTUUID="6cc8d3fb-6942-4b4b-a7b1-c31d864accef"
-     /dev/mmcblk0: PTUUID="d9b3f436" PTTYPE="dos"
-     /dev/sda1: PARTLABEL="Microsoft reserved partition" PARTUUID="62ac9e1a-a82b-4df7-92b9-19ffc689d80b"
-     ```
+       ```
+       /dev/mmcblk0p1: LABEL_FATBOOT="boot" LABEL="boot" UUID="69D5-9B27" TYPE="vfat" PARTUUID="d9b3f436-01"
+       /dev/mmcblk0p2: LABEL="rootfs" UUID="24eaa08b-10f2-49e0-8283-359f7eb1a0b6" TYPE="ext4" PARTUUID="d9b3f436-02"
+       /dev/sda2: LABEL="5TB-mp4library" UUID="F8ACDEBBACDE741A" TYPE="ntfs" PTTYPE="atari" PARTLABEL="Basic data partition" PARTUUID="6cc8d3fb-6942-4b4b-a7b1-c31d864accef"
+       /dev/mmcblk0: PTUUID="d9b3f436" PTTYPE="dos"
+       /dev/sda1: PARTLABEL="Microsoft reserved partition" PARTUUID="62ac9e1a-a82b-4df7-92b9-19ffc689d80b"
+       ```
      * in thise case it is self-evidently `F8ACDEBBACDE741A` ... copy and paste it somewhere you can copy it from later
    - Now, in a Terminal and do this:
-   ```
-   cd ~/Desktop
-   chmod +777 *.sh
-   ./setup_0.sh
+     ```
+     cd ~/Desktop
+     chmod +777 *.sh
+     ./setup_0.sh
    ```
    - answer initial prompts (it will save these answers for use later)
      * `This server_name` it's best to enter the hostname of the Pi here (I use Pi4CC), it will be used as the Apache2 website name
