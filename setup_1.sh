@@ -1032,6 +1032,7 @@ sudo sed -i "s;#idle_session_timeout=600;idle_session_timeout=1200;g" "/etc/vsft
 sudo sed -i "s;#ftpd_banner=Welcome to blah FTP service.;ftpd_banner=${server_name} ftp service;g" "/etc/vsftpd.conf"
 sudo sed -i "s;#chroot_local_user=YES;chroot_local_user=NO;g" "/etc/vsftpd.conf"
 sudo sed -i "s;#ls_recurse_enable=YES;ls_recurse_enable=YES;g" "/etc/vsftpd.conf"
+sudo echo "#" >> "/etc/vsftpd.conf"
 sudo echo "## add our extra stuff" >> "/etc/vsftpd.conf"
 sudo echo "local_enable=YES" >> "/etc/vsftpd.conf"
 sudo echo "allow_anon_ssl=YES" >> "/etc/vsftpd.conf"
