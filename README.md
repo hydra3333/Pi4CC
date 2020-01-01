@@ -28,8 +28,8 @@ does not work yet
   1. via DLNA, it can be searchable and serve .mp4 files to Apps on tablets and phones and smartTVs etc
   2. via a LAN-only web page, it can it can be searchable on tablets and phones and PCs, 
      and be able to "cast" .mp4 files to Chromecast devices connected to TVs 
-     (eg a Chromecast Ultra, which can play h.265).
-Hence,
+     (eg a Chromecast Ultra, which can play h.265). <br />
+**Hence,**
   3. Remember, "casting" a .mp4 files means that once a .mp4 file is cast to a Chromecast device, 
      serving up the data in the large .mp4 video file is then directly between the 
      chromecast device and the Pi 4 (i.e. a tablet or phone or PC does not forward data packets)
