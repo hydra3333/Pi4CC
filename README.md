@@ -165,6 +165,21 @@ does not work yet
        New password: 
        ```
        enter the password you had set for the pi login, then enter it again when you see `Re-type new password:`
+     * when you see something like this,
+       ```
+       Before we start the server, you’ll want to set a Samba password. Enter you pi password.
+       + sudo smbpasswd -a pi
+       New SMB password:
+       ```
+       enter the password you had set for the pi login, then enter it again when you see `Retype new SMB password:`
+     * then when you see something like this,
+       ```
+       Before we start the server, you’ll want to set a Samba password. Enter you pi password.
+       + sudo smbpasswd -a root
+       New SMB password:
+       ```
+       enter the password you had set for the pi login, then enter it again when you see `Retype new SMB password:`
+
 
 
 # Test it out on a PC first ?
