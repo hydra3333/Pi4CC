@@ -114,7 +114,7 @@ Key things installed and configured:
      * `Designate the root folder on the USB3 external hard drive` it's the top level folder on the USB3 external hard drive containing .mp4 files and subfolders containing .mp4 files, eg `/mnt/mp4library/mp4library`
    - answer other prompts
      * sometimes you will be asked to visually scan setup results for issues, and press Enter to continue
-     * when you see this
+     * when you see something like this
        ```
        + sudo cp -fv /etc/fstab /etc/fstab.old
        '/etc/fstab' -> '/etc/fstab.old'
