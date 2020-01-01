@@ -60,7 +60,9 @@ does not work yet
      - Of probable interest, playable .mp4 files are 
          * not interlaced (a `Chromecast` device will not play them)
          * max resolution of `1080p` and `SDR` colours (unless you have a `Chromecast Ultra` device, in which case `4K` and `HDR`)
-         * ideally encoded with codecs `h.264(avc)/aac` or `h.265(hevc)/aac`
+         * ideally encoded with codecs `h.264(avc)/aac` ... or `h.265(hevc)/aac`
+           * videos encoded with hevc/avc won't play in a Chrome browser, but they will cast to and play one a Chromecast device 
+           * (videos won't play in a Pi's Chromium browser) 
          * google's probably out-of-date list of acceptable .mp4 codecs is at https://developers.google.com/cast/docs/media
    - Note: 
      - In the Pi, we will set the mount point for the USB3 disk to (usually) be `/mnt/mp4library`
@@ -180,17 +182,21 @@ does not work yet
        ```
        enter the password you had set for the pi login, then enter it again when you see `Retype new SMB password:`
 8. After rebooting now, it's ready.
-   - try to connect to it from a PC or tablet using a Chrome browser (only Chrome works to cast videos!), using the hostname of the Pi eg
+   - try to connect to it from a PC or tablet using a Chrome browser,
+     where Pi4CC below is the hostname of the Pi ...
      ```
      https://Pi4CC/Pi4CC
      https://Pi4CC/mp4library
      ```
-     on the Pi itself, use the Chromium browser and try this (where Pi4CC is the hostname of the Pi)
+     on the Pi itself, you can try the Chromium browser to at least see if it works (where Pi4CC below is the hostname of the Pi)
      ```
      https://localhost/Pi4CC
      https://localhost/mp4library
      ```
-     (you won't be able to play a video on the Pi itself, but you can click on the `triangle` expander to see if it works)
+     * **Please note:** 
+       * you won't be able to play a video in the Pi browser itself, but you can click on the `triangle` expander to see if it works
+       * videos encoded with hevc/avc won't play in a Chrome browser
+       * only a google Chrome browser on a PC or tablet works to cast videos from the wbesite
    - you **WILL** see a Chrome message `Your conenctions is not private  etc etc` which is due to 
      us using the (free) self-signed certificate rather than a paid-for one (which has other associated complexities)
      * click on the button `Advanced`
