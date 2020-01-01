@@ -7,41 +7,41 @@ does not work yet
    A zero-frills LAN-only Media Server using DLNA and Apache2 web server to serve up .mp4 (avc/hevc) video files
    from a low-cost low-power Raspberry Pi 4 server to Chromecast devices and SmartTVs in the home.
    
-   Once installed and configured, the Pi 4 will eventally run "headless" (i.e. without a monitor/keyboard/mouse);
-   if required, it can be accessed and controlled remeotely from a PC via VNC or SSH etc.
+   Once installed and configured, the Pi 4 will run "headless" (i.e. without a monitor/keyboard/mouse);
+   if required, it can be accessed and controlled remotely from a Windows PC via VNC or SSH etc.
 
-# More Description:
-
-How to setup a Raspberry Pi 4 4Gb (Raspbian buster) as a HOME LAN media server (only inside a home LAN) so that :-
-1. via DLNA, it can be searchable and serve .mp4 files to Apps on tablets and phones and smartTVs
-2. via a LAN-only web page, it can it can be searchable on tablets and phones and PCs, 
-   and be able to "cast" .mp4 files to Chromecast devices connected to TVs 
-   (eg a Chromecast Ultra, which can play h.265).
-Hence,
-3. Remember, "casting" a .mp4 files means that once a .mp4 file is cast to a Chromecast device, 
-   serving up the data in the large .mp4 video file is then directly between the 
-   chromecast device and the Pi 4 (i.e. a tablet or phone or PC does not forward data packets)
-   and the casting phone/tablet/PC (known as a Sender) then only chats with the chromecast device
-   to control video playback.
-4. After setup, the monitor/mouse/keyboard can be disconnected from the Pi4. 
-5. It does NOT do any "non-Google-app" *external* network connections outside your home LAN at runtime
-      ... unlike Plex Media Server (search about it in the Raspberry Pi forums)
-      ... unlike Kodi 
-   ... Your list of media contents etc is NOT shared with any company or individual. 
-   You are in control.
-6. If you want something better and fancier, 
-   look for Plex Media Server and Kodi. They're good, if you are willing to be a "sharing" individual ;)
-5. This is based solely on the Google "CastVideos-chrome" example at 
-      https://github.com/googlecast/CastVideos-chrome
-   with "minimal" changes.
+# Description:
 
 Key things installed and configured:
-1. A Raspberry Pi 4 server with hostname Pi4CC (or whatever name you specify) with relevant software and settings
-2. A USB3 (10Tb ?) external drive with a fixed mount point etc
-3. A miniDLNA server
-4. A SAMBA file-sharing software compatible with Windows file shares
-5. An Apache2 web server, with a self-signed SSL/TLS cerfificate
-6. A local Pi4CC website (and bits) and companion python3 script and relevant crontab entries to re-index nightly
+  1. A USB3 (10Tb ?) external drive with a fixed mount point etc
+  2. A miniDLNA server, so you can play .mp4 files from a remote tablet or phone or smartTV etc
+  3. A SAMBA file-sharing software compatible with Windows file shares
+  4. An Apache2 web server, with a self-signed SSL/TLS cerfificate
+  5. A local Pi4CC website (and bits) and companion python3 script and relevant crontab entries to re-index nightly
+
+
+Setup a Raspberry Pi 4 4Gb (Raspbian buster) as a HOME LAN media server (only inside a home LAN) so that :-
+  1. via DLNA, it can be searchable and serve .mp4 files to Apps on tablets and phones and smartTVs
+  2. via a LAN-only web page, it can it can be searchable on tablets and phones and PCs, 
+     and be able to "cast" .mp4 files to Chromecast devices connected to TVs 
+     (eg a Chromecast Ultra, which can play h.265).
+Hence,
+  3. Remember, "casting" a .mp4 files means that once a .mp4 file is cast to a Chromecast device, 
+     serving up the data in the large .mp4 video file is then directly between the 
+     chromecast device and the Pi 4 (i.e. a tablet or phone or PC does not forward data packets)
+     and the casting phone/tablet/PC (known as a Sender) then only chats with the chromecast device
+     to control video playback.
+  4. After setup, the monitor/mouse/keyboard can be disconnected from the Pi4. 
+  5. It does NOT do any "non-Google-app" *external* network connections outside your home LAN at runtime
+        ... unlike Plex Media Server (search about it in the Raspberry Pi forums)
+        ... unlike Kodi 
+     ... Your list of media contents etc is NOT shared with any company or individual. 
+     You are in control.
+  6. If you want something better and fancier, 
+     look for Plex Media Server and Kodi. They're good, if you are willing to be a "sharing" individual ;)
+  5. This is based solely on the Google "CastVideos-chrome" example at 
+        https://github.com/googlecast/CastVideos-chrome
+     with "minimal" changes.
 
 # Installation
 
