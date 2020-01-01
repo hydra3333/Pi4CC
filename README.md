@@ -213,8 +213,14 @@ Perhaps consider using Raspberry PI Desktop in a VMware Player virtual machine o
 
 https://www.raspberrypi.org/forums/viewtopic.php?f=116&t=200252&p=1588362#p1586023
 
-You may have "fun" trying to finding  its IP address for remote https connections into it, have a try or
-preferably use the chromium browser inside the Raspberry PI Desktop vm.
+Use `ifconfig` in the Pi Desktop VM to find its IP address, which you can use to connect to it in a Chrome browser, eg
+```
+https://xxx.xxx.xxx.xxx/Pi4CC
+https://xxx.xxx.xxx.xxx/mp4library
+```
+You won't be able to play a video in the browser itself, since the URLs are setup to use the hostname rather than IP address, 
+but you can click on the `triangle` expander to see if it works.
+
 
 
 
