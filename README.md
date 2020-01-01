@@ -112,8 +112,17 @@ Key things installed and configured:
 	 ... it will be used as the top-level folder name on your external USB3 hard drive, so put your media files there
      * `Designate the mount point for the USB3 external hard drive` it's a "virtual" place used everywhere to access the top level of the USB3 external hard drive when mounted, eg `/mnt/mp4library`
      * `Designate the root folder on the USB3 external hard drive` it's the top level folder on the USB3 external hard drive containing .mp4 files and subfolders containing .mp4 files, eg `/mnt/mp4library/mp4library`
-   - answer other prompts (it will save these answers for use later)
+   - answer other prompts
      * sometimes you will be asked to visually scan setup results for issues, and press Enter to continue
+     * when you see this
+       ```
+       + sudo cp -fv /etc/fstab /etc/fstab.old
+       '/etc/fstab' -> '/etc/fstab.old'
+       + sudo sed -i '$ a #UUID=F8ACDEBBACDE741A /home/pi/Desktop/zzz ntfs defaults,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,x-systemd.device-timeout=120 0 2' /etc/fstab
+       + set +x
+       Press Enter to start nano to uncomment the line and CHANGE to the correct UUID  
+       ```
+       you are about to start the `nano` editor to remove a "sample" UUID and enter in the one you saved earlier ... good luck
    - Reboot the Pi so that any new settings take effect
 	 
 
@@ -125,12 +134,12 @@ Key things installed and configured:
 
 # Test it out on a PC first ?
 
-Perhaps consider usng Raspberry PI Desktop in VMware Player on a PC ?
+Perhaps consider using Raspberry PI Desktop in a VMware Player virtual machine on a PC ?
 
 https://www.raspberrypi.org/forums/viewtopic.php?f=116&t=200252&p=1588362#p1586023
 
-You may have "fun" trying to finding and its IP address for remote https connections into it, have a try or
-use the chromium browser inside the Pi.
+You may have "fun" trying to finding  its IP address for remote https connections into it, have a try or
+preferably use the chromium browser inside the Raspberry PI Desktop vm.
 
 
 
