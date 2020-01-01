@@ -30,7 +30,7 @@ if [[ -f "$setup_config_file" ]]; then  # config file already exists
     server_root_folder="${input_string:-$server_root_folder_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
 else  # config file does not exist, prompt normally with successive defaults based on answers aqs we go along
     echo "No prior answers found, creating new default answers ..."
-    server_name_default=Pi4cc
+    server_name_default=Pi4CC
     server_alias_default=mp4library
     ##server_root_USBmountpoint_default=/mnt/${server_alias_default}
     ##server_root_folder_default=${server_root_USBmountpoint_default}/${server_alias_default}
@@ -1003,6 +1003,8 @@ echo ""
 
 set -x 
 sudo apt-get purge -y vsftpd
+sudo chmod +777 "/etc/vsftpd.conf"
+sudo rm -vf "/etc/vsftpd.conf"
 sudo apt-get install -y vsftpd
 set +x
 #
@@ -1013,6 +1015,8 @@ set +x
 # The umask essentially removes the permissions you don't want users to have, so use 000
 
 set -x
+sudo service vsftpd stop
+sudo chmod +777 "/etc/vsftpd.conf"
 sudo cp -fv "/etc/vsftpd.conf" "/etc/vsftpd.conf.backup"
 sudo sed -i "s;anonymous_enable=NO;anonymous_enable=YES;g" "/etc/vsftpd.conf"
 sudo sed -i "s;local_enable=YES;write_enable=YES;g" "/etc/vsftpd.conf"
@@ -1043,7 +1047,7 @@ sudo echo "ftp_username=pi" >> "/etc/vsftpd.conf"
 sudo echo "guest_username=pi" >> "/etc/vsftpd.conf"
 sudo diff -U 1 "/etc/vsftpd.conf.backup" "/etc/vsftpd.conf"
 sudo service vsftpd restart
-wait 5s
+sleep 5s
 set +x
 
 echo ""
