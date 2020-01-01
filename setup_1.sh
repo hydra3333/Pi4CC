@@ -1124,7 +1124,7 @@ echo "RE-CREATE the essential JSON file consumed by the ${server_name} website"
 
 echo ""
 set -x
-python3 /var/www/${server_name}/create-json.py --source_folder "${server_root_folder}" --filename-extension mp4 --json_file /var/www/${server_name}/media.js 2>&1 > /var/www/${server_name}/create-json.log
+python3 /var/www/${server_name}/create-json.py --source_folder "${server_root_folder}" --filename-extension mp4 --json_file /var/www/${server_name}/media.js 2>&1 | tee /var/www/${server_name}/create-json.log
 sudo chmod a=rwx "/var/www/${server_name}/media.js"
 sudo chmod a=rwx /var/www/${server_name}/create-json.log
 set +x
