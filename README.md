@@ -82,6 +82,7 @@ Key things installed and configured:
      cp -fv ./Pi4CC/setup_1.sh ./
      chmod +777 *.sh
      ```
+   - you are greatly encouraged to view and check files `setup_0.sh` and `setup_1.sh` to see they do nothing nefarious :)
 7. Do part "Setup 0" of the installation (it should be re-startable, feel free to "Control C" and re-start if you feel uncomfortable)
    - plug the USB3 external hard drive in to the Pi (always use the same USB3 slot in the Pi)
    - wait 15 seconds for the USB3 external hard drive to spin up and be recognised automatically
