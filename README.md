@@ -151,10 +151,13 @@ Key things installed and configured:
        Enter Export Password:
        ```
        just press Enter, then press Enter again to the next prompt `Verifying - Enter Export Password:`
-
-
-
-
+     * when you see something like this,
+       ```
+       # apache user, 'pi' ... Enter your normal password, then again
+       + sudo htpasswd -c /usr/local/etc/apache_passwd pi
+       New password: 
+       ```
+       enter the password you had set for the pi login, then enter it again when you see `Re-type new password:`
 
 
 # Test it out on a PC first ?
