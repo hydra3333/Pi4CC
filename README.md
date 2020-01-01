@@ -19,9 +19,10 @@ does not work yet
 **Key things installed and configured:**
   1. A USB3 (10Tb ?) external drive with a fixed mount point etc
   2. A miniDLNA server, so you can play .mp4 files from a remote tablet or phone or smartTV etc
-  3. A SAMBA file-sharing software compatible with Windows file shares
-  4. An Apache2 web server, with a self-signed SSL/TLS cerfificate
-  5. A local Pi4CC website (and bits) and companion python3 script and relevant crontab entries to re-index nightly
+  3. A SAMBA file-sharing software compatible with Windows file shares, so you can easily copy files back and forth (slowly)
+  4. An Apache2 web server, with a self-signed SSL/TLS cerfificate, sop you can access .mp4 files via a browser
+  5. A local Pi4CC website (and bits) and companion python3 script and relevant crontab entries to re-index nightly, 
+     so you can find and "cast" .mp4 files to Chromecast devices
 
 
 **Setup a Raspberry Pi 4 4Gb (Raspbian buster) as a HOME LAN media server (only inside a home LAN) so that** :-
