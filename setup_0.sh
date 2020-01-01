@@ -247,6 +247,7 @@ echo ""
 set -x
 sudo cp -fv "/etc/fstab" "/etc/fstab.old"
 sudo sed -i "$ a #UUID=F8ACDEBBACDE741A ${server_root_USBmountpoint} ntfs defaults,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,x-systemd.device-timeout=120 0 2" "/etc/fstab"
+sudo cat "/etc/fstab"
 set +x
 echo ""
 

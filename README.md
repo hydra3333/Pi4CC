@@ -119,11 +119,18 @@ Key things installed and configured:
        + sudo cp -fv /etc/fstab /etc/fstab.old
        '/etc/fstab' -> '/etc/fstab.old'
        + sudo sed -i '$ a #UUID=F8ACDEBBACDE741A /home/pi/Desktop/zzz ntfs defaults,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,x-systemd.device-timeout=120 0 2' /etc/fstab
+       + sudo cat /etc/fstab
+       proc            /proc           proc    defaults          0       0
+       PARTUUID=d9b3f436-01  /boot           vfat    defaults          0       2
+       PARTUUID=d9b3f436-02  /               ext4    defaults,noatime  0       1
+       # a swapfile is not a swap partition, no line here
+       #   use  dphys-swapfile swap[on|off]  for that
+       #UUID=F8ACDEBBACDE741A /mnt/mp4library ntfs defaults,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,x-systemd.device-timeout=120 0 2
        + set +x
        Press Enter to start nano to uncomment the line and CHANGE to the correct UUID  
        ```
        you are about to start the `nano` editor to do 2 things:
-	     * remove the `#` at the start of the line containing `UUID=F8ACDEBBACDE741A`
+	     * remove any `#` at the start of the line containing `UUID=F8ACDEBBACDE741A`
 	     * remove the `F8ACDEBBACDE741A` string and enter the UUID string you saved earlier ... good luck
    - Reboot the Pi so that any new settings take effect
 8. After rebooting, do part "Setup 1" of the installation (it should be re-startable, feel free to "Control C" and re-start if you feel uncomfortable)
