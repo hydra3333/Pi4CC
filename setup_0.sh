@@ -67,6 +67,7 @@ echo "--------------------------------------------------------------------------
 set -x
 sudo apt update -y
 sudo apt upgrade -y
+set +x
 
 echo "# LETS INSTALL THE Pi 4"
 echo "# ---------------------"

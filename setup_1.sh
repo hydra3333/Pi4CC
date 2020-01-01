@@ -65,6 +65,11 @@ echo "       server_root_folder=${server_root_folder}"
 echo ""
 echo "# ------------------------------------------------------------------------------------------------------------------------"
 
+set -x
+sudo apt update -y
+sudo apt upgrade -y
+set +x
+
 echo "# Set permissions so we can do ANYTHING with the USB3 drive."
 set -x
 sudo chmod a=rwx -R ${server_root_USBmountpoint}
