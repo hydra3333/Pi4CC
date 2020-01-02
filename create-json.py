@@ -88,7 +88,7 @@ if __name__ == '__main__':
             video_codec = ""
             audio_codec = ""
             for track in media_info.tracks:  # 
-                #for k in track.to_data().keys():
+			    #for k in track.to_data().keys():
                 #    print("{}.{}={}".format(track.track_type,k,track.to_data()[k]), flush=True)
                 if track.track_type == 'Video':
                     #print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++", flush=True)
@@ -99,14 +99,8 @@ if __name__ == '__main__':
                     #print("{} other_format          {}".format(track.track_type,track.to_data()["other_format"][0]), flush=True)
                     #print("{} codec_id              {}".format(track.track_type,track.to_data()["codec_id"]), flush=True)
                     #print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++", flush=True)
-                    if track.to_data()["duration"] is None or track.to_data()["width"] is None or track.to_data()["width"] == '' or track.to_data()["height"] is None or track.to_data()["height"] == '' or track.to_data()["other_duration"] is None or track.to_data()["other_duration"] == '':
-                        video_duration = 1
-                        print(f"Bung pymediainfo duration/width/height values detected in {the_filename}", flush=True)
-                        for k in track.to_data().keys():
-                            print("{}.{}={}".format(track.track_type,k,track.to_data()[k]), flush=True)
-                    else:
-                        video_duration = int(track.to_data()["duration"] / 1000.0) # track.to_data()["duration"] / 1000.0 # in seconds
-                    video_duration_str = track.to_data()["other_duration"][3][0:8] # sometimes it is set even if seconds are bung
+                    video_duration = track.to_data()["duration"] / 1000.0 # in seconds
+                    video_duration_str = track.to_data()["other_duration"][3][0:8]
                     video_resolution = "{}x{}".format(track.to_data()["width"],track.to_data()["height"])
                     video_codec = track.to_data()["other_format"][0]
                 elif track.track_type == 'Audio':
@@ -118,7 +112,7 @@ if __name__ == '__main__':
                     #print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
                     audio_codec = track.to_data()["format"]
             title,ignore_me = os.path.splitext(the_filename.replace("'","-"))  # root,ext = os.path.splitext(path) 
-            source = requote_uri("http://10.0.0.6/mp4library" + part_url + the_filename)
+            source = requote_uri("http://Pi4CC/mp4library" + part_url + the_filename)
             # source = requote_uri("/mp4library" + part_url + the_filename)
             subtitle = source
             thumb = "".replace("'","-")
@@ -127,7 +121,7 @@ if __name__ == '__main__':
             jf.write(f"        'subtitle'     : '{subtitle}',\n")
             jf.write(f"        'sources'      : ['{source}',],\n")
             jf.write(f"        'thumb'        : '',\n")
-            jf.write(f"        'duration'     : {video_duration},\n") # this MUST be a numeric field, or the consuming javascript code fails
+            jf.write(f"        'duration'     : '{video_duration}',\n")
             jf.write(f"        'duration_str' : '{video_duration_str}',\n")
             jf.write(f"        'resolution'   : '{video_resolution}',\n")
             jf.write(f"        'video_codec'  : '{video_codec}',\n")
@@ -135,7 +129,7 @@ if __name__ == '__main__':
             jf.write(f"        'folder'       : '{txt_part_url}',\n")
             jf.write("      },\n")
             cc=cc+1
-            if cc % 50 == 0:
+            if cc % 5 == 0:
                 print(f"{datetime.datetime.now()} - processed {cc} files so far...", flush=True)
         jf.write(f"      // ----- END   of folder({record_number}) {part_url} ... files={len(the_filenames)} \n")
     jf.write("     ]\n")
