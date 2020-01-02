@@ -72,7 +72,7 @@ does not work yet
    - it is close enough to safe to autologin since the Pi is only visible inside your "secure" home LAN
    - in a Terminal, using sudo raspi-config, Advanced,
      choose a screen resolution ANYTHING OTHER than "default" (eg 1920x1080) so that a framebuffer gets allocated on a Pi4
-	 which enables VNC server to run even when a screen is not connected to the HDMI port
+	 which magically enables VNC server to run even when a screen is not connected to the HDMI port
    - (the GUI should be left to boot and run, even in a headless state later)
 4. Check, perhaps in the GUI menu item `Raspberry Pi Configuration`,
    -  its hostname is short and easy and has no spaces or special characters (it will be used as the website name)
