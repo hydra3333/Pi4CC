@@ -34,25 +34,25 @@ if __name__ == '__main__':
     parser.add_argument('-j', '--json_file', default='/var/www/Pi4CC/media.js')
     args = parser.parse_args()
     #
-	print(datetime.datetime.now() + " Started ...")
-    print (f"Finding files '{args.source_folder}/*.{args.filename_extension.lower()}")
+	print(datetime.datetime.now() + " Started ...", flush=True)
+    print (f"Finding files '{args.source_folder}/*.{args.filename_extension.lower()}", flush=True)
     the_files_dict = find_matching_files(args.source_folder, f'*.{args.filename_extension.lower()}')
-    print (f"Found   files '{args.source_folder}/*.{args.filename_extension.lower()}")
+    print (f"Found   files '{args.source_folder}/*.{args.filename_extension.lower()}", flush=True)
     #
     # list the directories & files
     #
     cc=0
     #for record_number, (the_folder, the_filenames) in enumerate(sorted(the_files_dict.items(),key=lambda i: i[0].casefold())):
     for record_number, (the_folder, the_filenames) in enumerate(sorted(the_files_dict.items(),key=lambda i: i[0].lower())):
-        #print(f"-----record {record_number}---{the_folder} ... files={len(the_filenames)}")
+        #print(f"-----record {record_number}---{the_folder} ... files={len(the_filenames)}", flush=True)
         for c,the_filename in enumerate(the_filenames):
-            #print(f"mp4 File {c}---{the_filename}")
+            #print(f"mp4 File {c}---{the_filename}", flush=True)
             cc=cc+1
-    print (f'Total count of {args.filename_extension.lower()} files found: {cc}')
+    print (f'Total count of {args.filename_extension.lower()} files found: {cc}', flush=True)
     #
     # Produce the JSON file media.js of the directories & files
     #
-    print (f"Creating JSON file: {args.json_file}")
+    print (f"Creating JSON file: {args.json_file}", flush=True)
     cc = 0
     jf = open(args.json_file,'w')
     jf.write("'use strict';\n")
@@ -73,40 +73,40 @@ if __name__ == '__main__':
         #if part_url == "" :
         #    part_url = "/"
         txt_part_url = part_url.replace("'","-")
-        #print(f"        the_folder={the_folder}")
-        #print(f"args.source_folder={args.source_folder}")
-        #print(f"          part_url={part_url}")
-        #print(f"      txt_part_url={txt_part_url}")
+        #print(f"        the_folder={the_folder}", flush=True)
+        #print(f"args.source_folder={args.source_folder}", flush=True)
+        #print(f"          part_url={part_url}, flush=True")
+        #print(f"      txt_part_url={txt_part_url}", flush=True)
         jf.write(f"      // ----- START of folder({record_number}) {part_url} ... files={len(the_filenames)} \n")
         for c,the_filename in enumerate(sorted(the_filenames,key=lambda i: i[0].casefold())):
         #for c,the_filename in enumerate(sorted(the_filenames,key=lambda i: i[0].lower())):
             the_media_file = the_folder + "/" + the_filename
-            #print(f"        file='{the_media_file}'")
+            #print(f"        file='{the_media_file}'", flush=True)
             media_info = MediaInfo.parse(the_media_file)
             video_resolution = ""
             video_duration = ""
             video_codec = ""
             audio_codec = ""
             for track in media_info.tracks:  # #for k in track.to_data().keys():
-                #    print("{}.{}={}".format(track.track_type,k,track.to_data()[k]))
+                #    print("{}.{}={}".format(track.track_type,k,track.to_data()[k]), flush=True)
                 if track.track_type == 'Video':
-                    #print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-                    #print("{} width                 {}".format(track.track_type,track.to_data()["width"]))
-                    #print("{} height                {}".format(track.track_type,track.to_data()["height"]))
-                    #print("{} duration              {}s".format(track.track_type,track.to_data()["duration"]/1000.0))
-                    #print("{} duration              {}".format(track.track_type,track.to_data()["other_duration"][3][0:8]))
-                    #print("{} other_format          {}".format(track.track_type,track.to_data()["other_format"][0]))
-                    #print("{} codec_id              {}".format(track.track_type,track.to_data()["codec_id"]))
-                    #print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+                    #print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++", flush=True)
+                    #print("{} width                 {}".format(track.track_type,track.to_data()["width"]), flush=True)
+                    #print("{} height                {}".format(track.track_type,track.to_data()["height"]), flush=True)
+                    #print("{} duration              {}s".format(track.track_type,track.to_data()["duration"]/1000.0), flush=True)
+                    #print("{} duration              {}".format(track.track_type,track.to_data()["other_duration"][3][0:8]), flush=True)
+                    #print("{} other_format          {}".format(track.track_type,track.to_data()["other_format"][0]), flush=True)
+                    #print("{} codec_id              {}".format(track.track_type,track.to_data()["codec_id"]), flush=True)
+                    #print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++", flush=True)
                     video_duration = track.to_data()["other_duration"][3][0:8]
                     video_resolution = "{}x{}".format(track.to_data()["width"],track.to_data()["height"])
                     video_codec = track.to_data()["other_format"][0]
                 elif track.track_type == 'Audio':
                     #print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-                    #print("{} format                {}".format(track.track_type,track.to_data()["format"]))
-                    #print("{} codec_id              {}".format(track.track_type,track.to_data()["codec_id"]))
-                    #print("{} channel_s             {}".format(track.track_type,track.to_data()["channel_s"]))
-                    #print("{} other_channel_s       {}".format(track.track_type,track.to_data()["other_channel_s"][0]))
+                    #print("{} format                {}".format(track.track_type,track.to_data()["format"]), flush=True)
+                    #print("{} codec_id              {}".format(track.track_type,track.to_data()["codec_id"]), flush=True)
+                    #print("{} channel_s             {}".format(track.track_type,track.to_data()["channel_s"]), flush=True)
+                    #print("{} other_channel_s       {}".format(track.track_type,track.to_data()["other_channel_s"][0]), flush=True)
                     #print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
                     audio_codec = track.to_data()["format"]
             title,ignore_me = os.path.splitext(the_filename.replace("'","-"))  # root,ext = os.path.splitext(path) 
@@ -134,5 +134,5 @@ if __name__ == '__main__':
     jf.write("};\n")
     jf.write("export { mediaJSON }\n")
     jf.close()
-    print (f"Created  JSON file: {args.json_file}")
-    print (f"Total count of {args.filename_extension.lower()} files linked: {cc}")
+    print (f"Created  JSON file: {args.json_file}", flush=True)
+    print (f"Total count of {args.filename_extension.lower()} files linked: {cc}", flush=True)

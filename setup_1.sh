@@ -702,6 +702,9 @@ echo ""
 #read -p "Press Enter to continue, if that all worked"
 echo ""
 
+sudo chown -R pi:www-data "/var/www"
+sudo chmod a=rwx -R "/var/www"
+
 echo ""
 read -p "Press Enter to continue, if that all worked"
 echo ""
@@ -1066,6 +1069,9 @@ set +x
 cd ~/Desktop
 #---
 # Top level files
+sudo chown -R pi:www-data "/var/www"
+sudo chmod a=rwx -R "/var/www"
+#
 sudo mkdir -p "/var/www/${server_name}"
 sudo chown -R pi:www-data "/var/www/${server_name}"
 sudo chmod a=rwx -R "/var/www/${server_name}"
@@ -1084,7 +1090,7 @@ copy_to_top() {
   sudo sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g" "/var/www/${server_name}/${the_file}"
   sudo sed -i "s;mp4library\";${server_alias}\";g" "/var/www/${server_name}/${the_file}"
   sudo chmod a=rwx "/var/www/${server_name}/${the_file}"
-  sudo chown -R pi:www-data "/var/www/${server_name}/${the_file}"
+  sudo chown pi:www-data "/var/www/${server_name}/${the_file}"
   sudo diff -U 1 "./${the_file}.old" "/var/www/${server_name}/${the_file}" 
   sudo rm -fv "./${the_file}.old"
   #set +x
@@ -1103,6 +1109,7 @@ set +x
 #---
 # css files
 sudo mkdir -p "/var/www/${server_name}/css"
+sudo chown -R pi:www-data "/var/www/${server_name}/css"
 sudo chmod a=rwx -R "/var/www/${server_name}/css"
 copy_to_css() {
   the_file=$1
@@ -1112,7 +1119,7 @@ copy_to_css() {
   sudo rm -f "/var/www/${server_name}/css/${the_file}"
   sudo curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$the_url" --retry 50 -L --output "/var/www/${server_name}/css/${the_file}" --fail # -L means "allow redirection" or some odd :|
   sudo chmod a=rwx "/var/www/${server_name}/css/${the_file}"
-  sudo chown -R pi:www-data "/var/www/${server_name}/css/${the_file}"
+  sudo chown pi:www-data "/var/www/${server_name}/css/${the_file}"
   #set +x
   echo "----------- Finished Processing file '${the_file}' '${the_url}' ..."
   return 0
@@ -1123,6 +1130,7 @@ set +x
 #---
 # image files
 sudo mkdir -p "/var/www/${server_name}/imagefiles"
+sudo chown -R pi:www-data "/var/www/${server_name}/imagefiles"
 sudo chmod a=rwx -R "/var/www/${server_name}/imagefiles"
 copy_to_imagefiles() {
   the_file=$1
@@ -1132,7 +1140,7 @@ copy_to_imagefiles() {
   sudo rm -f "/var/www/${server_name}/imagefiles/${the_file}"
   sudo curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$the_url" --retry 50 -L --output "/var/www/${server_name}/imagefiles/${the_file}" --fail # -L means "allow redirection" or some odd :|
   sudo chmod a=rwx "/var/www/${server_name}/imagefiles/${the_file}"
-  sudo chown -R pi:www-data "/var/www/${server_name}/imagefiles/${the_file}"
+  sudo chown pi:www-data "/var/www/${server_name}/imagefiles/${the_file}"
   #set +x
   echo "----------- Finished Processing file '${the_file}' '${the_url}' ..."
   return 0
@@ -1186,9 +1194,11 @@ echo "RE-CREATE the essential JSON file consumed by the ${server_name} website"
 
 echo ""
 set -x
-python3 /var/www/${server_name}/create-json.py --source_folder "${server_root_folder}" --filename-extension mp4 --json_file /var/www/${server_name}/media.js 2>&1 | tee /var/www/${server_name}/create-json.log
+python3 /var/www/${server_name}/create-json.py --source_folder "${server_root_folder}" --filename-extension mp4 --json_file /var/www/${server_name}/media.js 2>&1 # | tee /var/www/${server_name}/create-json.log
+sudo chown -R pi:www-data "/var/www/${server_name}/media.js"
 sudo chmod a=rwx "/var/www/${server_name}/media.js"
-sudo chmod a=rwx /var/www/${server_name}/create-json.log
+sudo chown -R pi:www-data "/var/www/${server_name}/create-json.log"
+sudo chmod a=rwx "/var/www/${server_name}/create-json.log"
 set +x
 
 echo ""
