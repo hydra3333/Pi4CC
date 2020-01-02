@@ -101,7 +101,7 @@ if __name__ == '__main__':
                     #print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++", flush=True)
                     if track.to_data()["duration"] is None:
                         video_duration = 0
-                    elif
+                    else:
                         video_duration = int(track.to_data()["duration"] / 1000.0) # track.to_data()["duration"] / 1000.0 # in seconds
                     video_duration_str = track.to_data()["other_duration"][3][0:8]
                     video_resolution = "{}x{}".format(track.to_data()["width"],track.to_data()["height"])
