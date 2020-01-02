@@ -88,7 +88,7 @@ if __name__ == '__main__':
             video_codec = ""
             audio_codec = ""
             for track in media_info.tracks:  # 
-			    #for k in track.to_data().keys():
+                #for k in track.to_data().keys():
                 #    print("{}.{}={}".format(track.track_type,k,track.to_data()[k]), flush=True)
                 if track.track_type == 'Video':
                     #print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++", flush=True)
@@ -99,11 +99,14 @@ if __name__ == '__main__':
                     #print("{} other_format          {}".format(track.track_type,track.to_data()["other_format"][0]), flush=True)
                     #print("{} codec_id              {}".format(track.track_type,track.to_data()["codec_id"]), flush=True)
                     #print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++", flush=True)
-                    if track.to_data()["duration"] is None:
-                        video_duration = 0
+                    if track.to_data()["duration"] is None or track.to_data()["width"] is None or track.to_data()["width"] == '' or track.to_data()["height"] is None or track.to_data()["height"] == '' or track.to_data()["other_duration"] is None or track.to_data()["other_duration"] == '':
+                        video_duration = 1
+                        print(f"Bung pymediainfo duration/width/height values detected in {the_filename}", flush=True)
+                        for k in track.to_data().keys():
+                            print("{}.{}={}".format(track.track_type,k,track.to_data()[k]), flush=True)
                     else:
                         video_duration = int(track.to_data()["duration"] / 1000.0) # track.to_data()["duration"] / 1000.0 # in seconds
-                    video_duration_str = track.to_data()["other_duration"][3][0:8]
+                    video_duration_str = track.to_data()["other_duration"][3][0:8] # sometimes it is set even if seconds are bung
                     video_resolution = "{}x{}".format(track.to_data()["width"],track.to_data()["height"])
                     video_codec = track.to_data()["other_format"][0]
                 elif track.track_type == 'Audio':
