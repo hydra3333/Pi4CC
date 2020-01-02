@@ -1201,6 +1201,14 @@ sudo chown -R pi:www-data "/var/www/${server_name}/create-json.log"
 sudo chmod a=rwx "/var/www/${server_name}/create-json.log"
 set +x
 
+echo "Restart the Apache2 Service"
+set -x
+#sleep 3s
+#systemctl restart apache2
+sudo service apache2 restart
+sleep 10s
+set +x
+
 echo ""
 echo "Add a nightly job to crontab to RE-CREATE the essential JSON file consumed by the ${server_name} website"
 echo ""
