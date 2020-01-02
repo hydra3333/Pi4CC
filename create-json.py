@@ -129,7 +129,7 @@ if __name__ == '__main__':
             jf.write(f"        'folder'       : '{txt_part_url}',\n")
             jf.write("      },\n")
             cc=cc+1
-            if cc % 5 == 0:
+            if cc % 50 == 0:
                 print(f"{datetime.datetime.now()} - processed {cc} files so far...", flush=True)
         jf.write(f"      // ----- END   of folder({record_number}) {part_url} ... files={len(the_filenames)} \n")
     jf.write("     ]\n")
