@@ -99,7 +99,7 @@ if __name__ == '__main__':
                     #print("{} other_format          {}".format(track.track_type,track.to_data()["other_format"][0]), flush=True)
                     #print("{} codec_id              {}".format(track.track_type,track.to_data()["codec_id"]), flush=True)
                     #print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++", flush=True)
-                    video_duration = track.to_data()["duration"] / 1000.0 # in seconds
+                    video_duration = int(track.to_data()["duration"] / 1000.0) # # track.to_data()["duration"] / 1000.0 # in seconds
                     video_duration_str = track.to_data()["other_duration"][3][0:8]
                     video_resolution = "{}x{}".format(track.to_data()["width"],track.to_data()["height"])
                     video_codec = track.to_data()["other_format"][0]
