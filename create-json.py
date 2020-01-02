@@ -121,7 +121,7 @@ if __name__ == '__main__':
             jf.write(f"        'subtitle'     : '{subtitle}',\n")
             jf.write(f"        'sources'      : ['{source}',],\n")
             jf.write(f"        'thumb'        : '',\n")
-            jf.write(f"        'duration'     : {video_duration},\n") # this MUST be a numeric field, or the consuming javascdript code fails
+            jf.write(f"        'duration'     : {video_duration},\n") # this MUST be a numeric field, or the consuming javascript code fails
             jf.write(f"        'duration_str' : '{video_duration_str}',\n")
             jf.write(f"        'resolution'   : '{video_resolution}',\n")
             jf.write(f"        'video_codec'  : '{video_codec}',\n")
