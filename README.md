@@ -68,8 +68,9 @@ does not work yet
      - In the Pi, we will set the mount point for the USB3 disk to (usually) be `/mnt/mp4library`
      - The top level folder on the USB3 disk will (usually) be `mp4library`, thus accessible in the Pi via `/mnt/mp4library/mp4library`
 
-3. Install and configure your Raspberry Pi 4 4Gb and set it to always to boot to GIU and autologin
+3. Install and configure your Raspberry Pi 4 4Gb and set it to boot to GIU and autologin
    - it is close enough to safe to autologin since the Pi is only visible inside your "secure" home LAN
+   - in raspi-config, choose the resolution to ANYTHING OTHER than "default" so a framebuffer gets allocated on a Pi4
    - (the GUI should be left to boot and run, even in a headless state later)
 4. Check, perhaps in the GUI menu item `Raspberry Pi Configuration`,
    -  its hostname is short and easy and has no spaces or special characters (it will be used as the website name)
