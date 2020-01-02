@@ -34,7 +34,7 @@ if __name__ == '__main__':
     parser.add_argument('-j', '--json_file', default='/var/www/Pi4CC/media.js')
     args = parser.parse_args()
     #
-    print(datetime.datetime.now() + " Started ...", flush=True)
+    print(f"{datetime.datetime.now()} Started ...", flush=True)
     print (f"Finding files '{args.source_folder}/*.{args.filename_extension.lower()}", flush=True)
     the_files_dict = find_matching_files(args.source_folder, f'*.{args.filename_extension.lower()}')
     print (f"Found   files '{args.source_folder}/*.{args.filename_extension.lower()}", flush=True)
@@ -127,7 +127,7 @@ if __name__ == '__main__':
             jf.write("      },\n")
             cc=cc+1
             if cc % 100 == 0:
-                print(datetime.datetime.now() + " - processed " + cc + " files so far...")
+                print(f"{datetime.datetime.now(} - processed {cc} files so far...", flush=True)
         jf.write(f"      // ----- END   of folder({record_number}) {part_url} ... files={len(the_filenames)} \n")
     jf.write("     ]\n")
     jf.write("  }]\n")
