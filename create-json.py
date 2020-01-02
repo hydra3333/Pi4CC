@@ -87,7 +87,8 @@ if __name__ == '__main__':
             video_duration = ""
             video_codec = ""
             audio_codec = ""
-            for track in media_info.tracks:  # #for k in track.to_data().keys():
+            for track in media_info.tracks:  # 
+			    #for k in track.to_data().keys():
                 #    print("{}.{}={}".format(track.track_type,k,track.to_data()[k]), flush=True)
                 if track.track_type == 'Video':
                     #print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++", flush=True)
