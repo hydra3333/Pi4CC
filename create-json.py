@@ -94,12 +94,13 @@ if __name__ == '__main__':
                     #print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++", flush=True)
                     #print("{} width                 {}".format(track.track_type,track.to_data()["width"]), flush=True)
                     #print("{} height                {}".format(track.track_type,track.to_data()["height"]), flush=True)
-                    #print("{} duration              {}s".format(track.track_type,track.to_data()["duration"]/1000.0), flush=True)
+                    #print("{} duration              {}s".format(track.track_type,track.to_data()["duration"]/1000.0), flush=True) # in seconds
                     #print("{} duration              {}".format(track.track_type,track.to_data()["other_duration"][3][0:8]), flush=True)
                     #print("{} other_format          {}".format(track.track_type,track.to_data()["other_format"][0]), flush=True)
                     #print("{} codec_id              {}".format(track.track_type,track.to_data()["codec_id"]), flush=True)
                     #print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++", flush=True)
-                    video_duration = track.to_data()["other_duration"][3][0:8]
+                    video_duration = track.to_data()["duration"] / 1000.0 # in seconds
+                    video_duration_str = track.to_data()["other_duration"][3][0:8]
                     video_resolution = "{}x{}".format(track.to_data()["width"],track.to_data()["height"])
                     video_codec = track.to_data()["other_format"][0]
                 elif track.track_type == 'Audio':
@@ -116,15 +117,16 @@ if __name__ == '__main__':
             subtitle = source
             thumb = "".replace("'","-")
             jf.write("      {\n")
-            jf.write(f"        'title'       : '{title}',\n")
-            jf.write(f"        'subtitle'    : '{subtitle}',\n")
-            jf.write(f"        'sources'     : ['{source}',],\n")
-            jf.write(f"        'thumb'       : '',\n")
-            jf.write(f"        'duration'    : '{video_duration}',\n")
-            jf.write(f"        'resolution'  : '{video_resolution}',\n")
-            jf.write(f"        'video_codec' : '{video_codec}',\n")
-            jf.write(f"        'audio_codec' : '{audio_codec}',\n")
-            jf.write(f"        'folder'      : '{txt_part_url}',\n")
+            jf.write(f"        'title'        : '{title}',\n")
+            jf.write(f"        'subtitle'     : '{subtitle}',\n")
+            jf.write(f"        'sources'      : ['{source}',],\n")
+            jf.write(f"        'thumb'        : '',\n")
+            jf.write(f"        'duration'     : '{video_duration}',\n")
+            jf.write(f"        'duration_str' : '{video_duration_str}',\n")
+            jf.write(f"        'resolution'   : '{video_resolution}',\n")
+            jf.write(f"        'video_codec'  : '{video_codec}',\n")
+            jf.write(f"        'audio_codec'  : '{audio_codec}',\n")
+            jf.write(f"        'folder'       : '{txt_part_url}',\n")
             jf.write("      },\n")
             cc=cc+1
             if cc % 5 == 0:
