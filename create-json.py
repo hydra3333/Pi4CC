@@ -141,8 +141,8 @@ if __name__ == '__main__':
             subtitle = f"{source} [{video_resolution}] [{video_codec}/{audio_codec}] [{video_duration_str}]"
             if (video_scan_type != "Progressive"): # i.e. if an Interlaced video
                 cc_i = cc_i + 1
-                jf_i.write(f"{the_filename}\n") # pre adding interlaced marker to title and subtitle
-                print(f"{datetime.datetime.now()} INTERLACED VIDEO FILE detected: {the_filename}", flush=True)
+                jf_i.write(f"{the_filename} [{video_codec}/{audio_codec}]\n") # pre adding interlaced marker to title and subtitle
+                print(f"{datetime.datetime.now()} INTERLACED VIDEO FILE detected: {the_filename} [{video_codec}/{audio_codec}]", flush=True)
                 title  = "[Interlaced] " + title
                 subtitle = "[Interlaced] " + subtitle
             #    print(f"{datetime.datetime.now()} START OF INTERLACED VIDEO FILE detected in {the_filename}", flush=True)
