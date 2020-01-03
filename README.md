@@ -228,14 +228,14 @@ You can click on the `triangle` expander to see if it works.
 
 
 1. If you have a PC with a modern (eg RTX 2060 Super) video card, then to use NVIDIA's NVENC hardware transcoding :
-   1. to `h.264/AAC` (`opencl=ocl:0.0` is the relevant video card ID) with some small sharpening for a slightly blurry source
+   1. to `h.264/AAC` (`opencl=ocl:0.0` is the relevant video card ID) ... DEINTERLACE(TFF), some small sharpening for a slightly blurry source, encode
       ```
       "ffmpeg.exe" -v verbose -nostats -init_hw_device opencl=ocl:0.0 -filter_hw_device ocl -i "input_file.mpg" -map_metadata -1 -vsync 0 -sws_flags lanczos+accurate_rnd+full_chroma_int+full_chroma_inp
           -filter_complex "[0:v]yadif=0:0:0,hwupload,unsharp_opencl=lx=3:ly=3:la=0.5:cx=3:cy=3:ca=0.5,hwdownload,format=pix_fmts=yuv420p" -strict experimental
           -c:v h264_nvenc -pix_fmt nv12 -preset slow -bf 2 -g 50 -refs 3 -rc:v vbr_hq -rc-lookahead:v 32 -cq 22 -qmin 16 -qmax 25 -coder cabac  -movflags +faststart+write_colr -profile:v high -level 5.1 
           -c:a libfdk_aac -cutoff 18000 -ab 384k -ar 48000 -y "output_file.h264.mp4"
       ```
-   2. to `HEVC/AAC` (`opencl=ocl:0.0` is the relevant video card ID) ... only playable on a Chromecast Ultra
+   2. to `HEVC/AAC` (`opencl=ocl:0.0` is the relevant video card ID) ... only playable on a Chromecast Ultra ... DEINTERLACE(TFF), encode
       ```
       "ffmpeg.exe" -v verbose -nostats -init_hw_device opencl=ocl:0.0 -filter_hw_device ocl -i "input_file.mpg" -map_metadata -1 -vsync 0 -sws_flags lanczos+accurate_rnd+full_chroma_int+full_chroma_inp 
          -filter_complex "[0:v]yadif=0:0:0,format=pix_fmts=yuv420p" -strict experimental 
