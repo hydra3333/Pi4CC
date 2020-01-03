@@ -237,7 +237,7 @@ You can click on the `triangle` expander to see if it works.
       ```
    2. to `HEVC/AAC` (`opencl=ocl:0.0` is the relevant video card ID) ... only playable on a Chromecast Ultra ... DEINTERLACE(TFF), encode
       ```
-      "ffmpeg.exe" -v verbose -nostats -init_hw_device opencl=ocl:0.0 -filter_hw_device ocl -i "input_file.mpg" -map_metadata -1 -vsync 0 -sws_flags lanczos+accurate_rnd+full_chroma_int+full_chroma_inp 
+      "ffmpeg.exe" -v verbose -nostats -i "input_file.mpg" -map_metadata -1 -vsync 0 -sws_flags lanczos+accurate_rnd+full_chroma_int+full_chroma_inp 
          -filter_complex "[0:v]yadif=0:0:0,format=pix_fmts=yuv420p" -strict experimental 
          -c:v hevc_nvenc -pix_fmt nv12 -preset slow -rc:v vbr_hq -2pass 1 -rc-lookahead:v 32 -cq 16 -qmin 14 -qmax 32 -spatial_aq 1 -temporal_aq 1 -profile:v main -level 5.1 -movflags +faststart+write_colr 
          -c:a libfdk_aac -cutoff 18000 -ab 384k -ar 48000 -y "output_file.hevc.mp4" 
