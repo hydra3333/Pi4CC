@@ -788,14 +788,6 @@ sudo rm -vfR "${server_root_USBmountpoint}/minidlna"
 set +x
 echo ""
 
-echo "# Create a folder for minidlna logs and db - place the folder in the root of the (fast) USB3 drive"
-set -x
-sudo mkdir -p "${server_root_USBmountpoint}/minidlna"
-sudo chmod -c a=rwx -R "${server_root_USBmountpoint}/minidlna"
-sudo chown -c -R pi:pi "${server_root_USBmountpoint}/minidlna"
-set +x
-echo ""
-
 echo "# Do the minidlna install"
 set -x
 sudo apt install -y minidlna
@@ -803,17 +795,29 @@ sleep 3s
 #
 sudo service minidlna stop
 sleep 5s
+
+echo "# Create a folder for minidlna logs and db - place the folder in the root of the (fast) USB3 drive"
+set -x
+sudo usermod -a -G minidlna pi
+sudo usermod -a -G minidlna root
+#
+sudo mkdir -p "${server_root_USBmountpoint}/minidlna"
+sudo chmod -c a=rwx -R "${server_root_USBmountpoint}/minidlna"
+sudo chown -c -R pi:minidlna "${server_root_USBmountpoint}/minidlna"
 #
 sudo chmod -c a=rwx -R   "/run/minidlna"
-sudo chown -c -R pi:pi      "/run/minidlna"
+sudo chown -c -R pi:minidlna      "/run/minidlna"
 sudo chmod -c a=rwx -R   "/run/minidlna/minidlna.pid"
-sudo chown -c -R pi:pi      "/run/minidlna/minidlna.pid"
+sudo chown -c -R pi:minidlna      "/run/minidlna/minidlna.pid"
 #
 sudo chmod -c a=rwx -R "/etc/minidlna.conf"
-sudo chown -c -R pi:pi "/etc/minidlna.conf"
+sudo chown -c -R pi:minidlna "/etc/minidlna.conf"
+#
+sudo chmod -c a=rwx -R "/var/cache/minidlna"
+sudo chown -c -R pi:minidlna "/var/cache/minidlna"
 #
 sudo chmod -c a=rwx -R "/var/log/minidlna.log"
-sudo chown -c -R pi:pi "/var/log/minidlna.log"
+sudo chown -c -R pi:minidlna "/var/log/minidlna.log"
 sudo cat "/var/log/minidlna.log"
 #sudo rm -vfR "/var/log/minidlna.log"
 #

@@ -296,18 +296,14 @@ set -x
 # sudo sed -i 's;8182;32768;g' "/proc/sys/fs/inotify/max_user_watches" # this fails with no permissions
 sudo cat /proc/sys/fs/inotify/max_user_watches
 # set a new temporary limit with:
-sudo sysctl fs.inotify.max_user_watches=32768
+sudo sysctl fs.inotify.max_user_watches=131072
 sudo sysctl -p
 # set a new permanent limit with:
 sudo sed -i 's;fs.inotify.max_user_watches=;#fs.inotify.max_user_watches=;g' "/etc/sysctl.conf"
-echo fs.inotify.max_user_watches=32768 | sudo tee -a "/etc/sysctl.conf"
+echo fs.inotify.max_user_watches=131072 | sudo tee -a "/etc/sysctl.conf"
 sudo sysctl -p
 set +x
 echo ""
-
-
-
-
 
 echo "# We should REBOOT the Pi now."
 read -p "Press Enter to reboot then start the next setup script"
