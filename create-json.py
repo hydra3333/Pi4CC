@@ -133,7 +133,7 @@ if __name__ == '__main__':
             # source = requote_uri("/mp4library" + part_url + the_filename)
             # source = requote_uri(f"http://{host_name}/mp4library" + part_url + the_filename)
             source = requote_uri(f"http://{host_ip}/mp4library" + part_url + the_filename)
-            subtitle = f"{source} ({video_resolution} {video_codec}/{audio_codec}) [{video_duration_str}]"
+            subtitle = f"{source} [{video_resolution}] [{video_codec}/{audio_codec}] [{video_duration_str}]"
             thumb = "".replace("'","-")
             jf.write("      {\n")
             jf.write(f"        'title'        : '{title}',\n")
