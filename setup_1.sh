@@ -792,7 +792,7 @@ echo "# Create a folder for miniDLNA logs and db - place the folder in the root 
 set -x
 sudo mkdir -p "${server_root_USBmountpoint}/miniDLNA"
 sudo chmod -c a=rwx -R "${server_root_USBmountpoint}/miniDLNA"
-sudo chown -c -R pi:www-data "${server_root_USBmountpoint}/miniDLNA"
+sudo chown -c -R pi "${server_root_USBmountpoint}/miniDLNA"
 set +x
 echo ""
 
@@ -804,13 +804,13 @@ sleep 3s
 sudo service minidlna stop
 #
 sudo chmod -c a=rwx -R "/run/minidlna"
-sudo chown -c -R pi:www-data "/run/minidlna"
+sudo chown -c -R pi "/run/minidlna"
 #
 sudo chmod -c a=rwx -R "/etc/minidlna.conf"
-sudo chown -c -R pi:www-data "/etc/minidlna.conf"
+sudo chown -c -R pi "/etc/minidlna.conf"
 #
 sudo chmod -c a=rwx -R "/var/log/minidlna.log"
-sudo chown -c -R pi:www-data "/var/log/minidlna.log"
+sudo chown -c -R pi "/var/log/minidlna.log"
 sudo cat "/var/log/minidlna.log"
 #sudo rm -vfR "/var/log/minidlna.log"
 #
@@ -844,18 +844,15 @@ echo ""
 # To restart the service
 #sudo service minidlna restart
 set -x
-# To rebuild the database use: #sudo service minidlna force-reload
-sleep 10s
-cat ${log_dir}\minidlna.log
-#rm -vf ${log_dir}\minidlna.log
-set +x
 sudo service minidlna stop
 sleep 3s
 sudo service minidlna start
-sleep 3s
+sleep 10s
+cat ${log_dir}/minidlna.log
 sudo service minidlna force-reload
 sleep 10s
-
+cat ${log_dir}/minidlna.log
+set +x
 
 sh_file=${sh_dir}/minidlna_refresh.sh
 log_file=${log_dir}/minidlna_refresh.log
