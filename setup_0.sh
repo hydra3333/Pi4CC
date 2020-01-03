@@ -280,6 +280,16 @@ diff -U 1 "/etc/fstab.old" "/etc/fstab"
 set +x
 
 echo ""
+echo "Get ready for IPv4 only"
+set -x
+# set a new permanent limit with:
+sudo sed -i 's;net.ipv6.conf.all.disable_ipv6;#net.ipv6.conf.all.disable_ipv6;g' "/etc/sysctl.conf"
+echo net.ipv6.conf.all.disable_ipv6 = 1 | sudo tee -a "/etc/sysctl.conf"
+sudo sysctl -p
+set +x
+echo ""
+
+echo ""
 echo "Get ready for minidlna. Increase system max_user_watches to avoid this error:"
 echo "WARNING: Inotify max_user_watches [8192] is low or close to the number of used watches [2] and I do not have permission to increase this limit.  Please do so manually by writing a higher value into /proc/sys/fs/inotify/max_user_watches."
 set -x
@@ -294,6 +304,10 @@ echo fs.inotify.max_user_watches=32768 | sudo tee -a "/etc/sysctl.conf"
 sudo sysctl -p
 set +x
 echo ""
+
+
+
+
 
 echo "# We should REBOOT the Pi now."
 read -p "Press Enter to reboot then start the next setup script"
