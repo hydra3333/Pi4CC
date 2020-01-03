@@ -41,7 +41,7 @@ if __name__ == '__main__':
     #
     print(f"{datetime.datetime.now()} Started ...", flush=True)
     print(f"{datetime.datetime.now()} Using target host_name='{host_name}' and target host_ip='{host_ip}' ...", flush=True)
-    print (f"Finding files '{args.source_folder}/*.{args.filename_extension.lower()}", flush=True)
+    print (f"{datetime.datetime.now()} Finding files '{args.source_folder}/*.{args.filename_extension.lower()}", flush=True)
     the_files_dict = find_matching_files(args.source_folder, f'*.{args.filename_extension.lower()}')
     print(f"{datetime.datetime.now()} Found   files '{args.source_folder}/*.{args.filename_extension.lower()}", flush=True)
     #
