@@ -66,7 +66,7 @@ echo "server_root_USBmountpoint_default=${server_root_USBmountpoint}">> "$setup_
 echo "server_root_folder_default=${server_root_folder}">> "$setup_config_file"
 echo "#">> "$setup_config_file"
 set -x
-sudo chmod a=rwx -R "$setup_config_file"
+sudo chmod -c a=rwx -R "$setup_config_file"
 cat "$setup_config_file"
 set +x
 echo ""
@@ -214,7 +214,7 @@ set +x
 
 echo "# Set protections so we can so ANYTHING with it (we are inside our own home LAN)"
 set -x
-sudo chmod a=rwx -R ${${server_root_USBmountpoint}}
+sudo chmod -c a=rwx -R ${${server_root_USBmountpoint}}
 set +x
 
 echo "# Fix user rights to allow user pi so that it has no trouble"
@@ -280,7 +280,20 @@ diff -U 1 "/etc/fstab.old" "/etc/fstab"
 set +x
 
 echo ""
-read -p "Press Enter to continue after doing the change to fstab"
+echo "Get ready for minidlna. Increase system max_user_watches to avoid this error:"
+echo "WARNING: Inotify max_user_watches [8192] is low or close to the number of used watches [2] and I do not have permission to increase this limit.  Please do so manually by writing a higher value into /proc/sys/fs/inotify/max_user_watches."
+set -x
+# sudo sed -i 's;8182;32768;g' "/proc/sys/fs/inotify/max_user_watches" # this fails with no permissions
+sudo cat /proc/sys/fs/inotify/max_user_watches
+# set a new temporary limit with:
+sudo sysctl fs.inotify.max_user_watches=32768
+sudo sysctl -p
+# set a new permanent limit with:
+sudo sed -i 's;fs.inotify.max_user_watches=;#fs.inotify.max_user_watches=;g' "/etc/sysctl.conf"
+echo fs.inotify.max_user_watches=32768 | sudo tee -a "/etc/sysctl.conf"
+sudo sysctl -p
+set +x
+echo ""
 
 echo "# We should REBOOT the Pi now."
 read -p "Press Enter to reboot then start the next setup script"

@@ -66,7 +66,7 @@ echo "server_root_USBmountpoint_default=${server_root_USBmountpoint}">> "$setup_
 echo "server_root_folder_default=${server_root_folder}">> "$setup_config_file"
 echo "#">> "$setup_config_file"
 set -x
-sudo chmod a=rwx -R "$setup_config_file"
+sudo chmod -c a=rwx -R "$setup_config_file"
 cat "$setup_config_file"
 set +x
 echo ""
@@ -85,7 +85,7 @@ set +x
 
 echo "# Set permissions so we can do ANYTHING with the USB3 drive."
 set -x
-sudo chmod a=rwx -R ${server_root_USBmountpoint}
+sudo chmod -c a=rwx -R ${server_root_USBmountpoint}
 set +x
 
 echo "# Check the exterrnal USB3 drive mounted where we told it to by doing a df"
@@ -295,8 +295,8 @@ set -x
 sudo groupadd -f www-data
 sudo usermod -a -G www-data root
 sudo usermod -a -G www-data pi
-sudo chown -R pi:www-data /var/www
-sudo chmod a=rwx -R /var/www
+sudo chown -c -R pi:www-data /var/www
+sudo chmod -c a=rwx -R /var/www
 #sleep 3s
 cat /var/log/apache2/error.log
 ls -al /etc/apache2/sites-enabled
@@ -498,7 +498,7 @@ echo "noname@no-company.com">> "./cert.input"
 echo "">> "./cert.input"
 echo "">> "./cert.input"
 sudo openssl req -x509 -nodes -days 12650 -newkey rsa:2048 -out /etc/tls/localcerts/${server_name}.pem -keyout /etc/tls/localcerts/${server_name}.key < "./cert.input"
-sudo chmod a=rwx /etc/tls/localcerts/*
+sudo chmod -c a=rwx -R /etc/tls/localcerts/*
 sudo rm -fv "./cert.input"
 ls -al "/etc/tls/localcerts/"
 set +x
@@ -510,9 +510,9 @@ echo "# Strip Out Passphrase from the Key"
 set -x
 sudo cp -fv /etc/tls/localcerts/${server_name}.pem /etc/tls/localcerts/${server_name}.pem.orig
 sudo cp -fv /etc/tls/localcerts/${server_name}.key /etc/tls/localcerts/${server_name}.key.orig
-sudo chmod a=rwx /etc/tls/localcerts/*
+sudo chmod -c a=rwx -R /etc/tls/localcerts/*
 sudo openssl rsa -in /etc/tls/localcerts/${server_name}.key.orig -out /etc/tls/localcerts/${server_name}.key
-sudo chmod a=rwx /etc/tls/localcerts/*
+sudo chmod -c a=rwx -R /etc/tls/localcerts/*
 set +x
 echo ""
 #read -p "Press Enter to continue #"
@@ -562,7 +562,7 @@ echo "">> "./cert.pass.input"
 echo "">> "./cert.pass.input"
 echo "">> "./cert.pass.input"
 sudo openssl pkcs12 -export -out /etc/tls/localcerts/${server_name}.pfx -inkey /etc/tls/localcerts/${server_name}.key.orig -in /etc/tls/localcerts/${server_name}.pem <"./cert.pass.input"
-sudo chmod a=rwx /etc/tls/localcerts/*
+sudo chmod -c a=rwx -R /etc/tls/localcerts/*
 sudo rm -fv "./cert.pass.input"
 set +x
 echo ""
@@ -589,7 +589,7 @@ echo ""
 #   unable to write 'random state' (If this this error appears, please ignore)
 
 set -x
-sudo chmod a=rwx /etc/tls/localcerts/*
+sudo chmod -c a=rwx -R /etc/tls/localcerts/*
 set +x
 
 echo ""
@@ -715,8 +715,8 @@ echo ""
 #read -p "Press Enter to continue, if that all worked"
 echo ""
 
-sudo chown -R pi:www-data "/var/www"
-sudo chmod a=rwx -R "/var/www"
+sudo chown -c -R pi:www-data "/var/www"
+sudo chmod -c a=rwx -R "/var/www"
 
 echo ""
 read -p "Press Enter to continue, if that all worked"
@@ -788,16 +788,20 @@ echo ""
 echo "# Create a folder for miniDLNA logs and db - place the folder in the root of the (fast) USB3 drive"
 set -x
 sudo mkdir -p "${server_root_USBmountpoint}/miniDLNA"
-sudo chmod a=rwx -R "${server_root_USBmountpoint}"
-sudo chown -R pi:www-data "${server_root_USBmountpoint}/miniDLNA"
+sudo chmod -c a=rwx -R "${server_root_USBmountpoint}/miniDLNA"
+sudo chown -c -R pi:www-data "${server_root_USBmountpoint}/miniDLNA"
 set +x
 echo ""
 
 echo "# Do the miniDLNA install"
 set -x
 sudo apt install -y minidlna
-sudo chmod a=rwx -R "/run/minidlna"
-sudo chown -R pi:www-data "/run/minidlna"
+sudo service minidlna stop
+sudo cat /var/log/minidlna.log
+sudo chmod -c a=rwx -R "/run/minidlna"
+sudo chown -c -R pi:www-data "/run/minidlna"
+sudo chmod -c a=rwx -R "/etc/minidlna.conf"
+sudo chown -c -R pi:www-data "/etc/minidlna.conf"
 set +x
 
 echo ""
@@ -819,11 +823,8 @@ sudo sed -i "s;#notify_interval=895;#notify_interval=895\nnotify_interval=300;g"
 sudo sed -i "s;#max_connections=50;#max_connections=50\nmax_connections=4;g" "/etc/minidlna.conf"
 sudo sed -i "s;#log_level=general,artwork,database,inotify,scanner,metadata,http,ssdp,tivo=warn;#log_level=general,artwork,database,inotify,scanner,metadata,http,ssdp,tivo=warn\nlog_level=artwork,database,general,http,inotify,metadata,scanner,ssdp,tivo=info;g" "/etc/minidlna.conf"
 sudo diff -U 1 "/etc/minidlna.conf.old" "/etc/minidlna.conf"
-sudo service minidlna restart
-sudo chmod a=rwx -R "/run/minidlna"
-sudo chown -R pi:www-data "/run/minidlna"
-sleep 10s
-cat =${log_dir}\minidlna.log
+sudo chmod -c a=rwx -R "/run/minidlna"
+sudo chown -c -R pi:www-data "/run/minidlna"
 set +x
 echo ""
 
@@ -833,12 +834,18 @@ echo ""
 # To restart the service
 #sudo service minidlna restart
 set -x
-# To rebuild the database use:
+# To rebuild the database use: #sudo service minidlna force-reload
+sleep 10s
+cat ${log_dir}\minidlna.log
+rm -vf ${log_dir}\minidlna.log
+set +x
+sudo service minidlna stop
+sleep 3s
+sudo service minidlna start
+sleep 3s
 sudo service minidlna force-reload
 sleep 10s
-cat =${log_dir}\minidlna.log
-set +x
-#sudo service minidlna stop
+
 
 sh_file=${sh_dir}/minidlna_refresh.sh
 log_file=${log_dir}/minidlna_refresh.log
@@ -849,14 +856,13 @@ touch "${log_file}"
 sudo rm -vf "${sh_file}"
 echo "#!/bin/bash" >> "${sh_file}"
 echo "set -x" >> "${sh_file}"
-echo "sudo /usr/bin/killall minidlna" >> "${sh_file}"
+echo "sudo service minidlna stop" >> "${sh_file}"
 echo "sleep 10s" >> "${sh_file}"
-echo "sudo /usr/sbin/minidlna -R" >> "${sh_file}"
+echo "sudo service minidlna start" >> "${sh_file}"
+echo "sleep 10s" >> "${sh_file}"
+echo "sudo service minidlna force-reload" >> "${sh_file}"
 echo "echo 'Wait 15 minutes for miniDLNA to index media files'" >> "${sh_file}"
 echo "sleep 900s" >> "${sh_file}"
-echo "sudo /usr/bin/killall minidlna" >> "${sh_file}"
-echo "sleep 10s" >> "${sh_file}"
-echo "sudo /usr/sbin/minidlna" >> "${sh_file}"
 echo "set +x" >> "${sh_file}"
 
 # https://stackoverflow.com/questions/610839/how-can-i-programmatically-create-a-new-cron-job
@@ -971,10 +977,10 @@ sudo sed -i "s;path = /mnt/mp4library;path = ${server_root_USBmountpoint};g"  ".
 sudo sed -i "s;comment=Pi4CC www home;comment=${server_name} www home;g"  "./smb.conf"
 ##sudo sed -i "s;path = /var/www;path = /var/www;g"  "./smb.conf"
 #---
-sudo chmod a=rwx -R *
+sudo chmod -c a=rwx -R *
 sudo diff -U 1 "./smb.conf.old" "./smb.conf"
 sudo mv -fv "./smb.conf" "/etc/samba/smb.conf"
-sudo chmod a=rwx -R "/etc/samba"
+sudo chmod -c a=rwx -R "/etc/samba"
 set +x
 # ignore this: # rlimit_max: increasing rlimit_max (1024) to minimum Windows limit (16384)
 
@@ -1019,7 +1025,7 @@ echo ""
 
 set -x 
 sudo apt-get purge -y vsftpd
-sudo chmod +777 "/etc/vsftpd.conf"
+sudo chmod -c a=rwx -R "/etc/vsftpd.conf"
 sudo rm -vf "/etc/vsftpd.conf"
 sudo apt-get install -y vsftpd
 set +x
@@ -1033,7 +1039,7 @@ set +x
 set -x
 # https://security.appspot.com/vsftpd/vsftpd_conf.html
 sudo service vsftpd stop
-sudo chmod +777 "/etc/vsftpd.conf"
+sudo chmod -c a=rwx -R "/etc/vsftpd.conf"
 sudo cp -fv "/etc/vsftpd.conf" "/etc/vsftpd.conf.backup"
 sudo sed -i "s;anonymous_enable=NO;anonymous_enable=YES;g" "/etc/vsftpd.conf"
 sudo sed -i "s;local_enable=YES;write_enable=YES;g" "/etc/vsftpd.conf"
@@ -1082,12 +1088,12 @@ set +x
 cd ~/Desktop
 #---
 # Top level files
-sudo chown -R pi:www-data "/var/www"
-sudo chmod a=rwx -R "/var/www"
+sudo chown -c -R pi:www-data "/var/www"
+sudo chmod -c a=rwx -R "/var/www"
 #
 sudo mkdir -p "/var/www/${server_name}"
-sudo chown -R pi:www-data "/var/www/${server_name}"
-sudo chmod a=rwx -R "/var/www/${server_name}"
+sudo chown -c -R pi:www-data "/var/www/${server_name}"
+sudo chmod -c a=rwx -R "/var/www/${server_name}"
 set -x
 copy_to_top() {
   the_file=$1
@@ -1102,8 +1108,8 @@ copy_to_top() {
   sudo sed -i "s;Pi4CC;${server_name};g" "/var/www/${server_name}/${the_file}"
   sudo sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g" "/var/www/${server_name}/${the_file}"
   sudo sed -i "s;mp4library\";${server_alias}\";g" "/var/www/${server_name}/${the_file}"
-  sudo chmod a=rwx "/var/www/${server_name}/${the_file}"
-  sudo chown pi:www-data "/var/www/${server_name}/${the_file}"
+  sudo chmod -c a=rwx -R "/var/www/${server_name}/${the_file}"
+  sudo chown -c pi:www-data "/var/www/${server_name}/${the_file}"
   sudo diff -U 1 "./${the_file}.old" "/var/www/${server_name}/${the_file}" 
   sudo rm -fv "./${the_file}.old"
   #set +x
@@ -1122,8 +1128,8 @@ set +x
 #---
 # css files
 sudo mkdir -p "/var/www/${server_name}/css"
-sudo chown -R pi:www-data "/var/www/${server_name}/css"
-sudo chmod a=rwx -R "/var/www/${server_name}/css"
+sudo chown -c -R pi:www-data "/var/www/${server_name}/css"
+sudo chmod -c a=rwx -R "/var/www/${server_name}/css"
 copy_to_css() {
   the_file=$1
   the_url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/css/${the_file}"
@@ -1131,8 +1137,8 @@ copy_to_css() {
   #set -x
   sudo rm -f "/var/www/${server_name}/css/${the_file}"
   sudo curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$the_url" --retry 50 -L --output "/var/www/${server_name}/css/${the_file}" --fail # -L means "allow redirection" or some odd :|
-  sudo chmod a=rwx "/var/www/${server_name}/css/${the_file}"
-  sudo chown pi:www-data "/var/www/${server_name}/css/${the_file}"
+  sudo chmod -c a=rwx -R "/var/www/${server_name}/css/${the_file}"
+  sudo chown -c pi:www-data "/var/www/${server_name}/css/${the_file}"
   #set +x
   echo "----------- Finished Processing file '${the_file}' '${the_url}' ..."
   return 0
@@ -1143,8 +1149,8 @@ set +x
 #---
 # image files
 sudo mkdir -p "/var/www/${server_name}/imagefiles"
-sudo chown -R pi:www-data "/var/www/${server_name}/imagefiles"
-sudo chmod a=rwx -R "/var/www/${server_name}/imagefiles"
+sudo chown -c -R pi:www-data "/var/www/${server_name}/imagefiles"
+sudo chmod -c a=rwx -R "/var/www/${server_name}/imagefiles"
 copy_to_imagefiles() {
   the_file=$1
   the_url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/imagefiles/${the_file}"
@@ -1152,8 +1158,8 @@ copy_to_imagefiles() {
   #set -x
   sudo rm -f "/var/www/${server_name}/imagefiles/${the_file}"
   sudo curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$the_url" --retry 50 -L --output "/var/www/${server_name}/imagefiles/${the_file}" --fail # -L means "allow redirection" or some odd :|
-  sudo chmod a=rwx "/var/www/${server_name}/imagefiles/${the_file}"
-  sudo chown pi:www-data "/var/www/${server_name}/imagefiles/${the_file}"
+  sudo chmod -c a=rwx -R "/var/www/${server_name}/imagefiles/${the_file}"
+  sudo chown -c pi:www-data "/var/www/${server_name}/imagefiles/${the_file}"
   #set +x
   echo "----------- Finished Processing file '${the_file}' '${the_url}' ..."
   return 0
@@ -1191,8 +1197,8 @@ copy_to_imagefiles timeline_bg_buffer.png
 set +x
 #---
 set -x
-sudo chown -R pi:www-data "/var/www/${server_name}"
-sudo chmod a=rwx -R "/var/www/${server_name}"
+sudo chown -c -R pi:www-data "/var/www/${server_name}"
+sudo chmod -c a=rwx -R "/var/www/${server_name}"
 set +x
 
 echo ""
@@ -1208,10 +1214,10 @@ echo "RE-CREATE the essential JSON file consumed by the ${server_name} website"
 echo ""
 set -x
 python3 /var/www/${server_name}/create-json.py --source_folder "${server_root_folder}" --filename-extension mp4 --json_file /var/www/${server_name}/media.js 2>&1 | tee /var/www/${server_name}/create-json.log
-sudo chown -R pi:www-data "/var/www/${server_name}/media.js"
-sudo chmod a=rwx "/var/www/${server_name}/media.js"
-sudo chown -R pi:www-data "/var/www/${server_name}/create-json.log"
-sudo chmod a=rwx "/var/www/${server_name}/create-json.log"
+sudo chown -c -R pi:www-data "/var/www/${server_name}/media.js"
+sudo chmod -c a=rwx -R "/var/www/${server_name}/media.js"
+sudo chown -c -R pi:www-data "/var/www/${server_name}/create-json.log"
+sudo chmod -c a=rwx -R "/var/www/${server_name}/create-json.log"
 set +x
 
 echo "Restart the Apache2 Service"
