@@ -40,25 +40,25 @@ if __name__ == '__main__':
     args = parser.parse_args()
     #
     print(f"{datetime.datetime.now()} Started ...", flush=True)
-    print(f"{datetime.datetime.now()} Using target host_name='{host_name}' and target host_ip='{host_name}' ...", flush=True)
+    print(f"{datetime.datetime.now()} Using target host_name='{host_name}' and target host_ip='{host_ip}' ...", flush=True)
     print (f"Finding files '{args.source_folder}/*.{args.filename_extension.lower()}", flush=True)
     the_files_dict = find_matching_files(args.source_folder, f'*.{args.filename_extension.lower()}')
-    print (f"Found   files '{args.source_folder}/*.{args.filename_extension.lower()}", flush=True)
+    print(f"{datetime.datetime.now()} Found   files '{args.source_folder}/*.{args.filename_extension.lower()}", flush=True)
     #
     # list the directories & files
     #
     cc=0
     #for record_number, (the_folder, the_filenames) in enumerate(sorted(the_files_dict.items(),key=lambda i: i[0].casefold())):
     for record_number, (the_folder, the_filenames) in enumerate(sorted(the_files_dict.items(),key=lambda i: i[0].lower())):
-        #print(f"-----record {record_number}---{the_folder} ... files={len(the_filenames)}", flush=True)
+        #print(f"{datetime.datetime.now()} -----record {record_number}---{the_folder} ... files={len(the_filenames)}", flush=True)
         for c,the_filename in enumerate(the_filenames):
-            #print(f"mp4 File {c}---{the_filename}", flush=True)
+            #print(f"{datetime.datetime.now()} mp4 File {c}---{the_filename}", flush=True)
             cc=cc+1
-    print (f'Total count of {args.filename_extension.lower()} files found: {cc}', flush=True)
+    print(f"{datetime.datetime.now()} Total count of {args.filename_extension.lower()} files found: {cc}", flush=True)
     #
     # Produce the JSON file media.js of the directories & files
     #
-    print (f"Creating JSON file: {args.json_file}", flush=True)
+    print(f"{datetime.datetime.now()} Creating JSON file: {args.json_file}", flush=True)
     cc = 0
     jf = open(args.json_file,'w')
     jf.write("'use strict';\n")
@@ -113,7 +113,7 @@ if __name__ == '__main__':
                          ( track.to_data()["other_duration"] is None ) or ( track.to_data()["other_duration"] == '' )
                        ) :
                         video_duration = 1
-                        print(f"Bung pymediainfo duration/width/height values detected in {the_filename}", flush=True)
+                        print(f"{datetime.datetime.now()} Bung pymediainfo duration/width/height values detected in {the_filename}", flush=True)
                         for k in track.to_data().keys():
                             print("{}.{}={}".format(track.track_type,k,track.to_data()[k]), flush=True)
                     else:
@@ -156,5 +156,5 @@ if __name__ == '__main__':
     jf.write("};\n")
     jf.write("export { mediaJSON }\n")
     jf.close()
-    print (f"Created  JSON file: {args.json_file}", flush=True)
-    print (f"Total count of {args.filename_extension.lower()} files linked: {cc}", flush=True)
+    print(f"{datetime.datetime.now()} Created  JSON file: {args.json_file}", flush=True)
+    print(f"{datetime.datetime.now()} Total count of {args.filename_extension.lower()} files linked: {cc}", flush=True)
