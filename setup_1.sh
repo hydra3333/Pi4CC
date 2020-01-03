@@ -847,7 +847,7 @@ set -x
 # To rebuild the database use: #sudo service minidlna force-reload
 sleep 10s
 cat ${log_dir}\minidlna.log
-rm -vf ${log_dir}\minidlna.log
+#rm -vf ${log_dir}\minidlna.log
 set +x
 sudo service minidlna stop
 sleep 3s
