@@ -781,7 +781,10 @@ set -x
 sudo apt purge minidlna -y
 sudo apt autoremove -y
 #sleep 3s
-sudo rm -vf "/etc/minidlna.conf"
+sudo rm -vfR "/etc/minidlna.conf"
+sudo rm -vfR "/var/log/minidlna.log"
+sudo rm -vfR "/run/minidlna"
+sudo rm -vfR "${server_root_USBmountpoint}/miniDLNA"
 set +x
 echo ""
 
@@ -796,12 +799,21 @@ echo ""
 echo "# Do the miniDLNA install"
 set -x
 sudo apt install -y minidlna
+sleep 3s
+#
 sudo service minidlna stop
-sudo cat /var/log/minidlna.log
+#
 sudo chmod -c a=rwx -R "/run/minidlna"
 sudo chown -c -R pi:www-data "/run/minidlna"
+#
 sudo chmod -c a=rwx -R "/etc/minidlna.conf"
 sudo chown -c -R pi:www-data "/etc/minidlna.conf"
+#
+sudo chmod -c a=rwx -R "/var/log/minidlna.log"
+sudo chown -c -R pi:www-data "/var/log/minidlna.log"
+sudo cat "/var/log/minidlna.log"
+#sudo rm -vfR "/var/log/minidlna.log"
+#
 set +x
 
 echo ""
@@ -823,8 +835,6 @@ sudo sed -i "s;#notify_interval=895;#notify_interval=895\nnotify_interval=300;g"
 sudo sed -i "s;#max_connections=50;#max_connections=50\nmax_connections=4;g" "/etc/minidlna.conf"
 sudo sed -i "s;#log_level=general,artwork,database,inotify,scanner,metadata,http,ssdp,tivo=warn;#log_level=general,artwork,database,inotify,scanner,metadata,http,ssdp,tivo=warn\nlog_level=artwork,database,general,http,inotify,metadata,scanner,ssdp,tivo=info;g" "/etc/minidlna.conf"
 sudo diff -U 1 "/etc/minidlna.conf.old" "/etc/minidlna.conf"
-sudo chmod -c a=rwx -R "/run/minidlna"
-sudo chown -c -R pi:www-data "/run/minidlna"
 set +x
 echo ""
 
