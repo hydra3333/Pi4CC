@@ -8,10 +8,12 @@ set -x
 cd ~/Desktop
 
 set +x
-echo "--------------------------------------------------------------------------------------------------------------------------------------------------------"
+echo "# ------------------------------------------------------------------------------------------------------------------------"
 set -x
 cd ~/Desktop
 set +x
+host_name=$(hostname)
+host_ip=$(hostname -I | cut -f1 -d' ')
 setup_config_file=./setup.config
 if [[ -f "$setup_config_file" ]]; then  # config file already exists
     echo "Using prior answers as defaults..."
@@ -19,8 +21,10 @@ if [[ -f "$setup_config_file" ]]; then  # config file already exists
 	cat "$setup_config_file"
 	set +x
 	source "$setup_config_file" # use "source" to retrieve the previous answers and use those as  the defaults in prompting
-    read -e -p "This server_name (will become name of website) [${server_name_default}]: " -i "${server_name_default}" input_string
-    server_name="${input_string:-$server_name_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
+	#read -e -p "This server_name (will become name of website) [${server_name_default}]: " -i "${server_name_default}" input_string
+    #server_name="${input_string:-$server_name_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
+    server_name=${server_name_default}
+    server_ip=${server_ip_default}
     read -e -p "This server_alias (will become a Virtual Folder within the website) [${server_alias_default}]: " -i "${server_alias_default}" input_string
     server_alias="${input_string:-$server_alias_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
     read -e -p "Designate the mount point for the USB3 external hard drive [${server_root_USBmountpoint_default}]: " -i "${server_root_USBmountpoint_default}" input_string
@@ -29,12 +33,16 @@ if [[ -f "$setup_config_file" ]]; then  # config file already exists
     server_root_folder="${input_string:-$server_root_folder_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
 else  # config file does not exist, prompt normally with successive defaults based on answers aqs we go along
     echo "No prior answers found, creating new default answers ..."
-    server_name_default=Pi4CC
+    #server_name_default=Pi4CC
+    server_name_default=${host_name}
+    server_ip_default=${host_ip}
     server_alias_default=mp4library
     ##server_root_USBmountpoint_default=/mnt/${server_alias_default}
     ##server_root_folder_default=${server_root_USBmountpoint_default}/${server_alias_default}
-    read -e -p "This server_name (will become name of website) [${server_name_default}]: " -i "${server_name_default}" input_string
-    server_name="${input_string:-$server_name_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
+    #read -e -p "This server_name (will become name of website) [${server_name_default}]: " -i "${server_name_default}" input_string
+    #server_name="${input_string:-$server_name_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
+    server_name=${server_name_default}
+    server_ip=${server_ip_default}
     read -e -p "This server_alias (will become a Virtual Folder within the website) [${server_alias_default}]: " -i "${server_alias_default}" input_string
     server_alias="${input_string:-$server_alias_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
     server_root_USBmountpoint_default=/mnt/${server_alias}
@@ -48,6 +56,7 @@ echo "(re)saving the new answers to the config file for re-use as future default
 sudo rm -fv "$setup_config_file"
 echo "#" >> "$setup_config_file"
 echo "server_name_default=${server_name}">> "$setup_config_file"
+echo "server_ip_default=${server_ip}">> "$setup_config_file"
 echo "server_alias_default=${server_alias}">> "$setup_config_file"
 echo "server_root_USBmountpoint_default=${server_root_USBmountpoint}">> "$setup_config_file"
 echo "server_root_folder_default=${server_root_folder}">> "$setup_config_file"
@@ -58,11 +67,12 @@ cat "$setup_config_file"
 set +x
 echo ""
 echo "              server_name=${server_name}"
+echo "                server_ip=${server_ip}"
 echo "             server_alias=${server_alias}"
 echo "server_root_USBmountpoint=${server_root_USBmountpoint}"
 echo "       server_root_folder=${server_root_folder}"
 echo ""
-echo "--------------------------------------------------------------------------------------------------------------------------------------------------------"
+echo "# ------------------------------------------------------------------------------------------------------------------------"
 
 set -x
 sudo apt update -y
