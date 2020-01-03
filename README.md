@@ -221,8 +221,7 @@ Use `ifconfig` in the Pi Desktop VM to find its IP address, which you can use to
 https://xxx.xxx.xxx.xxx/Pi4CC
 https://xxx.xxx.xxx.xxx/mp4library
 ```
-You won't be able to play a video in the browser itself, since the URLs are setup to use the hostname rather than IP address, 
-but you can click on the `triangle` expander to see if it works.
+You can click on the `triangle` expander to see if it works.
 
 
 # How to encode .mp4 content which is playable ?
