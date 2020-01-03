@@ -94,6 +94,7 @@ if __name__ == '__main__':
             video_resolution = ""
             video_duration = ""
             video_codec = ""
+            video_scan_type = ""
             audio_codec = ""
             for track in media_info.tracks:  # 
                 #for k in track.to_data().keys():
@@ -124,6 +125,7 @@ if __name__ == '__main__':
                     video_resolution = "{}x{}".format(track.to_data()["width"],track.to_data()["height"])
                     video_codec = track.to_data()["other_format"][0]
                     video_scan_type = track.to_data()["scan_type"]
+                    vs_tmp = video_scan_type = track.to_data()["scan_type"]
                     if (video_scan_type != "Progressive"):
                         video_scan_type = 'Interlaced'
                 elif track.track_type == 'Audio':
@@ -141,8 +143,8 @@ if __name__ == '__main__':
             subtitle = f"{source} [{video_resolution}] [{video_codec}/{audio_codec}] [{video_duration_str}]"
             if (video_scan_type != "Progressive"): # i.e. if an Interlaced video
                 cc_i = cc_i + 1
-                jf_i.write(f"{the_filename} [{video_codec}/{audio_codec}]\n") # pre adding interlaced marker to title and subtitle
-                print(f"{datetime.datetime.now()} INTERLACED VIDEO FILE detected: {the_filename} [{video_codec}/{audio_codec}]", flush=True)
+                jf_i.write(f"{the_filename} [{video_codec}/{audio_codec}] [{vs_tmp}]\n") # pre adding interlaced marker to title and subtitle
+                print(f"{datetime.datetime.now()} INTERLACED VIDEO FILE detected: {the_filename} [{video_codec}/{audio_codec}] [{vs_tmp}]", flush=True)
                 title  = "[Interlaced] " + title
                 subtitle = "[Interlaced] " + subtitle
             #    print(f"{datetime.datetime.now()} START OF INTERLACED VIDEO FILE detected in {the_filename}", flush=True)
