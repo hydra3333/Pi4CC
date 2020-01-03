@@ -126,8 +126,6 @@ copy_to_top index.html
 copy_to_top CastVideos.js
 copy_to_top ads.js
 copy_to_top create-json.py
-cat "/var/www/${server_name}/create-json.py"
-read -p "Press Enter to contiue"
 copy_to_top reload_media.js.sh
 #copy_to_top media.js
 set +x
