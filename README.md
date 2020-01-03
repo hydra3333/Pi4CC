@@ -224,7 +224,7 @@ https://xxx.xxx.xxx.xxx/mp4library
 You can click on the `triangle` expander to see if it works.
 
 
-# How to encode .mp4 content which is playable ?
+# How to encode .mp4 content which is "cast" to be playable on a Chromecast ?
 
 
 1. If you have a PC with a modern (eg RTX 2060 Super) video card, then to use NVIDIA's NVENC hardware transcoding :
@@ -235,7 +235,7 @@ You can click on the `triangle` expander to see if it works.
           -c:v h264_nvenc -pix_fmt nv12 -preset slow -bf 2 -g 50 -refs 3 -rc:v vbr_hq -rc-lookahead:v 32 -cq 22 -qmin 16 -qmax 25 -coder cabac  -movflags +faststart+write_colr -profile:v high -level 5.1 
           -c:a libfdk_aac -cutoff 18000 -ab 384k -ar 48000 -y "output_file.h264.mp4"
       ```
-   2. to `HEVC/AAC` (`opencl=ocl:0.0` is the relevant video card ID)
+   2. to `HEVC/AAC` (`opencl=ocl:0.0` is the relevant video card ID) ... only playable on a Chromecast Ultra
       ```
       "ffmpeg.exe" -v verbose -nostats -init_hw_device opencl=ocl:0.0 -filter_hw_device ocl -i "input_file.mpg" -map_metadata -1 -vsync 0 -sws_flags lanczos+accurate_rnd+full_chroma_int+full_chroma_inp 
          -filter_complex "[0:v]yadif=0:0:0,format=pix_fmts=yuv420p" -strict experimental 
