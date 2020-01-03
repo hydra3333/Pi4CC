@@ -12,7 +12,7 @@ echo "# ------------------------------------------------------------------------
 set -x
 cd ~/Desktop
 set +x
-host_name=$(hostname)
+host_name=$(hostname --fqdn)
 host_ip=$(hostname -I | cut -f1 -d' ')
 setup_config_file=./setup.config
 if [[ -f "$setup_config_file" ]]; then  # config file already exists

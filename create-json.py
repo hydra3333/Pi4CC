@@ -28,13 +28,18 @@ def find_matching_files(foldername, file_pattern):
                 foldername_to_matched_files[root].append(file)
     return foldername_to_matched_files
 if __name__ == '__main__':
+    host_name = subprocess.check_output(['hostname', '--fqdn']).decode('utf-8')[:-1] # this [:-1] removes trailing EOL
+    host_ip = subprocess.check_output(['hostname', '-I']).decode('utf-8')[:-1] # this [:-1] removes trailing EOL
     parser = argparse.ArgumentParser()
     parser.add_argument('-s', '--source_folder', default='/mnt/mp4library/mp4library')
     parser.add_argument('-x', '--filename-extension', default='mp4')
     parser.add_argument('-j', '--json_file', default='/var/www/Pi4CC/media.js')
+    parser.add_argument('-n', '--host_name', default=f"{host_name}")
+    parser.add_argument('-i', '--host_ip', default=f"{host_ip}")
     args = parser.parse_args()
     #
     print(f"{datetime.datetime.now()} Started ...", flush=True)
+    print(f"{datetime.datetime.now()} Using target host_name='{host_name}' and target host_ip='{host_name}' ...", flush=True)
     print (f"Finding files '{args.source_folder}/*.{args.filename_extension.lower()}", flush=True)
     the_files_dict = find_matching_files(args.source_folder, f'*.{args.filename_extension.lower()}')
     print (f"Found   files '{args.source_folder}/*.{args.filename_extension.lower()}", flush=True)
@@ -124,9 +129,10 @@ if __name__ == '__main__':
                     #print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
                     audio_codec = track.to_data()["format"]
             title,ignore_me = os.path.splitext(the_filename.replace("'","-"))  # root,ext = os.path.splitext(path) 
-            source = requote_uri("http://10.0.0.6/mp4library" + part_url + the_filename)
             # source = requote_uri("/mp4library" + part_url + the_filename)
-            subtitle = source
+            # source = requote_uri(f"http://{host_name}/mp4library" + part_url + the_filename)
+            source = requote_uri(f"http://{host_ip}/mp4library" + part_url + the_filename)
+            subtitle = f"{source} ({video_resolution} {video_codec}/{audio_codec}) [{video_duration_str}]"
             thumb = "".replace("'","-")
             jf.write("      {\n")
             jf.write(f"        'title'        : '{title}',\n")
