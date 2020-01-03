@@ -1882,7 +1882,7 @@ CastPlayer.prototype.addVideoList = function () {
     filediv.setAttribute('id', filedivIdName);
     filediv.setAttribute('class', 'highlight_on_hover');
 	// tmpstring = '<div class="lineitem">' + '<div class="lineitem_lefttext">' + this.mediaContents[i]['title']  + '</div><div class="lineitem_righttext">' + encodeURI(this.mediaContents[i]['sources'][0]) + '</div></div>' ;
-	tmpstring = '<div class="lineitem">' + '<div class="lineitem_lefttext">' + this.mediaContents[i]['title']  + " (" + this.mediaContents[i]['resolution'] + "," + this.mediaContents[i]['video_codec']  + "/" +  this.mediaContents[i]['audio_codec'] + ")[" + this.mediaContents[i]['duration_str'] + "]" + '</div><div class="lineitem_righttext">' + encodeURI(this.mediaContents[i]['sources'][0]) + '</div></div>' ;
+	tmpstring = '<div class="lineitem">' + '<div class="lineitem_lefttext">' + this.mediaContents[i]['title']  + " [" + this.mediaContents[i]['resolution'] + "][" + this.mediaContents[i]['video_codec']  + "/" +  this.mediaContents[i]['audio_codec'] + "][" + this.mediaContents[i]['duration_str'] + "]" + '</div><div class="lineitem_righttext">' + encodeURI(this.mediaContents[i]['sources'][0]) + '</div></div>' ;
     filediv.innerHTML = tmpstring;
 	//console.log(tmpstring);
     filediv.addEventListener('click', this.selectMedia.bind(this, i));
