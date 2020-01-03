@@ -29,8 +29,8 @@ def find_matching_files(foldername, file_pattern):
                 foldername_to_matched_files[root].append(file)
     return foldername_to_matched_files
 if __name__ == '__main__':
-    host_name = subprocess.check_output(['hostname', '--fqdn']).decode('utf-8')[:-1] # this [:-1] removes trailing EOL
-    host_ip = subprocess.check_output(['hostname', '-I']).decode('utf-8')[:-1] # this [:-1] removes trailing EOL
+    host_name = subprocess.check_output(['hostname', '--fqdn']).decode('utf-8')[:-1].replace(' ', '') # this [:-1] removes trailing EOL
+    host_ip = subprocess.check_output(['hostname', '-I']).decode('utf-8')[:-1].replace(' ', '') # this [:-1] removes trailing EOL
     parser = argparse.ArgumentParser()
     parser.add_argument('-s', '--source_folder', default='/mnt/mp4library/mp4library')
     parser.add_argument('-x', '--filename-extension', default='mp4')
