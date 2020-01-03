@@ -60,6 +60,8 @@ if __name__ == '__main__':
     #
     print(f"{datetime.datetime.now()} Creating JSON file: {args.json_file}", flush=True)
     cc = 0
+	cc_i = 0
+    jf_i = open('./media_interlaced_files.log','w')
     jf = open(args.json_file,'w')
     jf.write("'use strict';\n")
     jf.write("/**\n")
@@ -121,6 +123,9 @@ if __name__ == '__main__':
                     video_duration_str = track.to_data()["other_duration"][3][0:8] # sometimes it is set even if seconds are bung
                     video_resolution = "{}x{}".format(track.to_data()["width"],track.to_data()["height"])
                     video_codec = track.to_data()["other_format"][0]
+                    video_scan_type = track.to_data()["scan_type"]
+                    if (video_scan_type != "Progressive"):
+                        video_scan_type = 'Interlaced'
                 elif track.track_type == 'Audio':
                     #print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
                     #print("{} format                {}".format(track.track_type,track.to_data()["format"]), flush=True)
@@ -134,18 +139,30 @@ if __name__ == '__main__':
             # source = requote_uri(f"http://{host_name}/mp4library" + part_url + the_filename)
             source = requote_uri(f"http://{host_ip}/mp4library" + part_url + the_filename)
             subtitle = f"{source} [{video_resolution}] [{video_codec}/{audio_codec}] [{video_duration_str}]"
+            if (video_scan_type != "Progressive"): # i.e. if an Interlaced video
+                cc_i = cc_i + 1
+                jf_i.write(f"{the_filename}\n") # pre adding interlaced marker to title and subtitle
+                print(f"{datetime.datetime.now()} INTERLACED VIDEO FILE detected: {the_filename}", flush=True)
+                title  = "[Interlaced] " + title
+                subtitle = "[Interlaced] " + subtitle
+            #    print(f"{datetime.datetime.now()} START OF INTERLACED VIDEO FILE detected in {the_filename}", flush=True)
+            #    for track in media_info.tracks:
+            #        for k in track.to_data().keys():
+            #            print("{}.{}={}".format(track.track_type,k,track.to_data()[k]), flush=True)
+            #    print(f"{datetime.datetime.now()} END OF INTERLACED VIDEO FILE detected in {the_filename}", flush=True)            thumb = "".replace("'","-")
             thumb = "".replace("'","-")
             jf.write("      {\n")
-            jf.write(f"        'title'        : '{title}',\n")
-            jf.write(f"        'subtitle'     : '{subtitle}',\n")
-            jf.write(f"        'sources'      : ['{source}',],\n")
-            jf.write(f"        'thumb'        : '',\n")
-            jf.write(f"        'duration'     : {video_duration},\n") # this MUST be a numeric field, or the consuming javascript code fails
-            jf.write(f"        'duration_str' : '{video_duration_str}',\n")
-            jf.write(f"        'resolution'   : '{video_resolution}',\n")
-            jf.write(f"        'video_codec'  : '{video_codec}',\n")
-            jf.write(f"        'audio_codec'  : '{audio_codec}',\n")
-            jf.write(f"        'folder'       : '{txt_part_url}',\n")
+            jf.write(f"        'title'           : '{title}',\n")
+            jf.write(f"        'subtitle'        : '{subtitle}',\n")
+            jf.write(f"        'sources'         : ['{source}',],\n")
+            jf.write(f"        'thumb'           : '',\n")
+            jf.write(f"        'duration'        : {video_duration},\n") # this MUST be a numeric field, or the consuming javascript code fails
+            jf.write(f"        'duration_str'    : '{video_duration_str}',\n")
+            jf.write(f"        'resolution'      : '{video_resolution}',\n")
+            jf.write(f"        'video_codec'     : '{video_codec}',\n")
+            jf.write(f"        'video_scan_type' : '{video_scan_type}',\n")
+            jf.write(f"        'audio_codec'     : '{audio_codec}',\n")
+            jf.write(f"        'folder'          : '{txt_part_url}',\n")
             jf.write("      },\n")
             cc=cc+1
             if cc % 50 == 0:
@@ -156,5 +173,7 @@ if __name__ == '__main__':
     jf.write("};\n")
     jf.write("export { mediaJSON }\n")
     jf.close()
+    jf_i.close()
     print(f"{datetime.datetime.now()} Created  JSON file: {args.json_file}", flush=True)
+    print(f"{datetime.datetime.now()} INTERLACED video files detected: {cc_i}", flush=True)
     print(f"{datetime.datetime.now()} Total count of {args.filename_extension.lower()} files linked: {cc}", flush=True)
