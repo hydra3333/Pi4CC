@@ -23,8 +23,10 @@ if [[ -f "$setup_config_file" ]]; then  # config file already exists
 	source "$setup_config_file" # use "source" to retrieve the previous answers and use those as  the defaults in prompting
 	#read -e -p "This server_name (will become name of website) [${server_name_default}]: " -i "${server_name_default}" input_string
     #server_name="${input_string:-$server_name_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
-    server_name=${server_name_default}
-    server_ip=${server_ip_default}
+    #server_name=${server_name_default}
+    #server_ip=${server_ip_default}
+    server_name=${host_name}
+    server_ip=${host_ip}
     read -e -p "This server_alias (will become a Virtual Folder within the website) [${server_alias_default}]: " -i "${server_alias_default}" input_string
     server_alias="${input_string:-$server_alias_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
     read -e -p "Designate the mount point for the USB3 external hard drive [${server_root_USBmountpoint_default}]: " -i "${server_root_USBmountpoint_default}" input_string
@@ -41,8 +43,10 @@ else  # config file does not exist, prompt normally with successive defaults bas
     ##server_root_folder_default=${server_root_USBmountpoint_default}/${server_alias_default}
     #read -e -p "This server_name (will become name of website) [${server_name_default}]: " -i "${server_name_default}" input_string
     #server_name="${input_string:-$server_name_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
-    server_name=${server_name_default}
-    server_ip=${server_ip_default}
+    #server_name=${server_name_default}
+    #server_ip=${server_ip_default}
+    server_name=${host_name}
+    server_ip=${host_ip}
     read -e -p "This server_alias (will become a Virtual Folder within the website) [${server_alias_default}]: " -i "${server_alias_default}" input_string
     server_alias="${input_string:-$server_alias_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
     server_root_USBmountpoint_default=/mnt/${server_alias}
