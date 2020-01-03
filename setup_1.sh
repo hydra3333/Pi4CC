@@ -767,7 +767,7 @@ echo ""
 
 echo ""
 echo "# ------------------------------------------------------------------------------------------------------------------------"
-echo "# INSTALL miniDLNA"
+echo "# INSTALL minidlna"
 echo "# ----------------"
 
 # not strictly necessary to install, however it makes the server more "rounded" and accessible
@@ -784,51 +784,54 @@ sudo apt autoremove -y
 sudo rm -vfR "/etc/minidlna.conf"
 sudo rm -vfR "/var/log/minidlna.log"
 sudo rm -vfR "/run/minidlna"
-sudo rm -vfR "${server_root_USBmountpoint}/miniDLNA"
+sudo rm -vfR "${server_root_USBmountpoint}/minidlna"
 set +x
 echo ""
 
-echo "# Create a folder for miniDLNA logs and db - place the folder in the root of the (fast) USB3 drive"
+echo "# Create a folder for minidlna logs and db - place the folder in the root of the (fast) USB3 drive"
 set -x
-sudo mkdir -p "${server_root_USBmountpoint}/miniDLNA"
-sudo chmod -c a=rwx -R "${server_root_USBmountpoint}/miniDLNA"
-sudo chown -c -R pi "${server_root_USBmountpoint}/miniDLNA"
+sudo mkdir -p "${server_root_USBmountpoint}/minidlna"
+sudo chmod -c a=rwx -R "${server_root_USBmountpoint}/minidlna"
+sudo chown -c -R pi:pi "${server_root_USBmountpoint}/minidlna"
 set +x
 echo ""
 
-echo "# Do the miniDLNA install"
+echo "# Do the minidlna install"
 set -x
 sudo apt install -y minidlna
 sleep 3s
 #
 sudo service minidlna stop
+sleep 5s
 #
-sudo chmod -c a=rwx -R "/run/minidlna"
-sudo chown -c -R pi "/run/minidlna"
+sudo chmod -c a=rwx -R   "/run/minidlna"
+sudo chown -c -R pi:pi      "/run/minidlna"
+sudo chmod -c a=rwx -R   "/run/minidlna/minidlna.pid"
+sudo chown -c -R pi:pi      "/run/minidlna/minidlna.pid"
 #
 sudo chmod -c a=rwx -R "/etc/minidlna.conf"
-sudo chown -c -R pi "/etc/minidlna.conf"
+sudo chown -c -R pi:pi "/etc/minidlna.conf"
 #
 sudo chmod -c a=rwx -R "/var/log/minidlna.log"
-sudo chown -c -R pi "/var/log/minidlna.log"
+sudo chown -c -R pi:pi "/var/log/minidlna.log"
 sudo cat "/var/log/minidlna.log"
 #sudo rm -vfR "/var/log/minidlna.log"
 #
 set +x
 
 echo ""
-echo "# Change miniDLNA config settings to look like these"
+echo "# Change minidlna config settings to look like these"
 echo ""
 set -x
-log_dir=${server_root_USBmountpoint}/miniDLNA
-db_dir=${server_root_USBmountpoint}/miniDLNA
-sh_dir=${server_root_USBmountpoint}/miniDLNA
+log_dir=${server_root_USBmountpoint}/minidlna
+db_dir=${server_root_USBmountpoint}/minidlna
+sh_dir=${server_root_USBmountpoint}/minidlna
 sudo cp -fv "/etc/minidlna.conf" "/etc/minidlna.conf.old"
 sudo sed -i "s;#user=minidlna;#user=minidlna\nuser=pi;g" "/etc/minidlna.conf"
 sudo sed -i "s;media_dir=/var/lib/minidlna;#media_dir=/var/lib/minidlna\nmedia_dir=PV,${server_root_folder};g" "/etc/minidlna.conf"
 sudo sed -i "s;#db_dir=/var/cache/minidlna;#db_dir=/var/cache/minidlna\ndb_dir=${db_dir};g" "/etc/minidlna.conf"
 sudo sed -i "s;#log_dir=/var/log;#log_dir=/var/log\nlog_dir=${log_dir};g" "/etc/minidlna.conf"
-sudo sed -i "s;#friendly_name=;#friendly_name=\nfriendly_name=${server_name}-miniDLNA;g" "/etc/minidlna.conf"
+sudo sed -i "s;#friendly_name=;#friendly_name=\nfriendly_name=${server_name}-minidlna;g" "/etc/minidlna.conf"
 sudo sed -i "s;#inotify=yes;#inotify=yes\ninotify=yes;g" "/etc/minidlna.conf"
 sudo sed -i "s;#strict_dlna=no;#strict_dlna=no\nstrict_dlna=yes;g" "/etc/minidlna.conf"
 sudo sed -i "s;#notify_interval=895;#notify_interval=895\nnotify_interval=300;g" "/etc/minidlna.conf"
@@ -868,13 +871,13 @@ echo "sleep 10s" >> "${sh_file}"
 echo "sudo service minidlna start" >> "${sh_file}"
 echo "sleep 10s" >> "${sh_file}"
 echo "sudo service minidlna force-reload" >> "${sh_file}"
-echo "echo 'Wait 15 minutes for miniDLNA to index media files'" >> "${sh_file}"
+echo "echo 'Wait 15 minutes for minidlna to index media files'" >> "${sh_file}"
 echo "sleep 900s" >> "${sh_file}"
 echo "set +x" >> "${sh_file}"
 
 # https://stackoverflow.com/questions/610839/how-can-i-programmatically-create-a-new-cron-job
 echo ""
-echo "Adding the 4:00am nightly crontab job to re-index miniDLNA"
+echo "Adding the 4:00am nightly crontab job to re-index minidlna"
 echo ""
 #The layout for a cron entry is made up of six components: minute, hour, day of month, month of year, day of week, and the command to be executed.
 # m h  dom mon dow   command
@@ -898,11 +901,11 @@ crontab -l # after
 set +x
 
 echo "#"
-echo "# The MiniDLNA service comes with a small webinterface. "
+echo "# The minidlna service comes with a small webinterface. "
 echo "# This webinterface is just for informational purposes. "
 echo "# You will not be able to configure anything here. "
-echo "# However, it gives you a nice and short information screen how many files have been found by MiniDLNA. "
-echo "# MiniDLNA comes with it’s own webserver integrated. "
+echo "# However, it gives you a nice and short information screen how many files have been found by minidlna. "
+echo "# minidlna comes with it’s own webserver integrated. "
 echo "# This means that no additional webserver is needed in order to use the webinterface."
 echo "# To access the webinterface, open your browser of choice and enter "
 echo ""
@@ -912,7 +915,7 @@ set +x
 echo ""
 
 # The actual streaming process
-# A short overview how a connection from a client to the configured and running MiniDLNA server could work. 
+# A short overview how a connection from a client to the configured and running minidlna server could work. 
 # In this scenario we simply use a computer which is in the same local area network than the server. 
 # As the client software we use the Video Lan Client (VLC). 
 # Simple, robust, cross-platform and open source. 
