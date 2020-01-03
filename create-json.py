@@ -60,7 +60,7 @@ if __name__ == '__main__':
     #
     print(f"{datetime.datetime.now()} Creating JSON file: {args.json_file}", flush=True)
     cc = 0
-	cc_i = 0
+    cc_i = 0
     jf_i = open('./media_interlaced_files.log','w')
     jf = open(args.json_file,'w')
     jf.write("'use strict';\n")
