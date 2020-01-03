@@ -764,7 +764,6 @@ set +x
 read -p "Press Enter to continue, if that worked."
 echo ""
 
-
 echo ""
 echo "# ------------------------------------------------------------------------------------------------------------------------"
 echo "# INSTALL minidlna"
@@ -798,6 +797,8 @@ sleep 5s
 
 echo "# Create a folder for minidlna logs and db - place the folder in the root of the (fast) USB3 drive"
 set -x
+sudo usermod -a -G www-data minidlna
+sudo usermod -a -G pi minidlna
 sudo usermod -a -G minidlna pi
 sudo usermod -a -G minidlna root
 #
@@ -807,8 +808,9 @@ sudo chown -c -R pi:minidlna "${server_root_USBmountpoint}/minidlna"
 #
 sudo chmod -c a=rwx -R   "/run/minidlna"
 sudo chown -c -R pi:minidlna      "/run/minidlna"
-sudo chmod -c a=rwx -R   "/run/minidlna/minidlna.pid"
-sudo chown -c -R pi:minidlna      "/run/minidlna/minidlna.pid"
+#sudo chmod -c a=rwx -R   "/run/minidlna/minidlna.pid"
+#sudo chown -c -R pi:minidlna      "/run/minidlna/minidlna.pid"
+ls -al "/run/minidlna"
 #
 sudo chmod -c a=rwx -R "/etc/minidlna.conf"
 sudo chown -c -R pi:minidlna "/etc/minidlna.conf"
@@ -818,7 +820,7 @@ sudo chown -c -R pi:minidlna "/var/cache/minidlna"
 #
 sudo chmod -c a=rwx -R "/var/log/minidlna.log"
 sudo chown -c -R pi:minidlna "/var/log/minidlna.log"
-sudo cat "/var/log/minidlna.log"
+cat "/var/log/minidlna.log"
 #sudo rm -vfR "/var/log/minidlna.log"
 #
 set +x
@@ -831,7 +833,7 @@ log_dir=${server_root_USBmountpoint}/minidlna
 db_dir=${server_root_USBmountpoint}/minidlna
 sh_dir=${server_root_USBmountpoint}/minidlna
 sudo cp -fv "/etc/minidlna.conf" "/etc/minidlna.conf.old"
-sudo sed -i "s;#user=minidlna;#user=minidlna\nuser=pi;g" "/etc/minidlna.conf"
+sudo sed -i "s;#user=minidlna;#user=minidlna\n#user=pi;g" "/etc/minidlna.conf"
 sudo sed -i "s;media_dir=/var/lib/minidlna;#media_dir=/var/lib/minidlna\nmedia_dir=PV,${server_root_folder};g" "/etc/minidlna.conf"
 sudo sed -i "s;#db_dir=/var/cache/minidlna;#db_dir=/var/cache/minidlna\ndb_dir=${db_dir};g" "/etc/minidlna.conf"
 sudo sed -i "s;#log_dir=/var/log;#log_dir=/var/log\nlog_dir=${log_dir};g" "/etc/minidlna.conf"
@@ -853,12 +855,21 @@ echo ""
 set -x
 sudo service minidlna stop
 sleep 3s
+#
+ls -al "/run/minidlna"
+#
 sudo service minidlna start
 sleep 10s
+#
+ls -al "/run/minidlna"
 cat ${log_dir}/minidlna.log
+cat "/var/log/minidlna.log"
+#
 sudo service minidlna force-reload
 sleep 10s
+#
 cat ${log_dir}/minidlna.log
+cat "/var/log/minidlna.log"
 set +x
 
 sh_file=${sh_dir}/minidlna_refresh.sh
