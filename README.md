@@ -228,7 +228,7 @@ You can click on the `triangle` expander to see if it works.
 
 
 1. If you have a PC with a modern (eg RTX 2060 Super) video card, then to use NVIDIA's NVENC hardware transcoding :
-   1. to `h.264/AAC` (`opencl=ocl:0.0` is the relevant video card ID) ... DEINTERLACE(TFF), some small sharpening for a slightly blurry source, encode
+   1. to `h.264/AAC` (`opencl=ocl:0.0` is the relevant video card ID) ... DEINTERLACE(TFF), small openCL-filter-sharpening for a slightly blurry source, encode
       ```
       "ffmpeg.exe" -v verbose -nostats -init_hw_device opencl=ocl:0.0 -filter_hw_device ocl -i "input_file.mpg" -map_metadata -1 -vsync 0 -sws_flags lanczos+accurate_rnd+full_chroma_int+full_chroma_inp
           -filter_complex "[0:v]yadif=0:0:0,hwupload,unsharp_opencl=lx=3:ly=3:la=0.5:cx=3:cy=3:ca=0.5,hwdownload,format=pix_fmts=yuv420p" -strict experimental
