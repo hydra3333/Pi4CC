@@ -232,7 +232,7 @@ You can click on the `triangle` expander to see if it works.
       ```
       "ffmpeg.exe" -v verbose -nostats -init_hw_device opencl=ocl:0.0 -filter_hw_device ocl -i "input_file.mpg" -map_metadata -1 -vsync 0 -sws_flags lanczos+accurate_rnd+full_chroma_int+full_chroma_inp
           -filter_complex "[0:v]yadif=0:0:0,hwupload,unsharp_opencl=lx=3:ly=3:la=0.5:cx=3:cy=3:ca=0.5,hwdownload,format=pix_fmts=yuv420p" -strict experimental
-          -c:v h264_nvenc -pix_fmt nv12 -preset slow -bf 2 -g 50 -refs 3 -rc:v vbr_hq -rc-lookahead:v 32 -cq 22 -qmin 16 -qmax 25 -coder cabac  -movflags +faststart+write_colr -profile:v high -level 5.1 
+          -c:v h264_nvenc -pix_fmt nv12 -preset slow -bf 2 -g 50 -refs 3 -rc:v vbr_hq -rc-lookahead:v 32 -cq 22 -qmin 16 -qmax 25 -coder 1 -movflags +faststart+write_colr -profile:v high -level 5.1 
           -c:a libfdk_aac -cutoff 18000 -ab 384k -ar 48000 -y "output_file.h264.mp4"
       ```
    2. to `HEVC/AAC` ... `HEVC (h.265)` is only playable on a Chromecast Ultra ... DEINTERLACE(TFF), encode using hardware "nvenc"
