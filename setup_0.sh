@@ -305,6 +305,109 @@ sudo sysctl -p
 set +x
 echo ""
 
+echo ""
+echo ""
+echo "---------------------------------------------------------------------------------------------------"
+echo "INSTALL hd-idle so that external USB3 disks spin dowwn when idle and not wear out quickly."
+echo ""
+echo ""
+echo "My WD external USB3 disks won't spin down on idle and HDPARM and SDPARM don't work on them."
+echo " ... hd-idle appears to work though, so let's use that."
+echo ""
+#
+# https://www.htpcguides.com/spin-down-and-manage-hard-drive-power-on-raspberry-pi/
+#
+set -x
+the_drive=sda
+set +x
+#
+echo ""
+echo "**********************************************************************************************"
+echo "* THIS NEXT BIT IS VERY IMPORTANT - LOOKL CLOSELY AND ACT IF NECESSARY                        "
+echo "* THIS NEXT BIT IS VERY IMPORTANT - LOOKL CLOSELY AND ACT IF NECESSARY                        "
+echo "*                                                                                             "
+echo "* WE ASSUME THE DRIVE is one of /dev/${the_drive}*                                            "
+echo "*                                                                                             "
+echo "* If it is NOT, we control-C NOW to edit this script to change from "${the_drive}" to yours !!! "
+echo "*                                                                                             "
+echo "**********************************************************************************************"
+echo ""
+echo "List file systems, to check the external USB3 drive is one of 'sda' :"
+set -x
+df
+blkid
+set +x
+echo ""
+echo "The external USB3 drive SHOULD be one of /dev/${the_drive}1 or /dev/${the_drive}2 etc"
+echo ""
+read -p "If it is NOT, then control-C RIGHT NOW and edit this script to change from "${the_drive}" to yours !!"
+echo ""
+echo ""
+echo "Install hd-idle and point it at the external USB3 drive :-"
+echo ""
+echo "List and Remove any prior hd-idle package"
+echo ""
+set -x
+sudo dpkg -l hd-idle
+sudo apt purge -y hd-idle
+set +x
+echo ""
+echo "Install hd-idle and dependencies"
+echo ""
+set -x
+sudo apt-get install build-essential fakeroot debhelper -y
+wget http://sourceforge.net/projects/hd-idle/files/hd-idle-1.05.tgz
+tar -xvf hd-idle-1.05.tgz
+cd hd-idle
+dpkg-buildpackage -rfakeroot
+sudo dpkg -i ../hd-idle_*.deb
+cd ..
+sudo dpkg -l hd-idle
+set +x
+echo ""
+echo "Install hd-idle and dependencies"
+echo ""
+# option -d = debug
+##Double check hd-idle works with your hard drive
+##sudo hd-idle -t {the_drive} -d
+#   #Command line options:
+#   #-a name Set device name of disks for subsequent idle-time parameters -i. This parameter is optional in the sense that there's a default entry for all disks which are not named otherwise by using this parameter. This can also be a symlink (e.g. /dev/disk/by-uuid/...)
+#   #-i idle_time Idle time in seconds for the currently named disk(s) (-a name) or for all disks.
+#   #-c command_type Api call to stop the device. Possible values are scsi (default value) and ata.
+#   #-s symlink_policy Set the policy to resolve symlinks for devices. If set to 0, symlinks are resolve only on start. If set to 1, symlinks are also resolved on runtime until success. By default symlinks are only resolve on start. If the symlink doesn't resolve to a device, the default configuration will be applied.
+#   #-l logfile Name of logfile (written only after a disk has spun up or spun down). Please note that this option might cause the disk which holds the logfile to spin up just because another disk had some activity. On single-disk systems, this option should not cause any additional spinups. On systems with more than one disk, the disk where the log is written will be spun up. On raspberry based systems the log should be written to the SD card.
+#   #-t disk Spin-down the specified disk immediately and exit.
+#   #-d Debug mode. It will print debugging info to stdout/stderr (/var/log/syslog if started with systemctl)
+#   #-h Print usage information.
+## observe output
+##Use Ctrl+C to stop hd-idle in the terminal
+echo ""
+echo "Modify the hd-idle configuration file to enable the service to automatically start and spin down drives"
+echo ""
+set -x
+sudo cp -fv "/etc/default/hd-idle" "/etc/default/hd-idle.old"
+sudo sed -i "s;START_HD_IDLE=;#START_HD_IDLE=;g" "/etc/default/hd-idle"
+sudo sed -i "s;HD_IDLE_OPTS=;#HD_IDLE_OPTS=;g" "/etc/default/hd-idle"
+sudo sed -i "2 i START_HD_IDLE=true" "/etc/default/hd-idle" # insert at line 2
+sudo sed -i "$ a HD_IDLE_OPTS=\"-i 600 -a ${the_drive} -i 1800 -l /var/log/hd-idle.log\"" "/etc/default/hd-idle" # insert as last line
+sudo cat "/etc/default/hd-idle"
+diff -U 1 "/etc/default/hd-idle.old" "/etc/default/hd-idle"
+set +x
+echo ""
+echo "Restart the hd-idle service to engage the updated config"
+echo ""
+set -x
+sudo service hd-idle restart
+sleep 5s
+sudo cat /var/log/hd-idle.log
+set +x
+
+echo ""
+echo "Finished INSTALL hd-idle so that external USB3 disks spin dowwn when idle and not wear out quickly."
+echo ""
+echo "---------------------------------------------------------------------------------------------------"
+
+echo ""
 echo "# We should REBOOT the Pi now."
 read -p "Press Enter to reboot then start the next setup script"
 
