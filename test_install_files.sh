@@ -93,12 +93,12 @@ set +x
 cd ~/Desktop
 #---
 # Top level files
-sudo chown -R pi:www-data "/var/www"
-sudo chmod a=rwx -R "/var/www"
+sudo chown -c -R pi:www-data "/var/www"
+sudo chmod -c a=rwx -R "/var/www"
 #
 sudo mkdir -p "/var/www/${server_name}"
-sudo chown -R pi:www-data "/var/www/${server_name}"
-sudo chmod a=rwx -R "/var/www/${server_name}"
+sudo chown -c -R pi:www-data "/var/www/${server_name}"
+sudo chmod -c a=rwx -R "/var/www/${server_name}"
 set -x
 copy_to_top() {
   the_file=$1
@@ -109,12 +109,12 @@ copy_to_top() {
   sudo curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$the_url" --retry 50 -L --output "/var/www/${server_name}/${the_file}" --fail # -L means "allow redirection" or some odd :|
   sudo cp -fv "/var/www/${server_name}/${the_file}" "./${the_file}.old"
   # the order is important in these sed edits
-  sudo sed -i "s;10.0.0.6;${server_name};g" "/var/www/${server_name}/${the_file}"
+  sudo sed -i "s;10.0.0.6;${server_ip};g" "/var/www/${server_name}/${the_file}"
   sudo sed -i "s;Pi4CC;${server_name};g" "/var/www/${server_name}/${the_file}"
   sudo sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g" "/var/www/${server_name}/${the_file}"
   sudo sed -i "s;mp4library\";${server_alias}\";g" "/var/www/${server_name}/${the_file}"
-  sudo chmod a=rwx "/var/www/${server_name}/${the_file}"
-  sudo chown pi:www-data "/var/www/${server_name}/${the_file}"
+  sudo chmod -c a=rwx -R "/var/www/${server_name}/${the_file}"
+  sudo chown -c pi:www-data "/var/www/${server_name}/${the_file}"
   sudo diff -U 1 "./${the_file}.old" "/var/www/${server_name}/${the_file}" 
   sudo rm -fv "./${the_file}.old"
   #set +x
@@ -133,8 +133,8 @@ set +x
 #---
 # css files
 sudo mkdir -p "/var/www/${server_name}/css"
-sudo chown -R pi:www-data "/var/www/${server_name}/css"
-sudo chmod a=rwx -R "/var/www/${server_name}/css"
+sudo chown -c -R pi:www-data "/var/www/${server_name}/css"
+sudo chmod -c a=rwx -R "/var/www/${server_name}/css"
 copy_to_css() {
   the_file=$1
   the_url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/css/${the_file}"
@@ -142,8 +142,8 @@ copy_to_css() {
   #set -x
   sudo rm -f "/var/www/${server_name}/css/${the_file}"
   sudo curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$the_url" --retry 50 -L --output "/var/www/${server_name}/css/${the_file}" --fail # -L means "allow redirection" or some odd :|
-  sudo chmod a=rwx "/var/www/${server_name}/css/${the_file}"
-  sudo chown pi:www-data "/var/www/${server_name}/css/${the_file}"
+  sudo chmod -c a=rwx -R "/var/www/${server_name}/css/${the_file}"
+  sudo chown -c pi:www-data "/var/www/${server_name}/css/${the_file}"
   #set +x
   echo "----------- Finished Processing file '${the_file}' '${the_url}' ..."
   return 0
@@ -154,8 +154,8 @@ set +x
 #---
 # image files
 sudo mkdir -p "/var/www/${server_name}/imagefiles"
-sudo chown -R pi:www-data "/var/www/${server_name}/imagefiles"
-sudo chmod a=rwx -R "/var/www/${server_name}/imagefiles"
+sudo chown -c -R pi:www-data "/var/www/${server_name}/imagefiles"
+sudo chmod -c a=rwx -R "/var/www/${server_name}/imagefiles"
 copy_to_imagefiles() {
   the_file=$1
   the_url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/imagefiles/${the_file}"
@@ -163,8 +163,8 @@ copy_to_imagefiles() {
   #set -x
   sudo rm -f "/var/www/${server_name}/imagefiles/${the_file}"
   sudo curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$the_url" --retry 50 -L --output "/var/www/${server_name}/imagefiles/${the_file}" --fail # -L means "allow redirection" or some odd :|
-  sudo chmod a=rwx "/var/www/${server_name}/imagefiles/${the_file}"
-  sudo chown pi:www-data "/var/www/${server_name}/imagefiles/${the_file}"
+  sudo chmod -c a=rwx -R "/var/www/${server_name}/imagefiles/${the_file}"
+  sudo chown -c pi:www-data "/var/www/${server_name}/imagefiles/${the_file}"
   #set +x
   echo "----------- Finished Processing file '${the_file}' '${the_url}' ..."
   return 0
@@ -202,8 +202,8 @@ copy_to_imagefiles timeline_bg_buffer.png
 set +x
 #---
 set -x
-sudo chown -R pi:www-data "/var/www/${server_name}"
-sudo chmod a=rwx -R "/var/www/${server_name}"
+sudo chown -c -R pi:www-data "/var/www/${server_name}"
+sudo chmod -c a=rwx -R "/var/www/${server_name}"
 set +x
 
 echo ""
@@ -219,10 +219,10 @@ echo "RE-CREATE the essential JSON file consumed by the ${server_name} website"
 echo ""
 set -x
 python3 /var/www/${server_name}/create-json.py --source_folder "${server_root_folder}" --filename-extension mp4 --json_file /var/www/${server_name}/media.js 2>&1 | tee /var/www/${server_name}/create-json.log
-sudo chown -R pi:www-data "/var/www/${server_name}/media.js"
-sudo chmod a=rwx "/var/www/${server_name}/media.js"
-sudo chown -R pi:www-data "/var/www/${server_name}/create-json.log"
-sudo chmod a=rwx "/var/www/${server_name}/create-json.log"
+sudo chown -c -R pi:www-data "/var/www/${server_name}/media.js"
+sudo chmod -c a=rwx -R "/var/www/${server_name}/media.js"
+sudo chown -c -R pi:www-data "/var/www/${server_name}/create-json.log"
+sudo chmod -c a=rwx -R "/var/www/${server_name}/create-json.log"
 set +x
 
 echo "Restart the Apache2 Service"
@@ -252,9 +252,7 @@ echo ""
 set -x
 crontab -l # before
 set +x
-(crontab -l ; echo "0 5 * * * python3 /var/www/${server_name}/create-json.py --source_folder ${server_root_folder} ---filename-extension mp4 --json_file /var/www/${server_name}/media.js 2>&1 > /var/www/${server_name}/create-json.log") 2>&1 | sed "s/no crontab for $(whoami)//g" | sort - | uniq - | crontab -
+(crontab -l ; echo "0 5 * * * /var/www/${server_name}/reload_media.js.sh") 2>&1 | sed "s/no crontab for $(whoami)//g" | sort - | uniq - | crontab -
 set -x
 crontab -l # after
 set +x
-
-
