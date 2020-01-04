@@ -319,6 +319,8 @@ echo ""
 #
 set -x
 the_drive=sda
+the_default_timeout=300
+the_sda_timeout=900
 set +x
 #
 echo ""
@@ -397,7 +399,7 @@ sudo cp -fv "/etc/default/hd-idle" "/etc/default/hd-idle.old"
 sudo sed -i "s;START_HD_IDLE=;#START_HD_IDLE=;g" "/etc/default/hd-idle"
 sudo sed -i "s;HD_IDLE_OPTS=;#HD_IDLE_OPTS=;g" "/etc/default/hd-idle"
 sudo sed -i "2 i START_HD_IDLE=true" "/etc/default/hd-idle" # insert at line 2
-sudo sed -i "$ a HD_IDLE_OPTS=\"-i 600 -a ${the_drive} -i 1800 -l /var/log/hd-idle.log\"" "/etc/default/hd-idle" # insert as last line
+sudo sed -i "$ a HD_IDLE_OPTS=\"-i ${the_default_timeout} -a ${the_drive} -i ${the_sda_timeout} -l /var/log/hd-idle.log\"" "/etc/default/hd-idle" # insert as last line
 sudo cat "/etc/default/hd-idle"
 diff -U 1 "/etc/default/hd-idle.old" "/etc/default/hd-idle"
 set +x
