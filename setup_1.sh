@@ -913,6 +913,8 @@ set +x
 ( crontab -l ; echo "0 4 * * * ${sh_file} 2>&1 >> ${log_file}" ) 2>&1 | sed "s/no crontab for $(whoami)//g" | sort - | uniq - | crontab -
 set -x
 crontab -l # after
+#
+grep CRON /var/log/syslog
 set +x
 
 echo "#"
@@ -1275,6 +1277,8 @@ set +x
 (crontab -l ; echo "0 5 * * * /var/www/${server_name}/reload_media.js.sh") 2>&1 | sed "s/no crontab for $(whoami)//g" | sort - | uniq - | crontab -
 set -x
 crontab -l # after
+#
+grep CRON /var/log/syslog
 set +x
 
 echo ""
