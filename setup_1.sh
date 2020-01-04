@@ -1272,7 +1272,7 @@ echo ""
 set -x
 crontab -l # before
 set +x
-(crontab -l ; echo "0 5 * * * python3 /var/www/${server_name}/create-json.py --source_folder ${server_root_folder} ---filename-extension mp4 --json_file /var/www/${server_name}/media.js 2>&1 > /var/www/${server_name}/create-json.log") 2>&1 | sed "s/no crontab for $(whoami)//g" | sort - | uniq - | crontab -
+(crontab -l ; echo "0 5 * * * /var/www/${server_name}/reload_media.js.sh") 2>&1 | sed "s/no crontab for $(whoami)//g" | sort - | uniq - | crontab -
 set -x
 crontab -l # after
 set +x
