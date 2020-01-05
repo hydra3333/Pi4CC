@@ -78,6 +78,7 @@ echo "       server_root_folder=${server_root_folder}"
 echo ""
 echo "# ------------------------------------------------------------------------------------------------------------------------"
 
+
 echo ""
 echo "# ------------------------------------------------------------------------------------------------------------------------"
 echo "# INSTALL minidlna"
@@ -154,8 +155,8 @@ sudo sed -i "s;#log_dir=/var/log;#log_dir=/var/log\nlog_dir=${log_dir};g" "/etc/
 sudo sed -i "s;#friendly_name=;#friendly_name=\nfriendly_name=${server_name}-minidlna;g" "/etc/minidlna.conf"
 sudo sed -i "s;#inotify=yes;#inotify=yes\ninotify=yes;g" "/etc/minidlna.conf"
 sudo sed -i "s;#strict_dlna=no;#strict_dlna=no\nstrict_dlna=yes;g" "/etc/minidlna.conf"
-sudo sed -i "s;#notify_interval=895;#notify_interval=895\nnotify_interval=300;g" "/etc/minidlna.conf"
-sudo sed -i "s;#max_connections=50;#max_connections=50\nmax_connections=4;g" "/etc/minidlna.conf"
+sudo sed -i "s;#notify_interval=895;#notify_interval=895\nnotify_interval=900;g" "/etc/minidlna.conf"
+sudo sed -i "s;#max_connections=50;#max_connections=50\nmax_connections=6;g" "/etc/minidlna.conf"
 sudo sed -i "s;#log_level=general,artwork,database,inotify,scanner,metadata,http,ssdp,tivo=warn;#log_level=general,artwork,database,inotify,scanner,metadata,http,ssdp,tivo=warn\nlog_level=artwork,database,general,http,inotify,metadata,scanner,ssdp,tivo=info;g" "/etc/minidlna.conf"
 sudo diff -U 1 "/etc/minidlna.conf.old" "/etc/minidlna.conf"
 set +x
@@ -254,6 +255,8 @@ echo ""
 # You will then see a list of available DLNA service within your local network. 
 # In this list you should see your DLNA server. 
 # Navigate through the different directories for music, videos and pictures and select a file to start the streaming process
+
+
 
 echo ""
 read -p "Press Enter to continue, if that all worked"
