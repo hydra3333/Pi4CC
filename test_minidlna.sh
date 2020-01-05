@@ -228,6 +228,8 @@ set +x
 ( crontab -l ; echo "0 4 * * * ${sh_file} 2>&1 >> ${log_file}" ) 2>&1 | sed "s/no crontab for $(whoami)//g" | sort - | uniq - | crontab -
 set -x
 crontab -l # after
+#
+grep CRON /var/log/syslog
 set +x
 
 echo "#"
@@ -255,7 +257,6 @@ echo ""
 # You will then see a list of available DLNA service within your local network. 
 # In this list you should see your DLNA server. 
 # Navigate through the different directories for music, videos and pictures and select a file to start the streaming process
-
 
 
 echo ""
