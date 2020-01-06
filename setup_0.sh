@@ -314,50 +314,53 @@ echo ""
 
 set -x
 sudo df
-set +x
-echo ""
-
-set -x
 sudo blkid 
 set +x
 echo ""
 
-echo "# NOW note line showing the disk with the label we're interested in eg /dev/sda2 and the UUID"
 echo ""
-read -p "Press Enter AFTER you have noted these things"
-
-echo "# see what filesystems are supported"
+echo "# Note line showing the disk with the label we're interested in eg ${server_USB3_DEVICE_NAME} with UUID=${server_USB3_DEVICE_UUID}"
+echo ""
+echo " for kicks, see what filesystems are supported"
 set -x
 ls -al "/lib/modules/$(uname -r)/kernel/fs/"
 set +x
 
-echo "# Now use nano to edit the file /etc/fstab so that the external USB3 drive is installed the same every time"
+echo ""
+echo ""
+echo "**********************************************************************************************"
+echo "**********************************************************************************************"
+echo "**********************************************************************************************"
+echo "**********************************************************************************************"
+echo "**********************************************************************************************"
+echo "* THIS NEXT BIT IS VERY IMPORTANT - LOOK CLOSELY AND ACT IF NECESSARY                         "
+echo "* THIS NEXT BIT IS VERY IMPORTANT - LOOK CLOSELY AND ACT IF NECESSARY                         "
+echo ""
+echo "# Now we add a line to file /etc/fstab so that the external USB3 drive is installed the same every time"
 echo "# (remember, always be consistent and plugin the USB3 drive into the bottom USB3 socket)"
 echo "# https://wiki.debian.org/fstab"
 echo ""
-echo "# ADD this line at the end of the file like this"
-echo "# using the correct newly-discovered UUID"
-echo "# exclude the '#' to make it active"
-echo "#UUID=F8ACDEBBACDE741A ${server_root_USBmountpoint} ntfs defaults,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,x-systemd.device-timeout=120 0 2"
-echo ""
+echo "**********************************************************************************************"
+echo "**********************************************************************************************"
+echo "**********************************************************************************************"
+echo "**********************************************************************************************"
+echo "**********************************************************************************************"
 set -x
 sudo cp -fv "/etc/fstab" "/etc/fstab.old"
-sudo sed -i "$ a #UUID=F8ACDEBBACDE741A ${server_root_USBmountpoint} ntfs defaults,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,x-systemd.device-timeout=120 0 2" "/etc/fstab"
+sudo sed -i "$ a UUID=${server_USB3_DEVICE_UUID} ${server_root_USBmountpoint} ntfs defaults,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,x-systemd.device-timeout=120 0 2" "/etc/fstab"
+set +x
+echo " You MUST check /etc/fstab NOW ... if it is incorrect then abort this process NOW and fix it manually"
+echo " You MUST check /etc/fstab NOW ... if it is incorrect then abort this process NOW and fix it manually"
+echo " You MUST check /etc/fstab NOW ... if it is incorrect then abort this process NOW and fix it manually"
+echo ""
+set +x
+diff -U 1 "/etc/fstab.old" "/etc/fstab" 
 sudo cat "/etc/fstab"
 set +x
 echo ""
+read -p "Press Enter if /etc/fstab is OK, othwewise Control-C now and fix it manually !" 
 
-read -p "Press Enter to start nano to uncomment the line and CHANGE to the correct UUID"
-
-set -x
-sudo nano /etc/fstab
-set +x
-
-set -x
-#cat "/etc/fstab"
-diff -U 1 "/etc/fstab.old" "/etc/fstab" 
-set +x
-
+echo ""
 echo ""
 echo "Get ready for IPv4 only"
 set -x
@@ -396,12 +399,6 @@ echo ""
 #
 # https://www.htpcguides.com/spin-down-and-manage-hard-drive-power-on-raspberry-pi/
 #
-set -x
-the_drive=sda
-the_default_timeout=300
-the_sda_timeout=900
-set +x
-#
 echo ""
 echo "**********************************************************************************************"
 echo "**********************************************************************************************"
@@ -411,25 +408,21 @@ echo "**************************************************************************
 echo "* THIS NEXT BIT IS VERY IMPORTANT - LOOKL CLOSELY AND ACT IF NECESSARY                        "
 echo "* THIS NEXT BIT IS VERY IMPORTANT - LOOKL CLOSELY AND ACT IF NECESSARY                        "
 echo "*                                                                                             "
-echo "* WE ASSUME THE DRIVE is one of /dev/${the_drive}*                                            "
-echo "*                                                                                             "
-echo "* If it is NOT, we control-C NOW to edit this script to change from "${the_drive}" to yours !!! "
 echo "*                                                                                             "
 echo "**********************************************************************************************"
 echo "**********************************************************************************************"
 echo "**********************************************************************************************"
 echo "**********************************************************************************************"
 echo "**********************************************************************************************"
+echo "    server_USB3_DISK_NAME=${server_USB3_DISK_NAME}"
+echo "  server_USB3_DEVICE_NAME=${server_USB3_DEVICE_NAME}"
+echo "  server_USB3_DEVICE_UUID=${server_USB3_DEVICE_UUID}"
 echo ""
-echo "List file systems, to check the external USB3 drive is one of 'sda' :"
 set -x
-df
-blkid
+blkid ${server_USB3_DEVICE_NAME}
+df ${server_USB3_DEVICE_NAME}
+lsblk ${server_USB3_DEVICE_NAME}
 set +x
-echo ""
-echo "The external USB3 drive SHOULD be one of /dev/${the_drive}1 or /dev/${the_drive}2 etc"
-echo ""
-read -p "If it is NOT, then control-C RIGHT NOW and edit this script to change from "${the_drive}" to yours !!"
 echo ""
 echo ""
 echo "Install hd-idle and point it at the external USB3 drive :-"
@@ -458,7 +451,7 @@ echo "Install hd-idle and dependencies"
 echo ""
 # option -d = debug
 ##Double check hd-idle works with your hard drive
-##sudo hd-idle -t {the_drive} -d
+##sudo hd-idle -t ${server_USB3_DEVICE_NAME} -d
 #   #Command line options:
 #   #-a name Set device name of disks for subsequent idle-time parameters -i. This parameter is optional in the sense that there's a default entry for all disks which are not named otherwise by using this parameter. This can also be a symlink (e.g. /dev/disk/by-uuid/...)
 #   #-i idle_time Idle time in seconds for the currently named disk(s) (-a name) or for all disks.
@@ -474,11 +467,16 @@ echo ""
 echo "Modify the hd-idle configuration file to enable the service to automatically start and spin down drives"
 echo ""
 set -x
+the_default_timeout=300
+the_sda_timeout=900
+set +x
+echo ""
+set -x
 sudo cp -fv "/etc/default/hd-idle" "/etc/default/hd-idle.old"
 sudo sed -i "s;START_HD_IDLE=;#START_HD_IDLE=;g" "/etc/default/hd-idle"
 sudo sed -i "s;HD_IDLE_OPTS=;#HD_IDLE_OPTS=;g" "/etc/default/hd-idle"
 sudo sed -i "2 i START_HD_IDLE=true" "/etc/default/hd-idle" # insert at line 2
-sudo sed -i "$ a HD_IDLE_OPTS=\"-i ${the_default_timeout} -a ${the_drive} -i ${the_sda_timeout} -l /var/log/hd-idle.log\"" "/etc/default/hd-idle" # insert as last line
+sudo sed -i "$ a HD_IDLE_OPTS=\"-i ${the_default_timeout} -a ${server_USB3_DISK_NAME} -i ${the_sda_timeout} -l /var/log/hd-idle.log\"" "/etc/default/hd-idle" # insert as last line
 sudo cat "/etc/default/hd-idle"
 diff -U 1 "/etc/default/hd-idle.old" "/etc/default/hd-idle"
 set +x
