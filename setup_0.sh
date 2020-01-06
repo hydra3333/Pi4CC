@@ -321,10 +321,10 @@ echo ""
 echo ""
 echo "# Note line showing the disk with the label we're interested in eg ${server_USB3_DEVICE_NAME} with UUID=${server_USB3_DEVICE_UUID}"
 echo ""
-echo " for kicks, see what filesystems are supported"
-set -x
-ls -al "/lib/modules/$(uname -r)/kernel/fs/"
-set +x
+#echo " for kicks, see what filesystems are supported"
+#set -x
+#ls -al "/lib/modules/$(uname -r)/kernel/fs/"
+#set +x
 
 echo ""
 echo ""
