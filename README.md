@@ -186,15 +186,15 @@ It works ... and is undergoing "refinement".
        enter the password you had set for the pi login, then enter it again when you see `Retype new SMB password:`
 8. After rebooting now, it's ready.
    - try to connect to it from a PC or tablet using a Chrome browser,
-     where Pi4CC below is the hostname of the Pi ...
+     where Pi4CC below is the hostname of the Pi and xx.xx.xx.xx is the fixed IP address of the Pi
      ```
-     https://Pi4CC/Pi4CC
-     https://Pi4CC/mp4library
+     https://xx.xx.xx.xx/Pi4CC
+     https://xx.xx.xx.xx/mp4library
      ```
-     on the Pi itself, you can try the Chromium browser to at least see if it works (where Pi4CC below is the hostname of the Pi)
+     on the Pi itself, you can try the Chromium browser to at least see if it works (where Pi4CC below is the hostname of the Pi and xx.xx.xx.xx is the fixed IP address of the Pi
      ```
-     https://localhost/Pi4CC
-     https://localhost/mp4library
+     https://xx.xx.xx.xx/Pi4CC
+     https://xx.xx.xx.xx/mp4library
      ```
      * **Please note:** 
        * you won't be able to play a video in the Pi browser itself, but you can click on the `triangle` expander to see if it works
@@ -203,7 +203,7 @@ It works ... and is undergoing "refinement".
    - you **WILL** see a Chrome message `Your connection is not private ... etc etc` which is due to 
      us using your (free) self-signed SSL/TLS certificate rather than a paid-for one (which has other associated complexities)
      * to accept this, click on the button `Advanced`
-     * then click on the link which says `Proceed to Pi4CC (unsafe)` (it be showing the hostname of the Pi)
+     * then click on the link which says `Proceed to xx.xx.xx.xx (unsafe)` (it be showing the hostname of the Pi)
      * the browser should remember this is OK, and proceed to display the Pi's new website
    - you can now disconnect the Pi from the monitor, keyboard, and mouse, if you want to make it headless   
      - yes, the GUI should be left running and left to start at boot time, so you can VNC into it later from your PC
