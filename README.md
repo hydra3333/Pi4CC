@@ -186,12 +186,13 @@ It works ... and is undergoing "refinement".
        enter the password you had set for the pi login, then enter it again when you see `Retype new SMB password:`
 8. After rebooting now, it's ready.
    - try to connect to it from a PC or tablet using a Chrome browser,
-     where Pi4CC below is the hostname of the Pi and xx.xx.xx.xx is the fixed IP address of the Pi
+     (where Pi4CC below is the hostname of the Pi and xx.xx.xx.xx is the fixed IP address of the Pi)
      ```
      https://xx.xx.xx.xx/Pi4CC
      https://xx.xx.xx.xx/mp4library
      ```
-     on the Pi itself, you can try the Chromium browser to at least see if it works (where Pi4CC below is the hostname of the Pi and xx.xx.xx.xx is the fixed IP address of the Pi
+     on the Pi itself, you can try the Chromium browser to at least see if it works
+     (where Pi4CC below is the hostname of the Pi and xx.xx.xx.xx is the fixed IP address of the Pi)
      ```
      https://xx.xx.xx.xx/Pi4CC
      https://xx.xx.xx.xx/mp4library
