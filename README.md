@@ -13,9 +13,11 @@ It works ... and is undergoing "refinement".
    if required, it can be accessed and controlled remotely from a Windows PC via VNC or SSH etc.
    
 ---
+
    It can (and has been) run under Windows 10 using Win10 native IIS as the web server and a self-signed SSL certificate,
    with manually-configured IIS (it is easy) and a couple of Pi4CC files manually edited.  
    No automated install script though.  Perhaps I will document how, some time in the near future.
+
 ---
 
 # Description:
