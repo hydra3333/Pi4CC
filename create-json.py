@@ -1,17 +1,38 @@
 #!/usr/bin/env python3
 #
+# for Linux:
 # sudo apt install mediainfo
 # pip3 install pymediainfo
+# pip3 install requests
+# pip3 install socket
+#
+# for Win10:
+# start an cmd window in ADMINISTRATOR
+#?? sudo apt install mediainfo
+# pip3 install pymediainfo
+# pip3 install requests
+# pip3 install socket
 #
 # Create a JSON file of media in a folder tree, PRE-SORTED IN FOLDER ORDER (the code which uses this depends on that).
 # The JSON file produced can be consumed by variants of the Google Chromecast example CastVideos-chrome (2019.12.10)
 # which can be found at https://github.com/googlecast/CastVideos-chrome
 #
 # Invoke this script from the commandline like
+#
+# Linux:
 #    ./create-json.py --source_folder /mnt/mp4library/mp4library --filename-extension mp4 --json_file /var/www/Pi4CC/media.js --host_name Pi4CC --host_ip 10.0.0.6
+# Windows: 
+#    python G:\000-Development\IIS\Pi4CC\create-json.py --source_folder T:\HDTV\autoTVS-mpg\Converted --filename-extension mp4 --json_file G:\000-Development\IIS\Pi4CC\media.js
+#    Assuming:
+#       in IIS we have setup the Default Web Site pointing to folder "G:\000-Development\IIS"
+#       in IIS we have setup Default Web Site Virtual Directory "mp4library" pointing to folder "T:\HDTV\autoTVS-mpg\Converted"
+#       we have extracted/setup the website in folder "G:\000-Development\IIS\Pi4CC"
 #   
+import sys
 import os
+import platform
 import subprocess
+import socket
 import fnmatch
 import argparse
 import datetime
@@ -29,18 +50,42 @@ def find_matching_files(foldername, file_pattern):
                 foldername_to_matched_files[root].append(file)
     return foldername_to_matched_files
 if __name__ == '__main__':
-    host_name = subprocess.check_output(['hostname', '--fqdn']).decode('utf-8')[:-1].replace(' ', '') # this [:-1] removes trailing EOL
-    host_ip = subprocess.check_output(['hostname', '-I']).decode('utf-8')[:-1].replace(' ', '') # this [:-1] removes trailing EOL
+    host_platform = platform.system()
+    if host_platform.lower() == 'Windows'.lower():  # Windows
+        default_host_name = socket.getfqdn()
+        default_host_ip = socket.gethostbyname(default_host_name)
+        default_source_folder = 'T:\\HDTV\\autoTVS-mpg\\Converted' # only here as a constant do we need the double backslash
+        default_filename_extension = 'mp4'
+        default_json_file = 'G:\\000-Development\\IIS\\Pi4CC\\media.js' # only here as a constant do we need the double backslash
+    else:                                           # assume some form of Linux
+        default_host_name = subprocess.check_output(['hostname', '--fqdn']).decode('utf-8')[:-1].replace(' ', '') # this [:-1] removes trailing EOL
+        default_host_ip = subprocess.check_output(['hostname', '-I']).decode('utf-8')[:-1].replace(' ', '') # this [:-1] removes trailing EOL
+        default_source_folder = '/mnt/mp4library/mp4library'
+        default_filename_extension = 'mp4'
+        default_json_file = '/var/www/Pi4CC/media.js'
+    #print(f"{datetime.datetime.now()} debug: if unspecified, default_host_name='{default_host_name}'")
+    #print(f"{datetime.datetime.now()} debug: if unspecified, default_host_ip={default_host_ip}")
+    #print(f"{datetime.datetime.now()} debug: if unspecified, default_source_folder={default_source_folder}")
+    #print(f"{datetime.datetime.now()} debug: if unspecified, default_filename_extension={default_filename_extension}")
+    #print(f"{datetime.datetime.now()} debug: if unspecified, default_json_file={default_json_file}")
+    #sys.exit()
+    #
     parser = argparse.ArgumentParser()
-    parser.add_argument('-s', '--source_folder', default='/mnt/mp4library/mp4library')
-    parser.add_argument('-x', '--filename-extension', default='mp4')
-    parser.add_argument('-j', '--json_file', default='/var/www/Pi4CC/media.js')
-    parser.add_argument('-n', '--host_name', default=f"{host_name}")
-    parser.add_argument('-i', '--host_ip', default=f"{host_ip}")
+    parser.add_argument('-s', '--source_folder', default=f'{default_source_folder}')
+    parser.add_argument('-x', '--filename-extension', default=f'{default_filename_extension}')
+    parser.add_argument('-j', '--json_file', default=f'{default_json_file}')
+    parser.add_argument('-n', '--host_name', default=f"{default_host_name}")
+    parser.add_argument('-i', '--host_ip', default=f"{default_host_ip}")
     args = parser.parse_args()
+    print(f"{datetime.datetime.now()} debug: args.host_name='{args.host_name}'")
+    print(f"{datetime.datetime.now()} debug: args.host_ip={args.host_ip}")
+    print(f"{datetime.datetime.now()} debug: args.source_folder={args.source_folder}")
+    print(f"{datetime.datetime.now()} debug: args.default_filename_extension={args.filename_extension}")
+    print(f"{datetime.datetime.now()} debug: args.json_file={args.json_file}")
+    #sys.exit()
     #
     print(f"{datetime.datetime.now()} Started ...", flush=True)
-    print(f"{datetime.datetime.now()} Using target host_name='{host_name}' and target host_ip='{host_ip}' ...", flush=True)
+    print(f"{datetime.datetime.now()} Using target host_name='{args.host_name}' and target host_ip='{args.host_ip}' ...", flush=True)
     print (f"{datetime.datetime.now()} Finding files '{args.source_folder}/*.{args.filename_extension.lower()}", flush=True)
     the_files_dict = find_matching_files(args.source_folder, f'*.{args.filename_extension.lower()}')
     print(f"{datetime.datetime.now()} Found   files '{args.source_folder}/*.{args.filename_extension.lower()}", flush=True)
@@ -80,6 +125,7 @@ if __name__ == '__main__':
         part_url = the_folder.replace(f"{args.source_folder}","",1) + "/"
         #if part_url == "" :
         #    part_url = "/"
+        part_url = part_url.replace("\\","/") # to cater for Windows backslashes
         txt_part_url = part_url.replace("'","-")
         #print(f"        the_folder={the_folder}", flush=True)
         #print(f"args.source_folder={args.source_folder}", flush=True)
@@ -138,8 +184,8 @@ if __name__ == '__main__':
                     audio_codec = track.to_data()["format"]
             title,ignore_me = os.path.splitext(the_filename.replace("'","-"))  # root,ext = os.path.splitext(path) 
             # source = requote_uri("/mp4library" + part_url + the_filename)
-            # source = requote_uri(f"http://{host_name}/mp4library" + part_url + the_filename)
-            source = requote_uri(f"http://{host_ip}/mp4library" + part_url + the_filename)
+            # source = requote_uri(f"http://{args.host_name}/mp4library" + part_url + the_filename)
+            source = requote_uri(f"http://{args.host_ip}/mp4library" + part_url + the_filename)
             subtitle = f"{source} [{video_resolution}] [{video_codec}/{audio_codec}] [{video_duration_str}]"
             if (video_scan_type != "Progressive"): # i.e. if an Interlaced video
                 cc_i = cc_i + 1
