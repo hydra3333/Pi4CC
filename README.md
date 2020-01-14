@@ -7,7 +7,7 @@ It works ... and is undergoing "refinement".
 # Description <TL;DR> 
 
    A zero-frills LAN-only Media Server using DLNA and Apache2 web server to serve up .mp4 (avc/hevc) video files
-   from a low-cost low-power Raspberry Pi 4 server to Chromecast devices and SmartTVs in the home.
+   from a low-cost low-power Raspberry Pi 4 server to Chromecast devices and SmartTVs in the home.  No transcoding is done.
    
    Once installed and configured, the Pi 4 will run "headless" (i.e. without a monitor/keyboard/mouse);
    if required, it can be accessed and controlled remotely from a Windows PC via VNC or SSH etc.
