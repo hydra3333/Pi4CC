@@ -277,7 +277,7 @@ Your use of this sample is subject to, and by using or downloading the sample fi
 
 1. we're installing this into the default website
 2. we're installing the `mp4library` `virtual directory` into the default website
-3. we'll use a self-signed `SSL certificate` (since the `cast` icon only works if the web page is https)
+3. we'll use a `self-signed SSL certificate` (since the `cast` icon only works if the web page is https)
 4. we'll enable use of use `https` and `http`, using both the server name and (mandatorily) the fixed IP address
 5. we'll use the fixed IP address in a browser to access the web page and it's components (only this has been tested to work)
 6. we've pre-created a disk/folder full of subdirectories and `.mp4` files
@@ -427,7 +427,7 @@ Close the `IIS Manager`.
 Open a `Chrome browser` and use `HTTPS` and the fixed IP address to view the web page,  
 eg `https://xxx.xxx.xxx.xxx/Pi4CC`  
 
-Note 1: due to the self-signed certificate it will show the site as insecure (who cares, it is your site in your own LAN)  
+Note 1: due to the `self-signed certificate` it will show the site as insecure (who cares, it is your site in your own LAN)  
 and may prompt you for permission to proceed to the website - accept it and proceed.  
 
 Note 2: if you used `HTTPS`, the `chromecast icon` will be present (if you use plain `http` it will not appear ... google code requires it).  
