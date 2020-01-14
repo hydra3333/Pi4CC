@@ -271,7 +271,7 @@ Your use of this sample is subject to, and by using or downloading the sample fi
 
 ---
 
-## Windows 10 Installation
+# Windows 10 Installation
 
 Assumptions:
 
