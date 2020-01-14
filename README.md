@@ -372,7 +372,7 @@ Tick the top 5 items and click Apply.
 
 On the left, click on `Default Web Site`, to highlight it.  
 Find the `SSL settings` icon and double-click on it.  
-Ensure `Require SSL is unticked.  
+Ensure `Require SSL` is unticked.  
 Ensure `Client Certificates` is set to `Ignore`.  
 Click Apply.  
 
