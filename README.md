@@ -341,16 +341,17 @@ Check the logfile `create-json.log` in the chosen folder containing this web stu
 ### Install IIS in Windows 10
 
 Start `Control Panel`,` Programs and Features`,  
-link on left `Turn Windows features on or off` and enter Administrator password  
-expand `Internet Information Services`, then  
-tick `World Wide Web Services`  
-under `Web Management Tools` tick `IIS Management Console`, tick `IIS Management Scripts and tools`  
-click OK to install `IIS`  
+Click on link on left `Turn Windows features on or off` and enter Administrator password  
+Expand `Internet Information Services`, then  
+Tick `World Wide Web Services`  
+Under `Web Management Tools` tick `IIS Management Console`, tick `IIS Management Scripts and tools`  
+Click OK to install `IIS`  
 
 ### Configure IIS in Windows 10
 
-Click Start, type the word `IIS` and see `Internet Information Services (IIS) Manager` appear,  
-and on the right is the link `Run as Administrator`, click on it and enter Administrator password.  
+Click Start, type the word `IIS` and see `Internet Information Services (IIS) Manager` appear,
+and on the right is the link `Run as Administrator`,  
+Click on it and enter Administrator password.  
 
 On the left, expand the `server name`, then expand `sites`, then expand `Default Web Site`.  
 
