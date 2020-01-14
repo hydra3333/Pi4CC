@@ -16,7 +16,7 @@ It works ... and is undergoing "refinement".
 
    It can (and has been) run under Windows 10 using Win10 native IIS as the web server and a self-signed SSL certificate,
    with manually-configured IIS (it is easy) and a few Pi4CC files manually edited.  No automated install script though. 
-   Windows 10 installation notes are at the bottom of this page.
+   [Windows 10 installation notes](#Windows 10 Installation) are at the bottom of this page.
 
 ---
 
@@ -56,7 +56,7 @@ It works ... and is undergoing "refinement".
 
 ---
 
-# LINUX Installation (eg under Raspbian)
+## LINUX Installation (eg under Raspbian)
 
 1. Prepare an external USB3 hard drive (formatted as NTFS is good)
    - In Windows, ensure
@@ -271,8 +271,7 @@ Your use of this sample is subject to, and by using or downloading the sample fi
 
 ---
 
-# Windows 10 Installation
-
+## Windows 10 Installation
 
 Assumptions:
 
