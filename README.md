@@ -287,12 +287,12 @@ Your use of this sample is subject to, and by using or downloading the sample fi
 
 ### Preliminary software requirements
 
-Download and install `Python 3.8.1` or later (installer "Run as Admin", Advanced options `for all users` and all related options set)
-Source: `https://www.python.org/downloads/`  and use the `Windows x86-64 executable installer`.
+Download and install `Python 3.8.1` or later (installer "Run as Admin", Advanced options `for all users` and all related options set)  
+Source: `https://www.python.org/downloads/`  and use the `Windows x86-64 executable installer`.  
 
-Once pythin is installed for all users (may need to reboot for it to take effect globally),
-Click Start, type `CMD` and on the right is the link "Run as Administrator", click on it and enter Administrator password.
-In the `CMD` window, type these 3 DOS commands to install the dependencies required by "create-json.py" :
+Once Python is installed for all users (may need to reboot for it to take effect globally),  
+Click Start, type `CMD` and on the right is the link "Run as Administrator", click on it and enter Administrator password.  
+In the `CMD` window, type these 3 DOS commands to install the dependencies required by "create-json.py" :  
 ```
 pip3 install pymediainfo
 pip3 install requests
@@ -301,133 +301,133 @@ pip3 install socket
 
 ### Download/Extract/Edit source files
 
-Choose a folder to point the IIS default web page to, eg C:\IIS and create it eg `MKDIR C:\IIS`
-Right-click on that folder, choose Properties, Security Tab, and edit so that `Everyone` has full control, Apply and OK.
-Download the latest released .zip source code from `https://github.com/hydra3333/Pi4CC/releases`
-Extract the main folder underneath your chosen folder eg `C:\IIS` and RENAME that folder that it so it becomes `Pi4CC` eg like `C:\IIS\Pi4CC`
+Choose a folder to point the IIS default web page to, eg C:\IIS and create it eg `MKDIR C:\IIS`  
+Right-click on that folder, choose Properties, Security Tab, and edit so that `Everyone` has full control, Apply and OK.  
+Download the latest released .zip source code from `https://github.com/hydra3333/Pi4CC/releases`  
+Extract the main folder underneath your chosen folder eg `C:\IIS` and RENAME that folder that it so it becomes `Pi4CC` eg like `C:\IIS\Pi4CC`  
 
-Ensure you have a fixed `IPv4 address` ... usually use you router's `DHCP` settings and your PC's mac address to reserve one.
-Check the fixed IP address - in a `CMD` window, use command `IPCONFIG` to check the IPv4 address `xxx.xxx.xxx.xxx`
-Check the host name - in a `CMD` window, use command `HOSTNAME` to check host name, eg `3900X`.
+Ensure you have a fixed `IPv4 address` ... usually use you router's `DHCP` settings and your PC's mac address to reserve one.  
+Check the fixed IP address - in a `CMD` window, use command `IPCONFIG` to check the IPv4 address `xxx.xxx.xxx.xxx`  
+Check the host name - in a `CMD` window, use command `HOSTNAME` to check host name, eg `3900X`.  
 
-Start Windows Explorer and navigate to your chosen folder eg `C:\IIS\Pi4CC`
+Start Windows Explorer and navigate to your chosen folder eg `C:\IIS\Pi4CC`  
 
-Use a text editor to Edit file `index.html`
-Find the line containing `http://10.0.0.6/Pi4CC/imagefiles/free-boat_02.jpg` and change the IP address to YOUR fixed IP address, eg `http://10.0.0.6/Pi4CC/imagefiles/free-boat_02.jpg`
-Save the change to that file and exit editing that file.
+Use a text editor to Edit file `index.html`  
+Find the line containing `http://10.0.0.6/Pi4CC/imagefiles/free-boat_02.jpg` and change the IP address to YOUR fixed IP address, eg `http://10.0.0.6/Pi4CC/imagefiles/free-boat_02.jpg`  
+Save the change to that file and exit editing that file.  
 
-Use a text editor to Edit file `CastVideos.js`
-Find the line containing `http://10.0.0.6/Pi4CC/imagefiles/free-boat_02.jpg` and change the IP address to YOUR fixed IP address, eg `http://10.0.0.6/Pi4CC/imagefiles/free-boat_02.jpg`
-Save the change to that file and exit editing that file.
+Use a text editor to Edit file `CastVideos.js`  
+Find the line containing `http://10.0.0.6/Pi4CC/imagefiles/free-boat_02.jpg` and change the IP address to YOUR fixed IP address, eg `http://10.0.0.6/Pi4CC/imagefiles/free-boat_02.jpg`  
+Save the change to that file and exit editing that file.  
 
-Use a text editor to Edit file `reload_media.js.sh.bat`
-Find the line containing just `G:` and change the drive letter to the drive of the chosen folder, eg `C:`
-Find the line containing `G:\000-Development\IIS\Pi4CC` and change all occurences to your chosen folder containing this web stuff, eg `C:\IIS\Pi4CC`
-Find the line containing `T:\HDTV\autoTVS-mpg\Converted` and change it to the root disk/folder full of subdirectories and `.mp4` files, eg `T:\mp4library` ... later this folder will also be moninated as a virtual directory in IIS.
-Save the change to that file and exit editing that file.
-Double-click file `reload_media.js.sh.bat` to run it
-Check the logfile `create-json.log` in the chosen folder containing this web stuff.
+Use a text editor to Edit file `reload_media.js.sh.bat`  
+Find the line containing just `G:` and change the drive letter to the drive of the chosen folder, eg `C:`  
+Find the line containing `G:\000-Development\IIS\Pi4CC` and change all occurences to your chosen folder containing this web stuff, eg `C:\IIS\Pi4CC`  
+Find the line containing `T:\HDTV\autoTVS-mpg\Converted` and change it to the root disk/folder full of subdirectories and `.mp4` files, eg `T:\mp4library` ... later this folder will also be moninated as a virtual directory in IIS.  
+Save the change to that file and exit editing that file.  
+Double-click file `reload_media.js.sh.bat` to run it  
+Check the logfile `create-json.log` in the chosen folder containing this web stuff.  
 
-Create a scheduled task to run the reload task every night at 4:00 am.
-Try this command in a `CMD` window, subtituting your chosen folder for `G:\000-Development\IIS\Pi4CC\`
-`schtasks.exe /create /SC DAILY /TN "Pi4CC_reload_media.js" /TR "G:\000-Development\IIS\Pi4CC\reload_media.js.sh.bat" /ST 04:00 /F`
-Click Start, type `Sch` and click on `Task Scheduiler` to open it and view the scheduled task you just created.  It'll only run if you leave yourself logged into the PC overnight though.
-Find and right click on task `Pi4CC_reload_media.js` and choose Properties and poke around, adjusting as appropriate to your circumstances. Close Properties.
-Right-click on the task and choose `Run`.
-Check the logfile `create-json.log` in the chosen folder containing this web stuff.
+Create a scheduled task to run the reload task every night at 4:00 am.  
+Try this command in a `CMD` window, subtituting your chosen folder for `G:\000-Development\IIS\Pi4CC\`  
+`schtasks.exe /create /SC DAILY /TN "Pi4CC_reload_media.js" /TR "G:\000-Development\IIS\Pi4CC\reload_media.js.sh.bat" /ST 04:00 /F`  
+Click Start, type `Sch` and click on `Task Scheduiler` to open it and view the scheduled task you just created.  It'll only run if you leave yourself logged into the PC overnight though.  
+Find and right click on task `Pi4CC_reload_media.js` and choose Properties and poke around, adjusting as appropriate to your circumstances. Close Properties.  
+Right-click on the task and choose `Run`.  
+Check the logfile `create-json.log` in the chosen folder containing this web stuff.  
 
 ### Install IIS in Windows 10
 
-Start `Control Panel`,` Programs and Features`, 
-link on left `Turn Windows features on or off` and enter Administrator password
-expand `Internet Information Services`, then
-tick `World Wide Web Services`
-under `Web Management Tools` tick `IIS Management Console`, tick `IIS Management Scripts and tools`
-click OK to install `IIS`
+Start `Control Panel`,` Programs and Features`,  
+link on left `Turn Windows features on or off` and enter Administrator password  
+expand `Internet Information Services`, then  
+tick `World Wide Web Services`  
+under `Web Management Tools` tick `IIS Management Console`, tick `IIS Management Scripts and tools`  
+click OK to install `IIS`  
 
 ### Configure IIS in Windows 10
 
-Click Start, type the word `IIS` and see `Internet Information Services (IIS) Manager` appear,
-and on the right is the link `Run as Administrator`, click on it and enter Administrator password.
+Click Start, type the word `IIS` and see `Internet Information Services (IIS) Manager` appear,  
+and on the right is the link `Run as Administrator`, click on it and enter Administrator password.  
 
-On the left, expand the `server name`, then expand `sites`, then expand `Default Web Site`.
+On the left, expand the `server name`, then expand `sites`, then expand `Default Web Site`.  
 
-On the left, click on the top level server name, eg `3900X`, to highlight it.
-Find the `Server Certificates` icon and double-click on it.
-On the right is a link `Create Self-Signed Certificate` and click on only that one.
-Enter the `server name` for the certificate, eg `3900X`, choose `Web Hosting` from the drop-down `certificate store`, and click OK.
-The list of certificates should now show the new `self-signed certificate`.
+On the left, click on the top level server name, eg `3900X`, to highlight it.  
+Find the `Server Certificates` icon and double-click on it.  
+On the right is a link `Create Self-Signed Certificate` and click on only that one.  
+Enter the `server name` for the certificate, eg `3900X`, choose `Web Hosting` from the drop-down `certificate store`, and click OK.  
+The list of certificates should now show the new `self-signed certificate`.  
 
-On the left, click on the top level `server name`, eg `3900X`, to highlight it.
-Find the `Directory Browsing` icon and double-click on it.
-Tick the top 5 and click Apply.
+On the left, click on the top level `server name`, eg `3900X`, to highlight it.  
+Find the `Directory Browsing` icon and double-click on it.  
+Tick the top 5 and click Apply.  
 
-On the right, click on link `Retsart` to restart IIS.
+On the right, click on link `Retsart` to restart IIS.  
 
-On the left, click on `Default Web Site`, to highlight it.
-Find the `Directory Browsing` icon and double-click on it.
-Tick the top 5 items and click Apply.
+On the left, click on `Default Web Site`, to highlight it.  
+Find the `Directory Browsing` icon and double-click on it.  
+Tick the top 5 items and click Apply.  
 
-On the left, click on `Default Web Site`, to highlight it.
-Find the `SSL settings` icon and double-click on it.
-Ensure `Require SSL is unticked.
-Ensure `Client Certificates` is set to `Ignore`.
-Click Apply.
+On the left, click on `Default Web Site`, to highlight it.  
+Find the `SSL settings` icon and double-click on it.  
+Ensure `Require SSL is unticked.  
+Ensure `Client Certificates` is set to `Ignore`.  
+Click Apply.  
 
-On the left, click on `Default Web Site`, to highlight it.
-On the right, click on link `Basic Settings`
-In `Physical path:` choose the top level folder you chose earlier, eg `C:\IIS`
-Click on `Test Settings` button - Authenticalion should be OK, Authorization should be "unable to verfy access", click "Close".
-Click OK to set the new settings.
+On the left, click on `Default Web Site`, to highlight it.  
+On the right, click on link `Basic Settings`  
+In `Physical path:` choose the top level folder you chose earlier, eg `C:\IIS`  
+Click on `Test Settings` button - Authenticalion should be OK, Authorization should be "unable to verfy access", click "Close".  
+Click OK to set the new settings.  
 
-On the left, click on `Default Web Site`, to highlight it.
-On the right, click on link `Bindings`
-We need to add 4 entries, 2 of which are based on your fixed IPv4 address and 2 on host name.
-(in a `CMD` window, use command `IPCONFIG` to check the IPv4 address `xxx.xxx.xxx.xxx`).
-(in a `CMD` window, use command `HOSTNAME` to check host name, eg `3900X`).
-Click the Add button each time to add the 4 entries to look like these:
+On the left, click on `Default Web Site`, to highlight it.  
+On the right, click on link `Bindings`  
+We need to add 4 entries, 2 of which are based on your fixed IPv4 address and 2 on host name.  
+(in a `CMD` window, use command `IPCONFIG` to check the IPv4 address `xxx.xxx.xxx.xxx`).  
+(in a `CMD` window, use command `HOSTNAME` to check host name, eg `3900X`).  
+Click the Add button each time to add the 4 entries to look like these:  
 ```
 Type: https, IP Address: All Unassigned`,                 Port: 443, Host name: <host name, eg 3900X>
 Type: https, IP Address: <the IPv4 address xx.xx.xx.xx>,  Port: 443, Host name: <leave it empty>
 Type: http,  IP Address: All Unassigned`,                 Port: 80,  Host name: <host name, eg 3900X>
 Type: http,  IP Address: <the IPv4 address xx.xx.xx.xx>,  Port: 80,  Host name: <leave it empty>
-```
-Check the 4 entries you look a bit like the above
-Click the Close button.
+```  
+Check the 4 entries you look a bit like the above  
+Click the Close button.  
 
-On the left, click on "Default Web Site", to highlight it.
-On the right, click on link "Advanced Settings".
-Check the "Physical Path" is where you need it to be, if not go back to the start of configuring and begin again.
-Expand "Behaviour" to then see "Enabled Protocols".
-Click on "Enabled Protocols" and change the value on the right to be like this: https,http
-Click OK.
+On the left, click on "Default Web Site", to highlight it.  
+On the right, click on link "Advanced Settings".  
+Check the "Physical Path" is where you need it to be, if not go back to the start of configuring and begin again.  
+Expand "Behaviour" to then see "Enabled Protocols".  
+Click on "Enabled Protocols" and change the value on the right to be like this: https,http  
+Click OK.  
 
-On the left, click on `Default Web Site`, to highlight it.
-`Right click` on `Default Web Site` and choose `Add Virtual Directory`
-In `Alias`, enter `mp4library`
-In `Physical path`, choose the root disk/folder where we've pre-created a disk/folder full of subdirectories and `.mp4` files
-Click OK
-Notice `mp4library` now appears as a "link" under `Default Web Site`
+On the left, click on `Default Web Site`, to highlight it.  
+`Right click` on `Default Web Site` and choose `Add Virtual Directory`  
+In `Alias`, enter `mp4library`  
+In `Physical path`, choose the root disk/folder where we've pre-created a disk/folder full of subdirectories and `.mp4` files  
+Click OK  
+Notice `mp4library` now appears as a "link" under `Default Web Site`  
 
-On the right, click on link `Retsart` to restart IIS.
+On the right, click on link `Retsart` to restart IIS.  
 
-On the left, click on `Default Web Site` to highlight it.
-On the right, click on link `Explore` to open `Windows Explorer` and check it's the correct place.
+On the left, click on `Default Web Site` to highlight it.  
+On the right, click on link `Explore` to open `Windows Explorer` and check it's the correct place.  
 
-On the left, click on `mp4librar`" under `Default Web Site`, to highlight it.
-On the right, click on link `Explore` to open `Windows Explorer` and check it's the correct place with your `.mp4` files in it.
+On the left, click on `mp4librar`" under `Default Web Site`, to highlight it.  
+On the right, click on link `Explore` to open `Windows Explorer` and check it's the correct place with your `.mp4` files in it.  
 
-Close the `IIS Manager`.
+Close the `IIS Manager`.  
 
 ### Test it
 
-Open a `Chrome browser` and use `HTTPS` and the fixed IP address to view the web page, 
-eg `https://xxx.xxx.xxx.xxx/Pi4CC`
+Open a `Chrome browser` and use `HTTPS` and the fixed IP address to view the web page,  
+eg `https://xxx.xxx.xxx.xxx/Pi4CC`  
 
-Note 1: due to the self-signed certificate it will show the site as insecure (who cares, it is your site in your own LAN)
-and may prompt you for permission to proceed to the website - accept it and proceed.
+Note 1: due to the self-signed certificate it will show the site as insecure (who cares, it is your site in your own LAN)  
+and may prompt you for permission to proceed to the website - accept it and proceed.  
 
-Note 2: if you used `HTTPS`, the `chromecast icon` will be present (if you use plain `http` it will not appear ... google code requires it).
+Note 2: if you used `HTTPS`, the `chromecast icon` will be present (if you use plain `http` it will not appear ... google code requires it).  
 
-Open a `Chrome browser` and use `HTTP` or `HTTPS` and the fixed IP address to browse your `Virtual Directory` of `.mp4` files,
-eg `https://xxx.xxx.xxx.xxx/mp4library`
+Open a `Chrome browser` and use `HTTP` or `HTTPS` and the fixed IP address to browse your `Virtual Directory` of `.mp4` files,  
+eg `https://xxx.xxx.xxx.xxx/mp4library`  
