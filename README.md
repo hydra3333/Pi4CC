@@ -273,7 +273,7 @@ Your use of this sample is subject to, and by using or downloading the sample fi
 
 # Windows 10 Installation
 
-Assumptions:
+## Assumptions:
 
 1. we're installing this into the default website
 2. we're installing the `mp4library` `virtual directory` into the default website
@@ -281,13 +281,13 @@ Assumptions:
 4. we'll enable use of use `https` and `http`, using both the server name and (mandatorily) the fixed IP address
 5. we'll use the fixed IP address in a browser to access the web page and it's components (only this has been tested to work)
 6. we've pre-created a disk/folder full of subdirectories and `.mp4` files
-7. we have at least `Python 3.8.1` installed (installer "Run as Admin", Advanced options "for all users" and all related options set)
+7. we have at least `Python 3.8.1` installed (installer "Run as Admin", Advanced options `for all users` and all related options set)
 
-How to for Windows 10:
+## How to for Windows 10:
 
-1. Preliminary software requirements
+### Preliminary software requirements
 
-Download and install `Python 3.8.1` or later (installer "Run as Admin", Advanced options "for all users" and all related options set)
+Download and install `Python 3.8.1` or later (installer "Run as Admin", Advanced options `for all users` and all related options set)
 Source: `https://www.python.org/downloads/`  and use the `Windows x86-64 executable installer`.
 
 Once pythin is installed for all users (may need to reboot for it to take effect globally),
@@ -299,7 +299,7 @@ pip3 install requests
 pip3 install socket
 ```
 
-2. Download/Extract/Edit source files
+### Download/Extract/Edit source files
 
 Choose a folder to point the IIS default web page to, eg C:\IIS and create it eg `MKDIR C:\IIS`
 Right-click on that folder, choose Properties, Security Tab, and edit so that `Everyone` has full control, Apply and OK.
@@ -336,7 +336,7 @@ Find and right click on task `Pi4CC_reload_media.js` and choose Properties and p
 Right-click on the task and choose `Run`.
 Check the logfile `create-json.log` in the chosen folder containing this web stuff.
 
-3. Install IIS in Windows 10
+### Install IIS in Windows 10
 
 Start `Control Panel`,` Programs and Features`, 
 link on left `Turn Windows features on or off` and enter Administrator password
@@ -345,7 +345,7 @@ tick `World Wide Web Services`
 under `Web Management Tools` tick `IIS Management Console`, tick `IIS Management Scripts and tools`
 click OK to install `IIS`
 
-4. Configure IIS in Windows 10
+### Configure IIS in Windows 10
 
 Click Start, type the word `IIS` and see `Internet Information Services (IIS) Manager` appear,
 and on the right is the link `Run as Administrator`, click on it and enter Administrator password.
@@ -419,7 +419,7 @@ On the right, click on link `Explore` to open `Windows Explorer` and check it's 
 
 Close the `IIS Manager`.
 
-5. Test it
+### Test it
 
 Open a `Chrome browser` and use `HTTPS` and the fixed IP address to view the web page, 
 eg `https://xxx.xxx.xxx.xxx/Pi4CC`
