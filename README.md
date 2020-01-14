@@ -281,18 +281,18 @@ Your use of this sample is subject to, and by using or downloading the sample fi
 4. we'll enable use of use `https` and `http`, using both the server name and (mandatorily) the fixed IP address
 5. we'll use the fixed IP address in a browser to access the web page and it's components (only this has been tested to work)
 6. we've pre-created a disk/folder full of subdirectories and `.mp4` files
-7. we have at least `Python 3.8.1` installed (installer "Run as Admin", Advanced options `for all users` and all related options set)
+7. we have at least `Python 3.8.1` installed (installer `Run as Administrator`, `Advanced` options `for all users` and all related options set)
 
 ## How to for Windows 10:
 
 ### Preliminary software requirements
 
-Download and install `Python 3.8.1` or later (installer "Run as Admin", Advanced options `for all users` and all related options set)  
+Download and install `Python 3.8.1` or later (installer `Run as Administrator`, `Advanced` options `for all users` and all related options set)  
 Source: `https://www.python.org/downloads/`  and use the `Windows x86-64 executable installer`.  
 
 Once Python is installed for all users (may need to reboot for it to take effect globally),  
-Click Start, type `CMD` and on the right is the link "Run as Administrator", click on it and enter Administrator password.  
-In the `CMD` window, type these 3 DOS commands to install the dependencies required by "create-json.py" :  
+Click Start, type `CMD` and on the right is the link `Run as Administrator`, click on it and enter Administrator password.  
+In the `CMD` window, type these 3 DOS commands to install the dependencies required by `create-json.py` :  
 ```
 pip3 install pymediainfo
 pip3 install requests
@@ -377,7 +377,7 @@ Click Apply.
 On the left, click on `Default Web Site`, to highlight it.  
 On the right, click on link `Basic Settings`  
 In `Physical path:` choose the top level folder you chose earlier, eg `C:\IIS`  
-Click on `Test Settings` button - Authenticalion should be OK, Authorization should be "unable to verfy access", click "Close".  
+Click on `Test Settings` button - Authenticalion should be OK, Authorization should be `unable to verfy access`, click Close.  
 Click OK to set the new settings.  
 
 On the left, click on `Default Web Site`, to highlight it.  
@@ -395,11 +395,11 @@ Type: http,  IP Address: <the IPv4 address xx.xx.xx.xx>,  Port: 80,  Host name: 
 Check the 4 entries you look a bit like the above  
 Click the Close button.  
 
-On the left, click on "Default Web Site", to highlight it.  
-On the right, click on link "Advanced Settings".  
-Check the "Physical Path" is where you need it to be, if not go back to the start of configuring and begin again.  
-Expand "Behaviour" to then see "Enabled Protocols".  
-Click on "Enabled Protocols" and change the value on the right to be like this: https,http  
+On the left, click on `Default Web Site`, to highlight it.  
+On the right, click on link `Advanced Settings`.  
+Check the `Physical Path` is where you need it to be, if not go back to the start of configuring and begin again.  
+Expand `Behaviour` to then see `Enabled Protocols`.  
+Click on `Enabled Protocols` and change the value on the right to be like this: `https,http`  
 Click OK.  
 
 On the left, click on `Default Web Site`, to highlight it.  
@@ -414,7 +414,7 @@ On the right, click on link `Retsart` to restart IIS.
 On the left, click on `Default Web Site` to highlight it.  
 On the right, click on link `Explore` to open `Windows Explorer` and check it's the correct place.  
 
-On the left, click on `mp4librar`" under `Default Web Site`, to highlight it.  
+On the left, click on `mp4library` under `Default Web Site`, to highlight it.  
 On the right, click on link `Explore` to open `Windows Explorer` and check it's the correct place with your `.mp4` files in it.  
 
 Close the `IIS Manager`.  
