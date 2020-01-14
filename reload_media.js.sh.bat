@@ -13,5 +13,5 @@ REM
 G:
 cd G:\000-Development\IIS\Pi4CC
 python G:\000-Development\IIS\Pi4CC\create-json.py --source_folder T:\HDTV\autoTVS-mpg\Converted --filename-extension mp4 --json_file G:\000-Development\IIS\Pi4CC\media.js 2>&1 >> G:\000-Development\IIS\Pi4CC\create-json.log
-pause
-exit
+REM pause
+REM exit
