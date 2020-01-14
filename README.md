@@ -330,7 +330,9 @@ Check the logfile `create-json.log` in the chosen folder containing this web stu
 
 Create a scheduled task to run the reload task every night at 4:00 am.  
 Try this command in a `CMD` window, subtituting your chosen folder for `G:\000-Development\IIS\Pi4CC\`  
-`schtasks.exe /create /SC DAILY /TN "Pi4CC_reload_media.js" /TR "G:\000-Development\IIS\Pi4CC\reload_media.js.sh.bat" /ST 04:00 /F`  
+```
+schtasks.exe /create /SC DAILY /TN "Pi4CC_reload_media.js" /TR "G:\000-Development\IIS\Pi4CC\reload_media.js.sh.bat" /ST 04:00 /F
+```  
 Click Start, type `Sch` and click on `Task Scheduiler` to open it and view the scheduled task you just created.  It'll only run if you leave yourself logged into the PC overnight though.  
 Find and right click on task `Pi4CC_reload_media.js` and choose Properties and poke around, adjusting as appropriate to your circumstances. Close Properties.  
 Right-click on the task and choose `Run`.  
