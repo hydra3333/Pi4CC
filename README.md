@@ -15,7 +15,7 @@ It works ... and is undergoing "refinement".
 ---
 
    It can (and has been) run under Windows 10 using Win10 native IIS as the web server and a self-signed SSL certificate,
-   with manually-configured IIS (it is easy) and a couple of Pi4CC files manually edited.  No automated install script though. 
+   with manually-configured IIS (it is easy) and a few Pi4CC files manually edited.  No automated install script though. 
    Windows 10 installation notes are at the bottom of this page.
 
 ---
