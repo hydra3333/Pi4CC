@@ -301,7 +301,7 @@ pip3 install socket
 
 ### Download/Extract/Edit source files
 
-Choose a folder to point the IIS default web page to, eg C:\IIS and create it eg `MKDIR C:\IIS`  
+Choose a folder to point the IIS default web page to, eg `C:\IIS` and create it eg `MKDIR C:\IIS`  
 Right-click on that folder, choose Properties, Security Tab, and edit so that `Everyone` has full control, Apply and OK.  
 Download the latest released .zip source code from `https://github.com/hydra3333/Pi4CC/releases`  
 Extract the main folder underneath your chosen folder eg `C:\IIS` and RENAME that folder that it so it becomes `Pi4CC` eg like `C:\IIS\Pi4CC`  
@@ -313,11 +313,11 @@ Check the host name - in a `CMD` window, use command `HOSTNAME` to check host na
 Start Windows Explorer and navigate to your chosen folder eg `C:\IIS\Pi4CC`  
 
 Use a text editor to Edit file `index.html`  
-Find the line containing `http://10.0.0.6/Pi4CC/imagefiles/free-boat_02.jpg` and change the IP address to YOUR fixed IP address, eg `http://10.0.0.6/Pi4CC/imagefiles/free-boat_02.jpg`  
+Find the line containing `http://10.0.0.6/Pi4CC/imagefiles/free-boat_02.jpg` and change the IP address to YOUR fixed IP address, eg `http://10.0.0.4/Pi4CC/imagefiles/free-boat_02.jpg`  
 Save the change to that file and exit editing that file.  
 
 Use a text editor to Edit file `CastVideos.js`  
-Find the line containing `http://10.0.0.6/Pi4CC/imagefiles/free-boat_02.jpg` and change the IP address to YOUR fixed IP address, eg `http://10.0.0.6/Pi4CC/imagefiles/free-boat_02.jpg`  
+Find the line containing `http://10.0.0.6/Pi4CC/imagefiles/free-boat_02.jpg` and change the IP address to YOUR fixed IP address, eg `http://10.0.0.4/Pi4CC/imagefiles/free-boat_02.jpg`  
 Save the change to that file and exit editing that file.  
 
 Use a text editor to Edit file `reload_media.js.sh.bat`  
