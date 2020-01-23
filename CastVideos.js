@@ -479,18 +479,166 @@ var PlayerHandler = function (castPlayer) {
     tseekTo = dseekTo.toLocaleTimeString();
     console.log(tseekTo + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.seekTo: ' + time) ;
     console.log(tseekTo + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.seekTo: ' + time) ;
-    console.log(tseekTo + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.seekTo: ' + time) ;
-    console.log(tseekTo + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.seekTo: ' + time) ;
-    console.log(tseekTo + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.seekTo: ' + time) ;
+																											   
+																											   
+																											   
     this.target.seekTo(time);
     dseekTo = new Date();
     tseekTo = dseekTo.toLocaleTimeString();
     console.log(tseekTo + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.seekTo: ' + time) ;
     console.log(tseekTo + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.seekTo: ' + time) ;
-    console.log(tseekTo + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.seekTo: ' + time) ;
-    console.log(tseekTo + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.seekTo: ' + time) ;
-    console.log(tseekTo + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.seekTo: ' + time) ;
+																											   
+																											   
   };
+// 2020.01.23 Try to add RW FF functionality into PlayerHandler
+  this.FF_RW_seekTo = function (number_of_seconds) {
+	var seekTime
+    var dFFRW;
+    var tFFRW;
+    dFFRW = new Date();
+    tFFRW = dFFRW.toLocaleTimeString();
+    console.log(tFFRW + '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ===== Entered PlayerHandler this.FF_RW_seekTo: ' + number_of_seconds) ;
+    console.log(tFFRW + '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ===== Entered PlayerHandler this.FF_RW_seekTo: ' + number_of_seconds) ;
+    seekTime = parseInt(this.currentMediaTime + number_of_seconds);
+    this.currentMediaTime = seekTime
+    this.seekTo(seekTime)
+    console.log(tFFRW + '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ===== Exiting PlayerHandler this.FF_RW_seekTo: ' + number_of_seconds) ;
+    console.log(tFFRW + '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ===== Exiting PlayerHandler this.FF_RW_seekTo: ' + number_of_seconds) ;
+  };
+  this.RW_5 = function () {
+    var dFFRW;
+    var tFFRW;
+    dFFRW = new Date();
+    tFFRW = dFFRW.toLocaleTimeString();
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.RW_5: ') ;
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.RW_5: ') ;
+    this.FF_RW_seekTo(-5)
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.RW_5: ') ;
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.RW_5: ') ;
+  };
+  this.RW_15 = function () {
+    var dFFRW;
+    var tFFRW;
+    dFFRW = new Date();
+    tFFRW = dFFRW.toLocaleTimeString();
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.RW_15: ') ;
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.RW_15: ') ;
+    this.FF_RW_seekTo(-15)
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.RW_15: ') ;
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.RW_15: ') ;
+  };
+  this.RW_30 = function () {
+    var dFFRW;
+    var tFFRW;
+    dFFRW = new Date();
+    tFFRW = dFFRW.toLocaleTimeString();
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.RW_30: ') ;
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.RW_30: ') ;
+    this.FF_RW_seekTo(-30)
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.RW_30: ') ;
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.RW_30: ') ;
+  };
+  this.RW_60 = function () {
+    var dFFRW;
+    var tFFRW;
+    dFFRW = new Date();
+    tFFRW = dFFRW.toLocaleTimeString();
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.RW_60: ') ;
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.RW_60: ') ;
+    this.FF_RW_seekTo(-60)
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.RW_60: ') ;
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.RW_60: ') ;
+  };
+  this.RW_120 = function () {
+    var dFFRW;
+    var tFFRW;
+    dFFRW = new Date();
+    tFFRW = dFFRW.toLocaleTimeString();
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.RW_120: ') ;
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.RW_120: ') ;
+    this.FF_RW_seekTo(-120)
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.RW_120: ') ;
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.RW_120: ') ;
+  };
+  this.RW_180 = function () {
+    var dFFRW;
+    var tFFRW;
+    dFFRW = new Date();
+    tFFRW = dFFRW.toLocaleTimeString();
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.RW_180: ') ;
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.RW_180: ') ;
+    this.FF_RW_seekTo(-180)
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.RW_180: ') ;
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.RW_180: ') ;
+  };
+  //
+  this.FF_5 = function () {
+    var dFFRW;
+    var tFFRW;
+    dFFRW = new Date();
+    tFFRW = dFFRW.toLocaleTimeString();
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.FF_5: ') ;
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.FF_5: ') ;
+    this.FF_RW_seekTo(5)
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.FF_5: ') ;
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.FF_5: ') ;
+  };
+  this.FF_15 = function () {
+    var dFFRW;
+    var tFFRW;
+    dFFRW = new Date();
+    tFFRW = dFFRW.toLocaleTimeString();
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.FF_15: ') ;
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.FF_15: ') ;
+    this.FF_RW_seekTo(15)
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.FF_15: ') ;
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.FF_15: ') ;
+  };
+  this.FF_30 = function () {
+    var dFFRW;
+    var tFFRW;
+    dFFRW = new Date();
+    tFFRW = dFFRW.toLocaleTimeString();
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.FF_30: ') ;
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.FF_30: ') ;
+    this.FF_RW_seekTo(30)
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.FF_30: ') ;
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.FF_30: ') ;
+  };
+  this.FF_60 = function () {
+    var dFFRW;
+    var tFFRW;
+    dFFRW = new Date();
+    tFFRW = dFFRW.toLocaleTimeString();
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.FF_60: ') ;
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.FF_60: ') ;
+    this.FF_RW_seekTo(60)
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.FF_60: ') ;
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.FF_60: ') ;
+  };
+  this.FF_120 = function () {
+    var dFFRW;
+    var tFFRW;
+    dFFRW = new Date();
+    tFFRW = dFFRW.toLocaleTimeString();
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.FF_120: ') ;
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.FF_120: ') ;
+    this.FF_RW_seekTo(120)
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.FF_120: ') ;
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.FF_120: ') ;
+  };
+  this.FF_180 = function () {
+    var dFFRW;
+    var tFFRW;
+    dFFRW = new Date();
+    tFFRW = dFFRW.toLocaleTimeString();
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.FF_180: ') ;
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.FF_180: ') ;
+    this.FF_RW_seekTo(180)
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.FF_180: ') ;
+    console.log(tFFRW + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.FF_180: ') ;
+  };
+  //
   dPH = new Date();
   tPH = dPH.toLocaleTimeString();
   console.log(tPH + ' ---------- Exiting PlayerHandler') ;
@@ -498,7 +646,7 @@ var PlayerHandler = function (castPlayer) {
   console.log(tPH + ' ---------- Exiting PlayerHandler') ;
   console.log(tPH + ' ---------- Exiting PlayerHandler') ;
   console.log(tPH + ' ---------- Exiting PlayerHandler') ;
-};
+}; // end of 
 
 /**
  * Set the PlayerHandler target to use the video-element player
@@ -1929,19 +2077,22 @@ CastPlayer.prototype.initializeUI = function () {
   document.getElementById('progress_indicator').draggable = true;
 
   // 2020.01.23 try to Enable FF/RW buttons
-  // document.getElementById('rw_5s').addEventListener('click', this.seekMediaListener);
-  // document.getElementById('rw_15s').addEventListener('click', this.seekMediaListener);
-  // document.getElementById('rw_30s').addEventListener('click', this.seekMediaListener);
-  // document.getElementById('rw_1m').addEventListener('click', this.seekMediaListener);
-  // document.getElementById('rw_1m').addEventListener('click', this.seekMediaListener);
-  // document.getElementById('rw_2m').addEventListener('click', this.seekMediaListener);
-  // document.getElementById('rw_3m').addEventListener('click', this.seekMediaListener);
-  // document.getElementById('ff_5s').addEventListener('click', this.seekMediaListener);
-  // document.getElementById('ff_15s').addEventListener('click', this.seekMediaListener);
-  // document.getElementById('ff_30s').addEventListener('click', this.seekMediaListener);
-  // document.getElementById('ff_1m').addEventListener('click', this.seekMediaListener);
-  // document.getElementById('ff_2m').addEventListener('click', this.seekMediaListener);
-  // document.getElementById('ff_3m').addEventListener('click', this.seekMediaListener);
+  console.log('Start adding Event Listener and Binding for FF and RW buttons')  ;
+  document.getElementById('rw_5').addEventListener('click', this.playerHandler.RW_5.bind(this.playerHandler));
+																						 
+  document.getElementById('rw_15').addEventListener('click', this.playerHandler.RW_15.bind(this.playerHandler));
+  document.getElementById('rw_30').addEventListener('click', this.playerHandler.RW_30.bind(this.playerHandler));
+  document.getElementById('rw_60').addEventListener('click', this.playerHandler.RW_60.bind(this.playerHandler));
+  document.getElementById('rw_120').addEventListener('click', this.playerHandler.RW_120.bind(this.playerHandler));
+  document.getElementById('rw_180').addEventListener('click', this.playerHandler.RW_180.bind(this.playerHandler));
+  document.getElementById('ff_5').addEventListener('click', this.playerHandler.FF_5.bind(this.playerHandler));
+  document.getElementById('ff_15').addEventListener('click', this.playerHandler.FF_15.bind(this.playerHandler));
+  document.getElementById('ff_30').addEventListener('click', this.playerHandler.FF_30.bind(this.playerHandler));
+  document.getElementById('ff_60').addEventListener('click', this.playerHandler.FF_60.bind(this.playerHandler));
+  document.getElementById('ff_120').addEventListener('click', this.playerHandler.FF_120.bind(this.playerHandler));
+  document.getElementById('ff_180').addEventListener('click', this.playerHandler.FF_180.bind(this.playerHandler));
+  console.log('Finished adding Event Listener and Binding for FF and RW buttons')  ;
+  
   /*
   // Set up feature radio buttons
   let noneRadio = document.getElementById('none');
