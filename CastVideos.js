@@ -73,6 +73,7 @@ const DEFAULT_VOLUME = 1.0; /* 0.5; */
 const FULL_VOLUME_HEIGHT = 100;
 
 const standard_video_thumb = "http://10.0.0.6/Pi4CC/imagefiles/free-boat_02.jpg"
+// const standard_video_thumb = "/Pi4CC/imagefiles/free-boat_02.jpg"
 
 
 /** @enum {string} Constants of states for media for both local and remote playback */
@@ -103,7 +104,18 @@ const PLAYER_STATE = {
  */
 var CastPlayer = function () {
   /** @type {PlayerHandler} Delegation proxy for media playback */
-  console.log('>>--- Entered CastPlayer') ;
+  var dCP;
+  var tCP;
+  dCP = new Date();
+  tCP = dCP.toLocaleTimeString();
+  console.log(tCP + ' **********  Entered CastPlayer') ;
+  console.log(tCP + ' **********  Entered CastPlayer') ;
+  console.log(tCP + ' **********  Entered CastPlayer') ;
+  console.log(tCP + ' **********  Entered CastPlayer') ;
+  console.log(tCP + ' **********  Entered CastPlayer') ;
+  console.log(tCP + ' **********  Entered CastPlayer') ;
+  console.log(tCP + ' **********  Entered CastPlayer') ;
+  console.log(tCP + ' **********  Entered CastPlayer') ;
   this.playerHandler = new PlayerHandler(this);
 
   /** @type {PLAYER_STATE} A state for media playback */
@@ -166,11 +178,35 @@ var CastPlayer = function () {
   // this.addVideoThumbs(); // don't load anything into the carousel, use a plain long list instead
   this.addVideoList();
   this.initializeUI();
-  console.log('<< Exiting CastPlayer') ;
+  
+  dCP = new Date();
+  tCP = dCP.toLocaleTimeString();
+  console.log(tCP + ' **********  Exiting CastPlayer') ;
+  console.log(tCP + ' **********  Exiting CastPlayer') ;
+  console.log(tCP + ' **********  Exiting CastPlayer') ;
+  console.log(tCP + ' **********  Exiting CastPlayer') ;
+  console.log(tCP + ' **********  Exiting CastPlayer') ;
+  console.log(tCP + ' **********  Exiting CastPlayer') ;
+  console.log(tCP + ' **********  Exiting CastPlayer') ;
+  console.log(tCP + ' **********  Exiting CastPlayer') ;
+  console.log(tCP + ' **********  Exiting CastPlayer') ;
 };
 
 CastPlayer.prototype.initializeCastPlayer = function () {
-  console.log('>>--- Entered CastPlayer.prototype.initializeCastPlayer ') ;
+  var diCP;
+  var tiCP;
+  diCP = new Date();
+  tiCP = diCP.toLocaleTimeString();
+  console.log(tiCP + '>>--- Entered CastPlayer.prototype.initializeCastPlayer ') ;
+  console.log(tiCP + '>>--- Entered CastPlayer.prototype.initializeCastPlayer ') ;
+  console.log(tiCP + '>>--- Entered CastPlayer.prototype.initializeCastPlayer ') ;
+  console.log(tiCP + '>>--- Entered CastPlayer.prototype.initializeCastPlayer ') ;
+  console.log(tiCP + '>>--- Entered CastPlayer.prototype.initializeCastPlayer ') ;
+  console.log(tiCP + '>>--- Entered CastPlayer.prototype.initializeCastPlayer ') ;
+  console.log(tiCP + '>>--- Entered CastPlayer.prototype.initializeCastPlayer ') ;
+  console.log(tiCP + '>>--- Entered CastPlayer.prototype.initializeCastPlayer ') ;
+  console.log(tiCP + '>>--- Entered CastPlayer.prototype.initializeCastPlayer ') ;
+  console.log(tiCP + '>>--- Entered CastPlayer.prototype.initializeCastPlayer ') ;
   var options = {};
 
   // Set the receiver application ID to your own (created in the
@@ -192,12 +228,23 @@ CastPlayer.prototype.initializeCastPlayer = function () {
   this.remotePlayerController.addEventListener(
     cast.framework.RemotePlayerEventType.IS_CONNECTED_CHANGED,
     function (e) {
-      console.log('>>--- Entered CastPlayer.prototype.initializeCastPlayer inline function IS_CONNECTED_CHANGED to do switchPlayer');
+      console.log('>>--- Entered CastPlayer.prototype.initializeCastPlayer inline function RemotePlayerEventType IS_CONNECTED_CHANGED to do switchPlayer');
       this.switchPlayer(e.value);
-      console.log('<< Exiting CastPlayer.prototype.initializeCastPlayer inline function IS_CONNECTED_CHANGED to do switchPlayer');
+      console.log('<< Exiting CastPlayer.prototype.initializeCastPlayer inline function RemotePlayerEventType IS_CONNECTED_CHANGED to do switchPlayer');
     }.bind(this) // yes the .bind(this); is attached to the closing brace
   );
-  console.log('<< Exiting CastPlayer.prototype.initializeCastPlayer ') ;
+  diCP = new Date();
+  tiCP = diCP.toLocaleTimeString();
+  console.log(tiCP + '<<--- Exiting CastPlayer.prototype.initializeCastPlayer ') ;
+  console.log(tiCP + '<<--- Exiting CastPlayer.prototype.initializeCastPlayer ') ;
+  console.log(tiCP + '<<--- Exiting CastPlayer.prototype.initializeCastPlayer ') ;
+  console.log(tiCP + '<<--- Exiting CastPlayer.prototype.initializeCastPlayer ') ;
+  console.log(tiCP + '<<--- Exiting CastPlayer.prototype.initializeCastPlayer ') ;
+  console.log(tiCP + '<<--- Exiting CastPlayer.prototype.initializeCastPlayer ') ;
+  console.log(tiCP + '<<--- Exiting CastPlayer.prototype.initializeCastPlayer ') ;
+  console.log(tiCP + '<<--- Exiting CastPlayer.prototype.initializeCastPlayer ') ;
+  console.log(tiCP + '<<--- Exiting CastPlayer.prototype.initializeCastPlayer ') ;
+  console.log(tiCP + '<<--- Exiting CastPlayer.prototype.initializeCastPlayer ') ;
 };
 
 /**
@@ -254,7 +301,15 @@ CastPlayer.prototype.switchPlayer = function () {
  *  - setTimeString(element, time)
  */
 var PlayerHandler = function (castPlayer) {
-  console.log('>>--- Entered PlayerHandler ') ;
+  var dPH;
+  var tPH;
+  dPH = new Date();
+  tPH = dPH.toLocaleTimeString();
+  console.log(tPH + ' ---------- Entered PlayerHandler') ;
+  console.log(tPH + ' ---------- Entered PlayerHandler') ;
+  console.log(tPH + ' ---------- Entered PlayerHandler') ;
+  console.log(tPH + ' ---------- Entered PlayerHandler') ;
+  console.log(tPH + ' ---------- Entered PlayerHandler') ;
   this.target = {};
 
   this.setTarget = function (target) {
@@ -418,18 +473,46 @@ var PlayerHandler = function (castPlayer) {
   };
 
   this.seekTo = function (time) {
-    console.log('>>--- Entered PlayerHandler.seekTo ') ;
+    var dseekTo;
+    var tseekTo;
+    dseekTo = new Date();
+    tseekTo = dseekTo.toLocaleTimeString();
+    console.log(tseekTo + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.seekTo: ' + time) ;
+    console.log(tseekTo + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.seekTo: ' + time) ;
+    console.log(tseekTo + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.seekTo: ' + time) ;
+    console.log(tseekTo + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.seekTo: ' + time) ;
+    console.log(tseekTo + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.seekTo: ' + time) ;
     this.target.seekTo(time);
-    console.log('<< Exiting PlayerHandler.seekTo ') ;
+    dseekTo = new Date();
+    tseekTo = dseekTo.toLocaleTimeString();
+    console.log(tseekTo + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.seekTo: ' + time) ;
+    console.log(tseekTo + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.seekTo: ' + time) ;
+    console.log(tseekTo + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.seekTo: ' + time) ;
+    console.log(tseekTo + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.seekTo: ' + time) ;
+    console.log(tseekTo + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.seekTo: ' + time) ;
   };
-  console.log('<< Exiting PlayerHandler ') ;
+  dPH = new Date();
+  tPH = dPH.toLocaleTimeString();
+  console.log(tPH + ' ---------- Exiting PlayerHandler') ;
+  console.log(tPH + ' ---------- Exiting PlayerHandler') ;
+  console.log(tPH + ' ---------- Exiting PlayerHandler') ;
+  console.log(tPH + ' ---------- Exiting PlayerHandler') ;
+  console.log(tPH + ' ---------- Exiting PlayerHandler') ;
 };
 
 /**
  * Set the PlayerHandler target to use the video-element player
  */
 CastPlayer.prototype.setupLocalPlayer = function () {
-  console.log('>>--- Entered CastPlayer.prototype.setupLocalPlayer ') ;
+  var dsLP;
+  var tsLP;
+  dsLP = new Date();
+  tsLP = dsLP.toLocaleTimeString();
+  console.log(tsLP + '----- Entered CastPlayer.prototype.setupLocalPlayer ') ;
+  console.log(tsLP + '----- Entered CastPlayer.prototype.setupLocalPlayer ') ;
+  console.log(tsLP + '----- Entered CastPlayer.prototype.setupLocalPlayer ') ;
+  console.log(tsLP + '----- Entered CastPlayer.prototype.setupLocalPlayer ') ;
+  console.log(tsLP + '----- Entered CastPlayer.prototype.setupLocalPlayer ') ;
   // Cleanup remote player UI
   document.getElementById('live_indicator').style.display = 'none';
   this.removeAdMarkers();
@@ -567,9 +650,23 @@ CastPlayer.prototype.setupLocalPlayer = function () {
   };
 
   playerTarget.seekTo = function (time) {
-    console.log('>>--- Entered CastPlayer.prototype.playerTarget.seekTo ') ;
+    var dseekTo;
+    var tseekTo;
+    dseekTo = new Date();
+    tseekTo = dseekTo.toLocaleTimeString();
+	console.log(tseekTo + '$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ Entered CastPlayer.prototype playerTarget.seekTo: ' + time) ;
+	console.log(tseekTo + '$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ Entered CastPlayer.prototype playerTarget.seekTo: ' + time) ;
+	console.log(tseekTo + '$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ Entered CastPlayer.prototype playerTarget.seekTo: ' + time) ;
+	console.log(tseekTo + '$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ Entered CastPlayer.prototype playerTarget.seekTo: ' + time) ;
+	console.log(tseekTo + '$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ Entered CastPlayer.prototype playerTarget.seekTo: ' + time) ;
     localPlayer.currentTime = time;
-    console.log('<< Exiting CastPlayer.prototype.playerTarget.seekTo ') ;
+    dseekTo = new Date();
+    tseekTo = dseekTo.toLocaleTimeString();
+	console.log(tseekTo + '$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ Exiting CastPlayer.prototype playerTarget.seekTo: ' + time) ;
+	console.log(tseekTo + '$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ Exiting CastPlayer.prototype playerTarget.seekTo: ' + time) ;
+	console.log(tseekTo + '$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ Exiting CastPlayer.prototype playerTarget.seekTo: ' + time) ;
+	console.log(tseekTo + '$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ Exiting CastPlayer.prototype playerTarget.seekTo: ' + time) ;
+	console.log(tseekTo + '$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ Exiting CastPlayer.prototype playerTarget.seekTo: ' + time) ;
   };
 
   // Now undertake some actions
@@ -586,7 +683,13 @@ CastPlayer.prototype.setupLocalPlayer = function () {
     this.playerHandler.load();
     this.playerHandler.play();
   }
-  console.log('<< Exiting CastPlayer.prototype.setupLocalPlayer ') ;
+  dsLP = new Date();
+  tsLP = dsLP.toLocaleTimeString();
+  console.log(tsLP + '----- Exiting CastPlayer.prototype.setupLocalPlayer ') ;
+  console.log(tsLP + '----- Exiting CastPlayer.prototype.setupLocalPlayer ') ;
+  console.log(tsLP + '----- Exiting CastPlayer.prototype.setupLocalPlayer ') ;
+  console.log(tsLP + '----- Exiting CastPlayer.prototype.setupLocalPlayer ') ;
+  console.log(tsLP + '----- Exiting CastPlayer.prototype.setupLocalPlayer ') ;
 };
 
 /**
@@ -1167,7 +1270,15 @@ CastPlayer.prototype.selectMedia = function (mediaIndex) {
  * @param {Event} event An event object from seek
  */
 CastPlayer.prototype.seekMedia = function (event) {
-  console.log('>>--- Entered CastPlayer.prototype.seekMedia')  ;
+  var dpsM;
+  var tpsM;
+  dpsM = new Date();
+  tpsM = dpsM.toLocaleTimeString();
+  console.log(tpsM + '@@@@@@@@@@@@@@@@ Entered CastPlayer.prototype.seekMedia')  ;
+  console.log(tpsM + '@@@@@@@@@@@@@@@@ Entered CastPlayer.prototype.seekMedia')  ;
+  console.log(tpsM + '@@@@@@@@@@@@@@@@ Entered CastPlayer.prototype.seekMedia')  ;
+  console.log(tpsM + '@@@@@@@@@@@@@@@@ Entered CastPlayer.prototype.seekMedia')  ;
+  console.log(tpsM + '@@@@@@@@@@@@@@@@ Entered CastPlayer.prototype.seekMedia')  ;
   if (this.mediaDuration == null || (cast.framework.CastContext.getInstance().getCurrentSession() && !this.remotePlayer.canSeek)) {
     console.log('Error - Not seekable');
     console.log('<< Exiting CastPlayer.prototype.seekMedia upon error not seekable')  ;
@@ -1208,7 +1319,13 @@ CastPlayer.prototype.seekMedia = function (event) {
   }
 
   this.playerHandler.seekTo(seekTime);
-  console.log('<< Exiting CastPlayer.prototype.seekMedia')  ;
+  dpsM = new Date();
+  tpsM = dpsM.toLocaleTimeString();
+  console.log(tpsM + '@@@@@@@@@@@@@@@@ Exiting CastPlayer.prototype.seekMedia')  ;
+  console.log(tpsM + '@@@@@@@@@@@@@@@@ Exiting CastPlayer.prototype.seekMedia')  ;
+  console.log(tpsM + '@@@@@@@@@@@@@@@@ Exiting CastPlayer.prototype.seekMedia')  ;
+  console.log(tpsM + '@@@@@@@@@@@@@@@@ Exiting CastPlayer.prototype.seekMedia')  ;
+  console.log(tpsM + '@@@@@@@@@@@@@@@@ Exiting CastPlayer.prototype.seekMedia')  ;
 };
 
 /**
@@ -1744,7 +1861,15 @@ CastPlayer.prototype.resetVolumeSlider = function () {
  * Initialize UI components and add event listeners
  */
 CastPlayer.prototype.initializeUI = function () {
-  console.log('>>--- Entered CastPlayer.prototype.initializeUI')  ;
+  var diUI;
+  var tiUI;
+  diUI = new Date();
+  tiUI = diUI.toLocaleTimeString();
+  console.log(tiUI + '***** Entered CastPlayer.prototype.initializeUI')  ;
+  console.log(tiUI + '***** Entered CastPlayer.prototype.initializeUI')  ;
+  console.log(tiUI + '***** Entered CastPlayer.prototype.initializeUI')  ;
+  console.log(tiUI + '***** Entered CastPlayer.prototype.initializeUI')  ;
+  console.log(tiUI + '***** Entered CastPlayer.prototype.initializeUI')  ;
   // Set initial values for title and subtitle.
   document.getElementById('media_title').innerHTML =
     this.mediaContents[0]['title'];                                // initialize to zero'th element which is first item in array
@@ -1803,6 +1928,20 @@ CastPlayer.prototype.initializeUI = function () {
 
   document.getElementById('progress_indicator').draggable = true;
 
+  // 2020.01.23 try to Enable FF/RW buttons
+  // document.getElementById('rw_5s').addEventListener('click', this.seekMediaListener);
+  // document.getElementById('rw_15s').addEventListener('click', this.seekMediaListener);
+  // document.getElementById('rw_30s').addEventListener('click', this.seekMediaListener);
+  // document.getElementById('rw_1m').addEventListener('click', this.seekMediaListener);
+  // document.getElementById('rw_1m').addEventListener('click', this.seekMediaListener);
+  // document.getElementById('rw_2m').addEventListener('click', this.seekMediaListener);
+  // document.getElementById('rw_3m').addEventListener('click', this.seekMediaListener);
+  // document.getElementById('ff_5s').addEventListener('click', this.seekMediaListener);
+  // document.getElementById('ff_15s').addEventListener('click', this.seekMediaListener);
+  // document.getElementById('ff_30s').addEventListener('click', this.seekMediaListener);
+  // document.getElementById('ff_1m').addEventListener('click', this.seekMediaListener);
+  // document.getElementById('ff_2m').addEventListener('click', this.seekMediaListener);
+  // document.getElementById('ff_3m').addEventListener('click', this.seekMediaListener);
   /*
   // Set up feature radio buttons
   let noneRadio = document.getElementById('none');
