@@ -479,16 +479,11 @@ var PlayerHandler = function (castPlayer) {
     tseekTo = dseekTo.toLocaleTimeString();
     console.log(tseekTo + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.seekTo: ' + time) ;
     console.log(tseekTo + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Entered PlayerHandler this.seekTo: ' + time) ;
-																											   
-																											   
-																											   
     this.target.seekTo(time);
     dseekTo = new Date();
     tseekTo = dseekTo.toLocaleTimeString();
     console.log(tseekTo + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.seekTo: ' + time) ;
     console.log(tseekTo + '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ===== Exiting PlayerHandler this.seekTo: ' + time) ;
-																											   
-																											   
   };
 // 2020.01.23 Try to add RW FF functionality into PlayerHandler
   this.FF_RW_seekTo = function (number_of_seconds) {
@@ -499,6 +494,7 @@ var PlayerHandler = function (castPlayer) {
     tFFRW = dFFRW.toLocaleTimeString();
     console.log(tFFRW + '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ===== Entered PlayerHandler this.FF_RW_seekTo: ' + number_of_seconds) ;
     console.log(tFFRW + '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ===== Entered PlayerHandler this.FF_RW_seekTo: ' + number_of_seconds) ;
+    this.currentMediaTime = this.target.getCurrentMediaTime();
     seekTime = parseInt(this.currentMediaTime + number_of_seconds);
     this.currentMediaTime = seekTime
     this.seekTo(seekTime)
