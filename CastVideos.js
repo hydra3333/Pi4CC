@@ -59,7 +59,8 @@ const LIVE_INDICATOR_BUFFER = 50;
  * Width of progress bar in pixels.
  * @const {number}
  */
-const PROGRESS_BAR_WIDTH = 700;
+ /* this MUST EXACTLY MATCH the value in CastVideos.js */
+const PROGRESS_BAR_WIDTH = 380; /* const PROGRESS_BAR_WIDTH = 700; */
 
 /**
  * Time in milliseconds for minimal progress update.
@@ -497,12 +498,16 @@ var PlayerHandler = function (castPlayer) {
 	var seekTime
     var dFFRW;
     var tFFRW;
+	var x_number_of_seconds;
+	x_number_of_seconds = number_of_seconds;
     dFFRW = new Date();
     tFFRW = dFFRW.toLocaleTimeString();
     if (debug_console_log) { console.log(tFFRW + '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ===== Entered PlayerHandler this.FF_RW_seekTo: ' + number_of_seconds) ; } ;
     if (debug_console_log) { console.log(tFFRW + '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ===== Entered PlayerHandler this.FF_RW_seekTo: ' + number_of_seconds) ; } ;
     this.currentMediaTime = this.target.getCurrentMediaTime();
-    seekTime = parseInt(this.currentMediaTime + number_of_seconds);
+	if ((this.currentMediaTime + x_number_of_seconds) > this.mediaDuration) {x_number_of_seconds = this.mediaDuration - this.currentMediaTime};
+	if ((this.currentMediaTime + x_number_of_seconds) < 0) {x_number_of_seconds = 0 - this.currentMediaTime};
+    seekTime = parseInt(this.currentMediaTime + x_number_of_seconds);
     this.currentMediaTime = seekTime
     this.seekTo(seekTime)
     if (debug_console_log) { console.log(tFFRW + '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ===== Exiting PlayerHandler this.FF_RW_seekTo: ' + number_of_seconds) ; } ;
@@ -2174,8 +2179,12 @@ CastPlayer.prototype.addVideoList = function () {
     filedivIdName = 'thumb' + i + 'Div';
     filediv.setAttribute('id', filedivIdName);
     filediv.setAttribute('class', 'highlight_on_hover');
-	// tmpstring = '<div class="lineitem">' + '<div class="lineitem_lefttext">' + this.mediaContents[i]['title']  + '</div><div class="lineitem_righttext">' + encodeURI(this.mediaContents[i]['sources'][0]) + '</div></div>' ;
-	tmpstring = '<div class="lineitem">' + '<div class="lineitem_lefttext">' + this.mediaContents[i]['title']  + " [" + this.mediaContents[i]['resolution'] + "][" + this.mediaContents[i]['video_codec']  + "/" +  this.mediaContents[i]['audio_codec'] + "][" + this.mediaContents[i]['duration_str'] + "]" + '</div><div class="lineitem_righttext">' + encodeURI(this.mediaContents[i]['sources'][0]) + '</div></div>' ;
+    if (debug_console_log) { 
+       // tmpstring = '<div class="lineitem">' + '<div class="lineitem_lefttext">' + this.mediaContents[i]['title']  + '</div><div class="lineitem_righttext">' + encodeURI(this.mediaContents[i]['sources'][0]) + '</div></div>' ;
+	   tmpstring = '<div class="lineitem">' + '<div class="lineitem_lefttext">' + this.mediaContents[i]['title']  + " [" + this.mediaContents[i]['resolution'] + "][" + this.mediaContents[i]['video_codec']  + "/" +  this.mediaContents[i]['audio_codec'] + "][" + this.mediaContents[i]['duration_str'] + "]" + '</div><div class="lineitem_righttext">' + encodeURI(this.mediaContents[i]['sources'][0]) + '</div></div>' ;
+    } else {
+	   tmpstring = '<div class="lineitem">' + '<div class="lineitem_lefttext">' + this.mediaContents[i]['title']  + " [" + this.mediaContents[i]['resolution'] + "][" + this.mediaContents[i]['video_codec']  + "/" +  this.mediaContents[i]['audio_codec'] + "][" + this.mediaContents[i]['duration_str'] + "]" + '</div></div>' ;
+    }
     filediv.innerHTML = tmpstring;
 	//if (debug_console_log) { console.log(tmpstring); } ;
     filediv.addEventListener('click', this.selectMedia.bind(this, i));

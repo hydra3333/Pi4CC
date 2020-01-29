@@ -1,5 +1,5 @@
 html {
-  --progress-bar-width: 700px;
+  --progress-bar-width: 380px /* 700px; */
 }
 
 body {
@@ -104,7 +104,7 @@ copyright {
 
 #main_video {
   float: left;
-  width: 960px; /* width: 1100px; */
+  width: 640px; /* width: 960px; */
 }
 
 #video_image {
@@ -112,8 +112,8 @@ copyright {
   margin-right: auto;
   margin-top: 20px;
   margin-bottom: 0px;
-  width: 960px;
-  height: 520px;
+  width: 640px; /* width: 960px; */
+  height: 340px; /* height: 520px; */ /* potentially 340 not 360 */
 }
 
 #video_image_overlay {
@@ -121,8 +121,8 @@ copyright {
   margin-right: 0px;
   margin-top: 0px;
   margin-bottom: 0px;
-  width: 960px;
-  height: 540px;
+  width: 640px; /* width: 960px; */
+  height: 360px; /* height: 540px; */
   background: linear-gradient(to top,
     rgba(0, 0, 0, 0.9),
     rgba(0, 0, 0, 0) 72%,
@@ -137,8 +137,8 @@ copyright {
   margin-right: auto;
   margin-top: 20px;
   margin-bottom: 0px;
-  width: 960px;
-  height: 540px;
+  width: 640px; /* width: 960px; */
+  height: 360px; /* height: 540px; */
   background-color: #000;
 }
 
@@ -147,7 +147,7 @@ copyright {
   display: block;
   clear: both;
   float: left;
-  width: 940px;
+  width: 620px; /* 20px less than 640px */  /* width: 940px; */
   margin-left: 40px;
   margin-right: 0;
   margin-top: 0px;
@@ -177,7 +177,7 @@ copyright {
   display: block;
   clear: both;
   float: left;
-  width: 940px;
+  width: 620px; /* 20px less than 640px */  /* width: 940px; */
   /*  height: 116px; */
   /* margin: 5px 0px 0px 40px; */ /* top, right, bottom, left  */
   margin-left: 40px;
@@ -226,10 +226,10 @@ radio {
 
 #media_control {
   position: relative;
-  width: 960px;
-  height: 60px;
+  width: 640px; /* width: 960px; */
+  height: 60px; /* 60px; */
   z-index: 1000;
-  margin: -60px 0px 0px 40px;
+  margin: -60px 0px 0px 40px; /* top right bottom left */ /* minus 60 means start it at the top of where it should have been since it is 60 height */
   padding: 0px;
   opacity: 0.7;
   background-color: #000;
@@ -243,7 +243,7 @@ radio {
 }
 
 #play {
-  margin: 10px 0px 10px 10px;
+  margin: 10px 0px 10px 10px; /* top, right, bottom, left  */
   float: left;
   width: 65px;
   height: 40px;
@@ -260,7 +260,7 @@ radio {
 
 #pause {
   display: none;
-  margin: 10px 0px 10px 10px;
+  margin: 10px 0px 10px 10px; /* top, right, bottom, left  */
   float: left;
   width: 65px;
   height: 40px;
@@ -302,7 +302,7 @@ radio {
   height: 10px;
   width: var(--progress-bar-width);
   float: left;
-  margin: 12px 0px 0px 0px;
+  margin: 12px 0px 0px 0px; /* top, right, bottom, left  */
 }
 
 #progress_bg {
@@ -376,7 +376,7 @@ radio {
 
 #castbutton {
   float: right;
-  margin: 10px 6px 14px 0px;
+  margin: 10px 6px 14px 0px; /* top, right, bottom, left  */
   width: 40px;
   height: 32px;
   opacity: 0.7;
@@ -392,7 +392,7 @@ radio {
 
 #audio_off {
   float: left;
-  margin: 10px 15px 10px 15px;
+  margin: 10px 15px 10px 15px; /* top, right, bottom, left  */
   width: 32px;
   height: 32px;
   display: none;
@@ -403,7 +403,7 @@ radio {
   float: left;
   width: 32px;
   height: 32px;
-  margin: 10px 15px 10px 15px;
+  margin: 10px 15px 10px 15px; /* top, right, bottom, left  */
   display: block;
   background-image: url('../imagefiles/audio_on.png');
 }
@@ -413,7 +413,7 @@ radio {
   opacity: 0.1;
   width: 41px;
   height: 124px;
-  margin: -115px 0px -10px 8px;
+  margin: -115px 0px -10px 8px; /* top, right, bottom, left  */
   display: block;
   background-image: url('../imagefiles/audio_bg.png');
   position: relative;
@@ -425,7 +425,7 @@ radio {
   opacity: 0.0;
   width: 16px;
   height: 100px;
-  margin: -100px 0px -30px 20px;
+  margin: -100px 0px -30px 20px; /* top, right, bottom, left  */
   display: block;
   background-image: url('../imagefiles/audio_bg_track.png');
   position: relative;
@@ -437,7 +437,7 @@ radio {
   opacity: 0.0;
   width: 16px;
   height: 5px;
-  margin: -50px 0px -30px 20px;
+  margin: -50px 0px -30px 20px; /* top, right, bottom, left  */
   display: none;
   background-image: url('../imagefiles/audio_indicator.png');
   position: relative;
@@ -449,7 +449,7 @@ radio {
   opacity: 0.0;
   width: 16px;
   height: 50px;
-  margin: -50px 0px -30px 20px;
+  margin: -50px 0px -30px 20px; /* top, right, bottom, left  */
   display: block;
   background-image: url('../imagefiles/audio_bg_level.png');
   position: relative;
@@ -460,7 +460,7 @@ radio {
   float: right;
   width: 32px;
   height: 32px;
-  margin: 10px 20px 10px 0px;
+  margin: 10px 20px 10px 0px; /* top, right, bottom, left  */
   display: block;
   background-image: url('../imagefiles/fullscreen_expand.png');
   cursor: pointer;
@@ -470,7 +470,7 @@ radio {
   float: right;
   width: 32px;
   height: 32px;
-  margin: 10px 20px 10px 0px;
+  margin: 10px 20px 10px 0px; /* top, right, bottom, left  */
   display: none;
   background-image: url('../imagefiles/fullscreen_collapse.png');
   cursor: pointer;
@@ -483,7 +483,7 @@ radio {
    color: white; /* color: #fff; */
   width: 92px;
   height: 20px;
-  margin: 8px 0px 0px 0px;
+  margin: 8px 0px 0px 0px; /* top, right, bottom, left  */
   display: block;
 }
 
@@ -493,10 +493,10 @@ radio {
   position: absolute;
   right: 125px;
   top: 22px;
-   color: white; /* color: #fff; */
+  color: white; /* color: #fff; */
   width: 92px;
   height: 20px;
-  margin: 8px 0px 0px 0px;
+  margin: 8px 0px 0px 0px; /* top, right, bottom, left  */
 }
 
 #live_indicator {
@@ -504,25 +504,31 @@ radio {
   right: 190px;
   top: 22px;
   height: 20px;
-  margin: 8px 30px 0px 0px;
+  margin: 8px 30px 0px 0px; /* top, right, bottom, left  */
   display: none;
 }
 
 #skip {
-  visibility: hidden;
+  visibility: none; /* hidden; */
   background-image: url('../imagefiles/skip.png');
   color: white;
   cursor: pointer;
   display: none;
   opacity: 0.7;
+  position: absolute;
+  /* this was for 960x520 
   left: 875px;
   top: 575px;
+  ... -> 640x360 means use (875-320=555,575-160=415)
+  */
+  left: 555px;
+  top: 415px;
   width: 55px;
   height: 19px;
   font-family: 'Roboto', "Open Sans", "Verdana", Georgia, Serif;
   margin: -60px 0px 0px 40px;
   padding: 10px;
-  position: absolute;
+					 
   z-index: 1000;
 }
 
@@ -536,7 +542,7 @@ radio {
 
 div.imageSub {
   position: relative;
-  height: 540px;
+  height: 360px; /* height: 540px; */
 }
 
 div.imageSub img {
