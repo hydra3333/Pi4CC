@@ -2124,7 +2124,7 @@ CastPlayer.prototype.initializeUI = function () {
 
   if (ENABLE_ADS) {
     if (ENABLE_LIVE) {
-      if (debug_console_log) { console.log.error('Only one ADS feature can be enabled at a time. Enabling ads.'); } ;
+      console.error('Only one ADS feature can be enabled at a time. Enabling ads.'); } ;
     }
     adsRadio.checked = true;
     if (debug_console_log) { console.log("Ads are enabled"); } ;
