@@ -76,7 +76,7 @@ It works ... and is undergoing "refinement".
 2. Install and configure your Raspberry Pi 4 4Gb and set it to boot to GIU and autologin
    - it is close enough to safe to autologin since the Pi is only visible inside your "secure" home LAN
    - in a Terminal, using sudo raspi-config, Advanced,
-     choose a screen resolution ANYTHING OTHER (eg 1920x1080) than "default" so that a framebuffer gets allocated on a Pi4
+     choose a screen resolution ANYTHING (eg 1920x1080) OTHER than "default" so that a framebuffer gets allocated on a Pi4
 	 which magically enables VNC server to run even when a screen is not connected to the HDMI port
    - (the GUI should be left to boot and run, even in a headless state later)
 3. Disable IPv6, forcing the Pi to be addressable by IPv4 (so the web interface works as intended),
