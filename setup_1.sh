@@ -171,7 +171,7 @@ echo "# Check the exterrnal USB3 drive mounted where we told it to by doing a df
 set -x
 df
 set +x
-read -p "Press Enter to continue"
+##read -p "Press Enter to continue"
 
 echo "# ------------------------------------------------------------------------------------------------------------------------"
 echo "# INSTALLING APACHE & PHP"
@@ -219,120 +219,120 @@ sudo apt autoremove -y
 #sleep 3s
 # REMOVE CONFIG FILES
 sudo rm -fv "/etc/php/7.3/apache2/php.ini"
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 sudo rm -fv "/etc/apache2/apache2.conf"
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 sudo rm -fv "/etc/apache2/mods-available/status.conf"
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 sudo rm -fv "/etc/apache2/mods-available/info.conf"
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 sudo rm -fv "/etc/apache2/sites-available/000-default.conf"
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 sudo rm -fv "/etc/apache2/sites-available/default-tls.conf"
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 # INSTALL APACHE2
 sudo apt install -y apache2 
 #sleep 3s
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 sudo apt install -y apache2-bin
 #sleep 3s
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 sudo apt install -y apache2-data
 #sleep 3s
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 sudo apt install -y apache2-utils
 #sleep 3s
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 sudo apt install -y apache2-doc
 #sleep 3s
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 sudo apt install -y apache2-suexec-pristine
 #sleep 3s
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 sudo apt install -y apache2-ssl-dev
 #sleep 3s
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 sudo apt install -y libxml2 
 #sleep 3s
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 sudo apt install -y libxml2-dev 
 #sleep 3s
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 sudo apt install -y libxml2-utils
 #sleep 3s
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 sudo apt install -y libaprutil1 
 #sleep 3s
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 sudo apt install -y libaprutil1-dev
 #sleep 3s
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 # socache_dbm required for gnutls
 sudo a2enmod socache_dbm
 #sleep 3s
 sudo apt install -y libapache2-mod-gnutls 
 #sleep 3s
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 sudo apt install -y libapache2-mod-security2
 #sleep 3s
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 # Note: the version lile 7.3 will change as time passes !!!!!!!
 # INSTALL PHP
 sudo apt install -y php7.3 
 #sleep 3s
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 sudo apt install -y php7.3-common 
 #sleep 3s
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 sudo apt install -y php7.3-cli 
 #sleep 3s
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 sudo apt install -y php7.3-intl 
 #sleep 3s
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 sudo apt install -y php7.3-curl 
 #sleep 3s
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 sudo apt install -y php7.3-xsl 
 #sleep 3s
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 sudo apt install -y php7.3-gd 
 #sleep 3s
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 sudo apt install -y php7.3-recode 
 #sleep 3s
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 sudo apt install -y php7.3-tidy 
 #sleep 3s
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 sudo apt install -y php7.3-json 
 #sleep 3s
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 sudo apt install -y php7.3-mbstring 
 #sleep 3s
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 sudo apt install -y php7.3-dev 
 #sleep 3s
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 sudo apt install -y php7.3-bz2 
 #sleep 3s
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 sudo apt install -y php7.3-zip 
 #sleep 3s
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 sudo apt install -y php-pear 
 #sleep 3s
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 sudo apt install -y libmcrypt-dev
 #sleep 3s
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 sudo apt install -y libapache2-mod-php
 #sleep 3s
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 set +x
 
 echo ""
-#read -p "Press Enter to continue, if it installed correctly"
+##read -p "Press Enter to continue, if it installed correctly"
 
 echo "Make changes to /etc/php/7.3/apache2/php.ini"
 set -x
@@ -348,7 +348,7 @@ php -version
 set +x
 
 echo ""
-#read -p "Press Enter to continue, if it there were 6 changes correctly"
+##read -p "Press Enter to continue, if it there were 6 changes correctly"
 
 echo "# Install python3"
 set -x
@@ -363,7 +363,7 @@ sudo apt install -y idle
 sudo apt install -y libapache2-mod-python
 #sleep 3s
 set +x
-#read -p "Press Enter to continue, if it worked correctly"
+##read -p "Press Enter to continue, if it worked correctly"
 
 echo ""
 echo "# OK, finished Apache2/Python3/PSH APT installs"
@@ -381,7 +381,7 @@ cat /var/log/apache2/error.log
 ls -al /etc/apache2/sites-enabled
 ls -al /etc/apache2/sites-available
 set +x
-#read -p "Press Enter to continue, if it worked correctly"
+##read -p "Press Enter to continue, if it worked correctly"
 
 echo ""
 echo "# Enable/Disable Apache2 features"
@@ -393,6 +393,7 @@ sudo a2enmod autoindex
 sudo a2enmod negotiation
 sudo a2enmod speling
 sudo a2enmod socache_dbm
+sudo a2enmod socache_shmcb
 sudo a2dismod ssl
 sudo a2enmod gnutls
 sudo a2enmod php7.3
@@ -402,7 +403,7 @@ sudo a2enmod alias
 sudo a2enmod cgi
 #sleep 3s
 set +x
-#read -p "Press Enter to continue, if it worked correctly"
+##read -p "Press Enter to continue, if it worked correctly"
 
 #echo "# check the mp4 mime type is in place"
 #ls -al /etc/mime.types
@@ -457,7 +458,7 @@ sudo diff -U 1 "/etc/apache2/apache2.conf.old" "/etc/apache2/apache2.conf"
 set +x
 
 echo ""
-#read -p "Press Enter to continue, if the all of the apache2.conf worked correctly"
+##read -p "Press Enter to continue, if the all of the apache2.conf worked correctly"
 echo ""
 
 echo '# Under the "Location /server-status" directive, '
@@ -472,7 +473,7 @@ sudo sed -i "s;#Require ip 192.0.2.0/24;#Require ip 192.0.2.0/24\n#Require ip 12
 sudo diff -U 1 "/etc/apache2/mods-available/status.conf.old" "/etc/apache2/mods-available/status.conf"
 set +x
 echo ""
-#read -p "Press Enter to continue, if the status.conf worked correctly"
+##read -p "Press Enter to continue, if the status.conf worked correctly"
 echo ""
 
 set -x
@@ -481,7 +482,7 @@ sudo sed -i "s;#Require ip 192.0.2.0/24;#Require ip 192.0.2.0/24\n#Require ip 12
 sudo diff -U 1 "/etc/apache2/mods-available/info.conf.old" "/etc/apache2/mods-available/info.conf"
 set +x
 echo ""
-#read -p "Press Enter to continue, if the info.conf worked correctly"
+##read -p "Press Enter to continue, if the info.conf worked correctly"
 echo ""
 
 # Leave port 80 listening, so do not comment-out the line which says Listen 80 in /etc/apache2/ports.conf
@@ -495,7 +496,7 @@ sudo a2ensite 000-default
 ls -al /etc/apache2/sites-enabled
 set +x
 echo ""
-#read -p "Press Enter to continue, if setting up Apache2 and Sites/Config worked correctly"
+##read -p "Press Enter to continue, if setting up Apache2 and Sites/Config worked correctly"
 echo ""
 
 echo ""
@@ -582,7 +583,7 @@ sudo rm -fv "./cert.input"
 ls -al "/etc/tls/localcerts/"
 set +x
 echo ""
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 echo ""
 
 echo "# Strip Out Passphrase from the Key"
@@ -594,7 +595,7 @@ sudo openssl rsa -in /etc/tls/localcerts/${server_name}.key.orig -out /etc/tls/l
 sudo chmod -c a=rwx -R /etc/tls/localcerts/*
 set +x
 echo ""
-#read -p "Press Enter to continue #"
+##read -p "Press Enter to continue #"
 echo ""
 
 #Enter pass phrase for ${server_name}.key: Certificates
@@ -672,7 +673,7 @@ sudo chmod -c a=rwx -R /etc/tls/localcerts/*
 set +x
 
 echo ""
-#read -p "Press Enter to continue, if the Certificates Setup worked"
+##read -p "Press Enter to continue, if the Certificates Setup worked"
 echo ""
 
 
@@ -745,7 +746,7 @@ set +x
 echo ""
 
 #echo ""
-#read -p "Press Enter to continue, if those downloads/moves worked"
+##read -p "Press Enter to continue, if those downloads/moves worked"
 #echo ""
 
 echo ""
@@ -785,20 +786,20 @@ set -x
 #journalctl -xe # Press q to finish the listing
 set +x
 echo ""
-#read -p "Press Enter to continue, if that all worked"
+##read -p "Press Enter to continue, if that all worked"
 echo ""
 set -x
 cat /var/log/apache2/error.log
 set +x
 echo ""
-#read -p "Press Enter to continue, if that all worked"
+##read -p "Press Enter to continue, if that all worked"
 echo ""
 
 sudo chown -c -R pi:www-data "/var/www"
 sudo chmod -c a=rwx -R "/var/www"
 
 echo ""
-read -p "Press Enter to continue, if that all worked"
+##read -p "Press Enter to continue, if that all worked"
 echo ""
 
 
@@ -822,25 +823,25 @@ echo "     Accept-Ranges: bytes"
 echo "     Access-Control-Allow-Origin: *"
 echo "     Access-Control-Allow-Headers: Allow-Origin, X-Requested-With, Content-Type, Accept"
 echo ""
-read -p "Press Enter to continue, if that all worked and those are OK."
+##read -p "Press Enter to continue, if that all worked and those are OK."
 echo ""
 
 set -x
 curl 127.0.0.1/server-status
 #set +x
-#read -p "Press Enter to continue, if that worked."
+##read -p "Press Enter to continue, if that worked."
 #set -x
 #curl 127.0.0.1/server-info
 #set +x
-#read -p "Press Enter to continue, if that worked."
+##read -p "Press Enter to continue, if that worked."
 #set -x
 #curl 127.0.0.1/phpinfo.php
 #set +x
-#read -p "Press Enter to continue, if that worked."
+##read -p "Press Enter to continue, if that worked."
 #set -x
 #curl 127.0.0.1/example.php
 set +x
-read -p "Press Enter to continue, if that worked."
+##read -p "Press Enter to continue, if that worked."
 echo ""
 
 echo ""
@@ -1023,7 +1024,7 @@ echo ""
 # Navigate through the different directories for music, videos and pictures and select a file to start the streaming process
 
 echo ""
-read -p "Press Enter to continue, if that all worked"
+##read -p "Press Enter to continue, if that all worked"
 echo ""
 
 echo ""
@@ -1112,7 +1113,7 @@ set +x
 echo ""
 echo "You can now access the defined shares from a Windows machine"
 echo "or from an app that supports the SMB protocol"
-echo "eg from Win10 PC in Windows Explorer use the IP address of ${server_name} like ... \\$(server_ip)\ "
+echo "eg from Win10 PC in Windows Explorer use the IP address of ${server_name} like ... \\\\${server_ip}\\ "
 set -x
 hostname
 hostname --fqdn
@@ -1120,7 +1121,7 @@ hostname --all-ip-addresses
 set +x
 
 echo ""
-read -p "Press Enter to continue, if that all worked"
+##read -p "Press Enter to continue, if that all worked"
 echo ""
 
 echo ""
@@ -1181,7 +1182,7 @@ sleep 5s
 set +x
 
 echo ""
-read -p "Press Enter to continue, if that all worked"
+##read -p "Press Enter to continue, if that all worked"
 echo ""
 
 

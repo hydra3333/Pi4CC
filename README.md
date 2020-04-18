@@ -79,11 +79,7 @@ It works ... and is undergoing "refinement".
      choose a screen resolution ANYTHING (eg 1920x1080) OTHER than "default" so that a framebuffer gets allocated on a Pi4
 	 which magically enables VNC server to run even when a screen is not connected to the HDMI port
    - (the GUI should be left to boot and run, even in a headless state later)
-3. Disable IPv6, forcing the Pi to be addressable by IPv4 (so the web interface works as intended),
-   - start a Terminal and do `sudo nano /boot/cmdline.txt` 
-   - add this ` ipv6.disable=1` to the end of the first line (with a preceding space)
-   - save the file using Control-O, then exit nano using Control-X
-4. Check, perhaps in the GUI menu item `Raspberry Pi Configuration`,
+3. Check, perhaps in the GUI menu item `Raspberry Pi Configuration`,
    -  its hostname is short and easy and has no spaces or special characters (it will be used as the website name)
    - "login as user pi" is ticked
    - "wait for network" is ticked
@@ -91,20 +87,19 @@ It works ... and is undergoing "refinement".
    - VNC is enabled
    - SSH is enabled
    - GPU memory is 384k
-   - "localisation" tab is used to check/configure your timezone/locale etc
-5. Also check the Pi has a fixed IP address, perhaps by setting your home router's DHCP facility to recognise the Pi's mac address and provide a fixed IP address
-6. Clone the respository to the Desktop of the Pi and copy the setup files to the Desktop
+   - "localisation" tab is used to check/configure your timezone/locale etc and set local language to UTF-8
+4. Also check the Pi has a fixed IP address, perhaps by setting your home router's DHCP facility to recognise the Pi's mac address and provide a fixed IP address
+5. Clone the respository to the Desktop of the Pi and copy the setup files to the Desktop
    - start a Terminal and do this:
      ```
      cd ~/Desktop
      sudo apt install -y git
      git clone https://github.com/hydra3333/Pi4CC.git
-     cp -fv ./Pi4CC/setup_0.sh ./
-     cp -fv ./Pi4CC/setup_1.sh ./
+     cp -fv ./Pi4CC/setup*.sh ./
      chmod +777 *.sh
      ```
    - you are greatly encouraged to view and check files `setup_0.sh` and `setup_1.sh` to see they do nothing nefarious :)
-7. Do part "Setup 0" of the installation (it should be re-startable, feel free to "Control C" and re-start if you feel uncomfortable)
+6. Do part "Setup 0" of the installation (it should be re-startable, feel free to "Control C" and re-start if you feel uncomfortable)
    - plug the USB3 external hard drive in to the Pi (always use the same USB3 slot in the Pi)
    - wait 15 seconds for the USB3 external hard drive to spin up and be recognised automatically
    - find and note EXACTLY the correct `UUID=` string of letters and numbers for the USB3 external hard drive ; start a Terminal and do this:
@@ -120,7 +115,7 @@ It works ... and is undergoing "refinement".
        /dev/mmcblk0: PTUUID="d9b3f436" PTTYPE="dos"
        /dev/sda1: PARTLABEL="Microsoft reserved partition" PARTUUID="62ac9e1a-a82b-4df7-92b9-19ffc689d80b"
        ```
-     * in thise case (and not yours) it is self-evidently `F8ACDEBBACDE741A` ... copy and paste it somewhere you can copy it from later
+     * in thise case (and not yours) it is self-evidently `F8ACDEBBACDE741A` ... copy and paste it somewhere so you can use it later if required
    - Now, in a Terminal and do this:
      ```
      cd ~/Desktop
@@ -135,26 +130,8 @@ It works ... and is undergoing "refinement".
      * `Designate the root folder on the USB3 external hard drive` it's the top level folder on the USB3 external hard drive containing .mp4 files and subfolders containing .mp4 files, eg `/mnt/mp4library/mp4library`
    - answer other prompts
      * sometimes you will be asked to visually scan setup results for issues, and press Enter to continue
-     * when you see something like this
-       ```
-       + sudo cp -fv /etc/fstab /etc/fstab.old
-       '/etc/fstab' -> '/etc/fstab.old'
-       + sudo sed -i '$ a #UUID=F8ACDEBBACDE741A /home/pi/Desktop/zzz ntfs defaults,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,x-systemd.device-timeout=120 0 2' /etc/fstab
-       + sudo cat /etc/fstab
-       proc            /proc           proc    defaults          0       0
-       PARTUUID=d9b3f436-01  /boot           vfat    defaults          0       2
-       PARTUUID=d9b3f436-02  /               ext4    defaults,noatime  0       1
-       # a swapfile is not a swap partition, no line here
-       #   use  dphys-swapfile swap[on|off]  for that
-       #UUID=F8ACDEBBACDE741A /mnt/mp4library ntfs defaults,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,x-systemd.device-timeout=120 0 2
-       + set +x
-       Press Enter to start nano to uncomment the line and CHANGE to the correct UUID  
-       ```
-       you are about to start the `nano` editor to do 2 things:
-	     * remove any `#` at the start of the line containing `UUID=F8ACDEBBACDE741A`
-	     * remove the `F8ACDEBBACDE741A` string and enter the UUID string you saved earlier ... good luck
    - Reboot the Pi so that any new settings take effect
-8. After rebooting, do part "Setup 1" of the installation (it should be re-startable, feel free to "Control C" and re-start if you feel uncomfortable)
+7. After rebooting, do part "Setup 1" of the installation (it should be re-startable, feel free to "Control C" and re-start if you feel uncomfortable)
    - In a Terminal and do this:
      ```
      cd ~/Desktop
@@ -165,7 +142,7 @@ It works ... and is undergoing "refinement".
    - answer initial prompts (it will remember the answers you gave in setup_0 as defaults ... don't change them now !)
    - answer other prompts
      * sometimes you will be asked to visually scan setup results for issues, and press Enter to continue
-     * observe progress and "control C" if you spot anything "unfortunate" occurring
+     * observe progress and USE "control C" if you spot anything "unfortunate" occurring
      * when you see something like this (I cannot seem to avoid it prompting)
        ```
        + sudo openssl pkcs12 -export -out /etc/tls/localcerts/PiDesktop.pfx -inkey /etc/tls/localcerts/PiDesktop.key.orig -in /etc/tls/localcerts/PiDesktop.pem

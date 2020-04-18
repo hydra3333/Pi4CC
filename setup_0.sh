@@ -227,7 +227,7 @@ cat "/boot/config.txt"
 set +x
 
 echo ""
-read -p "Press Enter to continue"
+##read -p "Press Enter to continue"
 echo ""
 echo "Now,"
 echo "# Use sudo raspi-config to set these options"
@@ -249,7 +249,7 @@ set -x
 sudo raspi-config
 set +x
 echo ""
-read -p "Press Enter to continue, if you are happy so far"
+##read -p "Press Enter to continue, if you are happy so far"
 
 echo ""
 echo "# ------------------------------------------------------------------------------------------------------------------------"
@@ -358,7 +358,7 @@ diff -U 1 "/etc/fstab.old" "/etc/fstab"
 sudo cat "/etc/fstab"
 set +x
 echo ""
-read -p "Press Enter if /etc/fstab is OK, othwewise Control-C now and fix it manually !" 
+##read -p "Press Enter if /etc/fstab is OK, otherwise Control-C now and fix it manually !" 
 
 echo ""
 echo ""
@@ -496,6 +496,6 @@ echo "--------------------------------------------------------------------------
 
 echo ""
 echo "# We should REBOOT the Pi now."
-read -p "Press Enter to reboot then start the next setup script"
+##read -p "Press Enter to reboot then start the next setup script"
 
 exit
