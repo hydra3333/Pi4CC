@@ -74,7 +74,7 @@ It works ... and is undergoing "refinement".
      - In the Pi, we will set the mount point for the USB3 disk to (usually) be `/mnt/mp4library`
      - The top level folder on the USB3 disk will (usually) be `mp4library`, thus accessible in the Pi via `/mnt/mp4library/mp4library`
 2. Install and configure your Raspberry Pi 4 4Gb and set it to boot to GIU and autologin
-   - it is close enough to safe to autologin since the Pi is only visible inside your "secure" home LAN
+   - it is close enough and safe to autologin since the Pi is only visible inside your "secure" home LAN
    - in a Terminal, using sudo raspi-config, Advanced,
      choose a screen resolution ANYTHING (eg 1920x1080) OTHER than "default" so that a framebuffer gets allocated on a Pi4
 	 which magically enables VNC server to run even when a screen is not connected to the HDMI port
