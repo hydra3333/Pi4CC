@@ -73,20 +73,23 @@ It works ... and is undergoing "refinement".
    - Note: 
      - In the Pi, we will set the mount point for the USB3 disk to (usually) be `/mnt/mp4library`
      - The top level folder on the USB3 disk will (usually) be `mp4library`, thus accessible in the Pi via `/mnt/mp4library/mp4library`
-
-3. Install and configure your Raspberry Pi 4 4Gb and set it to boot to GIU and autologin
+2. Install and configure your Raspberry Pi 4 4Gb and set it to boot to GIU and autologin
    - it is close enough to safe to autologin since the Pi is only visible inside your "secure" home LAN
    - in a Terminal, using sudo raspi-config, Advanced,
-     choose a screen resolution ANYTHING OTHER than "default" (eg 1920x1080) so that a framebuffer gets allocated on a Pi4
+     choose a screen resolution ANYTHING OTHER (eg 1920x1080) than "default" so that a framebuffer gets allocated on a Pi4
 	 which magically enables VNC server to run even when a screen is not connected to the HDMI port
    - (the GUI should be left to boot and run, even in a headless state later)
+3. Disable IPv6, forcing the Pi to be addressable by IPv4 (so the web interface works as intended),
+   - start a Terminal and do `sudo nano /boot/cmdline.txt` 
+   - add this ` ipv6.disable=1` to the end of the first line (with a preceding space)
+   - save the file using Control-O, then exit nano using Control-X
 4. Check, perhaps in the GUI menu item `Raspberry Pi Configuration`,
    -  its hostname is short and easy and has no spaces or special characters (it will be used as the website name)
    - "login as user pi" is ticked
    - "wait for network" is ticked
    - "splash screen" is disabled
-   -  VNC is enabled
-   -  SSH is enabled
+   - VNC is enabled
+   - SSH is enabled
    - GPU memory is 384k
    - "localisation" tab is used to check/configure your timezone/locale etc
 5. Also check the Pi has a fixed IP address, perhaps by setting your home router's DHCP facility to recognise the Pi's mac address and provide a fixed IP address
