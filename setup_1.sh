@@ -1148,6 +1148,8 @@ set -x
 sudo service vsftpd stop
 sudo chmod -c a=rwx -R "/etc/vsftpd.conf"
 sudo cp -fv "/etc/vsftpd.conf" "/etc/vsftpd.conf.backup"
+sudo sed -i "s;listen=NO;listen=YES;g" "/etc/vsftpd.conf"
+sudo sed -i "s;listen_ipv6=YES;listen_ipv6=NO;g" "/etc/vsftpd.conf"
 sudo sed -i "s;anonymous_enable=NO;anonymous_enable=YES;g" "/etc/vsftpd.conf"
 sudo sed -i "s;local_enable=YES;write_enable=YES;g" "/etc/vsftpd.conf"
 sudo sed -i "s;#local_umask=022;local_umask=000;g" "/etc/vsftpd.conf"
@@ -1162,8 +1164,11 @@ sudo sed -i "s;#idle_session_timeout=600;idle_session_timeout=1200;g" "/etc/vsft
 sudo sed -i "s;#ftpd_banner=Welcome to blah FTP service.;ftpd_banner=${server_name} ftp service;g" "/etc/vsftpd.conf"
 sudo sed -i "s;#chroot_local_user=YES;chroot_local_user=NO;g" "/etc/vsftpd.conf"
 sudo sed -i "s;#ls_recurse_enable=YES;ls_recurse_enable=YES;g" "/etc/vsftpd.conf"
+sudo sed -i "s;#xferlog_file=/var/log/vsftpd.log;xferlog_file=/var/log/vsftpd.log;g" "/etc/vsftpd.conf"
+sudo sed -i "s;#utf8_filesystem=YES;utf8_filesystem=YES;g" "/etc/vsftpd.conf"
 sudo echo "#" >> "/etc/vsftpd.conf"
 sudo echo "## add our extra stuff" >> "/etc/vsftpd.conf"
+sudo echo "anon_root=/home" >> "/etc/vsftpd.conf"
 sudo echo "local_enable=YES" >> "/etc/vsftpd.conf"
 sudo echo "allow_anon_ssl=YES" >> "/etc/vsftpd.conf"
 sudo echo "anon_other_write_enable=YES" >> "/etc/vsftpd.conf"
@@ -1173,18 +1178,23 @@ sudo echo "download_enable=YES" >> "/etc/vsftpd.conf"
 sudo echo "no_anon_password=YES" >> "/etc/vsftpd.conf"
 sudo echo "force_dot_files=YES" >> "/etc/vsftpd.conf"
 sudo echo "file_open_mode=0777" >> "/etc/vsftpd.conf"
-sudo echo "anon_root=/mnt/mp4library" >> "/etc/vsftpd.conf"
 sudo echo "ftp_username=pi" >> "/etc/vsftpd.conf"
 sudo echo "guest_username=pi" >> "/etc/vsftpd.conf"
+sudo echo "dual_log_enable=YES" >> "/etc/vsftpd.conf"
+sudo echo "syslog_enable=NO" >> "/etc/vsftpd.conf"
+sudo echo "vsftpd_log_file=/var/log/vsftpd.log" >> "/etc/vsftpd.conf"
+sudo echo "log_ftp_protocol=YES" >> "/etc/vsftpd.conf"
+sudo echo "allow_writeable_chroot=YES" >> "/etc/vsftpd.conf"
 sudo diff -U 1 "/etc/vsftpd.conf.backup" "/etc/vsftpd.conf"
 sudo service vsftpd restart
 sleep 5s
+sudo systemctl status vsftpd.service
+sudo tail /var/log/syslog 
+sudo tail /var/log/vsftpd.log
 set +x
-
 echo ""
 ##read -p "Press Enter to continue, if that all worked"
 echo ""
-
 
 echo "# ------------------------------------------------------------------------------------------------------------------------"
 echo "# INSTALL the chromecast WEB pages and javascript and python code etc for ${server_alias} ${server_ip}"
