@@ -1124,75 +1124,99 @@ echo ""
 ##read -p "Press Enter to continue, if that all worked"
 echo ""
 
+
 echo ""
 echo "# ------------------------------------------------------------------------------------------------------------------------"
-echo "# INSTALL VSFTPD ftp server, connectable from filezilla"
-echo "# -----------------------------------------------------"
+echo "# INSTALL proftpd ftp server, connectable from filezilla"
+echo "# (proftpd is more common than VSFTPD which has been superseded here)"
+echo "# ------------------------------------------------------------------------------------------------------------------------"
 echo ""
+set -x
+cd ~/Desktop
 
-set -x 
-sudo apt-get purge -y vsftpd
-sudo chmod -c a=rwx -R "/etc/vsftpd.conf"
-sudo rm -vf "/etc/vsftpd.conf"
-sudo apt-get install -y vsftpd
+set +x
+echo "# ------------------------------------------------------------------------------------------------------------------------"
+set -x
+cd ~/Desktop
+sudo apt purge -y proftpd proftpd-basic proftpd-mod-case proftpd-doc 
+sudo chmod -c a=rwx -R "/etc/proftpd/proftpd.conf"
+sudo rm -vf "/etc/proftpd/proftpd.conf"
+#
+sudo apt install -y proftpd proftpd-mod-case proftpd-doc 
+sudo cat /var/log/proftpd/proftpd.log
 set +x
 #
-# https://security.appspot.com/vsftpd/vsftpd_conf.html
-# http://vsftpd.beasts.org/vsftpd_conf.html
-# Remember
-# local_umask ( 0011 ) is subtracted. 
-# The umask essentially removes the permissions you don't want users to have, so use 000
-
+# https://htmlpreview.github.io/?https://github.com/Castaglia/proftpd-mod_case/blob/master/mod_case.html
+# Use directives
+#  CaseIgnore on
+#  LoadModule mod_case.c
+# to enable case-insensitivity for all FTP commands handled by mod_case
+# http://www.proftpd.org/docs/howto/ServerType.html
+# http://www.proftpd.org/docs/howto/Stopping.html
+#
+# update the conf file
 set -x
-# https://security.appspot.com/vsftpd/vsftpd_conf.html
-sudo service vsftpd stop
-sudo chmod -c a=rwx -R "/etc/vsftpd.conf"
-sudo cp -fv "/etc/vsftpd.conf" "/etc/vsftpd.conf.backup"
-sudo sed -i "s;listen=NO;listen=YES;g" "/etc/vsftpd.conf"
-sudo sed -i "s;listen_ipv6=YES;listen_ipv6=NO;g" "/etc/vsftpd.conf"
-sudo sed -i "s;anonymous_enable=NO;anonymous_enable=YES;g" "/etc/vsftpd.conf"
-sudo sed -i "s;local_enable=YES;write_enable=YES;g" "/etc/vsftpd.conf"
-sudo sed -i "s;#local_umask=022;local_umask=000;g" "/etc/vsftpd.conf"
-sudo sed -i "s;#anon_upload_enable=YES;anon_upload_enable=YES;g" "/etc/vsftpd.conf"
-sudo sed -i "s;#anon_mkdir_write_enable=YES;anon_mkdir_write_enable=YES;g" "/etc/vsftpd.conf"
-sudo sed -i "s;use_localtime=YES;use_localtime=YES;g" "/etc/vsftpd.conf"
-sudo sed -i "s;xferlog_enable=YES;xferlog_enable=YES;g" "/etc/vsftpd.conf"
-sudo sed -i "s;#chown_uploads=YES;chown_uploads=YES;g" "/etc/vsftpd.conf"
-sudo sed -i "s;#chown_username=whoever;chown_username=pi;g" "/etc/vsftpd.conf"
-sudo sed -i "s;#xferlog_std_format=YES;xferlog_std_format=YES;g" "/etc/vsftpd.conf"
-sudo sed -i "s;#idle_session_timeout=600;idle_session_timeout=1200;g" "/etc/vsftpd.conf"
-sudo sed -i "s;#ftpd_banner=Welcome to blah FTP service.;ftpd_banner=${server_name} ftp service;g" "/etc/vsftpd.conf"
-sudo sed -i "s;#chroot_local_user=YES;chroot_local_user=NO;g" "/etc/vsftpd.conf"
-sudo sed -i "s;#ls_recurse_enable=YES;ls_recurse_enable=YES;g" "/etc/vsftpd.conf"
-sudo sed -i "s;#xferlog_file=/var/log/vsftpd.log;xferlog_file=/var/log/vsftpd.log;g" "/etc/vsftpd.conf"
-sudo sed -i "s;#utf8_filesystem=YES;utf8_filesystem=YES;g" "/etc/vsftpd.conf"
-sudo echo "#" >> "/etc/vsftpd.conf"
-sudo echo "## add our extra stuff" >> "/etc/vsftpd.conf"
-sudo echo "anon_root=/home" >> "/etc/vsftpd.conf"
-sudo echo "local_enable=YES" >> "/etc/vsftpd.conf"
-sudo echo "allow_anon_ssl=YES" >> "/etc/vsftpd.conf"
-sudo echo "anon_other_write_enable=YES" >> "/etc/vsftpd.conf"
-sudo echo "delete_failed_uploads=YES" >> "/etc/vsftpd.conf"
-sudo echo "dirlist_enable=YES" >> "/etc/vsftpd.conf"
-sudo echo "download_enable=YES" >> "/etc/vsftpd.conf"
-sudo echo "no_anon_password=YES" >> "/etc/vsftpd.conf"
-sudo echo "force_dot_files=YES" >> "/etc/vsftpd.conf"
-sudo echo "file_open_mode=0777" >> "/etc/vsftpd.conf"
-sudo echo "ftp_username=pi" >> "/etc/vsftpd.conf"
-sudo echo "guest_username=pi" >> "/etc/vsftpd.conf"
-sudo echo "dual_log_enable=YES" >> "/etc/vsftpd.conf"
-sudo echo "syslog_enable=NO" >> "/etc/vsftpd.conf"
-sudo echo "vsftpd_log_file=/var/log/vsftpd.log" >> "/etc/vsftpd.conf"
-sudo echo "log_ftp_protocol=YES" >> "/etc/vsftpd.conf"
-sudo echo "allow_writeable_chroot=YES" >> "/etc/vsftpd.conf"
-sudo diff -U 1 "/etc/vsftpd.conf.backup" "/etc/vsftpd.conf"
-sudo service vsftpd restart
-sleep 5s
-sudo systemctl status vsftpd.service
-sudo tail /var/log/syslog 
-sudo tail /var/log/vsftpd.log
+# http://www.proftpd.org/docs/howto/Stopping.html
+# deny incoming connections - does not stop the ftp server
+sudo ftpshut -l 0 -d 0 now
+# now kill the daemon
+kill -TERM `cat /run/proftpd.pid`
+#
+sudo rm -fv "/etc/proftpd/proftpd.conf.old"
+sudo cp -fv "/etc/proftpd/proftpd.conf" "/etc/proftpd/proftpd.conf.old" 
+rm -fv "./tmp.tmp"
+cat<<EOF >"./tmp.tmp"
+# Case Sensitive module at top
+LoadModule mod_case.c
+<IfModule mod_case.c>
+CaseIgnore on
+</IfModule>
+EOF
+sudo cat "/etc/proftpd/proftpd.conf">>"./tmp.tmp"
+#
+sudo sed -i "s;ServerName\t\t\t\"Debian\";ServerName\t\t\t\"Pi4CC\";g" "./tmp.tmp"
+sudo sed -i "s;DisplayLogin;#DisplayLogin;g" "./tmp.tmp"
+sudo sed -i "s;DisplayChdir;#DisplayChdir;g" "./tmp.tmp"
+sudo sed -i "s;# RequireValidShell\t\toff;RequireValidShell\t\toff;g" "./tmp.tmp"
+sudo sed -i "s;User\t\t\t\tproftpd;User\t\t\t\tpi;g" "./tmp.tmp"
+sudo sed -i "s;Group\t\t\t\tnogroup;Group\t\t\t\tpi;g" "./tmp.tmp"
+sudo sed -i "s;Umask\t\t\t\t022  022;Umask\t\t\t\t000  000;g" "./tmp.tmp"
+#"/boot_delay/d"
+sudo sed -i '/# Include other custom configuration files/d' "./tmp.tmp"
+sudo sed -i '/Include \/etc\/proftpd\/conf.d\//d' "./tmp.tmp"
+#
+cat<<EOF >>"./tmp.tmp"
+<Anonymous ~pi>
+User pi
+Group pi
+UserAlias anonymous pi
+RequireValidShell off
+MaxClients 30
+Umask 000 000
+<Directory *>
+Umask 000 000
+<Limit WRITE>
+AllowAll
+</Limit>
+</Directory>
+</Anonymous>
+# Include other custom configuration files
+Include /etc/proftpd/conf.d/
+EOF
+#cat "./tmp.tmp"
+#
+sudo cp -fv "./tmp.tmp" "/etc/proftpd/proftpd.conf"
+rm -f "./tmp.tmp"
+diff -U 1 "/etc/proftpd/proftpd.conf.old" "/etc/proftpd/proftpd.conf"
+#cat "/etc/proftpd/proftpd.conf"
+#
+sudo proftpd -vv
+sudo proftpd -t -d5
+sudo proftpd --list 
+# re-enable server
+sudo rm -fv "/etc/shutmsg"
+sudo proftpd
 set +x
-echo ""
 ##read -p "Press Enter to continue, if that all worked"
 echo ""
 
@@ -1438,3 +1462,76 @@ Addendum:
 
 ## Terms
 Your use of this sample is subject to, and by using or downloading the sample files you agree to comply with, the [Google APIs Terms of Service](https://developers.google.com/terms/) and the [Google Cast SDK Additional Developer Terms of Service](https://developers.google.com/cast/docs/terms/).
+
+
+
+# SUPERSEDED:
+echo ""
+echo "# ------------------------------------------------------------------------------------------------------------------------"
+echo "# INSTALL VSFTPD ftp server, connectable from filezilla"
+echo "# -----------------------------------------------------"
+echo ""
+
+set -x 
+sudo apt-get purge -y vsftpd
+sudo chmod -c a=rwx -R "/etc/vsftpd.conf"
+sudo rm -vf "/etc/vsftpd.conf"
+sudo apt-get install -y vsftpd
+set +x
+#
+# https://security.appspot.com/vsftpd/vsftpd_conf.html
+# http://vsftpd.beasts.org/vsftpd_conf.html
+# Remember
+# local_umask ( 0011 ) is subtracted. 
+# The umask essentially removes the permissions you don't want users to have, so use 000
+
+set -x
+# https://security.appspot.com/vsftpd/vsftpd_conf.html
+sudo service vsftpd stop
+sudo chmod -c a=rwx -R "/etc/vsftpd.conf"
+sudo cp -fv "/etc/vsftpd.conf" "/etc/vsftpd.conf.backup"
+sudo sed -i "s;listen=NO;listen=YES;g" "/etc/vsftpd.conf"
+sudo sed -i "s;listen_ipv6=YES;listen_ipv6=NO;g" "/etc/vsftpd.conf"
+sudo sed -i "s;anonymous_enable=NO;anonymous_enable=YES;g" "/etc/vsftpd.conf"
+sudo sed -i "s;local_enable=YES;write_enable=YES;g" "/etc/vsftpd.conf"
+sudo sed -i "s;#local_umask=022;local_umask=000;g" "/etc/vsftpd.conf"
+sudo sed -i "s;#anon_upload_enable=YES;anon_upload_enable=YES;g" "/etc/vsftpd.conf"
+sudo sed -i "s;#anon_mkdir_write_enable=YES;anon_mkdir_write_enable=YES;g" "/etc/vsftpd.conf"
+sudo sed -i "s;use_localtime=YES;use_localtime=YES;g" "/etc/vsftpd.conf"
+sudo sed -i "s;xferlog_enable=YES;xferlog_enable=YES;g" "/etc/vsftpd.conf"
+sudo sed -i "s;#chown_uploads=YES;chown_uploads=YES;g" "/etc/vsftpd.conf"
+sudo sed -i "s;#chown_username=whoever;chown_username=pi;g" "/etc/vsftpd.conf"
+sudo sed -i "s;#xferlog_std_format=YES;xferlog_std_format=YES;g" "/etc/vsftpd.conf"
+sudo sed -i "s;#idle_session_timeout=600;idle_session_timeout=1200;g" "/etc/vsftpd.conf"
+sudo sed -i "s;#ftpd_banner=Welcome to blah FTP service.;ftpd_banner=${server_name} ftp service;g" "/etc/vsftpd.conf"
+sudo sed -i "s;#chroot_local_user=YES;chroot_local_user=NO;g" "/etc/vsftpd.conf"
+sudo sed -i "s;#ls_recurse_enable=YES;ls_recurse_enable=YES;g" "/etc/vsftpd.conf"
+sudo sed -i "s;#xferlog_file=/var/log/vsftpd.log;xferlog_file=/var/log/vsftpd.log;g" "/etc/vsftpd.conf"
+sudo sed -i "s;#utf8_filesystem=YES;utf8_filesystem=YES;g" "/etc/vsftpd.conf"
+sudo echo "#" >> "/etc/vsftpd.conf"
+sudo echo "## add our extra stuff" >> "/etc/vsftpd.conf"
+sudo echo "anon_root=/home" >> "/etc/vsftpd.conf"
+sudo echo "local_enable=YES" >> "/etc/vsftpd.conf"
+sudo echo "allow_anon_ssl=YES" >> "/etc/vsftpd.conf"
+sudo echo "anon_other_write_enable=YES" >> "/etc/vsftpd.conf"
+sudo echo "delete_failed_uploads=YES" >> "/etc/vsftpd.conf"
+sudo echo "dirlist_enable=YES" >> "/etc/vsftpd.conf"
+sudo echo "download_enable=YES" >> "/etc/vsftpd.conf"
+sudo echo "no_anon_password=YES" >> "/etc/vsftpd.conf"
+sudo echo "force_dot_files=YES" >> "/etc/vsftpd.conf"
+sudo echo "file_open_mode=0777" >> "/etc/vsftpd.conf"
+sudo echo "ftp_username=pi" >> "/etc/vsftpd.conf"
+sudo echo "guest_username=pi" >> "/etc/vsftpd.conf"
+sudo echo "dual_log_enable=YES" >> "/etc/vsftpd.conf"
+sudo echo "syslog_enable=NO" >> "/etc/vsftpd.conf"
+sudo echo "vsftpd_log_file=/var/log/vsftpd.log" >> "/etc/vsftpd.conf"
+sudo echo "log_ftp_protocol=YES" >> "/etc/vsftpd.conf"
+sudo echo "allow_writeable_chroot=YES" >> "/etc/vsftpd.conf"
+sudo diff -U 1 "/etc/vsftpd.conf.backup" "/etc/vsftpd.conf"
+sudo service vsftpd restart
+sleep 5s
+sudo systemctl status vsftpd.service
+sudo tail /var/log/syslog 
+sudo tail /var/log/vsftpd.log
+set +x
+echo ""
