@@ -98,7 +98,7 @@ It works ... and is undergoing "refinement".
      cp -fv ./Pi4CC/setup*.sh ./
      chmod +777 *.sh
      ```
-   - you are greatly encouraged to view and check files `setup_0.sh` and `setup_1.sh` to see they do nothing nefarious :)
+   - you are greatly encouraged to view and check files `setup_0.0.sh` and `setup_1.0.sh` to see they do nothing nefarious :)
 6. Do part "Setup 0" of the installation (it should be re-startable, feel free to "Control C" and re-start if you feel uncomfortable)
    - plug the USB3 external hard drive in to the Pi (always use the same USB3 slot in the Pi)
    - wait 15 seconds for the USB3 external hard drive to spin up and be recognised automatically
@@ -120,7 +120,7 @@ It works ... and is undergoing "refinement".
      ```
      cd ~/Desktop
      chmod +777 *.sh
-     ./setup_0.sh
+     ./setup_0.0.sh
      ```
    - answer initial prompts (it will save these answers for use later)
      * `This server_name` it's best to enter the hostname of the Pi here (I use Pi4CC), it will be used as the Apache2 website name
@@ -136,10 +136,10 @@ It works ... and is undergoing "refinement".
      ```
      cd ~/Desktop
      chmod +777 *.sh
-     ./setup_1.sh
+     ./setup_1.0.sh
      ```
    - this will be a longish process (15 to 30 mins) with a number of prompts
-   - answer initial prompts (it will remember the answers you gave in setup_0 as defaults ... don't change them now !)
+   - answer initial prompts (it will remember the answers you gave in `setup_0.0.sh` as defaults ... don't change them now !)
    - answer other prompts
      * sometimes you will be asked to visually scan setup results for issues, and press Enter to continue
      * observe progress and USE "control C" if you spot anything "unfortunate" occurring
