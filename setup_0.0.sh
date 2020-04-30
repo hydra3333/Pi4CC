@@ -34,8 +34,8 @@ echo ""
 set -x
 ifconfig
 set +x
-echo "# If not already done, Reserve an IP in the home Router, corresponding to the Pi's WiFi mac address, then reboot the Pi."
-read -p "If not already done, Reserve an IP in the home Router, corresponding to the Pi's WiFi mac address, then reboot the Pi."
+echo "# If not already done, Reserve an IP in the home Router, corresponding to the Pi's mac address, then reboot the Pi."
+read -p "If not already done, Reserve an IP in the home Router, corresponding to the Pi's mac address, then reboot the Pi."
 echo ""
 
 echo ""
