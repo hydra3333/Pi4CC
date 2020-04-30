@@ -250,4 +250,13 @@ cd ~/Desktop
 . "./setup_0.2_setup_HD-IDLE.sh"
 echo "# ------------------------------------------------------------------------------------------------------------------------"
 
+echo ""
+echo ""
+echo ""
+echo ""
+echo "Remember, to disable WiFi, add this line to '/boot/config.txt' and reboot"
+echo "dtoverlay=pi3-disable-wifi"
+echo ""
+echo ""
+
 exit
