@@ -14,6 +14,7 @@ echo "# (proftpd is more common than VSFTPD which has been superseded here)"
 echo "# ------------------------------------------------------------------------------------------------------------------------"
 echo ""
 set -x
+sudo kill -TERM `cat /run/proftpd.pid`
 sudo apt purge -y proftpd proftpd-basic proftpd-mod-case proftpd-doc 
 sudo chmod -c a=rwx -R "/etc/proftpd/proftpd.conf"
 sudo rm -vf "/etc/proftpd/proftpd.conf"
@@ -36,7 +37,7 @@ set -x
 # deny incoming connections - does not stop the ftp server
 sudo ftpshut -l 0 -d 0 now
 # now kill the daemon
-kill -TERM `cat /run/proftpd.pid`
+sudo kill -TERM `cat /run/proftpd.pid`
 #
 sudo rm -fv "/etc/proftpd/proftpd.conf.old"
 sudo cp -fv "/etc/proftpd/proftpd.conf" "/etc/proftpd/proftpd.conf.old" 

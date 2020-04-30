@@ -53,13 +53,13 @@ echo "# ------------------------------------------------------------------------
 
 echo ""
 echo "# ------------------------------------------------------------------------------------------------------------------------"
-#cd ~/Desktop
-#. "./setup_1.4.1_install_configure_vsftpd_superseded.sh.sh"
-#set +x
-#
-# Install and Configure proftpd
+# Install and Configure vsftpd
 cd ~/Desktop
-. "./setup_1.4_install_configure_proftpd.sh"
+. "./setup_1.4.1_install_configure_vsftpd.sh.sh"
+set +x
+# Install and Configure proftpd
+#cd ~/Desktop
+#. "./setup_1.4_install_configure_proftpd.sh"
 set +x
 echo "# ------------------------------------------------------------------------------------------------------------------------"
 
