@@ -15,6 +15,7 @@ echo "# ------------------------------------------------------------------------
 echo ""
 set -x
 sudo kill -TERM `cat /run/proftpd.pid`
+sudo rm -fv "/etc/shutmsg"
 sudo apt purge -y proftpd proftpd-basic proftpd-mod-case proftpd-doc 
 sudo chmod -c a=rwx -R "/etc/proftpd/proftpd.conf"
 sudo rm -vf "/etc/proftpd/proftpd.conf"
@@ -87,12 +88,14 @@ rm -f "./tmp.tmp"
 diff -U 1 "/etc/proftpd/proftpd.conf.old" "/etc/proftpd/proftpd.conf"
 #cat "/etc/proftpd/proftpd.conf"
 #
-sudo proftpd -vv
-sudo proftpd -t -d5
-sudo proftpd --list 
 # re-enable server
+sudo kill -TERM `cat /run/proftpd.pid`
 sudo rm -fv "/etc/shutmsg"
 sudo proftpd
+#
+sudo proftpd -t -d5
+#sudo proftpd -vv
+#sudo proftpd --list 
 set +x
 ##read -p "Press Enter to continue, if that all worked"
 echo ""
