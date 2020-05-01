@@ -28,7 +28,7 @@ set +x
 
 echo ""
 echo "# ------------------------------------------------------------------------------------------------------------------------"
-# Install and Configure Apache2
+## Install and Configure Apache2
 cd ~/Desktop
 . "./setup_1.1_install_configure_apache2.sh"
 set +x
@@ -37,7 +37,7 @@ echo "# ------------------------------------------------------------------------
 
 echo ""
 echo "# ------------------------------------------------------------------------------------------------------------------------"
-# Install and Configure miniDLNA
+## Install and Configure miniDLNA
 cd ~/Desktop
 . "./setup_1.2_install_configure_miniDLNA.sh"
 set +x
@@ -45,7 +45,7 @@ echo "# ------------------------------------------------------------------------
 
 echo ""
 echo "# ------------------------------------------------------------------------------------------------------------------------"
-# Install and Configure SAMBA
+## Install and Configure SAMBA
 cd ~/Desktop
 . "./setup_1.3_install_configure_SAMBA.sh"
 set +x
@@ -53,19 +53,19 @@ echo "# ------------------------------------------------------------------------
 
 echo ""
 echo "# ------------------------------------------------------------------------------------------------------------------------"
-# Install and Configure vsftpd
-cd ~/Desktop
-. "./setup_1.4.1_install_configure_vsftpd.sh.sh"
-set +x
-# Install and Configure proftpd
+## Install and Configure vsftpd
 #cd ~/Desktop
-#. "./setup_1.4_install_configure_proftpd.sh"
+#. "./setup_1.4.1_install_configure_vsftpd.sh"
+#set +x
+## Install and Configure proftpd
+cd ~/Desktop
+. "./setup_1.4_install_configure_proftpd.sh"
 set +x
 echo "# ------------------------------------------------------------------------------------------------------------------------"
 
 echo ""
 echo "# ------------------------------------------------------------------------------------------------------------------------"
-# Install and Configure local Chromecast Pi4CC website
+## Install and Configure local Chromecast Pi4CC website
 cd ~/Desktop
 . "./setup_1.5_install_configure_local_Pi4CC_website.sh"
 set +x

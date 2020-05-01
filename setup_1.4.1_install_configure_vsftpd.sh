@@ -10,16 +10,16 @@ set +x
 cd ~/Desktop
 echo "# ------------------------------------------------------------------------------------------------------------------------"
 echo "# -----------------------------------------------------"
-echo "# VSFTPD has been UN superseeded from proftpd"
-echo "# VSFTPD has been UN superseeded from proftpd"
-echo "# VSFTPD has been UN superseeded from proftpd"
-echo "# VSFTPD has been UN superseeded from proftpd"
-echo "# VSFTPD has been UN superseeded from proftpd"
-echo "# VSFTPD has been UN superseeded from proftpd"
-echo "# VSFTPD has been UN superseeded from proftpd"
-echo "# VSFTPD has been UN superseeded from proftpd"
-echo "# VSFTPD has been UN superseeded from proftpd"
-echo "# VSFTPD has been UN superseeded from proftpd"
+echo "# VSFTPD has been superseded - replaced by proftpd"
+echo "# VSFTPD has been superseded - replaced by proftpd"
+echo "# VSFTPD has been superseded - replaced by proftpd"
+echo "# VSFTPD has been superseded - replaced by proftpd"
+echo "# VSFTPD has been superseded - replaced by proftpd"
+echo "# VSFTPD has been superseded - replaced by proftpd"
+echo "# VSFTPD has been superseded - replaced by proftpd"
+echo "# VSFTPD has been superseded - replaced by proftpd"
+echo "# VSFTPD has been superseded - replaced by proftpd"
+echo "# VSFTPD has been superseded - replaced by proftpd"
 echo "# -----------------------------------------------------"
 
 echo "# -----------------------------------------------------"
@@ -28,6 +28,7 @@ echo "# -----------------------------------------------------"
 echo ""
 
 set -x 
+sudo service vsftpd stop
 sudo apt-get purge -y vsftpd
 sudo chmod -c a=rwx -R "/etc/vsftpd.conf"
 sudo rm -vf "/etc/vsftpd.conf"
