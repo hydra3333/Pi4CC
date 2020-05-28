@@ -117,6 +117,7 @@ set +x
 Restart_sh_file=~/Desktop/minidlna_restart_refresh.sh
 sh_file=${sh_dir}/minidlna_refresh.sh
 log_file=${log_dir}/minidlna_refresh.log
+main_log_dir=${log_dir}/minidlna.log
 #
 sudo rm -vf "${log_file}"
 touch "${log_file}"
@@ -130,6 +131,7 @@ echo "sudo service minidlna start" >> "${sh_file}"
 echo "sleep 10s" >> "${sh_file}"
 echo "sudo service minidlna force-reload" >> "${sh_file}"
 echo "echo 'Wait 15 minutes for minidlna to index media files'" >> "${sh_file}"
+echo "echo 'For progress do: cat ${main_log_dir}'" >> "${sh_file}"
 echo "sleep 900s" >> "${sh_file}"
 echo "set +x" >> "${sh_file}"
 #
@@ -138,7 +140,11 @@ sudo cp -vf "${sh_file}" "${Restart_sh_file}"
 sudo chmod -c a=rwx ~/Desktop/*.sh
 echo "#" >> "${Restart_sh_file}"
 echo "#${sh_file}" >> "${Restart_sh_file}"
+echo "#" >> "${Restart_sh_file}"
 echo "cat ${log_file}" >> "${Restart_sh_file}"
+echo "#" >> "${Restart_sh_file}"
+echo "cat ${main_log_dir}" >> "${Restart_sh_file}"
+echo "#" >> "${Restart_sh_file}"
 #
 # https://stackoverflow.com/questions/610839/how-can-i-programmatically-create-a-new-cron-job
 echo ""
