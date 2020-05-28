@@ -2,7 +2,7 @@
 # to get rid of MSDOS format do this to this file: sudo sed -i s/\\r//g ./filename
 # or, open in nano, control-o and then then alt-M a few times to toggle msdos format off and then save
 #
-# Build and configure HD-IDLE
+# Build and configure miniDLNA
 # Call this .sh like:
 # . "./setup_1.2_install_configure_miniDLNA.sh"
 #
@@ -113,7 +113,8 @@ sleep 10s
 cat ${log_dir}/minidlna.log
 cat "/var/log/minidlna.log"
 set +x
-
+#
+Restart_sh_file=~/Desktop/minidlna_restart_refresh.sh
 sh_file=${sh_dir}/minidlna_refresh.sh
 log_file=${log_dir}/minidlna_refresh.log
 #
@@ -131,7 +132,15 @@ echo "sudo service minidlna force-reload" >> "${sh_file}"
 echo "echo 'Wait 15 minutes for minidlna to index media files'" >> "${sh_file}"
 echo "sleep 900s" >> "${sh_file}"
 echo "set +x" >> "${sh_file}"
-
+#
+sudo rm -vf "${Restart_sh_file}"
+sudo cp -vf "${sh_file}" "${Restart_sh_file}"
+echo "#" >> "${Restart_sh_file}"
+echo "#${sh_file}" >> "${Restart_sh_file}"
+echo "cat ${log_file}" >> "${Restart_sh_file}"
+#
+sudo chmod -c a=rwx ~/Desktop/*.sh
+#
 # https://stackoverflow.com/questions/610839/how-can-i-programmatically-create-a-new-cron-job
 echo ""
 echo "Adding the 4:00am nightly crontab job to re-index minidlna"
