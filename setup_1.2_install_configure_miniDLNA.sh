@@ -135,11 +135,10 @@ echo "set +x" >> "${sh_file}"
 #
 sudo rm -vf "${Restart_sh_file}"
 sudo cp -vf "${sh_file}" "${Restart_sh_file}"
+sudo chmod -c a=rwx ~/Desktop/*.sh
 echo "#" >> "${Restart_sh_file}"
 echo "#${sh_file}" >> "${Restart_sh_file}"
 echo "cat ${log_file}" >> "${Restart_sh_file}"
-#
-sudo chmod -c a=rwx ~/Desktop/*.sh
 #
 # https://stackoverflow.com/questions/610839/how-can-i-programmatically-create-a-new-cron-job
 echo ""
