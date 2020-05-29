@@ -238,12 +238,12 @@ set -x
 sudo cat /proc/sys/fs/inotify/max_user_watches
 # set a new temporary limit with:
 #sudo sysctl fs.inotify.max_user_watches=131072
-sudo sysctl fs.inotify.max_user_watches=524288
+sudo sysctl fs.inotify.max_user_watches=262144
 sudo sysctl -p
 # set a new permanent limit with:
 sudo sed -i 's;fs.inotify.max_user_watches=;#fs.inotify.max_user_watches=;g' "/etc/sysctl.conf"
 #echo fs.inotify.max_user_watches=131072 | sudo tee -a "/etc/sysctl.conf"
-echo fs.inotify.max_user_watches=524288 | sudo tee -a "/etc/sysctl.conf"
+echo fs.inotify.max_user_watches=262144 | sudo tee -a "/etc/sysctl.conf"
 sudo sysctl -p
 set +x
 echo ""
