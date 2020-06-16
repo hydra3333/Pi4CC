@@ -28,7 +28,8 @@ echo "# -----------------------------------------------------"
 echo ""
 
 set -x 
-sudo service vsftpd stop
+sudo systemctl stop vsftpd
+#sudo service vsftpd stop
 sudo apt-get purge -y vsftpd
 sudo chmod -c a=rwx -R "/etc/vsftpd.conf"
 sudo rm -vf "/etc/vsftpd.conf"
@@ -43,7 +44,8 @@ set +x
 
 set -x
 # https://security.appspot.com/vsftpd/vsftpd_conf.html
-sudo service vsftpd stop
+sudo systemctl stop vsftpd
+#sudo service vsftpd stop
 sudo chmod -c a=rwx -R "/etc/vsftpd.conf"
 sudo cp -fv "/etc/vsftpd.conf" "/etc/vsftpd.conf.backup"
 sudo sed -i "s;listen=NO;listen=YES;g" "/etc/vsftpd.conf"
@@ -84,7 +86,8 @@ sudo echo "vsftpd_log_file=/var/log/vsftpd.log" >> "/etc/vsftpd.conf"
 sudo echo "log_ftp_protocol=YES" >> "/etc/vsftpd.conf"
 sudo echo "allow_writeable_chroot=YES" >> "/etc/vsftpd.conf"
 sudo diff -U 1 "/etc/vsftpd.conf.backup" "/etc/vsftpd.conf"
-sudo service vsftpd restart
+sudo systemctl restart vsftpd
+#sudo service vsftpd restart
 sleep 5s
 sudo systemctl status vsftpd.service
 sudo tail /var/log/syslog 

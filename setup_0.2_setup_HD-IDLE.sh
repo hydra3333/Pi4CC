@@ -103,7 +103,8 @@ echo ""
 echo "Restart the hd-idle service to engage the updated config"
 echo ""
 set -x
-sudo service hd-idle restart
+sudo systemctl restart hd-idle
+#sudo service hd-idle restart
 sleep 5s
 sudo cat /var/log/hd-idle.log
 set +x

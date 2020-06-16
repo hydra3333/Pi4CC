@@ -29,12 +29,20 @@ sudo rm -vfR "${server_root_USBmountpoint}/minidlna"
 set +x
 echo ""
 
+
+echo "Per https://wiki.debian.org/minidlna"
+echo "To avoid Inotify errors, Increase the number for the system :"
+echo "In /etc/sysctl.conf Add: "fs.inotify.max_user_watches=65536" in a blank line by itself."
+echo ""
+
+
 echo "# Do the minidlna install"
 set -x
 sudo apt install -y minidlna
 sleep 3s
 #
-sudo service minidlna stop
+sudo systemctl stop minidlna
+#sudo service minidlna stop
 sleep 5s
 
 echo "# Create a folder for minidlna logs and db - place the folder in the root of the (fast) USB3 drive"
@@ -95,19 +103,22 @@ echo ""
 # To restart the service
 #sudo service minidlna restart
 set -x
-sudo service minidlna stop
+sudo systemctl stop minidlna
+#sudo service minidlna stop
 sleep 3s
 #
 ls -al "/run/minidlna"
 #
-sudo service minidlna start
+sudo systemctl start minidlna
+#sudo service minidlna start
 sleep 10s
 #
 ls -al "/run/minidlna"
 cat ${log_dir}/minidlna.log
 cat "/var/log/minidlna.log"
 #
-sudo service minidlna force-reload
+sudo systemctl reload-or-restart minidlna
+#sudo service minidlna force-reload # same as systemctl reload-or-restart
 sleep 10s
 #
 cat ${log_dir}/minidlna.log
@@ -125,11 +136,14 @@ touch "${log_file}"
 sudo rm -vf "${sh_file}"
 echo "#!/bin/bash" >> "${sh_file}"
 echo "set -x" >> "${sh_file}"
-echo "sudo service minidlna stop" >> "${sh_file}"
+echo "sudo systemctl stop minidlna" >> "${sh_file}"
+echo "#sudo service minidlna stop" >> "${sh_file}"
 echo "sleep 10s" >> "${sh_file}"
-echo "sudo service minidlna start" >> "${sh_file}"
+echo "sudo systemctl start minidlna" >> "${sh_file}"
+echo "#sudo service minidlna start" >> "${sh_file}"
 echo "sleep 10s" >> "${sh_file}"
-echo "sudo service minidlna force-reload" >> "${sh_file}"
+echo "sudo systemctl reload-or-restart minidlna" >> "${sh_file}"
+echo "#sudo service minidlna force-reload # same as systemctl reload-or-restart" >> "${sh_file}"
 echo "echo 'Wait 15 minutes for minidlna to index media files'" >> "${sh_file}"
 echo "echo 'For progress do: cat ${main_log_dir}'" >> "${sh_file}"
 echo "sleep 900s" >> "${sh_file}"

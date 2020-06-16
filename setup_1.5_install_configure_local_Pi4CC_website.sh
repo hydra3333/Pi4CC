@@ -151,8 +151,8 @@ set +x
 echo "Restart the Apache2 Service"
 set -x
 #sleep 3s
-#systemctl restart apache2
-sudo service apache2 restart
+sudo systemctl restart apache2
+#sudo service apache2 restart
 sleep 10s
 set +x
 

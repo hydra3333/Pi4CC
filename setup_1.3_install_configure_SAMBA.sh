@@ -82,7 +82,8 @@ set +x
 echo ""
 echo "Restart Samba service"
 set -x
-sudo service smbd restart
+sudo systemctl stop restart
+#sudo service smbd restart
 sleep 10s
 set +x
 
