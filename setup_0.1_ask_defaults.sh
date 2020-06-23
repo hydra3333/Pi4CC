@@ -72,47 +72,80 @@ while IFS= read -r -d $'\0' device; do
    x_device_fstype="$(lsblk -n -p -l -o fstype ${d})"
    x_device_size="$(lsblk -n -p -l -o size ${d})"
    x_device_mountpoint="$(lsblk -n -p -l -o mountpoint ${d})"
+
+   echo "***********************************"
+   echo "EXAMIMING NEW DEVICE:"
+   echo "d=${d}"
+   echo "device=${device}"
+   echo "x_disk_name=${x_disk_name}"
+   echo "x_device_label=${x_device_label}"
+   echo "x_device_uuid=${x_device_uuid}"
+   echo "x_device_fstype=${x_device_fstype}"
+   echo "x_device_size=${x_device_size}"
+   echo "x_device_mountpoint=${x_device_mountpoint}"
+   echo "***********************************"
+
    if [[ "${x_device_uuid}" != "" ]] ; then
-      #echo  "device valid ${x_device_name}"
-      disk_name+="${x_disk_name}"
-      device_name+="${x_device_name}"
-      device_label+="${x_device_label}"
-      #device_uuid+="${x_devfice_uuid}"
-      device_uuid+="${x_device_uuid}"
-      device_fstype+="${x_device_fstype}"
-      device_size+="${x_device_size}"
-      device_mountpoint+="${x_device_mountpoint}"
+
+      echo "FOUND device valid x_device_name=${x_device_name}"
+
+      disk_name+=("${x_disk_name}")
+      device_name+=("${x_device_name}")
+      device_label+=("${x_device_label}")
+      #device_uuid+=("${x_device_uuid}")
+      device_uuid+=("${x_device_uuid}")
+      device_fstype+=("${x_device_fstype}")
+      device_size+=("${x_device_size}")
+      device_mountpoint+=("${x_device_mountpoint}")
    fi
 done < <(find "/dev/" -regex '/dev/sd[a-z][0-9]\|/dev/vd[a-z][0-9]\|/dev/hd[a-z][0-9]' -print0)
+#---
+#echo "????????????????????????"
+#for t in ${disk_name[@]}; do
+#  echo "1. ???? disk name=${t}"
+#done
+#echo "????????????????????????"
+#for jj in ${!disk_name[@]}; do
+#  echo "2. ???? jj=$jj disk name=${disk_name[$jj]}"
+#done
+#echo "????????????????????????"
+#---
 device_string_tabbed=()
 device_string=()
 for i in `seq 0 $((${#disk_name[@]}-1))`; do
-   device_string+=("DISK=${disk_name[$i]}, DEVICE==${device_name[$i]}, LABEL=${device_label}, UUID=${device_uuid[$i]}, FS_TYPE=${device_fstype[$i]}, SIZE=${device_size[$i]}, MOUNT_POINT=${device_mountpoint[$i]}")
+   device_string+=("DISK=${disk_name[$i]}, DEVICE==${device_name[$i]}, LABEL=${device_label[$i]}, UUID=${device_uuid[$i]}, FS_TYPE=${device_fstype[$i]}, SIZE=${device_size[$i]}, MOUNT_POINT=${device_mountpoint[$i]}")
    device_string_tabbed+=("${disk_name[$i]}\t${name[$i]}\t${size[$i]}\t${device_name[$i]}\t${device_label}\t${device_uuid[$i]}\t${device_fstype[$i]}\t${device_size[$i]}\t${device_mountpoint[$i]}")
 done
-#for i in `seq 0 $((${#disk_name[@]}-1))`; do
-#   echo -e "${i} ${device_string_tabbed[$i]}"
-#done
-#for i in `seq 0 $((${#disk_name[@]}-1))`; do
-#   echo -e "${i} ${device_string[$i]}"
-#done
 #---
+#echo "????????????????????????"
+#for i in `seq 0 $((${#disk_name[@]}-1))`; do
+#   echo "i=${i} disk_name[${i}]=${disk_name[$i]}"
+#done
+#echo "????????????????????????"
+#for i in `seq 0 $((${#disk_name[@]}-1))`; do
+#   echo -e "TEST TABBED QUERY RESULTS: ${i} ${device_string_tabbed[$i]}"
+#done
+#echo "????????????????????????"
+#for i in `seq 0 $((${#disk_name[@]}-1))`; do
+#   echo -e "TEST NON-TABBED QUERY RESULTS: ${i} ${device_string[$i]}"
+#done
+#echo "????????????????????????"
 #---
 menu_from_array () {
  select item; do
    # Check the selected menu item number
+   #echo "*** REPLY=${REPLY} *** item=${item}"
    if [ 1 -le "$REPLY" ] && [ "$REPLY" -le $# ]; then
-      #echo "The selected operating system is $REPLY $item"
-      if [[ "$item" = "$2" ]] ; then
-         echo "$2 ..."
+      if [ "$REPLY" -eq $# ]; then
+         echo "EXITING: ${item} ..."
          exit
       fi
       let "selected_index=${REPLY} - 1"
       selected_item=${item}
-      #echo "The selected operating system is ${selected_index} ${selected_item}"
+      echo "The selected operating system is ${selected_index} ${selected_item}"
       break;
    else
-      echo "Invalid selection: Select any number from 1-$#"
+      echo "Invalid number entered: Select any number from 1-$#"
    fi
  done
 }
