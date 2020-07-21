@@ -111,7 +111,7 @@ echo "# ------------------------------------------------------------------------
 
 set -x
 sudo apt update -y
-sudo apt upgrade -y
+sudo apt full-upgrade -y # https://www.abc.net.au/radio/programs/coronacast/what-state-is-most-primed-for-a-coronavirus-outbreak/12475136
 set +x
 
 echo ""
