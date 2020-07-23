@@ -39,7 +39,7 @@ It works ... and is undergoing "refinement".
       4. to remove an existing Symlink, first use   
 	  ```
 	  ls -l /mnt/mp4library/mp4library/Series
-	  ```   
+	  ```
 	  to check it is actually a Symlink with property "L" ... and then use   
 	  ```
 	  unlink /mnt/mp4library/mp4library/Series
