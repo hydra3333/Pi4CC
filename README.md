@@ -25,7 +25,7 @@ It works ... and is undergoing "refinement".
 **Key things installed and configured:**
   1. A USB3 (10Tb ?) external hard drive with a fixed mount point, containing your .mp4 video files   
       1. if you have 2x USB3 disks with media, you may need to create a Symlink (soft) under mp4library on the "main" disk to an existing subfolder on the "secondary" disk - so that when browsing the main disk the subfolder on the secondary disk looks like a subfolder on the main disk, using   
-	  ```ln -s <path_to_existing_foldername_somewhere> <path_to_symlink_to_be_created>```
+	  ```ln -s <path_to_existing_foldername_on_secondary_disk> <path_to_symlink_to_be_created>```
       2. eg   
 	  ```ln -s /dev/sdb1/mp4library/Series /mnt/mp4library/mp4library/Series```   
 	  creates Symlink `/mnt/mp4library/mp4library/Series` to folder `/dev/sdb1/mp4library/Series`
