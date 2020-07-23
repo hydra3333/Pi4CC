@@ -33,9 +33,9 @@ It works ... and is undergoing "refinement".
 	  ```
 	  ln -s /dev/sdb1/mp4library/Series /mnt/mp4library/mp4library/Series   
 	  sudo chmod +777 /mnt/mp4library/mp4library/Series
-	  ```    
-	  creates Symlink `/mnt/mp4library/mp4library/Series` to folder `/dev/sdb1/mp4library/Series`   
-      3. remember, first make sure the Symlink "filename" does NOT already exist !   
+	  ```
+	  creates Symlink `/mnt/mp4library/mp4library/Series` to folder `/dev/sdb1/mp4library/Series`
+      3. remember, first make sure the Symlink "filename" does NOT already exist !
       4. to remove an existing Symlink, first use   
 	  ```
 	  ls -l /mnt/mp4library/mp4library/Series
@@ -43,7 +43,7 @@ It works ... and is undergoing "refinement".
 	  to check it is actually a Symlink with property "L" ... and then use   
 	  ```
 	  unlink /mnt/mp4library/mp4library/Series
-	  ```   
+	  ```
 	  to remove the Symlink
   2. A miniDLNA server, so you can find and play .mp4 files from a remote tablet or phone or smartTV etc
   3. A SAMBA file-sharing software compatible with Windows file shares, so you can easily copy files back and forth (slowly)
