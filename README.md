@@ -30,9 +30,9 @@ It works ... and is undergoing "refinement".
 	  ```ln -s /dev/sdb1/mp4library/Series /mnt/mp4library/mp4library/Series```   
 	  creates Symlink `/mnt/mp4library/mp4library/Series` to folder `/dev/sdb1/mp4library/Series`
       3. remember, first make sure the Symlink "filename" does NOT already exist !
-      4. to remove an existing Symlink, use   
+      4. to remove an existing Symlink, first use   
 	  ```ls -l /mnt/mp4library/mp4library/Series```   
-	  to check it is actually a Symlink with property "L" and then use   
+	  to check it is actually a Symlink with property "L" ... and then use   
 	  ```unlink /mnt/mp4library/mp4library/Series```   
 	  to remove the Symlink
   2. A miniDLNA server, so you can find and play .mp4 files from a remote tablet or phone or smartTV etc
