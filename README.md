@@ -25,17 +25,25 @@ It works ... and is undergoing "refinement".
 **Key things installed and configured:**
   1. A USB3 (10Tb ?) external hard drive with a fixed mount point, containing your .mp4 video files   
       1. if you have 2x USB3 disks with media, you may need to create a Symlink (soft) under mp4library on the "main" disk to an existing subfolder on the "secondary" disk - so that when browsing the main disk the subfolder on the secondary disk looks like a subfolder on the main disk, using   
-	  ```ln -s <path_to_existing_foldername_on_secondary_disk> <path_to_symlink_to_be_created>   
-	  sudo chmod +777 <path_to_symlink_to_be_created>```
+	  ```
+	  ln -s <path_to_existing_foldername_on_secondary_disk> <path_to_symlink_to_be_created>   
+	  sudo chmod +777 <path_to_symlink_to_be_created>
+	  ```
       2. eg   
-	  ```ln -s /dev/sdb1/mp4library/Series /mnt/mp4library/mp4library/Series   
-	  sudo chmod +777 /mnt/mp4library/mp4library/Series```    
+	  ```
+	  ln -s /dev/sdb1/mp4library/Series /mnt/mp4library/mp4library/Series   
+	  sudo chmod +777 /mnt/mp4library/mp4library/Series
+	  ```    
 	  creates Symlink `/mnt/mp4library/mp4library/Series` to folder `/dev/sdb1/mp4library/Series`
       3. remember, first make sure the Symlink "filename" does NOT already exist !
       4. to remove an existing Symlink, first use   
-	  ```ls -l /mnt/mp4library/mp4library/Series```   
+	  ```
+	  ls -l /mnt/mp4library/mp4library/Series
+	  ```   
 	  to check it is actually a Symlink with property "L" ... and then use   
-	  ```unlink /mnt/mp4library/mp4library/Series```   
+	  ```
+	  unlink /mnt/mp4library/mp4library/Series
+	  ```   
 	  to remove the Symlink
   2. A miniDLNA server, so you can find and play .mp4 files from a remote tablet or phone or smartTV etc
   3. A SAMBA file-sharing software compatible with Windows file shares, so you can easily copy files back and forth (slowly)
