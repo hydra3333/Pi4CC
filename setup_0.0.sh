@@ -222,10 +222,10 @@ echo ""
 echo "Get ready for IPv4 only"
 set -x
 # set a new permanent limit with:
-sudo sysctl net.ipv6.conf.all.disable_ipv6 = 1 
+sudo sysctl net.ipv6.conf.all.disable_ipv6=1 
 sudo sysctl -p
 sudo sed -i 's;net.ipv6.conf.all.disable_ipv6;#net.ipv6.conf.all.disable_ipv6;g' "/etc/sysctl.conf"
-echo net.ipv6.conf.all.disable_ipv6 = 1 | sudo tee -a "/etc/sysctl.conf"
+echo net.ipv6.conf.all.disable_ipv6=1 | sudo tee -a "/etc/sysctl.conf"
 sudo sysctl -p
 set +x
 echo ""
