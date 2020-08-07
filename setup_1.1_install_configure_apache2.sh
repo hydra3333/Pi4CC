@@ -261,7 +261,7 @@ echo "## add this line to say the web server name is going to be ${server_name}"
 echo "ServerName ${server_name}"
 set -x
 sudo cp -fv "/etc/apache2/apache2.conf" "/etc/apache2/apache2.conf.old"
-sudo sed -i "s;#ServerRoot;#ServerRoot\nServerName ${server_name};g" "/etc/php/7.3/apache2/php.ini"
+sudo sed -i "s;#ServerRoot;#ServerRoot\nServerName ${server_name};g" "/etc/apache2/apache2.conf"
 sudo sed -i "s;Timeout 300;Timeout 10800;g" "/etc/apache2/apache2.conf"
 sudo sed -i "s;MaxKeepAliveRequests 100;MaxKeepAliveRequests 0;g" "/etc/apache2/apache2.conf"
 sudo sed -i "s;KeepAliveTimeout 5;KeepAliveTimeout 10800;g" "/etc/apache2/apache2.conf"
