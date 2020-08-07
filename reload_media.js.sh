@@ -3,8 +3,9 @@
 # or, open in nano, control-o and then then alt-M a few times to toggle msdos format off and then save
 
 set -x
-cp -fv /var/www/Pi4CC/media.js /var/www/Pi4CC/media.js.old 2>&1 >> /var/www/Pi4CC/create-json.log
-python3 /var/www/Pi4CC/create-json.py --source_folder /mnt/mp4library/mp4library --filename-extension mp4 --json_file /var/www/Pi4CC/media.js 2>&1 >> /var/www/Pi4CC/create-json.log
+cp -fv /var/www/Pi4CC/media.js /var/www/Pi4CC/media.js.old 2>&1 | tee -a /var/www/Pi4CC/create-json.log
+#python3 /var/www/Pi4CC/create-json.py --source_folder /mnt/mp4library/mp4library --filename-extension mp4 --json_file /var/www/Pi4CC/media.js 2>&1 >> /var/www/Pi4CC/create-json.log
+python3 /var/www/Pi4CC/create-json.py --source_folder /mnt/mp4library/mp4library --filename-extension mp4 --json_file /var/www/Pi4CC/media.js 2>&1 | tee -a /var/www/Pi4CC/create-json.log
 #cat /var/www/Pi4CC/media.js 2>&1 >> /var/www/Pi4CC/create-json.log
 #
 exit
