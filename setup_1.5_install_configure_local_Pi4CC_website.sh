@@ -52,7 +52,12 @@ copy_to_top create-json.py
 copy_to_top reload_media.js.sh
 #copy_to_top media.js
 set +x
-
+#
+unlink "~/Desktop/reload_media.js.sh"
+rm -vf "~/Desktop/reload_media.js.sh"
+ln -sf "/var/www/${server_name}/reload_media.js.sh" "~/Desktop/reload_media.js.sh"
+ls -l "~/Desktop/reload_media.js.sh"
+#
 #---
 # css files
 sudo mkdir -p "/var/www/${server_name}/css"

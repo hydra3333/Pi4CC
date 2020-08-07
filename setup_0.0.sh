@@ -250,6 +250,8 @@ echo ""
 echo ""
 echo ""
 
+exit
+
 echo "# ------------------------------------------------------------------------------------------------------------------------"
 ## Build and configure HD-IDLE
 cd ~/Desktop
@@ -258,11 +260,14 @@ echo "# ------------------------------------------------------------------------
 
 echo ""
 echo ""
-echo ""
-echo ""
-echo "Remember, to disable WiFi, add this line to '/boot/config.txt' and reboot"
+echo "Remember, to disable WiFi:"
+echo "add this line to '/boot/config.txt' and then reboot for it to take effect"
 echo "dtoverlay=pi3-disable-wifi"
 echo ""
+echo ""
+echo "Please Reboot now for the USB disk naming to take effect, before attempting to run setup_1.0.sh"
+echo "Please Reboot now for the USB disk naming to take effect, before attempting to run setup_1.0.sh"
+echo "Please Reboot now for the USB disk naming to take effect, before attempting to run setup_1.0.sh"
 echo ""
 
 exit
