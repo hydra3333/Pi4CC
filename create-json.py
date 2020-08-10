@@ -44,7 +44,7 @@ def find_matching_files(foldername, file_pattern):
     # foldername could be a relative path, so transform it into an absolute path
     foldername = os.path.abspath(foldername)
     foldername_to_matched_files = defaultdict(list)
-    for root, _, files in os.walk(foldername):
+    for root, _, files in os.walk(foldername,topdown=True,followlinks=True):
         for file in files:
             if fnmatch.fnmatch(file.lower(), file_pattern.lower()):
                 foldername_to_matched_files[root].append(file)
