@@ -261,7 +261,7 @@ echo "## add this line to say the web server name is going to be ${server_name}"
 echo "ServerName ${server_name}"
 set -x
 sudo cp -fv "/etc/apache2/apache2.conf" "/etc/apache2/apache2.conf.old"
-sudo sed -i "s;#ServerRoot;#ServerRoot\nServerName ${server_name};g" "/etc/apache2/apache2.conf"
+sudo sed -i 's;#ServerRoot "/etc/apache2";#ServerRoot "/etc/apache2"\nServerName ${server_name};g' "/etc/apache2/apache2.conf"
 sudo sed -i "s;Timeout 300;Timeout 10800;g" "/etc/apache2/apache2.conf"
 sudo sed -i "s;MaxKeepAliveRequests 100;MaxKeepAliveRequests 0;g" "/etc/apache2/apache2.conf"
 sudo sed -i "s;KeepAliveTimeout 5;KeepAliveTimeout 10800;g" "/etc/apache2/apache2.conf"
@@ -327,7 +327,8 @@ set -x
 #ls -al /etc/apache2/sites-available
 ls -al /etc/apache2/sites-enabled
 sudo a2ensite default-tls
-sudo a2ensite 000-default
+#sudo a2ensite 000-default
+sudo a2dissite 000-default
 ls -al /etc/apache2/sites-enabled
 set +x
 echo ""
@@ -608,6 +609,9 @@ echo ""
 echo "Restart the Apache2 Service"
 set -x
 #sleep 3s
+# test the config
+sudo apachectl configtest
+# restart apache2
 sudo systemctl restart apache2
 #sudo service apache2 restart
 sleep 10s
