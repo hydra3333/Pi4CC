@@ -110,7 +110,7 @@ It works ... and is undergoing "refinement".
    - GPU memory is 384k
    - "localisation" tab is used to check/configure your timezone/locale etc and set local language to UTF-8
 4. Also check the Pi has a fixed IP address, perhaps by setting your home router's DHCP facility to recognise the Pi's mac address and provide a fixed IP address
-   - Remember - if you are Wired ethernet: to disable WiFi and BlueTooth on the Pi4, add this line into '/boot/config.txt' and reboot   
+   - Remember - if you are Wired ethernet: to disable WiFi and BlueTooth on the Pi4, add these lines into '/boot/config.txt' and reboot   
      ```
      dtoverlay=pi3-disable-wifi
      dtoverlay=pi3-disable-bt
