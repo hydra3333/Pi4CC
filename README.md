@@ -31,17 +31,33 @@ It works ... and is undergoing "refinement".
 	  ```
       eg   
 	  ```
-	  ln -s /dev/sdb1/mp4library/Series /mnt/mp4library/mp4library/Series   
+	  ln -s /mnt/mp4library2/mp4library/BigIdeas         /mnt/mp4library/mp4library/BigIdeas
+	  ln -s /mnt/mp4library2/mp4library/Footy            /mnt/mp4library/mp4library/Footy
+	  ln -s /mnt/mp4library2/mp4library/MusicVideos      /mnt/mp4library/mp4library/MusicVideos
+	  ln -s /mnt/mp4library2/mp4library/Railway_Journeys /mnt/mp4library/mp4library/Railway_Journeys
+	  ln -s /mnt/mp4library2/mp4library/Series           /mnt/mp4library/mp4library/Series   
+	  sudo chmod +777 /mnt/mp4library/mp4library/BigIdeas
+	  sudo chmod +777 /mnt/mp4library/mp4library/Footy
+	  sudo chmod +777 /mnt/mp4library/mp4library/MusicVideos
+	  sudo chmod +777 /mnt/mp4library/mp4library/Railway_Journeys
 	  sudo chmod +777 /mnt/mp4library/mp4library/Series
 	  ```
-	  creates Symlink `/mnt/mp4library/mp4library/Series` to folder `/dev/sdb1/mp4library/Series`.   
+	  creates Symlink `/mnt/mp4library/mp4library/Series` etc to folder `/dev/sdb1/mp4library/Series` etc.   
       Remember, first make sure the Symlink "filename" does NOT already exist !    
       To remove an existing Symlink, first use   
 	  ```
+	  ls -l /mnt/mp4library/mp4library/BigIdeas
+	  ls -l /mnt/mp4library/mp4library/Footy
+	  ls -l /mnt/mp4library/mp4library/MusicVideos
+	  ls -l /mnt/mp4library/mp4library/Railway_Journeys
 	  ls -l /mnt/mp4library/mp4library/Series
 	  ```
-	  to check it is actually a Symlink with property "L" ... and then use   
+	  to check it is actually a Symlink (with property "L") ... and then use   
 	  ```
+	  unlink /mnt/mp4library/mp4library/BigIdeas
+	  unlink /mnt/mp4library/mp4library/Footy
+	  unlink /mnt/mp4library/mp4library/MusicVideos
+	  unlink /mnt/mp4library/mp4library/Railway_Journeys
 	  unlink /mnt/mp4library/mp4library/Series
 	  ```
 	  to remove the Symlink.
