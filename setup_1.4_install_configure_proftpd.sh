@@ -61,8 +61,8 @@ sudo sed -i "s;Group\t\t\t\tnogroup;Group\t\t\t\tpi;g" "./tmp.tmp"
 sudo sed -i "s;Group\t\t\t\tpi;Group\t\t\t\tpi\nDefaultRoot \~ \!pi,\!www-data;g" "./tmp.tmp"
 sudo sed -i "s;Umask\t\t\t\t022  022;Umask\t\t\t\t000  000;g" "./tmp.tmp"
 #"/boot_delay/d"
-sudo sed -i '/# Include other custom configuration files/d' "./tmp.tmp"
-sudo sed -i '/Include \/etc\/proftpd\/conf.d\//d' "./tmp.tmp"
+sudo sed -i "/# Include other custom configuration files/d" "./tmp.tmp"
+sudo sed -i "/Include \/etc\/proftpd\/conf.d\//d" "./tmp.tmp"
 #cat<<EOF >>"./tmp.tmp"
 #<Anonymous ~pi>
 #User pi

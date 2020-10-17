@@ -12,7 +12,7 @@ echo "# ------------------------------------------------------------------------
 
 set -x
 # allow sources
-sudo sed -i 's/# deb/deb/g' /etc/apt/sources.list
+sudo sed -i "s/# deb/deb/g" /etc/apt/sources.list
 sudo apt update -y
 sudo apt upgrade -y
 set +x
@@ -224,7 +224,7 @@ set -x
 # set a new permanent limit with:
 sudo sysctl net.ipv6.conf.all.disable_ipv6=1 
 sudo sysctl -p
-sudo sed -i 's;net.ipv6.conf.all.disable_ipv6;#net.ipv6.conf.all.disable_ipv6;g' "/etc/sysctl.conf"
+sudo sed -i "s;net.ipv6.conf.all.disable_ipv6;#net.ipv6.conf.all.disable_ipv6;g" "/etc/sysctl.conf"
 echo net.ipv6.conf.all.disable_ipv6=1 | sudo tee -a "/etc/sysctl.conf"
 sudo sysctl -p
 set +x
@@ -234,14 +234,14 @@ echo ""
 echo "Get ready for minidlna. Increase system max_user_watches to avoid this error:"
 echo "WARNING: Inotify max_user_watches [8192] is low or close to the number of used watches [2] and I do not have permission to increase this limit.  Please do so manually by writing a higher value into /proc/sys/fs/inotify/max_user_watches."
 set -x
-# sudo sed -i 's;8182;32768;g' "/proc/sys/fs/inotify/max_user_watches" # this fails with no permissions
+# sudo sed -i "s;8182;32768;g" "/proc/sys/fs/inotify/max_user_watches" # this fails with no permissions
 sudo cat /proc/sys/fs/inotify/max_user_watches
 # set a new temporary limit with:
 #sudo sysctl fs.inotify.max_user_watches=131072
 sudo sysctl fs.inotify.max_user_watches=262144
 sudo sysctl -p
 # set a new permanent limit with:
-sudo sed -i 's;fs.inotify.max_user_watches=;#fs.inotify.max_user_watches=;g' "/etc/sysctl.conf"
+sudo sed -i "s;fs.inotify.max_user_watches=;#fs.inotify.max_user_watches=;g" "/etc/sysctl.conf"
 #echo fs.inotify.max_user_watches=131072 | sudo tee -a "/etc/sysctl.conf"
 echo fs.inotify.max_user_watches=262144 | sudo tee -a "/etc/sysctl.conf"
 sudo sysctl -p
