@@ -203,7 +203,7 @@ echo "**************************************************************************
 set -x
 sudo cp -fv "/etc/fstab" "/etc/fstab.old"
 sudo sed -i "s/UUID=${server_USB3_DEVICE_UUID}/#UUID=${server_USB3_DEVICE_UUID}/g" "/etc/fstab"
-sudo sed -i "$ a #UUID=${server_USB3_DEVICE_UUID} ${server_root_USBmountpoint} ntfs defaults,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,x-systemd.device-timeout=120 0 2" "/etc/fstab"
+sudo sed -i "$ a #UUID=${server_USB3_DEVICE_UUID} ${server_root_USBmountpoint} ntfs defaults,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,x-systemd.device-timeout=120 0 0" "/etc/fstab"
 sudo sed -i "$ a UUID=${server_USB3_DEVICE_UUID} ${server_root_USBmountpoint} ntfs defaults,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,x-systemd.device-timeout=120 0 0" "/etc/fstab"
 set +x
 echo " You MUST check /etc/fstab NOW ... if it is incorrect then abort this process NOW and fix it manually"
