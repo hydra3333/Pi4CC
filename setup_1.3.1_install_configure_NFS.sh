@@ -24,7 +24,6 @@ sudo apt install --reinstall -y nfs-kernel-server nfs-common
 set +x
 
 echo ""
-echo ""
 echo "# This MUST be run after the SAMBA installation."
 echo ""
 echo "# Now we add a line to file /etc/fstab so that the NFS share is mounted the same every time"
@@ -47,12 +46,47 @@ sudo sed -i "s;${server_root_folder} ${nfs_export_full};#${server_root_folder} /
 sudo sed -i "$ a ${server_root_folder} ${nfs_export_full} defaults,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,x-systemd.device-timeout=120,bind 0 0" "/etc/fstab"
 set +x
 echo ""
-set +x
+set -x
 diff -U 1 "/etc/fstab.pre-nfs.old" "/etc/fstab" 
 sudo cat "/etc/fstab"
 set +x
 echo ""
 read -p "Press Enter if /etc/fstab is OK, otherwise Control-C now and fix it manually !" 
+echo ""
+#
+# To export our directories to a local network 10.0.0.0/24, we add the following two lines to /etc/exports:
+#${nfs_export_top}  ${server_ip}/24(rw,insecure,sync,no_subtree_check,all_squash,fsid=0,root_squash,anonuid=1000,anongid=1000)
+#${nfs_export_full} ${server_ip}/24(rw,insecure,sync,no_subtree_check,all_squash,nohide,anonuid=1000,anongid=1000)
+# note: id 1000 is user Pi and group Pi
+set -x
+sudo sed -i "$ a ${nfs_export_top}  ${server_ip}/24(rw,insecure,sync,no_subtree_check,all_squash,fsid=0,root_squash,anonuid=1000,anongid=1000)" "/etc/fstab"
+sudo sed -i "$ a ${nfs_export_full} ${server_ip}/24(rw,insecure,sync,no_subtree_check,all_squash,nohide,anonuid=1000,anongid=1000)" "/etc/fstab"
+cat /etc/exports
+set +x
+
+#then check
+# The only important option in # /etc/default/nfs-kernel-server for now is NEED_SVCGSSD. 
+# It is set to "no" by default, which is fine, because we are not activating NFSv4 security this time.
+set -x
+cat /etc/default/nfs-kernel-server
+set +x
+
+# In order for the ID names to be automatically mapped, the file /etc/idmapd.conf 
+# must exist on both the client and the server with the same contents and with the correct domain names. 
+# Furthermore, this file should have the following lines in the Mapping section:
+#[Mapping]
+#Nobody-User = nobody
+#Nobody-Group = nogroup
+set -x
+cat /etc/idmapd.conf
+set +x
+
+echo ""
+set -x
+sudo systemctl stop  nfs-kernel-server
+sudo systemctl restart nfs-kernel-server
+set +x
+echo ""
 
 echo ""
 ##read -p "Press Enter to continue, if that all worked"
