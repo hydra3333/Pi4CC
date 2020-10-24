@@ -104,8 +104,11 @@ echo ""
 # The only important option in # /etc/default/nfs-kernel-server for now is NEED_SVCGSSD. 
 # It is set to "no" by default, which is fine, because we are not activating NFSv4 security this time.
 echo ""
-echo "Check /etc/default/nfs-kernel-server has:"
-echo "NEED_SVCGSSD=no"
+set -x
+sudo sed -i 's;NEED_SVCGSSD="";NEED_SVCGSSD="no";g' "/etc/default/nfs-kernel-server"
+set +x
+echo "Check /etc/default/nfs-kernel-server has parameter:"
+echo 'NEED_SVCGSSD="no"'
 echo ""
 set -x
 cat "/etc/default/nfs-kernel-server"
