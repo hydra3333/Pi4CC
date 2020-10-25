@@ -146,7 +146,7 @@ It works ... and is undergoing "refinement".
 	 id -g Pi
 	 Pi_uid="$(id -u Pi)"
 	 Pi_gid="$(id -g Pi)"
-	 echo "uid=${Pi_uid} gid=${Pi_gid}" 
+	 echo "uid=.${Pi_uid}. gid=.${Pi_gid}." 
      ```
    - you are greatly encouraged to view and check files `setup_0.0.sh` and `setup_1.0.sh` to see they do nothing nefarious :)
 6. Do part "Setup 0" of the installation (it should be re-startable, feel free to "Control C" and re-start if you feel uncomfortable)
