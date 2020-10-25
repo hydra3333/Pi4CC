@@ -145,6 +145,11 @@ sleep 3s
 set +x
 echo ""
 #
+set -x
+ls -al "${server_root_folder}" 
+ls -al "${nfs_export_full}" 
+set +x
+#
 echo ""
 ##read -p "Press Enter to continue, if that all worked"
 echo ""
