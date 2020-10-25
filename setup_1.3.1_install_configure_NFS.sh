@@ -32,7 +32,7 @@ echo ""
 set -x
 sudo rm -fv "/etc/exports"
 sudo rm -fv "/etc/default/nfs-kernel-server"
-sudo rm -fv "/etc/idmapd.conf"
+#sudo rm -fv "/etc/idmapd.conf"
 sudo rm -fvR "${nfs_export_full}"
 sudo rm -fvR "${nfs_export_top}"
 sudo rm -fv "/etc/fstab.pre-nfs.old"
@@ -57,12 +57,20 @@ echo "# Now we add a line to file /etc/fstab so that the NFS share is mounted th
 echo ""
 ##read -p "TEST TEST TEST Press Enter if ${nfs_export_top} and ${nfs_export_full} have no quotes around them"
 echo ""
+echo "Check that uid=1000 and gid=1000 match the user Pi "
+echo ""
+Pi_uid="$(id -u Pi)"
+Pi_gid="$(id -g Pi)"
+echo "uid=${Pi_uid} gid=${Pi_gid}" 
+echo ""
 set -x
 cd ~/Desktop
 sudo mkdir -p "${nfs_export_full}"
 sudo chmod -c a=rwx -R "${nfs_export_top}"
 sudo chmod -c a=rwx -R "${nfs_export_full}"
 # sudo mount --bind  "existing-folder-tree" "new-mount-point-folder"
+id -u Pi
+id -g Pi
 sudo mount --bind "${server_root_folder}" "${nfs_export_full}" --options defaults,nofail,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,nodiratime,x-systemd.device-timeout=120
 ls -al "${server_root_folder}" 
 ls -al "${nfs_export_full}" 
@@ -73,14 +81,14 @@ sudo df
 sudo blkid
 echo ""
 set +x
-##read -p "Press Enter if mounted OK, otherwise Control-C now and fix it manually !" 
+read -p "Press Enter if mounted OK and uid/gid match user Pi, otherwise Control-C now and fix it manually !" 
 #
 echo ""
 
 set -x
 sudo cp -fv "/etc/fstab" "/etc/fstab.pre-nfs.old"
 sudo sed -i   "s;${server_root_folder} ${nfs_export_full};#${server_root_folder} /NFS-export/mp4library;g" "/etc/fstab"
-sudo sed -i "$ a ${server_root_folder} ${nfs_export_full} defaults,nofail,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,nodiratime,x-systemd.device-timeout=120,bind 0 0" "/etc/fstab"
+sudo sed -i "$ a ${server_root_folder} ${nfs_export_full} none bind,defaults,nofail,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,nodiratime,x-systemd.device-timeout=120 0 0" "/etc/fstab"
 set +x
 echo ""
 set -x
