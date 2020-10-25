@@ -136,6 +136,7 @@ It works ... and is undergoing "refinement".
      ```
      cd ~/Desktop
      sudo apt install -y git
+     sudo rm -vfR ./Pi4CC
      git clone https://github.com/hydra3333/Pi4CC.git
      cp -fv ./Pi4CC/setup*.sh ./
      chmod +777 *.sh
