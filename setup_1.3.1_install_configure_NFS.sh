@@ -63,6 +63,7 @@ sudo mkdir -p "${nfs_export_full}"
 sudo chmod -c a=rwx -R "${nfs_export_top}"
 sudo chmod -c a=rwx -R "${nfs_export_full}"
 sudo mount --bind "${server_root_folder}" "${nfs_export_full}" 
+ls -al "${nfs_export_full}" 
 set +x
 echo ""
 set -x
