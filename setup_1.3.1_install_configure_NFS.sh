@@ -62,7 +62,9 @@ cd ~/Desktop
 sudo mkdir -p "${nfs_export_full}"
 sudo chmod -c a=rwx -R "${nfs_export_top}"
 sudo chmod -c a=rwx -R "${nfs_export_full}"
-sudo mount --bind "${server_root_folder}" "${nfs_export_full}" 
+# sudo mount --bind  "existing-folder-tree" "new-mount-point-folder"
+sudo mount --bind "${server_root_folder}" "${nfs_export_full}" --options defaults,nofail,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,x-systemd.device-timeout=120
+ls -al "${server_root_folder}" 
 ls -al "${nfs_export_full}" 
 set +x
 echo ""
@@ -78,7 +80,7 @@ echo ""
 set -x
 sudo cp -fv "/etc/fstab" "/etc/fstab.pre-nfs.old"
 sudo sed -i   "s;${server_root_folder} ${nfs_export_full};#${server_root_folder} /NFS-export/mp4library;g" "/etc/fstab"
-sudo sed -i "$ a ${server_root_folder} ${nfs_export_full} defaults,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,x-systemd.device-timeout=120,bind 0 0" "/etc/fstab"
+sudo sed -i "$ a ${server_root_folder} ${nfs_export_full} defaults,nofail,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,x-systemd.device-timeout=120,bind 0 0" "/etc/fstab"
 set +x
 echo ""
 set -x
