@@ -144,8 +144,8 @@ It works ... and is undergoing "refinement".
 	 echo "uid=${UID} gid=${GID}" 
 	 id -u Pi
 	 id -g Pi
-	 Pi_uid="$(id -u Pi)"
-	 Pi_gid="$(id -g Pi)"
+	 Pi_uid="$(id -r -u Pi)"
+	 Pi_gid="$(id -r -g Pi)"
 	 echo "uid=.${Pi_uid}. gid=.${Pi_gid}." 
      ```
    - you are greatly encouraged to view and check files `setup_0.0.sh` and `setup_1.0.sh` to see they do nothing nefarious :)
