@@ -20,6 +20,8 @@ nfs_export_full="${nfs_export_top}/mp4library"
 #
 echo ""
 set -x
+sudo umount -f "${nfs_export_full}"
+#
 sudo systemctl stop nfs-kernel-server
 sleep 3s
 sudo apt purge -y nfs-kernel-server 
@@ -60,7 +62,7 @@ cd ~/Desktop
 sudo mkdir -p "${nfs_export_full}"
 sudo chmod -c a=rwx -R "${nfs_export_top}"
 sudo chmod -c a=rwx -R "${nfs_export_full}"
-sudo mount --bind "${nfs_export_full}" "${server_root_folder}"
+sudo mount --bind "${server_root_folder}" "${nfs_export_full}" 
 set +x
 echo ""
 set -x
