@@ -61,7 +61,7 @@ echo "Check that uid=1000 and gid=1000 match the user Pi "
 echo ""
 Pi_uid="$(id -u Pi)"
 Pi_gid="$(id -g Pi)"
-echo "uid=${Pi_uid} gid=${Pi_gid}" 
+echo "uid=.${Pi_uid}. gid=.${Pi_gid}." 
 echo ""
 set -x
 cd ~/Desktop
