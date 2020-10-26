@@ -15,7 +15,7 @@ echo "# ------------------"
 # https://magpi.raspberrypi.org/articles/raspberry-pi-samba-file-server
 # https://pimylifeup.com/raspberry-pi-samba/
 #
-nfs_export_top="/NFS-export"
+nfs_export_top="/NFS-shares"
 nfs_export_full="${nfs_export_top}/mp4library"
 #
 echo ""
@@ -146,6 +146,8 @@ echo ""
 #
 echo ""
 set -x
+sudo exportfs -ra
+#
 sudo systemctl stop nfs-kernel-server
 sleep 3s
 sudo systemctl restart nfs-kernel-server
