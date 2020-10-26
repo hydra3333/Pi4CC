@@ -24,7 +24,7 @@ set -x
 #
 sudo systemctl stop nfs-kernel-server
 sleep 3s
-sudo apt purge -y nfs-common
+#sudo apt purge -y nfs-common
 sudo apt purge -y nfs-kernel-server 
 sudo apt autoremove -y
 set +x
@@ -41,7 +41,7 @@ set +x
 echo ""
 set -x
 sudo apt install -y nfs-kernel-server 
-sudo apt install -y nfs-common
+#sudo apt install -y nfs-common
 #sudo apt install -y nfs-common
 #sudo apt install --reinstall -y nfs-kernel-server 
 #sudo apt install --reinstall -y nfs-common
