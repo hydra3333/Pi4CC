@@ -30,8 +30,8 @@ sudo apt autoremove -y
 set +x
 echo ""
 set -x
-sudo rm -fv "/etc/exports"
-sudo rm -fv "/etc/default/nfs-kernel-server"
+#sudo rm -fv "/etc/exports"
+#sudo rm -fv "/etc/default/nfs-kernel-server"
 #sudo rm -fv "/etc/idmapd.conf"
 #sudo rm -fvR "${nfs_export_full}"
 #sudo rm -fvR "${nfs_export_top}"
