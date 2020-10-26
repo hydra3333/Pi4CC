@@ -24,8 +24,8 @@ set -x
 #
 sudo systemctl stop nfs-kernel-server
 sleep 3s
+sudo apt purge -y nfs-common
 sudo apt purge -y nfs-kernel-server 
-#sudo apt purge -y nfs-common
 sudo apt autoremove -y
 set +x
 echo ""
@@ -41,6 +41,7 @@ set +x
 echo ""
 set -x
 sudo apt install -y nfs-kernel-server 
+sudo apt install -y nfs-common
 #sudo apt install -y nfs-common
 #sudo apt install --reinstall -y nfs-kernel-server 
 #sudo apt install --reinstall -y nfs-common
@@ -111,8 +112,8 @@ echo ""
 set -x
 sudo sed -i "s;${nfs_export_top}  ${server_ip}/24;#${nfs_export_top}  ${server_ip}/24;g" "/etc/exports"
 sudo sed -i "s;${nfs_export_full} ${server_ip}/24;#${nfs_export_full} ${server_ip}/24;g" "/etc/exports"
-sudo sed -i "$ a ${nfs_export_top}  ${server_ip}/24(rw,insecure,sync,no_subtree_check,all_squash,crossmnt,fsid=0,root_squash,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
-sudo sed -i "$ a ${nfs_export_full} ${server_ip}/24(rw,insecure,sync,no_subtree_check,all_squash,nohide,crossmnt,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
+sudo sed -i "$ a ${nfs_export_top}  ${server_ip}/24(rw,insecure,sync,no_subtree_check,all_squash,fsid=0,root_squash,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
+sudo sed -i "$ a ${nfs_export_full} ${server_ip}/24(rw,insecure,sync,no_subtree_check,all_squash,nohide,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
 cat /etc/exports
 set +x
 echo ""
