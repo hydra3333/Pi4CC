@@ -57,10 +57,10 @@ echo "# Now we add a line to file /etc/fstab so that the NFS share is mounted th
 echo ""
 ##read -p "TEST TEST TEST Press Enter if ${nfs_export_top} and ${nfs_export_full} have no quotes around them"
 echo ""
-echo "Check that uid=1000 and gid=1000 match the user Pi "
+echo "Check that uid=1000 and gid=1000 match the user pi "
 echo ""
-Pi_uid="$(id -r -u pi)"
-Pi_gid="$(id -r -g pi)"
+pi_uid="$(id -r -u pi)"
+pi_gid="$(id -r -g pi)"
 echo "uid=$(id -r -u pi) gid=$(id -r -g pi)" 
 echo ""
 set -x
@@ -69,8 +69,8 @@ sudo mkdir -p "${nfs_export_full}"
 sudo chmod -c a=rwx -R "${nfs_export_top}"
 sudo chmod -c a=rwx -R "${nfs_export_full}"
 # sudo mount --bind  "existing-folder-tree" "new-mount-point-folder"
-id -u Pi
-id -g Pi
+id -u pi
+id -g pi
 sudo mount --bind "${server_root_folder}" "${nfs_export_full}" --options defaults,nofail,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=$(id -r -u pi),gid=$(id -r -g pi),noatime,nodiratime,x-systemd.device-timeout=120
 ls -al "${server_root_folder}" 
 ls -al "${nfs_export_full}" 
