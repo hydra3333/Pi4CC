@@ -33,8 +33,8 @@ set -x
 sudo rm -fv "/etc/exports"
 sudo rm -fv "/etc/default/nfs-kernel-server"
 #sudo rm -fv "/etc/idmapd.conf"
-sudo rm -fvR "${nfs_export_full}"
-sudo rm -fvR "${nfs_export_top}"
+#sudo rm -fvR "${nfs_export_full}"
+#sudo rm -fvR "${nfs_export_top}"
 sudo rm -fv "/etc/fstab.pre-nfs.old"
 sudo sed -i "s;${server_root_folder} ${nfs_export_full};#${server_root_folder} /NFS-export/mp4library;g" "/etc/fstab"
 set +x
