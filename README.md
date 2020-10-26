@@ -141,12 +141,9 @@ It works ... and is undergoing "refinement".
      cp -fv ./Pi4CC/setup*.sh ./
      chmod +777 *.sh
 	 # check the uid and gid for user pi 
-	 echo "uid=${UID} gid=${GID}" 
 	 id -u Pi
 	 id -g Pi
-	 Pi_uid="$(id -r -u Pi)"
-	 Pi_gid="$(id -r -g Pi)"
-	 echo "uid=.${Pi_uid}. gid=.${Pi_gid}." 
+	 echo "uid=$(id -r -u Pi) gid=$(id -r -g Pi)" 
      ```
    - you are greatly encouraged to view and check files `setup_0.0.sh` and `setup_1.0.sh` to see they do nothing nefarious :)
 6. Do part "Setup 0" of the installation (it should be re-startable, feel free to "Control C" and re-start if you feel uncomfortable)

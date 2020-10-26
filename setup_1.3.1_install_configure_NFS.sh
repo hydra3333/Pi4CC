@@ -61,7 +61,7 @@ echo "Check that uid=1000 and gid=1000 match the user Pi "
 echo ""
 Pi_uid="$(id -r -u Pi)"
 Pi_gid="$(id -r -g Pi)"
-echo "uid=.${Pi_uid}. gid=.${Pi_gid}." 
+echo "uid=$(id -r -u Pi) gid=$(id -r -g Pi)" 
 echo ""
 set -x
 cd ~/Desktop
@@ -71,7 +71,7 @@ sudo chmod -c a=rwx -R "${nfs_export_full}"
 # sudo mount --bind  "existing-folder-tree" "new-mount-point-folder"
 id -u Pi
 id -g Pi
-sudo mount --bind "${server_root_folder}" "${nfs_export_full}" --options defaults,nofail,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,nodiratime,x-systemd.device-timeout=120
+sudo mount --bind "${server_root_folder}" "${nfs_export_full}" --options defaults,nofail,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=$(id -r -u Pi),gid=$(id -r -g Pi),noatime,nodiratime,x-systemd.device-timeout=120
 ls -al "${server_root_folder}" 
 ls -al "${nfs_export_full}" 
 set +x
@@ -88,7 +88,7 @@ echo ""
 set -x
 sudo cp -fv "/etc/fstab" "/etc/fstab.pre-nfs.old"
 sudo sed -i   "s;${server_root_folder} ${nfs_export_full};#${server_root_folder} /NFS-export/mp4library;g" "/etc/fstab"
-sudo sed -i "$ a ${server_root_folder} ${nfs_export_full} none bind,defaults,nofail,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,nodiratime,x-systemd.device-timeout=120 0 0" "/etc/fstab"
+sudo sed -i "$ a ${server_root_folder} ${nfs_export_full} none bind,defaults,nofail,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=$(id -r -u Pi),gid=$(id -r -g Pi),noatime,nodiratime,x-systemd.device-timeout=120 0 0" "/etc/fstab"
 set +x
 echo ""
 set -x
@@ -100,15 +100,15 @@ echo ""
 echo ""
 #
 # To export our directories to a local network 10.0.0.0/24, we add the following two lines to /etc/exports:
-#${nfs_export_top}  ${server_ip}/24(rw,insecure,sync,no_subtree_check,all_squash,fsid=0,root_squash,anonuid=1000,anongid=1000)
-#${nfs_export_full} ${server_ip}/24(rw,insecure,sync,no_subtree_check,all_squash,nohide,anonuid=1000,anongid=1000)
+#${nfs_export_top}  ${server_ip}/24(rw,insecure,sync,no_subtree_check,all_squash,fsid=0,root_squash,anonuid=$(id -r -u Pi),anongid=$(id -r -g Pi))
+#${nfs_export_full} ${server_ip}/24(rw,insecure,sync,no_subtree_check,all_squash,nohide,anonuid=$(id -r -u Pi),anongid=$(id -r -g Pi))
 # note: id 1000 is user Pi and group Pi
 echo ""
 set -x
 sudo sed -i "s;${nfs_export_top}  ${server_ip}/24;#${nfs_export_top}  ${server_ip}/24;g" "/etc/exports"
 sudo sed -i "s;${nfs_export_full} ${server_ip}/24;#${nfs_export_full} ${server_ip}/24;g" "/etc/exports"
-sudo sed -i "$ a ${nfs_export_top}  ${server_ip}/24(rw,insecure,sync,no_subtree_check,all_squash,fsid=0,root_squash,anonuid=1000,anongid=1000)" "/etc/exports"
-sudo sed -i "$ a ${nfs_export_full} ${server_ip}/24(rw,insecure,sync,no_subtree_check,all_squash,nohide,anonuid=1000,anongid=1000)" "/etc/exports"
+sudo sed -i "$ a ${nfs_export_top}  ${server_ip}/24(rw,insecure,sync,no_subtree_check,all_squash,fsid=0,root_squash,anonuid=$(id -r -u Pi),anongid=$(id -r -g Pi))" "/etc/exports"
+sudo sed -i "$ a ${nfs_export_full} ${server_ip}/24(rw,insecure,sync,no_subtree_check,all_squash,nohide,anonuid=$(id -r -u Pi),anongid=$(id -r -g Pi))" "/etc/exports"
 cat /etc/exports
 set +x
 echo ""
