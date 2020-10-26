@@ -71,7 +71,7 @@ sudo chmod -c a=rwx -R "${nfs_export_full}"
 # sudo mount --bind  "existing-folder-tree" "new-mount-point-folder"
 id -u pi
 id -g pi
-umount -f "${nfs_export_full}" 
+sudo umount -f "${nfs_export_full}" 
 df
 sudo mount --bind "${server_root_folder}" "${nfs_export_full}" --options defaults,nofail,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=$(id -r -u pi),gid=$(id -r -g pi),noatime,nodiratime,x-systemd.device-timeout=120
 ls -al "${server_root_folder}" 
