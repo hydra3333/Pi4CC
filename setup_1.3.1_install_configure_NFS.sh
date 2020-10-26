@@ -86,7 +86,7 @@ sudo df
 sudo blkid
 echo ""
 set +x
-read -p "Press Enter if mounted OK and uid/gid match user Pi, otherwise Control-C now and fix it manually !" 
+read -p "Press Enter if mounted OK and uid/gid match user pi, otherwise Control-C now and fix it manually !" 
 #
 echo ""
 
@@ -107,16 +107,20 @@ echo ""
 # To export our directories to a local network 10.0.0.0/24, we add the following two lines to /etc/exports:
 #${nfs_export_top}  ${server_ip}/24(rw,insecure,sync,no_subtree_check,all_squash,fsid=0,root_squash,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))
 #${nfs_export_full} ${server_ip}/24(rw,insecure,sync,no_subtree_check,all_squash,nohide,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))
-# note: id 1000 is user Pi and group Pi
+# note: id 1000 is user pi and group pi
 echo ""
 set -x
 sudo sed -i "s;${nfs_export_top}  ${server_ip}/24;#${nfs_export_top}  ${server_ip}/24;g" "/etc/exports"
 sudo sed -i "s;${nfs_export_full} ${server_ip}/24;#${nfs_export_full} ${server_ip}/24;g" "/etc/exports"
+sudo sed -i "s;${nfs_export_full} 127.0.0.1;#${nfs_export_full} 127.0.0.1;g" "/etc/exports"
 sudo sed -i "$ a ${nfs_export_top}  ${server_ip}/24(rw,insecure,sync,no_subtree_check,all_squash,fsid=0,root_squash,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
 sudo sed -i "$ a ${nfs_export_full} ${server_ip}/24(rw,insecure,sync,no_subtree_check,all_squash,nohide,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
+sudo sed -i "$ a ${nfs_export_top}  127.0.0.1(rw,insecure,sync,no_subtree_check,all_squash,fsid=0,root_squash,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
+sudo sed -i "$ a ${nfs_export_full} 127.0.0.1(rw,insecure,sync,no_subtree_check,all_squash,nohide,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
 cat /etc/exports
 set +x
 echo ""
+read -p "Press Enter if /etc/exports looks OK, otherwise Control-C now and fix it manually !" 
 #
 #then check
 # The only important option in # /etc/default/nfs-kernel-server for now is NEED_SVCGSSD. 
@@ -163,6 +167,9 @@ echo ""
 set -x
 ls -al "${server_root_folder}" 
 ls -al "${nfs_export_full}" 
+#
+mkdir -p /tmp/tmp-NFS-mountpoint
+sudo mount -t nfs ${server_ip}:/${nfs_export_full} /var/tmp-NFS-mountpoint
 set +x
 #
 echo ""
