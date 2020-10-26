@@ -24,27 +24,28 @@ set -x
 #
 sudo systemctl stop nfs-kernel-server
 sleep 3s
+# Purge seems to cause it to fail on the subsequent re-install.
 #sudo apt purge -y nfs-common
-sudo apt purge -y nfs-kernel-server 
-sudo apt autoremove -y
+#sudo apt purge -y nfs-kernel-server 
+#sudo apt autoremove -y
 set +x
 echo ""
 set -x
-#sudo rm -fv "/etc/exports"
-#sudo rm -fv "/etc/default/nfs-kernel-server"
+sudo rm -fv "/etc/exports"
+sudo rm -fv "/etc/default/nfs-kernel-server"
 #sudo rm -fv "/etc/idmapd.conf"
-#sudo rm -fvR "${nfs_export_full}"
-#sudo rm -fvR "${nfs_export_top}"
 sudo rm -fv "/etc/fstab.pre-nfs.old"
 sudo sed -i "s;${server_root_folder} ${nfs_export_full};#${server_root_folder} /NFS-export/mp4library;g" "/etc/fstab"
+# do not remove the next 2 items, as it may accidentally wipe all of our media files !!!
+#sudo rm -fvR "${nfs_export_full}"
+#sudo rm -fvR "${nfs_export_top}"
 set +x
 echo ""
 set -x
+sudo apt -y update
+sudo apt -y upgrade
 sudo apt install -y nfs-kernel-server 
-#sudo apt install -y nfs-common
-#sudo apt install -y nfs-common
-#sudo apt install --reinstall -y nfs-kernel-server 
-#sudo apt install --reinstall -y nfs-common
+sudo apt install -y nfs-common
 sleep 3s
 sudo systemctl stop nfs-kernel-server
 sleep 3s
@@ -106,17 +107,17 @@ echo ""
 #
 # To export our directories to a local network 10.0.0.0/24, we add the following two lines to /etc/exports:
 #${nfs_export_top}  ${server_ip}/24(rw,insecure,sync,no_subtree_check,all_squash,fsid=0,root_squash,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))
-#${nfs_export_full} ${server_ip}/24(rw,insecure,sync,no_subtree_check,all_squash,nohide,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))
+#${nfs_export_full} ${server_ip}/24(rw,insecure,sync,no_subtree_check,all_squash,crossmnt,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))
 # note: id 1000 is user pi and group pi
 echo ""
 set -x
 sudo sed -i "s;${nfs_export_top}  ${server_ip}/24;#${nfs_export_top}  ${server_ip}/24;g" "/etc/exports"
 sudo sed -i "s;${nfs_export_full} ${server_ip}/24;#${nfs_export_full} ${server_ip}/24;g" "/etc/exports"
 sudo sed -i "s;${nfs_export_full} 127.0.0.1;#${nfs_export_full} 127.0.0.1;g" "/etc/exports"
-sudo sed -i "$ a ${nfs_export_top}  ${server_ip}/24(rw,insecure,sync,no_subtree_check,all_squash,fsid=0,root_squash,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
-sudo sed -i "$ a ${nfs_export_full} ${server_ip}/24(rw,insecure,sync,no_subtree_check,all_squash,nohide,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
-sudo sed -i "$ a ${nfs_export_top}  127.0.0.1(rw,insecure,sync,no_subtree_check,all_squash,fsid=0,root_squash,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
-sudo sed -i "$ a ${nfs_export_full} 127.0.0.1(rw,insecure,sync,no_subtree_check,all_squash,nohide,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
+sudo sed -i "$ a ${nfs_export_top}  ${server_ip}/24(rw,insecure,sync,no_subtree_check,all_squash,crossmntfsid=0,root_squash,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
+sudo sed -i "$ a ${nfs_export_full} ${server_ip}/24(rw,insecure,sync,no_subtree_check,all_squash,crossmnt,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
+sudo sed -i "$ a ${nfs_export_top}  127.0.0.1(rw,insecure,sync,no_subtree_check,all_squash,crossmntfsid=0,root_squash,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
+sudo sed -i "$ a ${nfs_export_full} 127.0.0.1(rw,insecure,sync,no_subtree_check,all_squash,crossmnt,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
 cat /etc/exports
 set +x
 echo ""
@@ -175,7 +176,10 @@ sudo ls -alR "/tmp-NFS-mountpoint"
 sudo mount -v -t nfs ${server_ip}:/${nfs_export_full} "/tmp-NFS-mountpoint"
 sudo mount
 sudo df -h
+sudo ls -alR "/tmp-NFS-mountpoint"
+sudo ls -alR "/tmp-NFS-mountpoint/"
 sudo umount -f "/tmp-NFS-mountpoint"
+#sudo rm -vf "/tmp-NFS-mountpoint"
 # don't remove it as it may accidentally wipe the mounted drive !!!
 set +x
 #
