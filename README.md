@@ -139,7 +139,7 @@ It works ... and is undergoing "refinement".
      sudo rm -vfR ./Pi4CC
      git clone https://github.com/hydra3333/Pi4CC.git
      cp -fv ./Pi4CC/*.sh ./
-     chmod +777 *.sh
+     sudo chmod +777 *.sh
 	 # check the uid and gid for user pi 
 	 id -u pi
 	 id -g pi
