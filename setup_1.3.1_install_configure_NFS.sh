@@ -75,14 +75,14 @@ id -g pi
 # do not umount nfs_export_full as it dismounts the underpinning volume and causes things to crash 
 #sudo umount -f "${nfs_export_full}" 
 #sudo mount -a
-df
+sudo df -h
 sudo mount --bind "${server_root_folder}" "${nfs_export_full}" --options defaults,nofail,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=$(id -r -u pi),gid=$(id -r -g pi),noatime,nodiratime,x-systemd.device-timeout=120
 ls -al "${server_root_folder}" 
 ls -al "${nfs_export_full}" 
 set +x
 echo ""
 set -x
-sudo df
+sudo df -h
 sudo blkid
 echo ""
 set +x
@@ -168,8 +168,13 @@ set -x
 ls -al "${server_root_folder}" 
 ls -al "${nfs_export_full}" 
 #
-mkdir -p /tmp/tmp-NFS-mountpoint
-sudo mount -t nfs ${server_ip}:/${nfs_export_full} /var/tmp-NFS-mountpoint
+sudo umount -f "/var/tmp-NFS-mountpoint"
+sudo mkdir -p "/tmp/tmp-NFS-mountpoint"
+sudo chmod -c a=rwx -R "/tmp/tmp-NFS-mountpoint"
+sudo mount -t nfs ${server_ip}:/${nfs_export_full} "/var/tmp-NFS-mountpoint"
+sudo mount
+sudo df -h
+sudo umount -f "/var/tmp-NFS-mountpoint"
 set +x
 #
 echo ""
