@@ -170,8 +170,8 @@ ls -al "${nfs_export_full}"
 #
 sudo umount -f "/tmp-NFS-mountpoint"
 sudo mkdir -p "/tmp-NFS-mountpoint"
-ls -alR "/tmp-NFS-mountpoint"
 sudo chmod -c a=rwx -R "/tmp-NFS-mountpoint"
+sudo ls -alR "/tmp-NFS-mountpoint"
 sudo mount -t nfs ${server_ip}:/${nfs_export_full} "/tmp-NFS-mountpoint"
 sudo mount
 sudo df -h
