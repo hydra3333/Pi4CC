@@ -114,9 +114,9 @@ set -x
 sudo sed -i "s;${nfs_export_top}  ${server_ip}/24;#${nfs_export_top}  ${server_ip}/24;g" "/etc/exports"
 sudo sed -i "s;${nfs_export_full} ${server_ip}/24;#${nfs_export_full} ${server_ip}/24;g" "/etc/exports"
 sudo sed -i "s;${nfs_export_full} 127.0.0.1;#${nfs_export_full} 127.0.0.1;g" "/etc/exports"
-sudo sed -i "$ a ${nfs_export_top}  ${server_ip}/24(rw,insecure,sync,no_subtree_check,all_squash,crossmntfsid=0,root_squash,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
+sudo sed -i "$ a ${nfs_export_top}  ${server_ip}/24(rw,insecure,sync,no_subtree_check,all_squash,crossmnt,fsid=0,root_squash,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
 sudo sed -i "$ a ${nfs_export_full} ${server_ip}/24(rw,insecure,sync,no_subtree_check,all_squash,crossmnt,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
-sudo sed -i "$ a ${nfs_export_top}  127.0.0.1(rw,insecure,sync,no_subtree_check,all_squash,crossmntfsid=0,root_squash,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
+sudo sed -i "$ a ${nfs_export_top}  127.0.0.1(rw,insecure,sync,no_subtree_check,all_squash,crossmnt,fsid=0,root_squash,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
 sudo sed -i "$ a ${nfs_export_full} 127.0.0.1(rw,insecure,sync,no_subtree_check,all_squash,crossmnt,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
 cat /etc/exports
 set +x
