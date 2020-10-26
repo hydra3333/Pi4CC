@@ -69,14 +69,14 @@ cd ~/Desktop
 sudo mkdir -p "${nfs_export_full}"
 sudo chmod -c a=rwx -R "${nfs_export_top}"
 sudo chmod -c a=rwx -R "${nfs_export_full}"
-# sudo mount --bind  "existing-folder-tree" "new-mount-point-folder"
+# sudo mount -v --bind  "existing-folder-tree" "new-mount-point-folder"
 id -u pi
 id -g pi
 # do not umount nfs_export_full as it dismounts the underpinning volume and causes things to crash 
 #sudo umount -f "${nfs_export_full}" 
-#sudo mount -a
+#sudo mount -v -a
 sudo df -h
-sudo mount --bind "${server_root_folder}" "${nfs_export_full}" --options defaults,nofail,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=$(id -r -u pi),gid=$(id -r -g pi),noatime,nodiratime,x-systemd.device-timeout=120
+sudo mount -v --bind "${server_root_folder}" "${nfs_export_full}" --options defaults,nofail,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=$(id -r -u pi),gid=$(id -r -g pi),noatime,nodiratime,x-systemd.device-timeout=120
 ls -al "${server_root_folder}" 
 ls -al "${nfs_export_full}" 
 set +x
@@ -172,7 +172,7 @@ sudo umount -f "/tmp-NFS-mountpoint"
 sudo mkdir -p "/tmp-NFS-mountpoint"
 sudo chmod -c a=rwx -R "/tmp-NFS-mountpoint"
 sudo ls -alR "/tmp-NFS-mountpoint"
-sudo mount -t nfs ${server_ip}:/${nfs_export_full} "/tmp-NFS-mountpoint"
+sudo mount -v -t nfs ${server_ip}:/${nfs_export_full} "/tmp-NFS-mountpoint"
 sudo mount
 sudo df -h
 sudo umount -f "/tmp-NFS-mountpoint"
