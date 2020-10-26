@@ -143,7 +143,7 @@ It works ... and is undergoing "refinement".
 	 # check the uid and gid for user pi 
 	 id -u Pi
 	 id -g Pi
-	 echo "uid=$(id -r -u Pi) gid=$(id -r -g Pi)" 
+	 echo "uid=$(id -r -u pi) gid=$(id -r -g pi)" 
      ```
    - you are greatly encouraged to view and check files `setup_0.0.sh` and `setup_1.0.sh` to see they do nothing nefarious :)
 6. Do part "Setup 0" of the installation (it should be re-startable, feel free to "Control C" and re-start if you feel uncomfortable)
