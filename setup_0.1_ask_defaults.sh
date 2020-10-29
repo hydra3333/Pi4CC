@@ -26,10 +26,17 @@ if [[ -f "$setup_config_file" ]]; then  # config file already exists
     server_ip=${host_ip}
     read -e -p "This server_alias (will become a Virtual Folder within the website) [${server_alias_default}]: " -i "${server_alias_default}" input_string
     server_alias="${input_string:-$server_alias_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
+	#
     read -e -p "Designate the mount point for the USB3 external hard drive [${server_root_USBmountpoint_default}]: " -i "${server_root_USBmountpoint_default}" input_string
     server_root_USBmountpoint="${input_string:-$server_root_USBmountpoint_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
     read -e -p "Designate the root folder on the USB3 external hard drive [${server_root_folder_default}]: " -i "${server_root_folder_default}" input_string
     server_root_folder="${input_string:-$server_root_folder_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
+	#
+    read -e -p "Designate the mount point for the USB3 external hard drive 2 [${server_root_USBmountpoint2_default}]: " -i "${server_root_USBmountpoint_default}" input_string
+    server_root_USBmountpoint2="${input_string:-$server_root_USBmountpoint2_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
+    read -e -p "Designate the root folder on the USB3 external hard drive [${server_root_folder2_default}]: " -i "${server_root_folder2_default}" input_string
+    server_root_folder2="${input_string:-$server_root_folder2_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
+	#
 else  # config file does not exist, prompt normally with successive defaults based on answers aqs we go along
     echo "No prior answers found, creating new default answers ..."
     #server_name_default=Pi4CC
@@ -46,12 +53,20 @@ else  # config file does not exist, prompt normally with successive defaults bas
     server_ip=${host_ip}
     read -e -p "This server_alias (will become a Virtual Folder within the website) [${server_alias_default}]: " -i "${server_alias_default}" input_string
     server_alias="${input_string:-$server_alias_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
+	#
     server_root_USBmountpoint_default=/mnt/${server_alias}
     read -e -p "Designate the mount point for the USB3 external hard drive [${server_root_USBmountpoint_default}]: " -i "${server_root_USBmountpoint_default}" input_string
     server_root_USBmountpoint="${input_string:-$server_root_USBmountpoint_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
     server_root_folder_default=${server_root_USBmountpoint}/${server_alias}
     read -e -p "Designate the root folder on the USB3 external hard drive [${server_root_folder_default}]: " -i "${server_root_folder_default}" input_string
     server_root_folder="${input_string:-$server_root_folder_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
+	#
+    server_root_USBmountpoint2_default=/mnt/${server_alias}2
+    read -e -p "Designate the mount point for the USB3 external hard drive 2 [${server_root_USBmountpoint2_default}]: " -i "${server_root_USBmountpoint2_default}" input_string
+    server_root_USBmountpoint2="${input_string:-$server_root_USBmountpoint2_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
+    server_root_folder2_default=${server_root_USBmountpoint2}/${server_alias}
+    read -e -p "Designate the root folder on the USB3 external hard drive [${server_root_folder2_default}]: " -i "${server_root_folder2_default}" input_string
+    server_root_folder2="${input_string:-$server_root_folder2_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
 fi
 # ALWAYS choose a USB3 Disk device and find it's UUID
 # (The use/positioning of parentheses and curly-brackets in setting array elements is critical)
@@ -86,9 +101,7 @@ while IFS= read -r -d $'\0' device; do
    echo "***********************************"
 
    if [[ "${x_device_uuid}" != "" ]] ; then
-
       echo "FOUND device valid x_device_name=${x_device_name}"
-
       disk_name+=("${x_disk_name}")
       device_name+=("${x_device_name}")
       device_label+=("${x_device_label}")
@@ -137,8 +150,10 @@ menu_from_array () {
    #echo "*** REPLY=${REPLY} *** item=${item}"
    if [ 1 -le "$REPLY" ] && [ "$REPLY" -le $# ]; then
       if [ "$REPLY" -eq $# ]; then
-         echo "EXITING: ${item} ..."
-         exit
+		let "selected_index=0"
+		selected_item=""
+		echo "EXITING: selected_index:${selected_index} selected_item:${selected_item}..."
+		break;
       fi
       let "selected_index=${REPLY} - 1"
       selected_item=${item}
@@ -150,13 +165,21 @@ menu_from_array () {
  done
 }
 echo ""
-echo "Choose which device is the USB3 hard drive/partition containing the .mp4 files ! "
+echo "Choose which device is the MAIN USB3 hard drive/partition containing the .mp4 files ! "
 echo ""
 exit_string="It isn't displayed, Exit immediately"
 menu_from_array "${device_string[@]}" "${exit_string}"
 server_USB3_DISK_NAME="${disk_name[${selected_index}]}"
 server_USB3_DEVICE_NAME="${device_name[${selected_index}]}"
 server_USB3_DEVICE_UUID="${device_uuid[${selected_index}]}"
+echo ""
+echo "Choose which device is the 2nd USB3 hard drive/partition containing the .mp4 files ! "
+echo ""
+exit_string="It isn't displayed, Exit immediately"
+menu_from_array "${device_string[@]}" "${exit_string}"
+server_USB3_DISK_NAME2="${disk_name[${selected_index}]}"
+server_USB3_DEVICE_NAME2="${device_name[${selected_index}]}"
+server_USB3_DEVICE_UUID2="${device_uuid[${selected_index}]}"
 echo ""
 #
 echo "(re)Saving the new answers to the config file for re-use as future defaults..."
@@ -165,24 +188,39 @@ echo "#" >> "$setup_config_file"
 echo "server_name_default=${server_name}">> "$setup_config_file"
 echo "server_ip_default=${server_ip}">> "$setup_config_file"
 echo "server_alias_default=${server_alias}">> "$setup_config_file"
+#
 echo "server_root_USBmountpoint_default=${server_root_USBmountpoint}">> "$setup_config_file"
 echo "server_root_folder_default=${server_root_folder}">> "$setup_config_file"
 echo "server_USB3_DISK_NAME=${server_USB3_DISK_NAME}">> "$setup_config_file"
 echo "server_USB3_DEVICE_NAME=${server_USB3_DEVICE_NAME}">> "$setup_config_file"
 echo "server_USB3_DEVICE_UUID=${server_USB3_DEVICE_UUID}">> "$setup_config_file"
+#
+echo "server_root_USBmountpoint2_default=${server_root_USBmountpoint2}">> "$setup_config_file"
+echo "server_root_folder2_default=${server_root_folder2}">> "$setup_config_file"
+echo "server_USB3_DISK_NAME2=${server_USB3_DISK_NAME2}">> "$setup_config_file"
+echo "server_USB3_DEVICE_NAME2=${server_USB3_DEVICE_NAME2}">> "$setup_config_file"
+echo "server_USB3_DEVICE_UUID2=${server_USB3_DEVICE_UUID2}">> "$setup_config_file"
+#
 echo "#">> "$setup_config_file"
 set -x
 sudo chmod -c a=rwx -R "$setup_config_file"
 cat "$setup_config_file"
 set +x
+echo "*****"
+echo "               server_name=${server_name}"
+echo "                 server_ip=${server_ip}"
+echo "              server_alias=${server_alias}"
 echo ""
-echo "              server_name=${server_name}"
-echo "                server_ip=${server_ip}"
-echo "             server_alias=${server_alias}"
-echo "server_root_USBmountpoint=${server_root_USBmountpoint}"
-echo "       server_root_folder=${server_root_folder}"
-echo "    server_USB3_DISK_NAME=${server_USB3_DISK_NAME}"
-echo "  server_USB3_DEVICE_NAME=${server_USB3_DEVICE_NAME}"
-echo "  server_USB3_DEVICE_UUID=${server_USB3_DEVICE_UUID}"
+echo " server_root_USBmountpoint=${server_root_USBmountpoint}"
+echo "        server_root_folder=${server_root_folder}"
+echo "     server_USB3_DISK_NAME=${server_USB3_DISK_NAME}"
+echo "   server_USB3_DEVICE_NAME=${server_USB3_DEVICE_NAME}"
+echo "   server_USB3_DEVICE_UUID=${server_USB3_DEVICE_UUID}"
 echo ""
+echo "server_root_USBmountpoint2=${server_root_USBmountpoint2}"
+echo "        server_root_folder2=${server_root_folder2}"
+echo "    server_USB3_DISK_NAME2=${server_USB3_DISK_NAME2}"
+echo "  server_USB3_DEVICE_NAME2=${server_USB3_DEVICE_NAME2}"
+echo "  server_USB3_DEVICE_UUID2=${server_USB3_DEVICE_UUID2}"
+echo "*****"
 echo "# ------------------------------------------------------------------------------------------------------------------------"
