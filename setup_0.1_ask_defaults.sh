@@ -193,6 +193,9 @@ echo "Choose which device is the MAIN USB3 hard drive/partition containing the .
 echo ""
 exit_string="It isn't displayed, Exit immediately"
 menu_from_array "${device_string[@]}" "${exit_string}"
+if [ "${selected_index}" -eq "0" ]; then
+	exit
+fi
 server_USB3_DISK_NAME="${disk_name[${selected_index}]}"
 server_USB3_DEVICE_NAME="${device_name[${selected_index}]}"
 server_USB3_DEVICE_UUID="${device_uuid[${selected_index}]}"
