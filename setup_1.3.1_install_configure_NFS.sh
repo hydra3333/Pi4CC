@@ -211,7 +211,6 @@ if [ "${SecondaryDisk}" = "y" ]; then
 	sudo ls -alR "/tmp-NFS-mountpoint2/"
 	sudo umount -f "/tmp-NFS-mountpoint2"
 fi
-
 #sudo rm -vf "/tmp-NFS-mountpoint"
 # do NOT remove it as it may accidentally wipe the mounted drive !!!
 set +x
