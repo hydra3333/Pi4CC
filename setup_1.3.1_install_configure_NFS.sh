@@ -17,6 +17,7 @@ echo "# ------------------"
 #
 nfs_export_top="/NFS-shares"
 nfs_export_full="${nfs_export_top}/mp4library"
+nfs_export_full2="${nfs_export_top}/mp4library2"
 #
 echo ""
 set -x
@@ -35,8 +36,9 @@ set -x
 #sudo rm -fv "/etc/default/nfs-kernel-server"
 #sudo rm -fv "/etc/idmapd.conf"
 sudo rm -fv "/etc/fstab.pre-nfs.old"
-sudo sed -i "s;${server_root_folder} ${nfs_export_full};#${server_root_folder} /NFS-export/mp4library;g" "/etc/fstab"
-# do not remove the next 2 items, as it may accidentally wipe all of our media files !!!
+sudo sed -i "s;${server_root_folder} ${nfs_export_full};#${server_root_folder} ${nfs_export_full};g" "/etc/fstab"
+sudo sed -i "s;${server_root_folder2} ${nfs_export_full2};#${server_root_folder2} ${nfs_export_full2};g" "/etc/fstab"
+# do not rm the next 2 items, as it may accidentally wipe all of our media files !!!
 #sudo rm -fvR "${nfs_export_full}"
 #sudo rm -fvR "${nfs_export_top}"
 set +x
@@ -70,6 +72,10 @@ cd ~/Desktop
 sudo mkdir -p "${nfs_export_full}"
 sudo chmod -c a=rwx -R "${nfs_export_top}"
 sudo chmod -c a=rwx -R "${nfs_export_full}"
+if [ "${SecondaryDisk}" = "y" ]; then
+	sudo mkdir -p "${nfs_export_full2}"
+	sudo chmod -c a=rwx -R "${nfs_export_full2}"
+fi
 # sudo mount -v --bind  "existing-folder-tree" "new-mount-point-folder"
 id -u pi
 id -g pi
@@ -81,6 +87,13 @@ sudo mount -v --bind "${server_root_folder}" "${nfs_export_full}" --options defa
 ls -al "${server_root_folder}" 
 ls -al "${nfs_export_full}" 
 set +x
+if [ "${SecondaryDisk}" = "y" ]; then
+	set -x
+	sudo mount -v --bind "${server_root_folder2}" "${nfs_export_full2}" --options defaults,nofail,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=$(id -r -u pi),gid=$(id -r -g pi),noatime,nodiratime,x-systemd.device-timeout=120
+	ls -al "${server_root_folder2}" 
+	ls -al "${nfs_export_full2}" 
+	set +x
+fi
 echo ""
 set -x
 sudo df -h
@@ -93,8 +106,12 @@ echo ""
 
 set -x
 sudo cp -fv "/etc/fstab" "/etc/fstab.pre-nfs.old"
-sudo sed -i   "s;${server_root_folder} ${nfs_export_full};#${server_root_folder} /NFS-export/mp4library;g" "/etc/fstab"
+sudo sed -i   "s;${server_root_folder} ${nfs_export_full};#${server_root_folder} ${nfs_export_full};g" "/etc/fstab"
+sudo sed -i   "s;${server_root_folder2} ${nfs_export_full2};#${server_root_folder2} ${nfs_export_full2};g" "/etc/fstab"
 sudo sed -i "$ a ${server_root_folder} ${nfs_export_full} none bind,defaults,nofail,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=$(id -r -u pi),gid=$(id -r -g pi),noatime,nodiratime,x-systemd.device-timeout=120 0 0" "/etc/fstab"
+if [ "${SecondaryDisk}" = "y" ]; then
+	sudo sed -i "$ a ${server_root_folder2} ${nfs_export_full2} none bind,defaults,nofail,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=$(id -r -u pi),gid=$(id -r -g pi),noatime,nodiratime,x-systemd.device-timeout=120 0 0" "/etc/fstab"
+fi
 set +x
 echo ""
 set -x
@@ -114,10 +131,19 @@ set -x
 sudo sed -i "s;${nfs_export_top}  ${server_ip}/24;#${nfs_export_top}  ${server_ip}/24;g" "/etc/exports"
 sudo sed -i "s;${nfs_export_full} ${server_ip}/24;#${nfs_export_full} ${server_ip}/24;g" "/etc/exports"
 sudo sed -i "s;${nfs_export_full} 127.0.0.1;#${nfs_export_full} 127.0.0.1;g" "/etc/exports"
+sudo sed -i "s;${nfs_export_full2} ${server_ip}/24;#${nfs_export_full2} ${server_ip}/24;g" "/etc/exports"
+sudo sed -i "s;${nfs_export_full2} 127.0.0.1;#${nfs_export_full2} 127.0.0.1;g" "/etc/exports"
+#
 sudo sed -i "$ a ${nfs_export_top}  ${server_ip}/24(rw,insecure,sync,no_subtree_check,all_squash,crossmnt,fsid=0,root_squash,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
 sudo sed -i "$ a ${nfs_export_full} ${server_ip}/24(rw,insecure,sync,no_subtree_check,all_squash,crossmnt,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
+if [ "${SecondaryDisk}" = "y" ]; then
+	sudo sed -i "$ a ${nfs_export_full2} ${server_ip}/24(rw,insecure,sync,no_subtree_check,all_squash,crossmnt,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
+fi
 sudo sed -i "$ a ${nfs_export_top}  127.0.0.1(rw,insecure,sync,no_subtree_check,all_squash,crossmnt,fsid=0,root_squash,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
 sudo sed -i "$ a ${nfs_export_full} 127.0.0.1(rw,insecure,sync,no_subtree_check,all_squash,crossmnt,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
+if [ "${SecondaryDisk}" = "y" ]; then
+	sudo sed -i "$ a ${nfs_export_full2} 127.0.0.1(rw,insecure,sync,no_subtree_check,all_squash,crossmnt,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
+fi
 sudo cat /etc/exports
 set +x
 echo ""
@@ -174,13 +200,20 @@ sudo mkdir -p "/tmp-NFS-mountpoint"
 sudo chmod -c a=rwx -R "/tmp-NFS-mountpoint"
 sudo ls -alR "/tmp-NFS-mountpoint"
 sudo mount -v -t nfs ${server_ip}:/${nfs_export_full} "/tmp-NFS-mountpoint"
-sudo mount
-sudo df -h
-sudo ls -alR "/tmp-NFS-mountpoint"
 sudo ls -alR "/tmp-NFS-mountpoint/"
 sudo umount -f "/tmp-NFS-mountpoint"
+if [ "${SecondaryDisk}" = "y" ]; then
+	sudo umount -f "/tmp-NFS-mountpoint2"
+	sudo mkdir -p "/tmp-NFS-mountpoint2"
+	sudo chmod -c a=rwx -R "/tmp-NFS-mountpoint2"
+	sudo ls -alR "/tmp-NFS-mountpoint2"
+	sudo mount -v -t nfs ${server_ip}:/${nfs_export_full2} "/tmp-NFS-mountpoint2"
+	sudo ls -alR "/tmp-NFS-mountpoint2/"
+	sudo umount -f "/tmp-NFS-mountpoint2"
+fi
+
 #sudo rm -vf "/tmp-NFS-mountpoint"
-# don't remove it as it may accidentally wipe the mounted drive !!!
+# do NOT remove it as it may accidentally wipe the mounted drive !!!
 set +x
 #
 echo ""
