@@ -11,7 +11,7 @@ cd ~/Desktop
 echo "# ------------------------------------------------------------------------------------------------------------------------"
 host_name=$(hostname --fqdn)
 host_ip=$(hostname -I | cut -f1 -d' ')
-setup_config_file=./setup.config
+setup_config_file=./Pi4CC_setup.config
 if [[ -f "$setup_config_file" ]]; then  # config file already exists
     echo "Using prior answers as defaults..."
     set -x
@@ -44,7 +44,7 @@ if [[ -f "$setup_config_file" ]]; then  # config file already exists
 		esac
 	done
 	if [ "${SecondaryDisk}" = "y" ]; then
-		read -e -p "Designate the mount point for a SECOND USB3 external hard drive [${server_root_USBmountpoint2_default}]: " -i "${server_root_USBmountpoint_default}" input_string
+		read -e -p "Designate the mount point for a SECOND USB3 external hard drive [${server_root_USBmountpoint2_default}]: " -i "${server_root_USBmountpoint2_default}" input_string
 		server_root_USBmountpoint2="${input_string:-$server_root_USBmountpoint2_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
 		read -e -p "Designate the root folder on the SECOND USB3 external hard drive [${server_root_folder2_default}]: " -i "${server_root_folder2_default}" input_string
 		server_root_folder2="${input_string:-$server_root_folder2_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
