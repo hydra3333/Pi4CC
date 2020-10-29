@@ -36,7 +36,7 @@ if [[ -f "$setup_config_file" ]]; then  # config file already exists
 	server_root_USBmountpoint2=""
 	server_root_folder2=""
 	while true; do
-		read -p "Do youhave a Secondary Media Disk [y/n]? " yn
+		read -p "Do you have a SECONDARY Media Disk attached [y/n]? " yn
 		case $yn in
 			[Yy]* ) SecondaryDisk=y; break;;
 			[Nn]* ) SecondaryDisk=n; break;;
