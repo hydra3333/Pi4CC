@@ -32,10 +32,23 @@ if [[ -f "$setup_config_file" ]]; then  # config file already exists
     read -e -p "Designate the root folder on the USB3 external hard drive [${server_root_folder_default}]: " -i "${server_root_folder_default}" input_string
     server_root_folder="${input_string:-$server_root_folder_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
 	#
-    read -e -p "Designate the mount point for a SECOND USB3 external hard drive [${server_root_USBmountpoint2_default}]: " -i "${server_root_USBmountpoint_default}" input_string
-    server_root_USBmountpoint2="${input_string:-$server_root_USBmountpoint2_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
-    read -e -p "Designate the root folder on the SECOND USB3 external hard drive [${server_root_folder2_default}]: " -i "${server_root_folder2_default}" input_string
-    server_root_folder2="${input_string:-$server_root_folder2_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
+	SecondaryDisk=n
+	server_root_USBmountpoint2=""
+	server_root_folder2=""
+	while true; do
+		read -p "Do youhave a Secondary Media Disk [y/n]? " yn
+		case $yn in
+			[Yy]* ) SecondaryDisk=y; break;;
+			[Nn]* ) SecondaryDisk=n; break;;
+			* ) echo "Please answer y or n only.";;
+		esac
+	done
+	if [ "${SecondaryDisk}" = "y" ]; then
+		read -e -p "Designate the mount point for a SECOND USB3 external hard drive [${server_root_USBmountpoint2_default}]: " -i "${server_root_USBmountpoint_default}" input_string
+		server_root_USBmountpoint2="${input_string:-$server_root_USBmountpoint2_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
+		read -e -p "Designate the root folder on the SECOND USB3 external hard drive [${server_root_folder2_default}]: " -i "${server_root_folder2_default}" input_string
+		server_root_folder2="${input_string:-$server_root_folder2_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
+	fi
 	#
 else  # config file does not exist, prompt normally with successive defaults based on answers aqs we go along
     echo "No prior answers found, creating new default answers ..."
@@ -61,12 +74,25 @@ else  # config file does not exist, prompt normally with successive defaults bas
     read -e -p "Designate the root folder on the USB3 external hard drive [${server_root_folder_default}]: " -i "${server_root_folder_default}" input_string
     server_root_folder="${input_string:-$server_root_folder_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
 	#
-    server_root_USBmountpoint2_default=/mnt/${server_alias}2
-    read -e -p "Designate the mount point for a SECOND USB3 external hard drive [${server_root_USBmountpoint2_default}]: " -i "${server_root_USBmountpoint2_default}" input_string
-    server_root_USBmountpoint2="${input_string:-$server_root_USBmountpoint2_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
-    server_root_folder2_default=${server_root_USBmountpoint2}/${server_alias}
-    read -e -p "Designate the root folder on the SECOND USB3 external hard drive [${server_root_folder2_default}]: " -i "${server_root_folder2_default}" input_string
-    server_root_folder2="${input_string:-$server_root_folder2_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
+	SecondaryDisk=n
+	server_root_USBmountpoint2=""
+	server_root_folder2=""
+	while true; do
+		read -p "Do you have a Secondary Media Disk [y/n]? " yn
+		case $yn in
+			[Yy]* ) SecondaryDisk=y; break;;
+			[Nn]* ) SecondaryDisk=n; break;;
+			* ) echo "Please answer y or n only.";;
+		esac
+	done
+	if [ "${SecondaryDisk}" = "y" ]; then
+		server_root_USBmountpoint2_default=/mnt/${server_alias}2
+		read -e -p "Designate the mount point for a SECOND USB3 external hard drive [${server_root_USBmountpoint2_default}]: " -i "${server_root_USBmountpoint2_default}" input_string
+		server_root_USBmountpoint2="${input_string:-$server_root_USBmountpoint2_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
+		server_root_folder2_default=${server_root_USBmountpoint2}/${server_alias}
+		read -e -p "Designate the root folder on the SECOND USB3 external hard drive [${server_root_folder2_default}]: " -i "${server_root_folder2_default}" input_string
+		server_root_folder2="${input_string:-$server_root_folder2_default}" # forces the name to be the original default if the user erases the input or default (submitting a null).
+	fi
 fi
 # ALWAYS choose a USB3 Disk device and find it's UUID
 # (The use/positioning of parentheses and curly-brackets in setting array elements is critical)
@@ -87,7 +113,6 @@ while IFS= read -r -d $'\0' device; do
    x_device_fstype="$(lsblk -n -p -l -o fstype ${d})"
    x_device_size="$(lsblk -n -p -l -o size ${d})"
    x_device_mountpoint="$(lsblk -n -p -l -o mountpoint ${d})"
-
    echo "***********************************"
    echo "EXAMIMING NEW DEVICE:"
    echo "d=${d}"
@@ -99,7 +124,6 @@ while IFS= read -r -d $'\0' device; do
    echo "x_device_size=${x_device_size}"
    echo "x_device_mountpoint=${x_device_mountpoint}"
    echo "***********************************"
-
    if [[ "${x_device_uuid}" != "" ]] ; then
       echo "FOUND device valid x_device_name=${x_device_name}"
       disk_name+=("${x_disk_name}")
@@ -172,14 +196,24 @@ menu_from_array "${device_string[@]}" "${exit_string}"
 server_USB3_DISK_NAME="${disk_name[${selected_index}]}"
 server_USB3_DEVICE_NAME="${device_name[${selected_index}]}"
 server_USB3_DEVICE_UUID="${device_uuid[${selected_index}]}"
-echo ""
-echo "Choose which device is the 2nd USB3 hard drive/partition containing the .mp4 files ! "
-echo ""
-exit_string="It isn't displayed, Exit immediately"
-menu_from_array "${device_string[@]}" "${exit_string}"
-server_USB3_DISK_NAME2="${disk_name[${selected_index}]}"
-server_USB3_DEVICE_NAME2="${device_name[${selected_index}]}"
-server_USB3_DEVICE_UUID2="${device_uuid[${selected_index}]}"
+#
+if [ "${SecondaryDisk}" = "y" ]; then
+	echo ""
+	echo "Choose which device is the 2nd USB3 hard drive/partition containing the .mp4 files ! "
+	echo ""
+	exit_string="It isn't displayed, Exit immediately"
+	menu_from_array "${device_string[@]}" "${exit_string}"
+	if [ "${selected_index}" -eq "0" ]; then
+		SecondaryDisk=n
+		server_USB3_DISK_NAME2=""
+		server_USB3_DEVICE_NAME2=""
+		server_USB3_DEVICE_UUID2=""
+	else 
+		server_USB3_DISK_NAME2="${disk_name[${selected_index}]}"
+		server_USB3_DEVICE_NAME2="${device_name[${selected_index}]}"
+		server_USB3_DEVICE_UUID2="${device_uuid[${selected_index}]}"
+	fi
+fi
 echo ""
 #
 echo "(re)Saving the new answers to the config file for re-use as future defaults..."
@@ -195,6 +229,7 @@ echo "server_USB3_DISK_NAME=${server_USB3_DISK_NAME}">> "$setup_config_file"
 echo "server_USB3_DEVICE_NAME=${server_USB3_DEVICE_NAME}">> "$setup_config_file"
 echo "server_USB3_DEVICE_UUID=${server_USB3_DEVICE_UUID}">> "$setup_config_file"
 #
+echo "SecondaryDisk=${SecondaryDisk}">> "$setup_config_file"
 echo "server_root_USBmountpoint2_default=${server_root_USBmountpoint2}">> "$setup_config_file"
 echo "server_root_folder2_default=${server_root_folder2}">> "$setup_config_file"
 echo "server_USB3_DISK_NAME2=${server_USB3_DISK_NAME2}">> "$setup_config_file"
@@ -217,10 +252,13 @@ echo "     server_USB3_DISK_NAME=${server_USB3_DISK_NAME}"
 echo "   server_USB3_DEVICE_NAME=${server_USB3_DEVICE_NAME}"
 echo "   server_USB3_DEVICE_UUID=${server_USB3_DEVICE_UUID}"
 echo ""
-echo "server_root_USBmountpoint2=${server_root_USBmountpoint2}"
-echo "        server_root_folder2=${server_root_folder2}"
-echo "    server_USB3_DISK_NAME2=${server_USB3_DISK_NAME2}"
-echo "  server_USB3_DEVICE_NAME2=${server_USB3_DEVICE_NAME2}"
-echo "  server_USB3_DEVICE_UUID2=${server_USB3_DEVICE_UUID2}"
+if [ "${SecondaryDisk}" = "y" ]; then
+	echo "             SecondaryDisk=${SecondaryDisk}"
+	echo "server_root_USBmountpoint2=${server_root_USBmountpoint2}"
+	echo "       server_root_folder2=${server_root_folder2}"
+	echo "    server_USB3_DISK_NAME2=${server_USB3_DISK_NAME2}"
+	echo "  server_USB3_DEVICE_NAME2=${server_USB3_DEVICE_NAME2}"
+	echo "  server_USB3_DEVICE_UUID2=${server_USB3_DEVICE_UUID2}"
+fi
 echo "*****"
 echo "# ------------------------------------------------------------------------------------------------------------------------"
