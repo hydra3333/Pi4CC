@@ -174,7 +174,7 @@ menu_from_array () {
    #echo "*** REPLY=${REPLY} *** item=${item}"
    if [ 1 -le "$REPLY" ] && [ "$REPLY" -le $# ]; then
       if [ "$REPLY" -eq $# ]; then
-		let "selected_index=0"
+		let "selected_index=-1"
 		selected_item=""
 		echo "EXITING: selected_index:${selected_index} selected_item:${selected_item}..."
 		break;
@@ -193,7 +193,7 @@ echo "Choose which device is the MAIN USB3 hard drive/partition containing the .
 echo ""
 exit_string="It isn't displayed, Exit immediately"
 menu_from_array "${device_string[@]}" "${exit_string}"
-if [ "${selected_index}" -eq "0" ]; then
+if [ "${selected_index}" -eq "-1" ]; then
 	exit
 fi
 server_USB3_DISK_NAME="${disk_name[${selected_index}]}"
@@ -206,7 +206,7 @@ if [ "${SecondaryDisk}" = "y" ]; then
 	echo ""
 	exit_string="It isn't displayed, Exit immediately"
 	menu_from_array "${device_string[@]}" "${exit_string}"
-	if [ "${selected_index}" -eq "0" ]; then
+	if [ "${selected_index}" -eq "-1" ]; then
 		SecondaryDisk=n
 		server_USB3_DISK_NAME2=""
 		server_USB3_DEVICE_NAME2=""
