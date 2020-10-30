@@ -203,7 +203,7 @@ echo "**************************************************************************
 set -x
 sudo cp -fv "/etc/fstab" "/etc/fstab.old"
 # put a "#" at the start of all lines containing this string: ntfs defaults,auto
-sudo sed "/ntfs defaults,auto/s/^/#/" "/etc/fstab"
+sudo sed -i.bak "/ntfs defaults,auto/s/^/#/" "/etc/fstab"
 #	"/ntfs defaults,auto/" matches a line with "ntfs defaults,auto"
 #	s perform a substitution on the lines matched above (notice no "g" at the end of the "s" due to aforementioned line matching)
 #	The substitution will insert a pound character (#) at the beginning of the line (^)
