@@ -107,10 +107,10 @@ echo ""
 set -x
 sudo cp -fv "/etc/fstab" "/etc/fstab.pre-nfs.old"
 sudo sed -i   "s;${server_root_folder} ${nfs_export_full};#${server_root_folder} ${nfs_export_full};g" "/etc/fstab"
-sudo sed -i   "s;${server_root_folder2} ${nfs_export_full2};#${server_root_folder2} ${nfs_export_full2};g" "/etc/fstab"
 sudo sed -i   "s;##;#;g" "/etc/fstab"
 sudo sed -i "$ a ${server_root_folder} ${nfs_export_full} none bind,defaults,nofail,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=$(id -r -u pi),gid=$(id -r -g pi),noatime,nodiratime,x-systemd.device-timeout=120 0 0" "/etc/fstab"
 if [ "${SecondaryDisk}" = "y" ]; then
+	sudo sed -i   "s;${server_root_folder2} ${nfs_export_full2};#${server_root_folder2} ${nfs_export_full2};g" "/etc/fstab"
 	sudo sed -i "$ a ${server_root_folder2} ${nfs_export_full2} none bind,defaults,nofail,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=$(id -r -u pi),gid=$(id -r -g pi),noatime,nodiratime,x-systemd.device-timeout=120 0 0" "/etc/fstab"
 fi
 set +x
