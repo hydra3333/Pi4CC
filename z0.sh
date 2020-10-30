@@ -209,9 +209,12 @@ sudo sed "/ntfs defaults,auto/s/^/#/" "/etc/fstab"
 #	The substitution will insert a pound character (#) at the beginning of the line (^)
 #	old subst fails with too many substitutes if server_USB3_DEVICE_UUID2 is blank : sudo sed -i.bak "s/UUID=${server_USB3_DEVICE_UUID}/#UUID=${server_USB3_DEVICE_UUID}/g" "/etc/fstab"
 sudo sed -i.bak "$ a UUID=${server_USB3_DEVICE_UUID} ${server_root_USBmountpoint} ntfs defaults,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=$(id -r -u pi),gid=$(id -r -g pi),noatime,x-systemd.device-timeout=120 0 0" "/etc/fstab"
+set +x
 if [ "${SecondaryDisk}" = "y" ]; then
+	set -x
 	sudo sed -i.bak "s/UUID=${server_USB3_DEVICE_UUID2}/#UUID=${server_USB3_DEVICE_UUID2}/g" "/etc/fstab"
 	sudo sed -i.bak "$ a UUID=${server_USB3_DEVICE_UUID2} ${server_root_USBmountpoint2} ntfs defaults,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=$(id -r -u pi),gid=$(id -r -g pi),noatime,x-systemd.device-timeout=120 0 0" "/etc/fstab"
+	set +x
 fi
 set +x
 echo " You MUST check /etc/fstab NOW ... if it is incorrect then abort this process NOW and fix it manually"
@@ -220,10 +223,13 @@ echo " You MUST check /etc/fstab NOW ... if it is incorrect then abort this proc
 echo ""
 set -x
 diff -U 3 "/etc/fstab.old" "/etc/fstab" 
+set +x
+echo ""
+set -x
 sudo cat "/etc/fstab"
 set +x
 echo ""
-##read -p "Press Enter if /etc/fstab is OK, otherwise Control-C now and fix it manually !" 
+##read -p "Press Enter if /etc/fstab is OK, otherwise Control-C now and fix it manually !"  
 
 
 echo ""
