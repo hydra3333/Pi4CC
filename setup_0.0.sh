@@ -1,5 +1,5 @@
 #!/bin/bash
-# to get rid of MSDOS format do this to this file: sudo sed -i s/\\r//g ./filename
+# to get rid of MSDOS format do this to this file: sudo sed -i.bak s/\\r//g ./filename
 # or, open in nano, control-o and then then alt-M a few times to toggle msdos format off and then save
 #
 
@@ -12,7 +12,7 @@ echo "# ------------------------------------------------------------------------
 
 set -x
 # allow sources
-sudo sed -i "s/# deb/deb/g" /etc/apt/sources.list
+sudo sed -i.bak "s/# deb/deb/g" "/etc/apt/sources.list"
 sudo apt update -y
 sudo apt upgrade -y
 set +x
@@ -68,11 +68,11 @@ echo "# per https://www.raspberrypi.org/documentation/configuration/config-txt/b
 echo ""
 echo "# Adding a line 'boot_delay=30' at the top of '/boot/config.txt'"
 echo ""
-#sudo sed -i "1 i boot_delay=30" "/boot/config.txt" # doesn't work if the file has no line 1
+#sudo sed -i.bak "1 i boot_delay=30" "/boot/config.txt" # doesn't work if the file has no line 1
 set -x
 sudo cp -fv "/boot/config.txt" "/boot/config.txt.old"
 rm -f ./tmp.tmp
-sudo sed -i "/boot_delay/d" "/boot/config.txt"
+sudo sed -i.bak "/boot_delay/d" "/boot/config.txt"
 echo "boot_delay=30" > ./tmp.tmp
 sudo cat /boot/config.txt >> ./tmp.tmp
 sudo cp -fv ./tmp.tmp /boot/config.txt
@@ -202,18 +202,23 @@ echo "**************************************************************************
 echo "**********************************************************************************************"
 set -x
 sudo cp -fv "/etc/fstab" "/etc/fstab.old"
-sudo sed -i "s/UUID=${server_USB3_DEVICE_UUID}/#UUID=${server_USB3_DEVICE_UUID}/g" "/etc/fstab"
-sudo sed -i "s/UUID=${server_USB3_DEVICE_UUID2}/#UUID=${server_USB3_DEVICE_UUID2}/g" "/etc/fstab"
-sudo sed -i "$ a UUID=${server_USB3_DEVICE_UUID} ${server_root_USBmountpoint} ntfs defaults,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=$(id -r -u pi),gid=$(id -r -g pi),noatime,x-systemd.device-timeout=120 0 0" "/etc/fstab"
+# put a "#" at the start of all lines containing this string: ntfs defaults,auto
+sudo sed "/ntfs defaults,auto/s/^/#/" "/etc/fstab"
+#	"/ntfs defaults,auto/" matches a line with "ntfs defaults,auto"
+#	s perform a substitution on the lines matched above (notice no "g" at the end of the "s" due to aforementioned line matching)
+#	The substitution will insert a pound character (#) at the beginning of the line (^)
+#	old subst fails with too many substitutes if server_USB3_DEVICE_UUID2 is blank : sudo sed -i.bak "s/UUID=${server_USB3_DEVICE_UUID}/#UUID=${server_USB3_DEVICE_UUID}/g" "/etc/fstab"
+sudo sed -i.bak "$ a UUID=${server_USB3_DEVICE_UUID} ${server_root_USBmountpoint} ntfs defaults,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=$(id -r -u pi),gid=$(id -r -g pi),noatime,x-systemd.device-timeout=120 0 0" "/etc/fstab"
 if [ "${SecondaryDisk}" = "y" ]; then
-	sudo sed -i "$ a UUID=${server_USB3_DEVICE_UUID2} ${server_root_USBmountpoint2} ntfs defaults,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=$(id -r -u pi),gid=$(id -r -g pi),noatime,x-systemd.device-timeout=120 0 0" "/etc/fstab"
+	sudo sed -i.bak "s/UUID=${server_USB3_DEVICE_UUID2}/#UUID=${server_USB3_DEVICE_UUID2}/g" "/etc/fstab"
+	sudo sed -i.bak "$ a UUID=${server_USB3_DEVICE_UUID2} ${server_root_USBmountpoint2} ntfs defaults,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=$(id -r -u pi),gid=$(id -r -g pi),noatime,x-systemd.device-timeout=120 0 0" "/etc/fstab"
 fi
 set +x
 echo " You MUST check /etc/fstab NOW ... if it is incorrect then abort this process NOW and fix it manually"
 echo " You MUST check /etc/fstab NOW ... if it is incorrect then abort this process NOW and fix it manually"
 echo " You MUST check /etc/fstab NOW ... if it is incorrect then abort this process NOW and fix it manually"
 echo ""
-set +x
+set -x
 diff -U 3 "/etc/fstab.old" "/etc/fstab" 
 sudo cat "/etc/fstab"
 set +x
@@ -227,7 +232,7 @@ set -x
 # set a new permanent limit with:
 sudo sysctl net.ipv6.conf.all.disable_ipv6=1 
 sudo sysctl -p
-sudo sed -i "s;net.ipv6.conf.all.disable_ipv6;#net.ipv6.conf.all.disable_ipv6;g" "/etc/sysctl.conf"
+sudo sed -i.bak "s;net.ipv6.conf.all.disable_ipv6;#net.ipv6.conf.all.disable_ipv6;g" "/etc/sysctl.conf"
 echo net.ipv6.conf.all.disable_ipv6=1 | sudo tee -a "/etc/sysctl.conf"
 sudo sysctl -p
 set +x
@@ -237,14 +242,14 @@ echo ""
 echo "Get ready for minidlna. Increase system max_user_watches to avoid this error:"
 echo "WARNING: Inotify max_user_watches [8192] is low or close to the number of used watches [2] and I do not have permission to increase this limit.  Please do so manually by writing a higher value into /proc/sys/fs/inotify/max_user_watches."
 set -x
-# sudo sed -i "s;8182;32768;g" "/proc/sys/fs/inotify/max_user_watches" # this fails with no permissions
+# sudo sed -i.bak "s;8182;32768;g" "/proc/sys/fs/inotify/max_user_watches" # this fails with no permissions
 sudo cat /proc/sys/fs/inotify/max_user_watches
 # set a new temporary limit with:
 #sudo sysctl fs.inotify.max_user_watches=131072
 sudo sysctl fs.inotify.max_user_watches=262144
 sudo sysctl -p
 # set a new permanent limit with:
-sudo sed -i "s;fs.inotify.max_user_watches=;#fs.inotify.max_user_watches=;g" "/etc/sysctl.conf"
+sudo sed -i.bak "s;fs.inotify.max_user_watches=;#fs.inotify.max_user_watches=;g" "/etc/sysctl.conf"
 #echo fs.inotify.max_user_watches=131072 | sudo tee -a "/etc/sysctl.conf"
 echo fs.inotify.max_user_watches=262144 | sudo tee -a "/etc/sysctl.conf"
 sudo sysctl -p
