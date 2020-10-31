@@ -178,7 +178,7 @@ sudo sed -i "s;display_errors = Off;display_errors = On;g"                  "/et
 sudo sed -i "s;display_startup_errors = Off;display_startup_errors = On;g"  "/etc/php/7.3/apache2/php.ini"
 sudo sed -i "s;log_errors_max_len = 1024;log_errors_max_len = 8192;g"       "/etc/php/7.3/apache2/php.ini"
 sudo sed -i "s;default_socket_timeout = 60;default_socket_timeout = 300;g"  "/etc/php/7.3/apache2/php.ini"
-sudo diff -U 1 "/etc/php/7.3/apache2/php.ini.old" "/etc/php/7.3/apache2/php.ini"
+sudo diff -U 10 "/etc/php/7.3/apache2/php.ini.old" "/etc/php/7.3/apache2/php.ini"
 php -version
 set +x
 
@@ -289,7 +289,7 @@ sudo sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g"  "/etc/apache
 sudo sed -i "s;/mnt/mp4library;${server_root_USBmountpoint};g"  "/etc/apache2/apache2.conf"
 sudo sed -i "s;mp4library;${server_alias};g"  "/etc/apache2/apache2.conf"
 #
-sudo diff -U 1 "/etc/apache2/apache2.conf.old" "/etc/apache2/apache2.conf"
+sudo diff -U 10 "/etc/apache2/apache2.conf.old" "/etc/apache2/apache2.conf"
 set +x
 
 echo ""
@@ -305,7 +305,7 @@ echo ""
 set -x
 sudo cp -fv "/etc/apache2/mods-available/status.conf" "/etc/apache2/mods-available/status.conf.old"
 sudo sed -i "s;#Require ip 192.0.2.0/24;#Require ip 192.0.2.0/24\n#Require ip 127.0.0.1\n#Require ip ${server_ip}/24;g" "/etc/apache2/mods-available/status.conf"
-sudo diff -U 1 "/etc/apache2/mods-available/status.conf.old" "/etc/apache2/mods-available/status.conf"
+sudo diff -U 10 "/etc/apache2/mods-available/status.conf.old" "/etc/apache2/mods-available/status.conf"
 set +x
 echo ""
 ##read -p "Press Enter to continue, if the status.conf worked correctly"
@@ -314,7 +314,7 @@ echo ""
 set -x
 sudo cp -fv "/etc/apache2/mods-available/info.conf" "/etc/apache2/mods-available/info.conf.old"
 sudo sed -i "s;#Require ip 192.0.2.0/24;#Require ip 192.0.2.0/24\n#Require ip 127.0.0.1\n#Require ip ${server_ip}/24;g" "/etc/apache2/mods-available/info.conf"
-sudo diff -U 1 "/etc/apache2/mods-available/info.conf.old" "/etc/apache2/mods-available/info.conf"
+sudo diff -U 10 "/etc/apache2/mods-available/info.conf.old" "/etc/apache2/mods-available/info.conf"
 set +x
 echo ""
 ##read -p "Press Enter to continue, if the info.conf worked correctly"
@@ -531,7 +531,7 @@ sudo sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g"  "./000-defau
 sudo sed -i "s;/mnt/mp4library;${server_root_USBmountpoint};g"  "./000-default.conf"
 sudo sed -i "s;mp4library;${server_alias};g"  "./000-default.conf"
 #
-sudo diff -U 1 "./000-default.conf.old" "./000-default.conf"
+sudo diff -U 10 "./000-default.conf.old" "./000-default.conf"
 sudo mv -fv "./000-default.conf" "/etc/apache2/sites-available/000-default.conf"
 set +x
 echo ""
@@ -551,7 +551,7 @@ sudo sed -i "s;/mnt/mp4library/mp4library;${server_root_folder};g"  "./default-t
 sudo sed -i "s;/mnt/mp4library;${server_root_USBmountpoint};g"  "./default-tls.conf"
 sudo sed -i "s;mp4library;${server_alias};g"  "./default-tls.conf"
 #
-sudo diff -U 1 "./default-tls.conf.old" "./default-tls.conf"
+sudo diff -U 10 "./default-tls.conf.old" "./default-tls.conf"
 sudo mv -fv "./default-tls.conf" "/etc/apache2/sites-available/default-tls.conf"
 set +x
 echo ""
@@ -563,7 +563,7 @@ url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/setup_support_file
 rm -f "./example.php"
 curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "./example.php" --fail # -L means "allow redirection" or some odd :|
 sed -i.BAK "s;Pi4CC;${server_name};g" "./example.php"
-sudo diff -U 1 "./example.php.BAK" "./example.php"
+sudo diff -U 10 "./example.php.BAK" "./example.php"
 sudo mv -fv "./example.php" "/var/www/example.php"
 set +x
 echo ""
@@ -575,7 +575,7 @@ url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/setup_support_file
 rm -f "./phpinfo.php"
 curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "./phpinfo.php" --fail # -L means "allow redirection" or some odd :|
 sed -i.BAK "s;Pi4CC;${server_name};g" "./phpinfo.php"
-sudo diff -U 1 "./phpinfo.php.BAK" "./phpinfo.php"
+sudo diff -U 10 "./phpinfo.php.BAK" "./phpinfo.php"
 sudo mv -fv "./phpinfo.php" "/var/www/phpinfo.php"
 set +x
 echo ""

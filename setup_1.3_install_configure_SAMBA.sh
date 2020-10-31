@@ -66,7 +66,7 @@ sudo sed -i "s;comment=Pi4CC www home;comment=${server_name} www home;g"  "./smb
 ##sudo sed -i "s;path = /var/www;path = /var/www;g"  "./smb.conf"
 #---
 sudo chmod -c a=rwx -R *
-sudo diff -U 1 "./smb.conf.old" "./smb.conf"
+sudo diff -U 10 "./smb.conf.old" "./smb.conf"
 sudo mv -fv "./smb.conf" "/etc/samba/smb.conf"
 sudo chmod -c a=rwx -R "/etc/samba"
 set +x

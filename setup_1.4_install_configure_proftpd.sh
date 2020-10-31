@@ -87,7 +87,7 @@ sudo sed -i "/Include \/etc\/proftpd\/conf.d\//d" "./tmp.tmp"
 sudo cp -fv "./tmp.tmp" "/etc/proftpd/proftpd.conf"
 rm -f "./tmp.tmp"
 ls -al "/etc/proftpd/proftpd.conf.old" "/etc/proftpd/proftpd.conf"
-diff -U 1 "/etc/proftpd/proftpd.conf.old" "/etc/proftpd/proftpd.conf"
+sudo diff -U 10 "/etc/proftpd/proftpd.conf.old" "/etc/proftpd/proftpd.conf"
 # re-enable server
 sudo kill -TERM `cat /run/proftpd.pid`
 sudo rm -fv "/etc/shutmsg"

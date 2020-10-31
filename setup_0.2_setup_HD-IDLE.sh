@@ -100,7 +100,7 @@ if [ "${SecondaryDisk}" = "y" ]; then
 	sudo sed -i "$ a HD_IDLE_OPTS=\"-i ${the_default_timeout} -a ${server_USB3_DISK_NAME2} -i ${the_sda_timeout} -l /var/log/hd-idle.log\"" "/etc/default/hd-idle" # insert as last line
 fi
 sudo cat "/etc/default/hd-idle"
-diff -U 1 "/etc/default/hd-idle.old" "/etc/default/hd-idle"
+sudo diff -U 10 "/etc/default/hd-idle.old" "/etc/default/hd-idle"
 set +x
 echo ""
 echo "Restart the hd-idle service to engage the updated config"

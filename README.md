@@ -26,16 +26,16 @@ It works ... and is undergoing "refinement".
   1. A USB3 (10Tb ?) external hard drive with a fixed mount point, containing your .mp4 video files ...   
       If you have 2x USB3 disks with media, you may need to create a Symlink (soft) under mp4library on the "main" disk to an existing subfolder on the "secondary" disk - so that when browsing the main disk the subfolder on the secondary disk looks like a subfolder on the main disk, using   
 	  ```
-	  ln -f -s -r <path_to_existing_foldername_on_secondary_disk> <path_to_symlink_to_be_created>   
+	  ln -f -s <path_to_existing_foldername_on_secondary_disk> <path_to_symlink_to_be_created>   
 	  sudo chmod +777 <path_to_symlink_to_be_created>
 	  ```
       eg   
 	  ```
-	  ln -f -s -r /mnt/mp4library2/mp4library/BigIdeas         /mnt/mp4library/mp4library/BigIdeas
-	  ln -f -s -r /mnt/mp4library2/mp4library/Footy            /mnt/mp4library/mp4library/Footy
-	  ln -f -s -r /mnt/mp4library2/mp4library/MusicVideos      /mnt/mp4library/mp4library/MusicVideos
-	  ln -f -s -r /mnt/mp4library2/mp4library/Railway_Journeys /mnt/mp4library/mp4library/Railway_Journeys
-	  ln -f -s -r /mnt/mp4library2/mp4library/Series           /mnt/mp4library/mp4library/Series   
+	  ln -f -s /mnt/mp4library2/mp4library/BigIdeas         /mnt/mp4library/mp4library/BigIdeas
+	  ln -f -s /mnt/mp4library2/mp4library/Footy            /mnt/mp4library/mp4library/Footy
+	  ln -f -s /mnt/mp4library2/mp4library/MusicVideos      /mnt/mp4library/mp4library/MusicVideos
+	  ln -f -s /mnt/mp4library2/mp4library/Railway_Journeys /mnt/mp4library/mp4library/Railway_Journeys
+	  ln -f -s /mnt/mp4library2/mp4library/Series           /mnt/mp4library/mp4library/Series   
 	  sudo chmod +777 /mnt/mp4library/mp4library/BigIdeas
 	  sudo chmod +777 /mnt/mp4library/mp4library/Footy
 	  sudo chmod +777 /mnt/mp4library/mp4library/MusicVideos

@@ -38,7 +38,7 @@ copy_to_top() {
   sudo sed -i "s;mp4library\";${server_alias}\";g" "/var/www/${server_name}/${the_file}"
   sudo chmod -c a=rwx -R "/var/www/${server_name}/${the_file}"
   sudo chown -c pi:www-data "/var/www/${server_name}/${the_file}"
-  sudo diff -U 1 "./${the_file}.old" "/var/www/${server_name}/${the_file}" 
+  sudo diff -U 10 "./${the_file}.old" "/var/www/${server_name}/${the_file}" 
   sudo rm -fv "./${the_file}.old"
   #set +x
   echo "----------- Finished Processing file '${the_file}' ..."

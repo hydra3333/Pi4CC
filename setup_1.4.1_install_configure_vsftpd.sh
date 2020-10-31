@@ -85,7 +85,7 @@ sudo echo "syslog_enable=NO" >> "/etc/vsftpd.conf"
 sudo echo "vsftpd_log_file=/var/log/vsftpd.log" >> "/etc/vsftpd.conf"
 sudo echo "log_ftp_protocol=YES" >> "/etc/vsftpd.conf"
 sudo echo "allow_writeable_chroot=YES" >> "/etc/vsftpd.conf"
-sudo diff -U 1 "/etc/vsftpd.conf.backup" "/etc/vsftpd.conf"
+sudo diff -U 10 "/etc/vsftpd.conf.backup" "/etc/vsftpd.conf"
 sudo systemctl restart vsftpd
 #sudo service vsftpd restart
 sleep 5s

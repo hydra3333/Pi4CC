@@ -77,7 +77,7 @@ echo "boot_delay=30" > ./tmp.tmp
 sudo cat /boot/config.txt >> ./tmp.tmp
 sudo cp -fv ./tmp.tmp /boot/config.txt
 rm -f ./tmp.tmp
-diff -U 10 "/boot/config.txt.old" "/boot/config.txt"
+sudo diff -U 10 "/boot/config.txt.old" "/boot/config.txt"
 cat "/boot/config.txt"
 set +x
 
@@ -222,7 +222,7 @@ echo " You MUST check /etc/fstab NOW ... if it is incorrect then abort this proc
 echo " You MUST check /etc/fstab NOW ... if it is incorrect then abort this process NOW and fix it manually"
 echo ""
 set -x
-diff -U 10 "/etc/fstab.old" "/etc/fstab" 
+sudo diff -U 10 "/etc/fstab.old" "/etc/fstab" 
 set +x
 echo ""
 set -x

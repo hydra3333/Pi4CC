@@ -37,7 +37,9 @@ set -x
 #sudo rm -fv "/etc/idmapd.conf"
 sudo rm -fv "/etc/fstab.pre-nfs.old"
 sudo sed -i "s;${server_root_folder} ${nfs_export_full};#${server_root_folder} ${nfs_export_full};g" "/etc/fstab"
-sudo sed -i "s;${server_root_folder2} ${nfs_export_full2};#${server_root_folder2} ${nfs_export_full2};g" "/etc/fstab"
+if [ "${SecondaryDisk}" = "y" ]; then
+	sudo sed -i "s;${server_root_folder2} ${nfs_export_full2};#${server_root_folder2} ${nfs_export_full2};g" "/etc/fstab"
+fi
 # do not rm the next 2 items, as it may accidentally wipe all of our media files !!!
 #sudo rm -fvR "${nfs_export_full}"
 #sudo rm -fvR "${nfs_export_top}"
@@ -142,7 +144,6 @@ if [ "${SecondaryDisk}" = "y" ]; then
 fi
 # add entries for localhost 127.0.0.1
 sudo sed -i "$ a ${nfs_export_top2} 127.0.0.1(rw,insecure,sync,no_subtree_check,all_squash,crossmnt,fsid=0,root_squash,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
-sudo sed -i "$ a ${nfs_export_full2} 127.0.0.1(rw,insecure,sync,no_subtree_check,all_squash,crossmnt,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
 if [ "${SecondaryDisk}" = "y" ]; then
 	sudo sed -i "$ a ${nfs_export_full2} 127.0.0.1(rw,insecure,sync,no_subtree_check,all_squash,crossmnt,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
 fi

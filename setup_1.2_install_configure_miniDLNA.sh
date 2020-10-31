@@ -94,7 +94,7 @@ sudo sed -i "s;#notify_interval=895;#notify_interval=895\nnotify_interval=900;g"
 sudo sed -i "s;#max_connections=50;#max_connections=50\nmax_connections=6;g" "/etc/minidlna.conf"
 sudo sed -i "s;#log_level=general,artwork,database,inotify,scanner,metadata,http,ssdp,tivo=warn;#log_level=general,artwork,database,inotify,scanner,metadata,http,ssdp,tivo=warn\nlog_level=artwork,database,general,http,inotify,metadata,scanner,ssdp,tivo=info;g" "/etc/minidlna.conf"
 sudo sed -i "s;#wide_links=no;wide_links=yes;g" "/etc/minidlna.conf"
-sudo diff -U 1 "/etc/minidlna.conf.old" "/etc/minidlna.conf"
+sudo diff -U 10 "/etc/minidlna.conf.old" "/etc/minidlna.conf"
 set +x
 echo ""
 
