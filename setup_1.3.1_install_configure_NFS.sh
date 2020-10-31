@@ -130,6 +130,7 @@ set -x
 sudo cp -fv "/etc/exports" "/etc/exports.old"
 # comment out prior entries
 sudo sed -i "s;${nfs_export_top} ${server_ip}/24;#${nfs_export_top} ${server_ip}/24;g" "/etc/exports"
+sudo sed -i "s;${nfs_export_top} 127.0.0.1;#${nfs_export_top}127.0.0.1;g" "/etc/exports"
 sudo sed -i "s;${nfs_export_full} ${server_ip}/24;#${nfs_export_full} ${server_ip}/24;g" "/etc/exports"
 sudo sed -i "s;${nfs_export_full} 127.0.0.1;#${nfs_export_full} 127.0.0.1;g" "/etc/exports"
 if [ "${SecondaryDisk}" = "y" ]; then
