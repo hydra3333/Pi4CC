@@ -127,7 +127,7 @@ echo ""
 # note: id 1000 is user pi and group pi
 echo ""
 set -x
-cp -fv "/etc/exports" "/etc/exports.old"
+sudo cp -fv "/etc/exports" "/etc/exports.old"
 # comment out prior entries
 sudo sed -i "s;${nfs_export_top} ${server_ip}/24;#${nfs_export_top} ${server_ip}/24;g" "/etc/exports"
 sudo sed -i "s;${nfs_export_full} ${server_ip}/24;#${nfs_export_full} ${server_ip}/24;g" "/etc/exports"
@@ -143,7 +143,8 @@ if [ "${SecondaryDisk}" = "y" ]; then
 	sudo sed -i "$ a ${nfs_export_full2} ${server_ip}/24(rw,insecure,sync,no_subtree_check,all_squash,crossmnt,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
 fi
 # add entries for localhost 127.0.0.1
-sudo sed -i "$ a ${nfs_export_top2} 127.0.0.1(rw,insecure,sync,no_subtree_check,all_squash,crossmnt,fsid=0,root_squash,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
+sudo sed -i "$ a ${nfs_export_top} 127.0.0.1(rw,insecure,sync,no_subtree_check,all_squash,crossmnt,fsid=0,root_squash,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
+sudo sed -i "$ a ${nfs_export_full} 127.0.0.1(rw,insecure,sync,no_subtree_check,all_squash,crossmnt,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
 if [ "${SecondaryDisk}" = "y" ]; then
 	sudo sed -i "$ a ${nfs_export_full2} 127.0.0.1(rw,insecure,sync,no_subtree_check,all_squash,crossmnt,anonuid=$(id -r -u pi),anongid=$(id -r -g pi))" "/etc/exports"
 fi
