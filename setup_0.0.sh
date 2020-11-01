@@ -144,13 +144,12 @@ echo "# Create a mount point for the USB3 drive, which we'll use in a minute."
 echo "# In this case I want to call it mp4library."
 set -x
 sudo mkdir -p ${server_root_USBmountpoint}
-set +x
-
-echo "# Set protections so we can so ANYTHING with it (we are inside our own home LAN)"
-set -x
 sudo chmod -c a=rwx -R ${server_root_USBmountpoint}
+if [ "${SecondaryDisk}" = "y" ]; then
+	sudo mkdir -p ${server_root_USBmountpoint2}
+	sudo chmod -c a=rwx -R ${server_root_USBmountpoint2}
+fi
 set +x
-
 echo "# Fix user rights to allow user pi so that it has no trouble"
 echo "# with mounting external drives."
 set -x

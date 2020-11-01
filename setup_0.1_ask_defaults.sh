@@ -152,6 +152,9 @@ device_string=()
 for i in `seq 0 $((${#disk_name[@]}-1))`; do
    device_string+=("DISK=${disk_name[$i]}, DEVICE==${device_name[$i]}, LABEL=${device_label[$i]}, UUID=${device_uuid[$i]}, FS_TYPE=${device_fstype[$i]}, SIZE=${device_size[$i]}, MOUNT_POINT=${device_mountpoint[$i]}")
    device_string_tabbed+=("${disk_name[$i]}\t${name[$i]}\t${size[$i]}\t${device_name[$i]}\t${device_label}\t${device_uuid[$i]}\t${device_fstype[$i]}\t${device_size[$i]}\t${device_mountpoint[$i]}")
+   echo "DISK=${disk_name[$i]}, DEVICE==${device_name[$i]}, LABEL=${device_label[$i]}, UUID=${device_uuid[$i]}, FS_TYPE=${device_fstype[$i]}, SIZE=${device_size[$i]}, MOUNT_POINT=${device_mountpoint[$i]}"
+   echo "ls -al ${device_mountpoint[$i]}/${server_alias}"
+   ls -al "${device_mountpoint[$i]}/${server_alias}"
 done
 #---
 #echo "????????????????????????"
