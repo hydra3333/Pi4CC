@@ -125,7 +125,7 @@ while IFS= read -r -d $'\0' device; do
    echo "x_device_mountpoint=${x_device_mountpoint}"
    echo "***********************************"
    if [[ "${x_device_uuid}" != "" ]] ; then
-      echo "FOUND device valid x_device_name=${x_device_name}"
+      #echo "FOUND device valid x_device_name=${x_device_name}"
       disk_name+=("${x_disk_name}")
       device_name+=("${x_device_name}")
       device_label+=("${x_device_label}")
@@ -155,6 +155,7 @@ for i in `seq 0 $((${#disk_name[@]}-1))`; do
    echo "DISK=${disk_name[$i]}, DEVICE==${device_name[$i]}, LABEL=${device_label[$i]}, UUID=${device_uuid[$i]}, FS_TYPE=${device_fstype[$i]}, SIZE=${device_size[$i]}, MOUNT_POINT=${device_mountpoint[$i]}"
    echo "ls -al ${device_mountpoint[$i]}/${server_alias}"
    ls -al "${device_mountpoint[$i]}/${server_alias}"
+   echo ""
 done
 #---
 #echo "????????????????????????"
