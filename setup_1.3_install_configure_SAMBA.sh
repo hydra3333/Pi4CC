@@ -17,23 +17,20 @@ echo "# -------------"
 
 set -x
 #sudo systemctl stop smbd
-#sudo apt-get remove --purge -y --allow-unauthenticated --allow-remove-essential samba
-#sudo apt-get check -y samba
-##sudo rm -vf "/etc/samba/smb.conf"
-##sudo rm -vf "/etc/samba/smb.conf.old"
-#sudo apt-get install -y             --install-suggests --fix-broken --fix-missing --allow-unauthenticated --allow-remove-essential samba
-#sudo apt-get install -y --reinstall --install-suggests --fix-broken --fix-missing --allow-unauthenticated --allow-remove-essential samba
-#--
-#sudo systemctl stop smbd
-#sudo apt-get remove --purge -y --allow-unauthenticated --allow-remove-essential samba
-sudo apt-get remove -y --allow-unauthenticated --allow-remove-essential samba
+sudo apt-get purge -y --allow-unauthenticated --allow-remove-essential winbind
+sudo apt-get purge -y --allow-unauthenticated --allow-remove-essential samba-common
+sudo apt-get purge -y --allow-unauthenticated --allow-remove-essential samba
+sudo apt autoremove -y
 sudo apt-get check -y samba
-#sudo rm -vf "/etc/samba/smb.conf"
-#sudo rm -vf "/etc/samba/smb.conf.old"
+sudo rm -vf "/etc/samba/smb.conf"
+sudo rm -vf "/etc/samba/smb.conf.old"
+sudo rm -vfR "/var/lib/samba"
+sudo rm -vfR "/usr/share/samba"
+#sudo rm -vf "/etc/rc*.d/*samba" "/etc/init.d/samba"
 sudo apt-get install -y             --fix-broken --fix-missing --allow-unauthenticated samba
 sudo apt-get install -y --reinstall --fix-broken --fix-missing --allow-unauthenticated samba
-sleep 3
 set +x
+read -p "Press Enter to continue, if the purge/reinstall all worked"
 
 echo ""
 echo "Create a SAMBA password."
@@ -115,12 +112,12 @@ echo "Finished Adding stuff to './smb.conf' ..."
 #---
 set -x
 sudo chmod -c a=rwx -R *
-sudo diff -U 10 "./smb.conf.old" "./smb.conf"
+#sudo diff -U 10 "./smb.conf.old" "./smb.conf"
 sudo rm -vf "/etc/samba/smb.conf.old"
-sudo cp -fv "/etc/samba/smb.conf" "/etc/samba/smb.conf.old"
-sudo cp -fv "./smb.conf" "/etc/samba/smb.conf"
-diff -U 10 "/etc/samba/smb.conf.old" "/etc/samba/smb.conf"
+sudo cp -vf "/etc/samba/smb.conf" "/etc/samba/smb.conf.old"
+sudo cp -vf "./smb.conf" "/etc/samba/smb.conf"
 sudo chmod -c a=rwx -R "/etc/samba"
+sudo diff -U 10 "/etc/samba/smb.conf.old" "/etc/samba/smb.conf"
 set +x
 # ignore this: # rlimit_max: increasing rlimit_max (1024) to minimum Windows limit (16384)
 
