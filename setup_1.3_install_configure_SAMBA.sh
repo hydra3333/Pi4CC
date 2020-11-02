@@ -17,12 +17,21 @@ echo "# -------------"
 
 set -x
 #sudo systemctl stop smbd
-sudo apt purge -y samba
-sudo rm -vf "/etc/samba/smb.conf"
-sudo rm -vf "/etc/samba/smb.conf.old"
-sleep 3
-sudo apt install -y samba 
-sudo apt install -y samba-common-bin
+#sudo apt-get remove --purge -y --allow-unauthenticated --allow-remove-essential samba
+#sudo apt-get check -y samba
+##sudo rm -vf "/etc/samba/smb.conf"
+##sudo rm -vf "/etc/samba/smb.conf.old"
+#sudo apt-get install -y             --install-suggests --fix-broken --fix-missing --allow-unauthenticated --allow-remove-essential samba
+#sudo apt-get install -y --reinstall --install-suggests --fix-broken --fix-missing --allow-unauthenticated --allow-remove-essential samba
+#--
+#sudo systemctl stop smbd
+#sudo apt-get remove --purge -y --allow-unauthenticated --allow-remove-essential samba
+sudo apt-get remove -y --allow-unauthenticated --allow-remove-essential samba
+sudo apt-get check -y samba
+#sudo rm -vf "/etc/samba/smb.conf"
+#sudo rm -vf "/etc/samba/smb.conf.old"
+sudo apt-get install -y             --fix-broken --fix-missing --allow-unauthenticated samba
+sudo apt-get install -y --reinstall --fix-broken --fix-missing --allow-unauthenticated samba
 sleep 3
 set +x
 
