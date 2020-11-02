@@ -24,6 +24,7 @@ sudo apt autoremove -y
 sudo apt-get check -y samba
 sudo rm -vf "/etc/samba/smb.conf"
 sudo rm -vf "/etc/samba/smb.conf.old"
+sudo rm -vfR "/etc/samba"
 sudo rm -vfR "/var/lib/samba"
 sudo rm -vfR "/usr/share/samba"
 #sudo rm -vf "/etc/rc*.d/*samba" "/etc/init.d/samba"
