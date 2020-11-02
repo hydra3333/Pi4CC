@@ -28,6 +28,7 @@ sudo rm -vfR "/etc/samba"
 sudo rm -vfR "/var/lib/samba"
 sudo rm -vfR "/usr/share/samba"
 #sudo rm -vf "/etc/rc*.d/*samba" "/etc/init.d/samba"
+sudo apt-get install -y --reinstall --fix-broken --fix-missing --allow-unauthenticated winbind
 sudo apt-get install -y             --fix-broken --fix-missing --allow-unauthenticated samba
 sudo apt-get install -y --reinstall --fix-broken --fix-missing --allow-unauthenticated samba
 set +x
