@@ -48,11 +48,12 @@ echo "Use a modified SAMBA conf with all of the good stuff"
 url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/setup_support_files/smb.conf"
 set -x
 cd ~/Desktop
-rm -f "./smb.conf"
+rm -vf "./smb.conf"
 curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "./smb.conf" --fail # -L means "allow redirection" or some odd :|
 sudo cp -fv "./smb.conf"  "./smb.conf.old"
+set +x
 #---
-
+echo "Start Adding stuff to './smb.conf' ..."
 echo "[${server_alias}]">>"./smb.conf"
 echo "comment=Pi4CC ${server_alias} home">>"./smb.conf"
 echo "#force group = users">>"./smb.conf"
@@ -99,10 +100,15 @@ if [ "${SecondaryDisk}" = "y" ]; then
 	echo "wide links = yes">>"./smb.conf"
 	echo "">>"./smb.conf"
 fi
+echo "Finished Adding stuff to './smb.conf' ..."
 #---
+set -x
 sudo chmod -c a=rwx -R *
 sudo diff -U 10 "./smb.conf.old" "./smb.conf"
-sudo mv -fv "./smb.conf" "/etc/samba/smb.conf"
+sudo rm -vf "/etc/samba/smb.conf.old"
+sudo cp -fv "/etc/samba/smb.conf" "/etc/samba/smb.conf.old"
+sudo cp -fv "./smb.conf" "/etc/samba/smb.conf"
+diff -U 10 "/etc/samba/smb.conf.old" "/etc/samba/smb.conf"
 sudo chmod -c a=rwx -R "/etc/samba"
 set +x
 # ignore this: # rlimit_max: increasing rlimit_max (1024) to minimum Windows limit (16384)
