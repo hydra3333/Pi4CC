@@ -16,15 +16,13 @@ echo "# -------------"
 # https://pimylifeup.com/raspberry-pi-samba/
 
 set -x
-sudo systemctl stop smbd
-sudo apt remove -y samba samba-common-bin
-sudo apt autoremove -y
-sudo apt purge -y samba samba-common-bin
+#sudo systemctl stop smbd
+sudo apt purge -y samba
 sudo rm -vf "/etc/samba/smb.conf"
 sudo rm -vf "/etc/samba/smb.conf.old"
-#
-sudo apt install -y samba samba-common-bin
-sudo apt install --reinstall -y samba samba-common-bin
+sleep 3
+sudo apt install -y samba 
+sudo apt install -y samba-common-bin
 sleep 3
 set +x
 
