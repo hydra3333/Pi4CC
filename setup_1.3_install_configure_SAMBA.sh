@@ -16,9 +16,10 @@ echo "# -------------"
 # https://pimylifeup.com/raspberry-pi-samba/
 
 set -x
-#sudo apt purge -y samba samba-common-bin
-#sudo apt autoremove -y
-#sudo rm -fv -fv "/etc/samba/smb.conf"
+sudo apt purge -y samba samba-common-bin
+sudo apt autoremove -y
+sudo rm -vf "/etc/samba/smb.conf"
+sudo rm -vf "/etc/samba/smb.conf.old"
 #
 sudo apt install -y samba samba-common-bin
 sudo apt install --reinstall -y samba samba-common-bin
@@ -48,7 +49,7 @@ echo "Use a modified SAMBA conf with all of the good stuff"
 url="https://raw.githubusercontent.com/hydra3333/Pi4CC/master/setup_support_files/smb.conf"
 set -x
 cd ~/Desktop
-rm -vf "./smb.conf"
+sudo rm -vf "./smb.conf"
 curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "./smb.conf" --fail # -L means "allow redirection" or some odd :|
 sudo cp -fv "./smb.conf"  "./smb.conf.old"
 set +x
