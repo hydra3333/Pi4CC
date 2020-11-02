@@ -17,13 +17,15 @@ echo "# -------------"
 
 set -x
 sudo systemctl stop smbd
-sudo apt purge -y samba samba-common-bin
-#sudo apt autoremove -y
+sudo apt remove -y samba 
+sudo apt remove -y samba-common-bin
+sudo apt autoremove -y
 sudo rm -vf "/etc/samba/smb.conf"
 sudo rm -vf "/etc/samba/smb.conf.old"
 #
 sudo apt install -y samba samba-common-bin
 #sudo apt install --reinstall -y samba samba-common-bin
+sleep 3
 set +x
 
 echo ""
