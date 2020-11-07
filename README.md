@@ -1,5 +1,6 @@
-# Superseded by :   
-## https://github.com/hydra3333/
+# Superseded by :  https://github.com/hydra3333/Pi4NAS
+## as at 2020.11.07
+
 
 It works ... and is undergoing "refinement".
 
